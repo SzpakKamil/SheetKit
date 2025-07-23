@@ -39,7 +39,10 @@
         "name": "UIKit",
         "printedName": "UIKit",
         "declKind": "Import",
-        "moduleName": "SheetKit"
+        "moduleName": "SheetKit",
+        "declAttributes": [
+          "AccessControl"
+        ]
       },
       {
         "kind": "Import",
@@ -12711,308 +12714,308 @@
   },
   "ConstValues": [
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/Additional Components\/VariableBlurDirection.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/Additional Components\/VariableBlurDirection.swift",
       "kind": "IntegerLiteral",
-      "offset": 460,
+      "offset": 469,
       "length": 2,
       "value": "20"
     },
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/Additional Components\/VariableBlurDirection.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/Additional Components\/VariableBlurDirection.swift",
       "kind": "IntegerLiteral",
-      "offset": 833,
+      "offset": 842,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/Additional Components\/VariableBlurDirection.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/Additional Components\/VariableBlurDirection.swift",
       "kind": "IntegerLiteral",
-      "offset": 881,
+      "offset": 890,
       "length": 2,
       "value": "20"
     },
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/Additional Components\/VariableBlurDirection.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/Additional Components\/VariableBlurDirection.swift",
       "kind": "IntegerLiteral",
-      "offset": 967,
+      "offset": 976,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/Additional Components\/VariableBlurDirection.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/Additional Components\/VariableBlurDirection.swift",
       "kind": "IntegerLiteral",
-      "offset": 1520,
+      "offset": 1529,
       "length": 2,
       "value": "20"
     },
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/Additional Components\/VariableBlurDirection.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/Additional Components\/VariableBlurDirection.swift",
       "kind": "IntegerLiteral",
-      "offset": 1606,
+      "offset": 1615,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/Additional Components\/VariableBlurDirection.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/Additional Components\/VariableBlurDirection.swift",
       "kind": "IntegerLiteral",
-      "offset": 4043,
+      "offset": 4052,
       "length": 3,
       "value": "300"
     },
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/Additional Components\/VariableBlurDirection.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/Additional Components\/VariableBlurDirection.swift",
       "kind": "IntegerLiteral",
-      "offset": 4066,
+      "offset": 4075,
       "length": 3,
       "value": "300"
     },
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/Modifiers\/SKSheetModifiers.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/Modifiers\/SKSheetModifiers.swift",
       "kind": "BooleanLiteral",
       "offset": 189,
       "length": 4,
       "value": "true"
     },
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/ViewComponents\/SKDatePicker\/SKDatePicker.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/ViewComponents\/SKDatePicker\/SKDatePicker.swift",
       "kind": "StringLiteral",
       "offset": 2414,
       "length": 6,
       "value": "\"John\""
     },
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/ViewComponents\/SKTextField\/SKTextField.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/ViewComponents\/SKTextField\/SKTextField.swift",
       "kind": "IntegerLiteral",
       "offset": 1606,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/ViewComponents\/SKTextField\/SKTextField.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/ViewComponents\/SKTextField\/SKTextField.swift",
       "kind": "IntegerLiteral",
       "offset": 2762,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/ViewComponents\/SKTextField\/SKTextFieldVISIONOS.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/ViewComponents\/SKTextField\/SKTextFieldVISIONOS.swift",
       "kind": "IntegerLiteral",
       "offset": 2603,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/ViewComponents\/SKTextField\/SKTextFieldVISIONOS.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/ViewComponents\/SKTextField\/SKTextFieldVISIONOS.swift",
       "kind": "IntegerLiteral",
       "offset": 6490,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/ViewComponents\/SKTextField\/SKTextFieldVISIONOS.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/ViewComponents\/SKTextField\/SKTextFieldVISIONOS.swift",
       "kind": "StringLiteral",
       "offset": 9889,
       "length": 6,
       "value": "\"Text\""
     },
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/ViewComponents\/SKTextField\/SKTextFieldVISIONOS.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/ViewComponents\/SKTextField\/SKTextFieldVISIONOS.swift",
       "kind": "StringLiteral",
       "offset": 9913,
       "length": 2,
       "value": "\"\""
     },
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/ViewComponents\/SKTextField\/SKTextFieldVISIONOS.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/ViewComponents\/SKTextField\/SKTextFieldVISIONOS.swift",
       "kind": "StringLiteral",
       "offset": 9990,
       "length": 6,
       "value": "\"Text\""
     },
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/ViewComponents\/SKTextField\/SKTextFieldVISIONOS.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/ViewComponents\/SKTextField\/SKTextFieldVISIONOS.swift",
       "kind": "StringLiteral",
       "offset": 10014,
       "length": 2,
       "value": "\"\""
     },
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/ViewComponents\/SKTextField\/SKTextFieldVISIONOS.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/ViewComponents\/SKTextField\/SKTextFieldVISIONOS.swift",
       "kind": "StringLiteral",
       "offset": 10032,
       "length": 6,
       "value": "\"Text\""
     },
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/ViewComponents\/SKTextField\/SKTextFieldVISIONOS.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/ViewComponents\/SKTextField\/SKTextFieldVISIONOS.swift",
       "kind": "StringLiteral",
       "offset": 10065,
       "length": 6,
       "value": "\"Cost\""
     },
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/ViewComponents\/SKTextField\/SKTextFieldVISIONOS.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/ViewComponents\/SKTextField\/SKTextFieldVISIONOS.swift",
       "kind": "IntegerLiteral",
       "offset": 10090,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/ViewComponents\/SKTextField\/SKTextFieldVISIONOS.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/ViewComponents\/SKTextField\/SKTextFieldVISIONOS.swift",
       "kind": "StringLiteral",
       "offset": 10118,
       "length": 5,
       "value": "\"USD\""
     },
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/ViewComponents\/SKTextField\/SKTextFieldVISIONOS.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/ViewComponents\/SKTextField\/SKTextFieldVISIONOS.swift",
       "kind": "StringLiteral",
       "offset": 10139,
       "length": 6,
       "value": "\"Text\""
     },
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/ViewComponents\/SKTextField\/SKTextFieldVISIONOS.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/ViewComponents\/SKTextField\/SKTextFieldVISIONOS.swift",
       "kind": "IntegerLiteral",
       "offset": 10182,
       "length": 3,
       "value": "200"
     },
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/ViewComponents\/SKTextField\/SKTextFieldVISIONOS.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/ViewComponents\/SKTextField\/SKTextFieldVISIONOS.swift",
       "kind": "IntegerLiteral",
       "offset": 10195,
       "length": 3,
       "value": "200"
     },
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/ViewComponents\/SKPage.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/ViewComponents\/SKPage.swift",
       "kind": "BooleanLiteral",
       "offset": 2579,
       "length": 5,
       "value": "false"
     },
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/ViewComponents\/SKPage.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/ViewComponents\/SKPage.swift",
       "kind": "IntegerLiteral",
       "offset": 2633,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/ViewComponents\/SKPage.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/ViewComponents\/SKPage.swift",
       "kind": "IntegerLiteral",
       "offset": 2683,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/ViewComponents\/SKPage.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/ViewComponents\/SKPage.swift",
       "kind": "BooleanLiteral",
       "offset": 6359,
       "length": 5,
       "value": "false"
     },
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/ViewComponents\/SKPage.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/ViewComponents\/SKPage.swift",
       "kind": "StringLiteral",
       "offset": 6395,
       "length": 2,
       "value": "\"\""
     },
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/ViewComponents\/SKPicker.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/ViewComponents\/SKPicker.swift",
       "kind": "StringLiteral",
       "offset": 13741,
       "length": 6,
       "value": "\"John\""
     },
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/ViewComponents\/SKScrollView.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/ViewComponents\/SKScrollView.swift",
       "kind": "IntegerLiteral",
       "offset": 376,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/ViewComponents\/SKSheet.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/ViewComponents\/SKSheet.swift",
       "kind": "BooleanLiteral",
       "offset": 414,
       "length": 4,
       "value": "true"
     },
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/ViewComponents\/SKSheet.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/ViewComponents\/SKSheet.swift",
       "kind": "BooleanLiteral",
       "offset": 650,
       "length": 4,
       "value": "true"
     },
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/ViewComponents\/SKSheet.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/ViewComponents\/SKSheet.swift",
       "kind": "Array",
       "offset": 1375,
       "length": 2,
       "value": "[]"
     },
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/ViewComponents\/SKSheet.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/ViewComponents\/SKSheet.swift",
       "kind": "BooleanLiteral",
       "offset": 1428,
       "length": 5,
       "value": "false"
     },
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/ViewComponents\/SKStepper.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/ViewComponents\/SKStepper.swift",
       "kind": "IntegerLiteral",
       "offset": 462,
       "length": 1,
       "value": "1"
     },
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/ViewComponents\/SKStepper.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/ViewComponents\/SKStepper.swift",
       "kind": "IntegerLiteral",
       "offset": 4694,
       "length": 1,
       "value": "1"
     },
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/ViewComponents\/SKStepper.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/ViewComponents\/SKStepper.swift",
       "kind": "StringLiteral",
       "offset": 4767,
       "length": 6,
       "value": "\"\""
     },
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/ViewComponents\/SKStepper.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/ViewComponents\/SKStepper.swift",
       "kind": "StringLiteral",
       "offset": 4772,
       "length": 6,
       "value": "\"\""
     },
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/ViewComponents\/SKToolbar.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/ViewComponents\/SKToolbar.swift",
       "kind": "StringLiteral",
       "offset": 3180,
       "length": 11,
       "value": "\"Secondary\""
     },
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/ViewComponents\/SKToolbar.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/ViewComponents\/SKToolbar.swift",
       "kind": "StringLiteral",
       "offset": 3307,
       "length": 12,
       "value": "\"Navigation\""
     },
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/ViewComponents\/SKToolbar.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/ViewComponents\/SKToolbar.swift",
       "kind": "StringLiteral",
       "offset": 3429,
       "length": 11,
       "value": "\"Test Note\""
     },
     {
-      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKit\/SheetKit\/ViewComponents\/SKToolbar.swift",
+      "filePath": "\/Users\/kamilszpak\/Desktop\/Projects\/Swift\/Frameworks\/SheetKitSource\/SheetKitSource\/ViewComponents\/SKToolbar.swift",
       "kind": "StringLiteral",
       "offset": 3553,
       "length": 9,
