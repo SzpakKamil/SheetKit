@@ -1,0 +1,102 @@
+//
+//  SKHighlightTVOS.swift
+//  SheetKit
+//
+//  Created by Kamil Szpak on 10/07/2025.
+//
+
+import SwiftUI
+
+#if os(tvOS)
+struct SKHighlightTVOS: View {
+    @Environment(\.alignment) var alignment
+    @Environment(\.accentColor) var accentColor
+    var data: SKHighlight.Data
+    
+    var autoSpacing: CGFloat{
+        return 5
+    }
+    var autoAlignment: HorizontalAlignment{
+        if let alignment{
+           return alignment
+        }else{
+            return .leading
+        }
+    }
+    var autoTextAlignment: TextAlignment{
+        if let alignment{
+            switch alignment{
+            case .trailing:
+                return .trailing
+            default:
+                return .leading
+            }
+        }else{
+            return .leading
+        }
+    }
+    
+    var autoTintColor: Color{
+        data.tintColor ?? accentColor
+    }
+    
+    var body: some View {
+        HStack(alignment: .top) {
+            if [.trailing].contains(autoAlignment){
+                Spacer()
+            }
+            
+            if [HorizontalAlignment.center, .leading].contains(autoAlignment){
+                imageView()
+            }
+
+            VStack(alignment: autoAlignment == .trailing ? .trailing : .leading, spacing: autoSpacing) {
+                Text(data.title)
+                    .font(.body)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(data.textColor)
+                Text(data.description)
+                    .font(.footnote)
+                    .fontWeight(.regular)
+                    .foregroundStyle(data.textColor.secondary)
+            }
+            .multilineTextAlignment(autoTextAlignment)
+            .padding(.top, -2)
+            
+            if [HorizontalAlignment.trailing].contains(autoAlignment){
+                imageView()
+            }
+            
+            if [HorizontalAlignment.center, .leading].contains(autoAlignment){
+                Spacer()
+            }
+        }
+        .focusable()
+        .padding(.bottom, 14)
+    }
+    
+    private func imageView() -> some View {
+        VStack(alignment: .leading){
+            data.image
+                .resizable()
+                .scaledToFit()
+                .fontWeight(.light)
+                .frame(width: 50, height: 50)
+                .padding(autoAlignment == .leading ? .trailing : .leading, -50)
+                .frame(width: 50)
+                .foregroundStyle(autoTintColor)
+                .accessibilityHidden(true)
+            
+        }
+    }
+    
+    init(data: SKHighlight.Data) {
+        self.data = data
+    }
+}
+#endif
+#if DEBUG
+#Preview {
+    PreviewViewSKHighlight()
+}
+#endif

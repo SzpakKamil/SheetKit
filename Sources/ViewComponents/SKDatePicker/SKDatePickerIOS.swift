@@ -1,0 +1,73 @@
+//
+//  SKDatePickerIOS.swift
+//  SheetKit
+//
+//  Created by Kamil Szpak on 12/07/2025.
+//
+
+import SwiftUI
+
+#if os(iOS)
+public struct SKDatePickerIOS: View {
+    @Environment(\.colorScheme) var colorScheme
+    var data: SKDatePicker.Data
+    
+    var autoBackgroundColor: Color{
+        if let backgroundColor = data.backgroundColor{
+            return backgroundColor
+        }else{
+            if colorScheme == .dark{
+                return Color(red: 0.1647058824, green: 0.1647058824, blue: 0.1764705882)
+            }else{
+                return .white
+            }
+        }
+    }
+    
+    public var body: some View {
+        HStack{
+            Text(data.title)
+            Spacer()
+            DatePicker(data.title, selection: data.date, in: data.range ?? Date.distantPast...Date.distantFuture, displayedComponents: data.components)
+                .labelsHidden()
+                .if{ content in
+                    if #available(iOS 26.0, *){
+                        content
+                            .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 100, style: .continuous))
+                    }else{
+                        content
+                            .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 10, style: .continuous))
+                    }
+                }
+        }
+        .if{ content in
+            if #available(iOS 26.0, *){
+                content
+                    .padding(.leading, 16)
+                    .padding(.trailing, 7)
+                    .padding(.vertical, 5)
+                    .background(autoBackgroundColor)
+                    .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 100, style: .continuous))
+            }else{
+                content
+                    .padding(.leading, 16)
+                    .padding(.trailing, 7)
+                    .padding(.vertical, 2)
+                    .background(autoBackgroundColor)
+                    .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 10, style: .continuous))
+            }
+        }
+        .contentShape(Rectangle())
+    }
+    
+    public init(data: SKDatePicker.Data) {
+        self.data = data
+    }
+}
+
+#if DEBUG
+#Preview {
+    PreviewViewSKDatePicker()
+}
+#endif
+#endif

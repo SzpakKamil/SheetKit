@@ -13,9 +13,6 @@ let package = Package(
         .library(name: "SheetKit", targets: ["SheetKit"])
     ],
     targets: [
-        
-        .binaryTarget(
-            name: "SheetKit",
-            path: "./Sources/SheetKit.xcframework")
+        .target(name: "SheetKit")
     ]
 )
