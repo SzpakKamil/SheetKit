@@ -9,8 +9,55 @@ import SwiftUI
 
 @resultBuilder
 public struct SKSheetBuilder {
+
+    /// Handles zero components (empty builder block).
+    public static func buildBlock() -> [SKPage] {
+        return []
+    }
+
+    /// Handles a single SKPage component.
+    public static func buildBlock(_ component: SKPage) -> [SKPage] {
+        return [component]
+    }
+
+    /// Handles multiple SKPage components.
     public static func buildBlock(_ components: SKPage...) -> [SKPage] {
         return components
+    }
+
+    /// Handles multiple already-wrapped components (e.g. arrays from conditionals or loops).
+    public static func buildBlock(_ components: [SKPage]...) -> [SKPage] {
+        return components.flatMap { $0 }
+    }
+
+    /// Support for expressions (bare `SKPage` values).
+    public static func buildExpression(_ expression: SKPage) -> [SKPage] {
+        return [expression]
+    }
+
+    /// Support for optional SKPage arrays (e.g. from `if let`).
+    public static func buildOptional(_ component: [SKPage]?) -> [SKPage] {
+        return component ?? []
+    }
+
+    /// Support for `if`/`else` first branch.
+    public static func buildEither(first component: [SKPage]) -> [SKPage] {
+        return component
+    }
+
+    /// Support for `if`/`else` second branch.
+    public static func buildEither(second component: [SKPage]) -> [SKPage] {
+        return component
+    }
+
+    /// Support for loops like `for` that produce `[SKPage]`.
+    public static func buildArray(_ components: [[SKPage]]) -> [SKPage] {
+        return components.flatMap { $0 }
+    }
+
+    /// Support for availability checks.
+    public static func buildLimitedAvailability(_ component: [SKPage]) -> [SKPage] {
+        return component
     }
 }
 
@@ -22,15 +69,17 @@ extension SKSheet{
         var allowsInteractiveDismissal: Bool = true
         var accentColor: Color?
         var alignment: HorizontalAlignment?
+        var hideCloseButton: Bool
         var sheetSize: SKSheetSize?
         var presentationDents: Set<PresentationDetent>
         
-        public init(allowsInteractiveDismissal: Bool = true, sheetSize: SKSheetSize? = nil, accentColor: Color? = nil, dragIndicatorVisibility: Visibility = .hidden, alignment: HorizontalAlignment? = nil, presentationDents: Set<PresentationDetent> = [.large], @SKSheetBuilder pages: () -> [SKPage]) {
+        public init(allowsInteractiveDismissal: Bool = true, sheetSize: SKSheetSize? = nil, hideCloseButton: Bool = false, accentColor: Color? = nil, dragIndicatorVisibility: Visibility = .hidden, alignment: HorizontalAlignment? = nil, presentationDents: Set<PresentationDetent> = [.large], @SKSheetBuilder pages: () -> [SKPage]) {
             self.allowsInteractiveDismissal = allowsInteractiveDismissal
             self.presentationDents = presentationDents
             self.sheetSize = sheetSize
             self.alignment = alignment
             self.dragIndicatorVisibility = dragIndicatorVisibility
+            self.hideCloseButton = hideCloseButton
             self.pages = pages()
         }
     }
@@ -65,6 +114,7 @@ public struct SKSheet: View {
         .interactiveDismissDisabled(!data.allowsInteractiveDismissal)
         .environment(\.alignment, data.alignment)
         .environment(\.accentColor, autoAccentColor)
+        .environment(\.closeButtonHidden, data.hideCloseButton)
         .environment(\.sheetSize, data.sheetSize)
     }
     

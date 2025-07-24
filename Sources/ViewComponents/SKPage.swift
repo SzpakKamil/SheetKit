@@ -81,6 +81,7 @@ public extension SKPage{
 public struct SKPage: View{
     @Environment(\.accentColor) var accentColor
     @Environment(\.sheetSize) var sheetSize
+    @Environment(\.closeButtonHidden) var closeButtonHidden
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
     @State private var presentAlert: Bool = false
@@ -150,7 +151,7 @@ public struct SKPage: View{
         .toolbar {
             let navigationButtons = data.toolbar.data.buttons.filter{ $0.data.placement == .navigation}
             ToolbarItem(placement: .topBarTrailing) {
-                if navigationButtons.isEmpty{
+                if navigationButtons.isEmpty && !closeButtonHidden{
                     if #available(iOS 26.0, *){
                         SKToolbarItem(placement: .navigation) { action in
                             Button("Close", systemImage: "xmark") {
