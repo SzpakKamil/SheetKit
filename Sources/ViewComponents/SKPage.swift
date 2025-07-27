@@ -51,11 +51,11 @@ public extension SKPage{
         var content: [any SKComponent]
         var alert: Alert?
         let toolbar: SKToolbar
-        var backgroundStyle: BackgroundStyle
+        var backgroundStyle: BackgroundStyle?
         var alignment: HorizontalAlignment?
         var accentColor: Color?
         
-        public init(backgroundStyle: BackgroundStyle = .list, accentColor: Color? = nil, alignment: HorizontalAlignment? = nil, alert: Alert? = nil, @SKPageBuilder content: () -> [any SKComponent], @SKToolbarBuilder toolbar: () -> [SKToolbarItem]) {
+        public init(backgroundStyle: BackgroundStyle? = nil, accentColor: Color? = nil, alignment: HorizontalAlignment? = nil, alert: Alert? = nil, @SKPageBuilder content: () -> [any SKComponent], @SKToolbarBuilder toolbar: () -> [SKToolbarItem]) {
             self.content = content()
             self.accentColor = accentColor
             self.backgroundStyle = backgroundStyle
@@ -88,6 +88,17 @@ public struct SKPage: View{
     @State private var toolbarFactor: CGFloat = 0
     @State private var toolbarHeight: CGFloat = 0
     var data: SKPage.Data
+    var autoStyle: SKPage.BackgroundStyle{
+        if let backgroundStyle = data.backgroundStyle{
+            return backgroundStyle
+        }else{
+            if data.content.contains(where: { $0.type == .field}){
+                return .form
+            }else{
+                return .list
+            }
+        }
+    }
     
     var autoSheetSize: SKSheetSize{
         if let sheetSize{
@@ -100,7 +111,7 @@ public struct SKPage: View{
     }
     public var body: some View {
         ZStack(alignment: .top){
-            SKScrollView(backgroundStyle: data.backgroundStyle, toolbar: data.toolbar) {
+            SKScrollView(backgroundStyle: autoStyle, toolbar: data.toolbar) {
                 ForEach(data.content.indices, id: \.self){index in
                     data.content[index].erasedContent()
                 }

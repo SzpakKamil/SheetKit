@@ -13,7 +13,7 @@ public extension SKPage{
         copy.data.alert = .init(isPresented: isPresented, title: title, description: description, type: type, content: content)
         return copy
     }
-    func style(_ style: SKPage.BackgroundStyle = .list) -> SKPage{
+    func style(_ style: SKPage.BackgroundStyle? = nil) -> SKPage{
         var copy = self
         copy.data.backgroundStyle = style
         return copy
