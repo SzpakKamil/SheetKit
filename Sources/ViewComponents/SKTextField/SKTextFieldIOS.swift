@@ -149,7 +149,9 @@ struct SKDecimalFieldViewIOS<F: ParseableFormatStyle>: View where F.FormatOutput
                         Button("Submit", systemImage: "checkmark"){
                             isFocused = false
                         }
+                        #if compiler(>=6.2)
                         .buttonStyle(.glassProminent)
+                        #endif
                         .tint(accentColor)
                         .contentShape(Rectangle())
                     }else{
@@ -254,7 +256,9 @@ struct SKIntFieldViewIOS<F: ParseableFormatStyle>: View where F.FormatOutput == 
                         Button("Submit", systemImage: "checkmark"){
                             isFocused = false
                         }
+                        #if compiler(>=6.2)
                         .buttonStyle(.glassProminent)
+                        #endif
                         .tint(accentColor)
                         .contentShape(Rectangle())
                     }else{

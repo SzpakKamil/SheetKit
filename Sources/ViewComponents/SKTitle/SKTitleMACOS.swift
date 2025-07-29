@@ -45,7 +45,11 @@ struct SKTitleMACOS: View {
     }
     
     var paddingBottomAuto: CGFloat {
-        return -4
+        if #available(macOS 26.0, *){
+            return -4
+        }else{
+            return 8
+        }
     }
     var body: some View {
         HStack {

@@ -9,8 +9,8 @@
 import SwiftUI
 
 struct SKPrimaryButtonStyleTVOS: ButtonStyle {
-    @Environment(\.isEnabled) private var isEnabled: Bool
-    @Environment(\.accentColor) private var accentColor: Color
+    let isEnabled: Bool
+    let accentColor: Color
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .buttonStyle(.plain)
@@ -22,7 +22,9 @@ struct SKPrimaryButtonStyleTVOS: ButtonStyle {
                         .foregroundStyle(.white)
                         .padding(.vertical, 10)
                         .padding(.horizontal, 11)
+                        #if compiler(>=6.2)
                         .glassEffect(.regular.tint(accentColor).interactive(true), in: .rect)
+                        #endif
                         .opacity(configuration.isPressed ? 0.5 : 1)
                         .hoverEffect(.highlight)
                 }else{
@@ -34,11 +36,16 @@ struct SKPrimaryButtonStyleTVOS: ButtonStyle {
             .opacity(isEnabled ? 1 : 0.5)
             .contentShape(Rectangle())
     }
+    
+    init(isEnabled: Bool, accentColor: Color) {
+        self.isEnabled = isEnabled
+        self.accentColor = accentColor
+    }
 }
 
 struct SKSecondaryButtonStyleTVOS: ButtonStyle {
-    @Environment(\.isEnabled) private var isEnabled: Bool
-    @Environment(\.accentColor) private var accentColor: Color
+    let isEnabled: Bool
+    let accentColor: Color
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .buttonStyle(.plain)
@@ -49,7 +56,9 @@ struct SKSecondaryButtonStyleTVOS: ButtonStyle {
                         .fontWeight(.medium)
                         .padding(.vertical, 10)
                         .padding(.horizontal, 11)
+                        #if compiler(>=6.2)
                         .glassEffect(.regular.interactive(true))
+                        #endif
                         .opacity(configuration.isPressed ? 0.5 : 1)
                         .hoverEffect(.highlight)
                 }else{
@@ -61,12 +70,17 @@ struct SKSecondaryButtonStyleTVOS: ButtonStyle {
             .opacity(isEnabled ? 1 : 0.5)
             .contentShape(Rectangle())
     }
+    
+    init(isEnabled: Bool, accentColor: Color) {
+        self.isEnabled = isEnabled
+        self.accentColor = accentColor
+    }
 }
 
 struct SKNoteButtonStyleTVOS: ButtonStyle {
-    @Environment(\.colorScheme) var colorScheme
-    @Environment(\.isEnabled) private var isEnabled: Bool
-    @Environment(\.accentColor) private var accentColor: Color
+    let isEnabled: Bool
+    let accentColor: Color
+    let colorScheme: ColorScheme
     var textAlignment: TextAlignment
     func makeBody(configuration: Configuration) -> some View {
         HStack(spacing: 3.5){
@@ -86,15 +100,18 @@ struct SKNoteButtonStyleTVOS: ButtonStyle {
         .hoverEffect(.lift)
     }
     
-    init(textAlignment: TextAlignment = .leading) {
+    init(isEnabled: Bool, accentColor: Color, colorScheme: ColorScheme, textAlignment: TextAlignment = .leading) {
+        self.isEnabled = isEnabled
+        self.accentColor = accentColor
+        self.colorScheme = colorScheme
         self.textAlignment = textAlignment
     }
 }
 
 struct SKNoteButtonStyleMACOS: ButtonStyle {
-    @Environment(\.colorScheme) var colorScheme
-    @Environment(\.isEnabled) private var isEnabled: Bool
-    @Environment(\.accentColor) private var accentColor: Color
+    let isEnabled: Bool
+    let accentColor: Color
+    let colorScheme: ColorScheme
     var textAlignment: TextAlignment
     func makeBody(configuration: Configuration) -> some View {
         HStack(spacing: 3.5){
@@ -112,16 +129,18 @@ struct SKNoteButtonStyleMACOS: ButtonStyle {
         .opacity(isEnabled ? 1 : 0.5)
     }
     
-    init(textAlignment: TextAlignment = .leading) {
+    init(isEnabled: Bool, accentColor: Color, colorScheme: ColorScheme, textAlignment: TextAlignment = .leading) {
+        self.isEnabled = isEnabled
+        self.accentColor = accentColor
+        self.colorScheme = colorScheme
         self.textAlignment = textAlignment
     }
 }
 
 struct SKNavigationButtonStyleTVOS: ButtonStyle {
-    @Environment(\.sheetSize) var sheetSize
-    @Environment(\.colorScheme) var colorScheme
-    @Environment(\.accentColor) var accentColor
-    @Environment(\.isEnabled) private var isEnabled: Bool
+    let sheetSize: SKSheetSize?
+    let isEnabled: Bool
+    let accentColor: Color
     func makeBody(configuration: Configuration) -> some View {
         if sheetSize == .medium{
             configuration.label
@@ -133,7 +152,9 @@ struct SKNavigationButtonStyleTVOS: ButtonStyle {
                         content
                             .padding(.vertical, 13)
                             .padding(.horizontal, 13)
+                            #if compiler(>=6.2)
                             .glassEffect(.regular.interactive(true), in: .circle)
+                            #endif
                             .opacity(configuration.isPressed ? 0.5 : 1)
                     }else{
                         content
@@ -152,7 +173,9 @@ struct SKNavigationButtonStyleTVOS: ButtonStyle {
                         content
                             .padding(.vertical, 10)
                             .padding(.horizontal, 11)
+                            #if compiler(>=6.2)
                             .glassEffect(.regular.interactive(true))
+                            #endif
                             .opacity(configuration.isPressed ? 0.5 : 1)
                             .hoverEffect(.highlight)
                     }else{
@@ -164,6 +187,12 @@ struct SKNavigationButtonStyleTVOS: ButtonStyle {
                 .contentShape(Rectangle())
                 .opacity(isEnabled ? 1 : 0.5)
         }
+    }
+    
+    init(sheetSize: SKSheetSize?, isEnabled: Bool, accentColor: Color) {
+        self.sheetSize = sheetSize
+        self.isEnabled = isEnabled
+        self.accentColor = accentColor
     }
 }
 

@@ -9,8 +9,8 @@ import SwiftUI
 
 #if os(visionOS)
 struct SKPrimaryButtonStyleVISIONOS: ButtonStyle {
-    @Environment(\.isEnabled) private var isEnabled: Bool
-    @Environment(\.accentColor) private var accentColor: Color
+    let isEnabled: Bool
+    let accentColor: Color
     func makeBody(configuration: Configuration) -> some View {
         HStack{
             Spacer()
@@ -22,17 +22,21 @@ struct SKPrimaryButtonStyleVISIONOS: ButtonStyle {
         .fontWeight(.medium)
         .padding(.vertical, 17)
         .background(.tint)
-        .hoverEffect(.highlight)
         .clipShape(.capsule)
         .opacity( configuration.isPressed ? 0.5 : 1)
         .opacity(isEnabled ? 1 : 0.5)
         .contentShape(Rectangle())
+        .hoverEffect()
+    }
+    init(isEnabled: Bool, accentColor: Color) {
+        self.isEnabled = isEnabled
+        self.accentColor = accentColor
     }
 }
 
 struct SKSecondaryButtonStyleVISIONOS: ButtonStyle {
-    @Environment(\.isEnabled) private var isEnabled: Bool
-    @Environment(\.accentColor) private var accentColor: Color
+    let isEnabled: Bool
+    let accentColor: Color
     func makeBody(configuration: Configuration) -> some View {
         HStack{
             Spacer()
@@ -41,24 +45,25 @@ struct SKSecondaryButtonStyleVISIONOS: ButtonStyle {
             Spacer()
         }
         .foregroundStyle(accentColor)
-        .if{ content in
-            content
-                .fontWeight(.medium)
-                .padding(.vertical, 13)
-                .background(.clear)
-                .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
-                .opacity( configuration.isPressed ? 0.5 : 1)
-            
-        }
+        .fontWeight(.medium)
+        .padding(.vertical, 17)
+        .background(.white)
+        .clipShape(.capsule)
+        .opacity(configuration.isPressed ? 0.5 : 1)
         .opacity(isEnabled ? 1 : 0.5)
         .contentShape(Rectangle())
+        .hoverEffect()
+    }
+    init(isEnabled: Bool, accentColor: Color) {
+        self.isEnabled = isEnabled
+        self.accentColor = accentColor
     }
 }
 
 struct SKNoteButtonStyleVISIONOS: ButtonStyle {
-    @Environment(\.colorScheme) var colorScheme
-    @Environment(\.isEnabled) private var isEnabled: Bool
-    @Environment(\.accentColor) private var accentColor: Color
+    let colorScheme: ColorScheme
+    let isEnabled: Bool
+    let accentColor: Color
     var textAlignment: TextAlignment
     func makeBody(configuration: Configuration) -> some View {
         HStack(spacing: 3.5){
@@ -77,24 +82,33 @@ struct SKNoteButtonStyleVISIONOS: ButtonStyle {
         .hoverEffect(.lift)
     }
     
-    init(textAlignment: TextAlignment = .leading) {
+    init(colorScheme: ColorScheme, isEnabled: Bool, accentColor: Color, textAlignment: TextAlignment = .leading) {
+        self.colorScheme = colorScheme
+        self.isEnabled = isEnabled
+        self.accentColor = accentColor
         self.textAlignment = textAlignment
     }
 }
 
 struct SKNavigationButtonStyleVISIONOS: ButtonStyle {
-    @Environment(\.sheetSize) var sheetSize
-    @Environment(\.colorScheme) var colorScheme
-    @Environment(\.accentColor) var accentColor
-    @Environment(\.isEnabled) private var isEnabled: Bool
+    let sheetSize: SKSheetSize?
+    let colorScheme: ColorScheme
+    let isEnabled: Bool
+    let accentColor: Color
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .labelsHidden()
     }
+    init(sheetSize: SKSheetSize?, colorScheme: ColorScheme, isEnabled: Bool, accentColor: Color) {
+        self.sheetSize = sheetSize
+        self.colorScheme = colorScheme
+        self.isEnabled = isEnabled
+        self.accentColor = accentColor
+    }
 }
 
 #if DEBUG
-#Preview{
+#Preview(windowStyle: .automatic){
     SKButtonStylesPreviewContent()
 }
 #endif

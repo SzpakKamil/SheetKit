@@ -9,8 +9,8 @@
 import SwiftUI
 
 struct SKPrimaryButtonStyleIOS: ButtonStyle {
-    @Environment(\.isEnabled) private var isEnabled: Bool
-    @Environment(\.accentColor) private var accentColor: Color
+    let isEnabled: Bool
+    let accentColor: Color
     func makeBody(configuration: Configuration) -> some View {
         HStack{
             Spacer()
@@ -24,7 +24,9 @@ struct SKPrimaryButtonStyleIOS: ButtonStyle {
                 content
                     .fontWeight(.medium)
                     .padding(.vertical, 17)
+                    #if compiler(>=6.2)
                     .glassEffect(.regular.tint(accentColor).interactive(true))
+                    #endif
             }else{
                 content
                     .fontWeight(.medium)
@@ -37,11 +39,16 @@ struct SKPrimaryButtonStyleIOS: ButtonStyle {
         .opacity(isEnabled ? 1 : 0.5)
         .contentShape(Rectangle())
     }
+    
+    init(isEnabled: Bool, accentColor: Color) {
+        self.isEnabled = isEnabled
+        self.accentColor = accentColor
+    }
 }
 
 struct SKSecondaryButtonStyleIOS: ButtonStyle {
-    @Environment(\.isEnabled) private var isEnabled: Bool
-    @Environment(\.accentColor) private var accentColor: Color
+    let isEnabled: Bool
+    let accentColor: Color
     func makeBody(configuration: Configuration) -> some View {
         HStack{
             Spacer()
@@ -55,7 +62,9 @@ struct SKSecondaryButtonStyleIOS: ButtonStyle {
                 content
                     .fontWeight(.medium)
                     .padding(.vertical, 17)
+                    #if compiler(>=6.2)
                     .glassEffect(.regular.interactive(true))
+                    #endif
             }else{
                 content
                     .fontWeight(.medium)
@@ -68,12 +77,17 @@ struct SKSecondaryButtonStyleIOS: ButtonStyle {
         .opacity(isEnabled ? 1 : 0.5)
         .contentShape(Rectangle())
     }
+    
+    init(isEnabled: Bool, accentColor: Color) {
+        self.isEnabled = isEnabled
+        self.accentColor = accentColor
+    }
 }
 
 struct SKNoteButtonStyleIOS: ButtonStyle {
-    @Environment(\.colorScheme) var colorScheme
-    @Environment(\.isEnabled) private var isEnabled: Bool
-    @Environment(\.accentColor) private var accentColor: Color
+    let colorScheme: ColorScheme
+    let isEnabled: Bool
+    let accentColor: Color
     var textAlignment: TextAlignment
     func makeBody(configuration: Configuration) -> some View {
         HStack(spacing: 3.5){
@@ -91,21 +105,30 @@ struct SKNoteButtonStyleIOS: ButtonStyle {
         .opacity(isEnabled ? 1 : 0.5)
     }
     
-    init(textAlignment: TextAlignment = .leading) {
+    init(colorScheme: ColorScheme, isEnabled: Bool, accentColor: Color, textAlignment: TextAlignment = .leading) {
+        self.colorScheme = colorScheme
+        self.isEnabled = isEnabled
+        self.accentColor = accentColor
         self.textAlignment = textAlignment
     }
 }
 
 struct SKNavigationButtonStyleIOS: ButtonStyle {
-    @Environment(\.sheetSize) var sheetSize
-    @Environment(\.colorScheme) var colorScheme
-    @Environment(\.accentColor) var accentColor
-    @Environment(\.isEnabled) private var isEnabled: Bool
+    let sheetSize: SKSheetSize?
+    let colorScheme: ColorScheme
+    let isEnabled: Bool
+    let accentColor: Color
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .labelsHidden()
             .foregroundStyle(accentColor)
             .contentShape(Rectangle())
+    }
+    init(sheetSize: SKSheetSize?, colorScheme: ColorScheme, isEnabled: Bool, accentColor: Color) {
+        self.sheetSize = sheetSize
+        self.colorScheme = colorScheme
+        self.isEnabled = isEnabled
+        self.accentColor = accentColor
     }
 }
 

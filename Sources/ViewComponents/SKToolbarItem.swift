@@ -39,6 +39,9 @@ public extension SKToolbarItem{
 public struct SKToolbarItem: View, Identifiable, Hashable {
     @Environment(\.primaryAction) var primaryAction
     @Environment(\.navigationAction) var navigationAction
+    @Environment(\.colorScheme) var colorScheme
+    @Environment(\.accentColor) var accentColor
+    @Environment(\.sheetSize) var sheetSize
     public var id: UUID{
         data.id
     }
@@ -50,16 +53,16 @@ public struct SKToolbarItem: View, Identifiable, Hashable {
         switch data.placement{
         case .primary:
             data.content(primaryAction)
-                .buttonStyle(SKPrimaryButton())
+                .buttonStyle(SKPrimaryButtonStyle(isEnabled: true, accentColor: accentColor, colorScheme: colorScheme))
         case .secondary:
             data.content({})
-                .buttonStyle(SKSecondaryButton())
+                .buttonStyle(SKSecondaryButtonStyle(isEnabled: true, accentColor: accentColor))
         case .navigation:
             data.content(navigationAction)
-                .buttonStyle(SKNavigationButton())
+                .buttonStyle(SKNavigationButtonStyle(colorScheme: colorScheme, sheetSize: sheetSize, isEnabled: true, accentColor: accentColor))
         case .note:
             data.content({})
-                .buttonStyle(SKNoteButton())
+                .buttonStyle(SKNoteButtonStyle(isEnabled: true, accentColor: accentColor, colorScheme: colorScheme))
         }
     }
     

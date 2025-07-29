@@ -106,7 +106,7 @@ public struct SKPage: View{
         }else if #available(macOS 26.0, *){
             return .large
         }else{
-            return .medium
+            return .large
         }
     }
     public var body: some View {

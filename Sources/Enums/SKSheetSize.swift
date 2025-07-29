@@ -24,7 +24,7 @@ public enum SKSheetSize{
             switch self{
             case .small: return 400
             case .medium: return 330
-            case .large: return 400
+            case .large: return 379
             }
         }
     }
@@ -38,9 +38,9 @@ public enum SKSheetSize{
             }
         }else{
             switch self{
-            case .small: return 750
-            case .medium: return 500
-            case .large: return 750
+            case .small: return 500
+            case .medium: return 480
+            case .large: return 520
             }
         }
     }
@@ -53,9 +53,9 @@ public enum SKSheetSize{
             }
         }else{
             switch self{
-            case .small: return 700
-            case .medium: return 600
-            case .large: return 700
+            case .small: return 500
+            case .medium: return 580
+            case .large: return 660
             }
         }
 

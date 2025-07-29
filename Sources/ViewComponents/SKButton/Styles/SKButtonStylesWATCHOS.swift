@@ -9,8 +9,8 @@ import SwiftUI
 
 #if os(watchOS)
 struct SKPrimaryButtonStyleWATCHOS: ButtonStyle {
-    @Environment(\.isEnabled) private var isEnabled: Bool
-    @Environment(\.accentColor) private var accentColor: Color
+    let isEnabled: Bool
+    let accentColor: Color
     func makeBody(configuration: Configuration) -> some View {
         HStack{
             Spacer()
@@ -24,24 +24,32 @@ struct SKPrimaryButtonStyleWATCHOS: ButtonStyle {
                 content
                     .fontWeight(.medium)
                     .padding(.vertical, 17)
+                    #if compiler(>=6.2)
                     .glassEffect(.regular.tint(accentColor).interactive(true))
+                    #endif
+                    .opacity(configuration.isPressed ? 0.5 : 1)
             }else{
                 content
                     .fontWeight(.medium)
                     .padding(.vertical, 17)
                     .background(accentColor)
                     .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
-                    .opacity( configuration.isPressed ? 0.5 : 1)
+                    .opacity(configuration.isPressed ? 0.5 : 1)
             }
         }
         .opacity(isEnabled ? 1 : 0.5)
         .contentShape(Rectangle())
     }
+    
+    init(isEnabled: Bool, accentColor: Color) {
+        self.isEnabled = isEnabled
+        self.accentColor = accentColor
+    }
 }
 
 struct SKSecondaryButtonStyleWATCHOS: ButtonStyle {
-    @Environment(\.isEnabled) private var isEnabled: Bool
-    @Environment(\.accentColor) private var accentColor: Color
+    let isEnabled: Bool
+    let accentColor: Color
     func makeBody(configuration: Configuration) -> some View {
         HStack{
             Spacer()
@@ -51,30 +59,38 @@ struct SKSecondaryButtonStyleWATCHOS: ButtonStyle {
         }
         .foregroundStyle(accentColor)
         .if{ content in
-            if #available(macOS 26.0, iOS 26.0, tvOS 26.0, watchOS 26.0, *){
+            if #available(watchOS 26.0, *){
                 content
                     .fontWeight(.medium)
                     .padding(.vertical, 17)
+                    #if compiler(>=6.2)
                     .glassEffect(.regular.interactive(true))
+                    #endif
+                    .opacity(configuration.isPressed ? 0.5 : 1)
             }else{
                 content
                     .fontWeight(.medium)
                     .padding(.vertical, 13)
                     .background(.clear)
                     .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
-                    .opacity( configuration.isPressed ? 0.5 : 1)
+                    .opacity(configuration.isPressed ? 0.5 : 1)
             }
             
         }
         .opacity(isEnabled ? 1 : 0.5)
         .contentShape(Rectangle())
     }
+    
+    init(isEnabled: Bool, accentColor: Color) {
+        self.isEnabled = isEnabled
+        self.accentColor = accentColor
+    }
 }
 
 struct SKNoteButtonStyleWATCHOS: ButtonStyle {
-    @Environment(\.colorScheme) var colorScheme
-    @Environment(\.isEnabled) private var isEnabled: Bool
-    @Environment(\.accentColor) private var accentColor: Color
+    let colorScheme: ColorScheme
+    let isEnabled: Bool
+    let accentColor: Color
     var textAlignment: TextAlignment
     func makeBody(configuration: Configuration) -> some View {
         HStack(spacing: 3.5){
@@ -92,22 +108,31 @@ struct SKNoteButtonStyleWATCHOS: ButtonStyle {
         .contentShape(Rectangle())
         .opacity(isEnabled ? 1 : 0.5)
     }
-    
-    init(textAlignment: TextAlignment = .leading) {
+        
+    init(colorScheme: ColorScheme, isEnabled: Bool, accentColor: Color, textAlignment: TextAlignment = .leading) {
+        self.colorScheme = colorScheme
+        self.isEnabled = isEnabled
+        self.accentColor = accentColor
         self.textAlignment = textAlignment
     }
 }
 
 struct SKNavigationButtonStyleWATCHOS: ButtonStyle {
-    @Environment(\.sheetSize) var sheetSize
-    @Environment(\.colorScheme) var colorScheme
-    @Environment(\.accentColor) var accentColor
-    @Environment(\.isEnabled) private var isEnabled: Bool
+    let sheetSize: SKSheetSize?
+    let colorScheme: ColorScheme
+    let isEnabled: Bool
+    let accentColor: Color
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .labelsHidden()
             .foregroundStyle(accentColor)
             .contentShape(Rectangle())
+    }
+    init(sheetSize: SKSheetSize?, colorScheme: ColorScheme, isEnabled: Bool, accentColor: Color) {
+        self.sheetSize = sheetSize
+        self.colorScheme = colorScheme
+        self.isEnabled = isEnabled
+        self.accentColor = accentColor
     }
 }
 
