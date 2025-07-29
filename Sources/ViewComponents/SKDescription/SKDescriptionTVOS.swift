@@ -14,9 +14,14 @@ struct SKDescriptionTVOS: View {
     
     var fontAuto: Font {
         if let font = data.font{
-            font
+            return font
         }else{
-            .body
+            if #available(tvOS 26.0, *){
+                return .body
+            }else{
+                return .subheadline
+            }
+            
         }
     }
     var colorAuto: Color {
@@ -42,11 +47,7 @@ struct SKDescriptionTVOS: View {
                 return .center
             }
         }else{
-            if #available(tvOS 26.0, *){
-                return .leading
-            }else{
-                return .center
-            }
+            return .leading
         }
     }
     

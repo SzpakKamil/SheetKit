@@ -13,7 +13,15 @@ struct SKTitleTVOS: View {
     var data: SKTitle.Data
     
     var fontAuto: Font {
-        data.font ?? .body
+        if let font =  data.font{
+            return font
+        }else{
+            if #available(tvOS 26.0, *){
+                return .body
+            }else{
+                return .headline
+            }
+        }
     }
 
     var alignmentAuto: TextAlignment {
@@ -34,7 +42,12 @@ struct SKTitleTVOS: View {
     }
     
     var paddingBottomAuto: CGFloat {
-        return -10
+        if #available(tvOS 26.0, *){
+            return -10
+        }else{
+            return -2
+        }
+        
     }
     var body: some View {
         HStack {

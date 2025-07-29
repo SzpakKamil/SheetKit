@@ -19,7 +19,11 @@ struct SKTextFieldViewTVOS: View {
         if let backgroundColor = data.backgroundColor{
             return backgroundColor
         }else{
-            return colorScheme == .dark ? .black : .white
+            if #available(tvOS 26.0, *){
+                return colorScheme == .dark ? .black.opacity(0.5) : .white.opacity(0.5)
+            }else{
+                return colorScheme == .dark ? .black.opacity(0.3) : .white.opacity(0.3)
+            }
         }
     }
 

@@ -28,7 +28,7 @@ public extension SKToolbar {
 
 
 public struct SKToolbar: View {
-    @Environment(\.sheetSize) var sheetSize
+    @Environment(\.skSheetSize) var sheetSize
     let data: SKToolbar.Data
     public var body: some View {
         let noteItems: [SKToolbarItem] = data.buttons.filter{ $0.data.placement == .note }
@@ -48,22 +48,14 @@ public struct SKToolbar: View {
                 }
                 Spacer()
                 if navigationItems.isEmpty, sheetSize != .medium{
-                    SKToolbarItem(placement: .navigation) { action in
-                        Button("Back"){
-                            action()
-                        }
-                    }
+                    SKToolbarItem(placement: .navigation) {SKButton("Back"){}}
                 }else{
                     ForEach(navigationItems){ buttons in
                         buttons
                     }
                 }
                 if primaryItems.isEmpty{
-                    SKToolbarItem(placement: .primary) { action in
-                        Button("Continue"){
-                            action()
-                        }
-                    }
+                    SKToolbarItem(placement: .primary) {SKButton("Continue") {}}
                 }else{
                     ForEach(primaryItems){ buttons in
                         buttons
@@ -80,10 +72,8 @@ public struct SKToolbar: View {
             }
             .padding(.bottom, 8)
             if primaryItems.isEmpty{
-                SKToolbarItem(placement: .primary) { action in
-                    Button("Continue"){
-                        action()
-                    }
+                SKToolbarItem(placement: .primary) {
+                    SKButton("Continue") {}
                 }
             }else{
                 ForEach(primaryItems){ buttons in

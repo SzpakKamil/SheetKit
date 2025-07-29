@@ -26,9 +26,11 @@ public struct SKDatePickerMACOS: View {
             Spacer()
             DatePicker(data.title, selection: data.date, in: data.range ?? Date.distantPast...Date.distantFuture, displayedComponents: data.components)
                 .labelsHidden()
+                .scaleEffect(0.8)
         }
-        .padding(.horizontal, 6)
-        .padding(.vertical, 4)
+        .padding(.leading, 6)
+        .padding(.trailing, 2)
+        .padding(.vertical, 0.2)
         .background(autoBackgroundColor)
         .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 6, style: .continuous))
         .overlay(

@@ -29,8 +29,13 @@ struct SKPrimaryButtonStyleTVOS: ButtonStyle {
                         .hoverEffect(.highlight)
                 }else{
                     content
-                        .padding(.vertical, 1)
-                        .padding(.horizontal, 4)
+                        .fontWeight(.medium)
+                        .foregroundStyle(.white)
+                        .padding(.vertical, 10)
+                        .padding(.horizontal, 11)
+                        .background(accentColor)
+                        .opacity(configuration.isPressed ? 0.5 : 1)
+                        .hoverEffect(.highlight)
                 }
             }
             .opacity(isEnabled ? 1 : 0.5)
@@ -46,6 +51,7 @@ struct SKPrimaryButtonStyleTVOS: ButtonStyle {
 struct SKSecondaryButtonStyleTVOS: ButtonStyle {
     let isEnabled: Bool
     let accentColor: Color
+    
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .buttonStyle(.plain)
@@ -63,8 +69,13 @@ struct SKSecondaryButtonStyleTVOS: ButtonStyle {
                         .hoverEffect(.highlight)
                 }else{
                     content
-                        .padding(.vertical, 1)
-                        .padding(.horizontal, 4)
+                        .fontWeight(.medium)
+                        .foregroundStyle(.white)
+                        .padding(.vertical, 10)
+                        .padding(.horizontal, 11)
+                        .background(.regularMaterial)
+                        .opacity(configuration.isPressed ? 0.5 : 1)
+                        .hoverEffect(.highlight)
                 }
             }
             .opacity(isEnabled ? 1 : 0.5)
@@ -158,8 +169,13 @@ struct SKNavigationButtonStyleTVOS: ButtonStyle {
                             .opacity(configuration.isPressed ? 0.5 : 1)
                     }else{
                         content
-                            .padding(.vertical, 1)
-                            .padding(.horizontal, 4)
+                            .fontWeight(.medium)
+                            .foregroundStyle(.white)
+                            .padding(.vertical, 10)
+                            .padding(.horizontal, 11)
+                            .background(.regularMaterial)
+                            .opacity(configuration.isPressed ? 0.5 : 1)
+                            .hoverEffect(.highlight)
                     }
                 }
                 .contentShape(Rectangle())
@@ -180,8 +196,13 @@ struct SKNavigationButtonStyleTVOS: ButtonStyle {
                             .hoverEffect(.highlight)
                     }else{
                         content
-                            .padding(.vertical, 1)
-                            .padding(.horizontal, 4)
+                            .fontWeight(.medium)
+                            .foregroundStyle(.white)
+                            .padding(.vertical, 10)
+                            .padding(.horizontal, 11)
+                            .background(.regularMaterial)
+                            .opacity(configuration.isPressed ? 0.5 : 1)
+                            .hoverEffect(.highlight)
                     }
                 }
                 .contentShape(Rectangle())

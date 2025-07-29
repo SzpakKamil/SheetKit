@@ -115,7 +115,7 @@ public struct SKSheet: View {
         .environment(\.alignment, data.alignment)
         .environment(\.accentColor, autoAccentColor)
         .environment(\.closeButtonHidden, data.hideCloseButton)
-        .environment(\.sheetSize, data.sheetSize)
+        .environment(\.skSheetSize, data.sheetSize)
     }
     
     @ViewBuilder
@@ -185,25 +185,15 @@ public struct SKSheet: View {
             if !path.isEmpty{
                 ToolbarItem(placement: .navigation) {
                     SKToolbarItem(placement: .navigation) { action in
-                        if #available(iOS 26.0, *){
-                            Button("Back", systemImage: "chevron.backward") {
-                                path.removeLast()
-                            }
-                        }else{
-                            Button {
-                                path.removeLast()
-                            }label:{
-                                HStack(spacing: 5){
-                                    Image(systemName: "chevron.backward")
-                                    Text("Back")
-                                }
-                            }
+                        SKButton("Back", systemImage: "chevron.backward") {
+                            path.removeLast()
                         }
                     }
                 }
             }
         }
         #endif
+        .environment(\.accentColor, currentIndex < data.pages.count ? data.pages[currentIndex].data.accentColor ?? autoAccentColor : autoAccentColor)
     }
     
     public func confirmationAction(currentIndex: Int){

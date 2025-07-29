@@ -10,7 +10,7 @@ import SwiftUI
 
 struct SKHeaderImageMACOS: View {
     @Environment(\.accessibilityReduceMotion) var accessibilityReduceMotion
-    @Environment(\.sheetSize) var sheetSize
+    @Environment(\.skSheetSize) var sheetSize
     @Environment(\.alignment) var alignment
     @Environment(\.accentColor) var accentColor
     var data: SKHeaderImage.Data

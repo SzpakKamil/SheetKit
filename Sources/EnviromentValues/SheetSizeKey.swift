@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-private struct SheetSizeKey: EnvironmentKey {
+private struct SKSheetSizeKey: EnvironmentKey {
     static let defaultValue: SKSheetSize? = nil
 }
 extension EnvironmentValues {
-    var sheetSize: SKSheetSize? {
-        get { self[SheetSizeKey.self] }
-        set { self[SheetSizeKey.self] = newValue }
+    var skSheetSize: SKSheetSize? {
+        get { self[SKSheetSizeKey.self] }
+        set { self[SKSheetSizeKey.self] = newValue }
     }
 }

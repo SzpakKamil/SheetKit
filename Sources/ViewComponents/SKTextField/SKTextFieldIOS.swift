@@ -35,19 +35,16 @@ struct SKTextFieldViewIOS: View {
 
     var body: some View {
         TextField(data.title, text: $text, prompt: prompt)
+            .padding(.horizontal)
+            .padding(.vertical, 12.5)
+            .background(autoBackgroundColor)
             .if{ content in
                 if #available(iOS 26.0, *){
                     content
-                        .padding(.horizontal)
-                        .padding(.vertical, 15)
-                        .background(autoBackgroundColor)
                         .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 100, style: .continuous))
                 }else{
                     content
-                        .padding(.horizontal, 19)
-                        .padding(.vertical, 12)
-                        .background(autoBackgroundColor)
-                        .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 10, style: .continuous))
+                        .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 13, style: .continuous))
                 }
             }
             .contentShape(Rectangle())

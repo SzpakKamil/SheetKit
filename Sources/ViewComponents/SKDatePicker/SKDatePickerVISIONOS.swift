@@ -30,7 +30,7 @@ public struct SKDatePickerVISIONOS: View {
         }
         .padding(.leading, 16)
         .padding(.trailing, 7)
-        .padding(.vertical, 5)
+        .padding(.vertical, 0)
         .background(LinearGradient(
             colors: [
                 .black.opacity(0.4),
@@ -52,6 +52,8 @@ public struct SKDatePickerVISIONOS: View {
                 ), lineWidth: 1.25)
         )
         .contentShape(Rectangle())
+        .hoverEffect()
+        .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 12, style: .continuous))
     }
     
     public init(data: SKDatePicker.Data) {

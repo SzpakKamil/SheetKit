@@ -9,7 +9,7 @@ import SwiftUI
 
 #if os(macOS)
 struct SKTitleMACOS: View {
-    @Environment(\.sheetSize) var sheetSize
+    @Environment(\.skSheetSize) var sheetSize
     @Environment(\.alignment) var alignment
     var data: SKTitle.Data
     

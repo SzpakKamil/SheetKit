@@ -121,6 +121,7 @@ struct SKNavigationButtonStyleIOS: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .labelsHidden()
+            .buttonStyle(.plain)
             .foregroundStyle(accentColor)
             .contentShape(Rectangle())
     }

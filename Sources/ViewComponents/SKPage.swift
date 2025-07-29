@@ -80,7 +80,7 @@ public extension SKPage{
 
 public struct SKPage: View{
     @Environment(\.accentColor) var accentColor
-    @Environment(\.sheetSize) var sheetSize
+    @Environment(\.skSheetSize) var sheetSize
     @Environment(\.closeButtonHidden) var closeButtonHidden
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
@@ -127,22 +127,8 @@ public struct SKPage: View{
                         $0.data.placement == .navigation
                     }
                     if navigationAction.isEmpty{
-                        SKToolbarItem(placement: .navigation) { action in
-                            if #available(iOS 26.0, *){
-                                Button{
-                                    action()
-                                }label: {
-                                    Image(systemName: "chevron.backward")
-                                        .imageScale(.large)
-                                        .frame(width: 10, height: 10)
-                                        .accessibilityHidden(true)
-                                }
-                                .accessibilityLabel("Back")
-                            }else{
-                                Button("Back") {
-                                    action()
-                                }
-                            }
+                        SKToolbarItem(placement: .navigation) {
+                            SKButton("Back", systemImage: "chevron.backward") {}
                         }
                     }else{
                         ForEach(navigationAction) { button in
@@ -156,25 +142,18 @@ public struct SKPage: View{
             }
             #endif
         }
-        .environment(\.alignment, data.alignment)
-        .environment(\.accentColor, data.accentColor ?? accentColor)
         #if !os(macOS) && !os(tvOS)
         .toolbar {
             let navigationButtons = data.toolbar.data.buttons.filter{ $0.data.placement == .navigation}
             ToolbarItem(placement: .topBarTrailing) {
                 if navigationButtons.isEmpty && !closeButtonHidden{
-                    if #available(iOS 26.0, *){
-                        SKToolbarItem(placement: .navigation) { action in
-                            Button("Close", systemImage: "xmark") {
-                                action()
-                            }
+                    SKToolbarItem(placement: .navigation) {
+                        if #available(iOS 26.0, *){
+                            SKButton("Close", systemImage: "xmark"){}
+                        }else{
+                            SKButton("Close"){}
                         }
-                    }else{
-                        SKToolbarItem(placement: .navigation) { action in
-                            Button("Close") {
-                                action()
-                            }
-                        }
+
                     }
                 }else{
                     ForEach(navigationButtons) { button in
@@ -186,6 +165,7 @@ public struct SKPage: View{
         #elseif !os(tvOS)
         .frame(width: autoSheetSize.windowWidth, height: autoSheetSize.height)
         #endif
+        .environment(\.alignment, data.alignment)
             
     }
     

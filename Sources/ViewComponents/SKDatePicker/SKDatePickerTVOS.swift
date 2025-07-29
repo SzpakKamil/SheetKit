@@ -18,7 +18,11 @@ public struct SKDatePickerTVOS: View {
         if let backgroundColor = data.backgroundColor{
             return backgroundColor
         }else{
-            return colorScheme == .dark ? .black : .white
+            if #available(tvOS 26.0, *){
+                return colorScheme == .dark ? .black.opacity(0.5) : .white.opacity(0.5)
+            }else{
+                return colorScheme == .dark ? .black.opacity(0.3) : .white.opacity(0.3)
+            }
         }
     }
     
@@ -38,7 +42,7 @@ public struct SKDatePickerTVOS: View {
                 .padding(.horizontal, 10)
                 .clipShape(.capsule)
             }
-            .padding(.vertical, 10)
+            .padding(.vertical, 3)
             .padding(.leading, -7)
             .padding(.trailing, -15)
         }
@@ -50,10 +54,9 @@ public struct SKDatePickerTVOS: View {
                     ZStack{
                         Rectangle()
                             .fill(.ultraThinMaterial)
-                            .brightness(-0.25)
                             .ignoresSafeArea()
                         HStack{
-                            SKTDatePicker(date: $tempDate, minDate: data.range?.lowerBound, maxDate: data.range?.upperBound)
+                            SKTDatePicker(date: $tempDate, minDate: data.range?.lowerBound ?? .distantPast, maxDate: data.range?.upperBound ?? .distantFuture)
                                 .frame(width: geo.size.width * 0.75, height: geo.size.height * 0.5)
                             VStack{
                                 Button("Submit", role: .cancel) {

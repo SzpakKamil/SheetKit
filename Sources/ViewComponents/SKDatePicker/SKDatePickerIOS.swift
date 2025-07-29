@@ -40,21 +40,17 @@ public struct SKDatePickerIOS: View {
                     }
                 }
         }
+        .padding(.leading, 16)
+        .padding(.trailing, 7)
+        .padding(.vertical, 6)
+        .background(autoBackgroundColor)
         .if{ content in
             if #available(iOS 26.0, *){
                 content
-                    .padding(.leading, 16)
-                    .padding(.trailing, 7)
-                    .padding(.vertical, 5)
-                    .background(autoBackgroundColor)
                     .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 100, style: .continuous))
             }else{
                 content
-                    .padding(.leading, 16)
-                    .padding(.trailing, 7)
-                    .padding(.vertical, 2)
-                    .background(autoBackgroundColor)
-                    .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 10, style: .continuous))
+                    .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 13, style: .continuous))
             }
         }
         .contentShape(Rectangle())

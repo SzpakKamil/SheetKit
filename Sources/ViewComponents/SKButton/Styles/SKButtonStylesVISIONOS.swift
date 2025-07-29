@@ -21,12 +21,15 @@ struct SKPrimaryButtonStyleVISIONOS: ButtonStyle {
         .foregroundStyle(.white)
         .fontWeight(.medium)
         .padding(.vertical, 17)
-        .background(.tint)
+        .background(accentColor)
         .clipShape(.capsule)
         .opacity( configuration.isPressed ? 0.5 : 1)
         .opacity(isEnabled ? 1 : 0.5)
         .contentShape(Rectangle())
         .hoverEffect()
+        .clipShape(.capsule)
+        .scaleEffect(configuration.isPressed ? 0.95 : 1)
+        .animation(.smooth(duration: 0.4), value: configuration.isPressed)
     }
     init(isEnabled: Bool, accentColor: Color) {
         self.isEnabled = isEnabled
@@ -47,12 +50,15 @@ struct SKSecondaryButtonStyleVISIONOS: ButtonStyle {
         .foregroundStyle(accentColor)
         .fontWeight(.medium)
         .padding(.vertical, 17)
-        .background(.white)
+        .background(.white.opacity(0.10))
         .clipShape(.capsule)
         .opacity(configuration.isPressed ? 0.5 : 1)
         .opacity(isEnabled ? 1 : 0.5)
         .contentShape(Rectangle())
         .hoverEffect()
+        .clipShape(.capsule)
+        .scaleEffect(configuration.isPressed ? 0.95 : 1)
+        .animation(.smooth(duration: 0.4), value: configuration.isPressed)
     }
     init(isEnabled: Bool, accentColor: Color) {
         self.isEnabled = isEnabled
@@ -80,6 +86,8 @@ struct SKNoteButtonStyleVISIONOS: ButtonStyle {
         .contentShape(Rectangle())
         .opacity(isEnabled ? 1 : 0.5)
         .hoverEffect(.lift)
+        .scaleEffect(configuration.isPressed ? 0.95 : 1)
+        .animation(.smooth(duration: 0.4), value: configuration.isPressed)
     }
     
     init(colorScheme: ColorScheme, isEnabled: Bool, accentColor: Color, textAlignment: TextAlignment = .leading) {
@@ -97,7 +105,20 @@ struct SKNavigationButtonStyleVISIONOS: ButtonStyle {
     let accentColor: Color
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
+            .font(.title2)
             .labelsHidden()
+            .foregroundStyle(accentColor)
+            .fontWeight(.medium)
+            .padding(10)
+            .background(.white.opacity(0.10))
+            .clipShape(.circle)
+            .opacity(configuration.isPressed ? 0.5 : 1)
+            .opacity(isEnabled ? 1 : 0.5)
+            .contentShape(Rectangle())
+            .hoverEffect()
+            .clipShape(.circle)
+            .scaleEffect(configuration.isPressed ? 0.95 : 1)
+            .animation(.smooth(duration: 0.4), value: configuration.isPressed)
     }
     init(sheetSize: SKSheetSize?, colorScheme: ColorScheme, isEnabled: Bool, accentColor: Color) {
         self.sheetSize = sheetSize

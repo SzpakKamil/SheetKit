@@ -64,7 +64,7 @@ struct SKHeaderImageVISIONOS: View {
                 Spacer()
             }
         }
-        .padding(.vertical, (autoVerticalPadding).rawValue)
+        .padding(.bottom, (autoVerticalPadding).rawValue)
     }
     
     init(data: SKHeaderImage.Data) {
