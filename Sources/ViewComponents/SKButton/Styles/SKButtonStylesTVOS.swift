@@ -27,7 +27,7 @@ struct SKPrimaryButtonStyleTVOS: ButtonStyle {
                         #endif
                         .opacity(configuration.isPressed ? 0.5 : 1)
                         .hoverEffect(.highlight)
-                }else{
+                }else if #available(tvOS 18.0, *){
                     content
                         .fontWeight(.medium)
                         .foregroundStyle(.white)
@@ -58,8 +58,8 @@ struct SKSecondaryButtonStyleTVOS: ButtonStyle {
             .if{ content in
                 if #available(tvOS 26.0, *){
                     content
-                        .frame(minWidth: 105)
                         .fontWeight(.medium)
+                        .foregroundStyle(.primary)
                         .padding(.vertical, 10)
                         .padding(.horizontal, 11)
                         #if compiler(>=6.2)
@@ -70,10 +70,10 @@ struct SKSecondaryButtonStyleTVOS: ButtonStyle {
                 }else{
                     content
                         .fontWeight(.medium)
-                        .foregroundStyle(.white)
+                        .foregroundStyle(.primary)
                         .padding(.vertical, 10)
                         .padding(.horizontal, 11)
-                        .background(.regularMaterial)
+                        .background(.primary.opacity(0.1))
                         .opacity(configuration.isPressed ? 0.5 : 1)
                         .hoverEffect(.highlight)
                 }
@@ -108,7 +108,7 @@ struct SKNoteButtonStyleTVOS: ButtonStyle {
         .opacity(configuration.isPressed ? 0.5 : 1)
         .contentShape(Rectangle())
         .opacity(isEnabled ? 1 : 0.5)
-        .hoverEffect(.lift)
+        .hoverEffect(.automatic)
     }
     
     init(isEnabled: Bool, accentColor: Color, colorScheme: ColorScheme, textAlignment: TextAlignment = .leading) {
@@ -118,36 +118,6 @@ struct SKNoteButtonStyleTVOS: ButtonStyle {
         self.textAlignment = textAlignment
     }
 }
-
-struct SKNoteButtonStyleMACOS: ButtonStyle {
-    let isEnabled: Bool
-    let accentColor: Color
-    let colorScheme: ColorScheme
-    var textAlignment: TextAlignment
-    func makeBody(configuration: Configuration) -> some View {
-        HStack(spacing: 3.5){
-            if #available(macOS 26.0, *){
-                Image(systemName: "info.circle.fill")
-            }
-            configuration.label
-                .buttonStyle(.plain)
-                .multilineTextAlignment(textAlignment)
-        }
-        .foregroundStyle(accentColor)
-        .lineLimit(1)
-        .opacity(configuration.isPressed ? 0.5 : 1)
-        .contentShape(Rectangle())
-        .opacity(isEnabled ? 1 : 0.5)
-    }
-    
-    init(isEnabled: Bool, accentColor: Color, colorScheme: ColorScheme, textAlignment: TextAlignment = .leading) {
-        self.isEnabled = isEnabled
-        self.accentColor = accentColor
-        self.colorScheme = colorScheme
-        self.textAlignment = textAlignment
-    }
-}
-
 struct SKNavigationButtonStyleTVOS: ButtonStyle {
     let sheetSize: SKSheetSize?
     let isEnabled: Bool
@@ -161,19 +131,22 @@ struct SKNavigationButtonStyleTVOS: ButtonStyle {
                 .if{ content in
                     if #available(tvOS 26.0, *){
                         content
-                            .padding(.vertical, 13)
-                            .padding(.horizontal, 13)
+                            .fontWeight(.medium)
+                            .foregroundStyle(.primary)
+                            .padding(.vertical, 10)
+                            .padding(.horizontal, 11)
                             #if compiler(>=6.2)
-                            .glassEffect(.regular.interactive(true), in: .circle)
+                            .glassEffect(.regular.interactive(true))
                             #endif
                             .opacity(configuration.isPressed ? 0.5 : 1)
+                            .hoverEffect(.highlight)
                     }else{
                         content
                             .fontWeight(.medium)
-                            .foregroundStyle(.white)
+                            .foregroundStyle(.primary)
                             .padding(.vertical, 10)
                             .padding(.horizontal, 11)
-                            .background(.regularMaterial)
+                            .background(.primary.opacity(0.1))
                             .opacity(configuration.isPressed ? 0.5 : 1)
                             .hoverEffect(.highlight)
                     }
@@ -197,10 +170,10 @@ struct SKNavigationButtonStyleTVOS: ButtonStyle {
                     }else{
                         content
                             .fontWeight(.medium)
-                            .foregroundStyle(.white)
+                            .foregroundStyle(.primary)
                             .padding(.vertical, 10)
                             .padding(.horizontal, 11)
-                            .background(.regularMaterial)
+                            .background(.primary.opacity(0.1))
                             .opacity(configuration.isPressed ? 0.5 : 1)
                             .hoverEffect(.highlight)
                     }

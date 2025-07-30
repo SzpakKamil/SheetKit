@@ -21,8 +21,10 @@ struct SKTextFieldViewTVOS: View {
         }else{
             if #available(tvOS 26.0, *){
                 return colorScheme == .dark ? .black.opacity(0.5) : .white.opacity(0.5)
+            }else if #available(tvOS 18.0, *){
+                return colorScheme == .dark ? .white.opacity(0.1) : .black.opacity(0.1)
             }else{
-                return colorScheme == .dark ? .black.opacity(0.3) : .white.opacity(0.3)
+                return colorScheme == .dark ? .white : .black
             }
         }
     }
@@ -43,13 +45,14 @@ struct SKTextFieldViewTVOS: View {
                     if text.isEmpty{
                         if let prompt{
                             prompt
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle((colorScheme == .dark ? Color.white : .black).secondary)
                         }else{
                             Text(data.title)
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle((colorScheme == .dark ? Color.white : .black).secondary)
                         }
                     }else{
                         Text(text)
+                            .foregroundStyle(colorScheme == .dark ? .white : .black)
                     }
                     
                     Spacer()

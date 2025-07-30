@@ -18,7 +18,6 @@ struct SKPrimaryButtonStyleMACOS: ButtonStyle {
                 if #available(macOS 26.0, *){
                     content
                         .frame(minWidth: 105)
-                        .fontWeight(.medium)
                         .foregroundStyle(.white)
                         .padding(.vertical, 10)
                         .padding(.horizontal, 11)
@@ -70,7 +69,6 @@ struct SKSecondaryButtonStyleMACOS: ButtonStyle {
                 if #available(macOS 26.0, *){
                     content
                         .frame(minWidth: 105)
-                        .fontWeight(.medium)
                         .padding(.vertical, 10)
                         .padding(.horizontal, 11)
                         #if compiler(>=6.2)
@@ -189,7 +187,6 @@ struct SKNavigationButtonStyleMACOS: ButtonStyle{
                                         .background(.background)
                                 }
                             }
-                            
                             .clipShape(RoundedRectangle(cornerRadius: 6, style: .circular))
                             .overlay(
                                 RoundedRectangle(cornerRadius: 6, style: .circular)

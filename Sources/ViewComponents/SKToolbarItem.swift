@@ -18,7 +18,7 @@ public extension SKToolbarItem {
         public init(placement: SKToolbarItem.Placement, @ViewBuilder content: @escaping (@escaping () -> Void) -> some View) {
             self.id = UUID()
             self.placement = placement
-            self.content = { action in AnyView(content(action)) }
+            self.content = { action in AnyView(content(action).environment(\.primaryAction, {}).environment(\.navigationAction, {})) }
             self.noActionContent = nil
         }
         

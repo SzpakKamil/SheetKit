@@ -20,8 +20,10 @@ public struct SKDatePickerTVOS: View {
         }else{
             if #available(tvOS 26.0, *){
                 return colorScheme == .dark ? .black.opacity(0.5) : .white.opacity(0.5)
+            }else if #available(tvOS 18.0, *){
+                return colorScheme == .dark ? .white.opacity(0.1) : .black.opacity(0.1)
             }else{
-                return colorScheme == .dark ? .black.opacity(0.3) : .white.opacity(0.3)
+                return colorScheme == .dark ? .white : .black
             }
         }
     }
@@ -33,6 +35,8 @@ public struct SKDatePickerTVOS: View {
         }label:{
             HStack{
                 Text(data.title)
+                    .foregroundStyle(.primary)
+                    .tint(.primary)
                     .lineLimit(1)
                 Spacer()
                 HStack(spacing: 5){
@@ -46,6 +50,7 @@ public struct SKDatePickerTVOS: View {
             .padding(.leading, -7)
             .padding(.trailing, -15)
         }
+        .foregroundStyle(colorScheme == .dark ? .white : .black)
         .buttonStyle(.borderedProminent)
         .tint(autoBackgroundColor)
         .fullScreenCover(isPresented: $isUsingDatePicker) {

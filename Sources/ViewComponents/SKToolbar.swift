@@ -35,7 +35,7 @@ public struct SKToolbar: View {
         let secondaryItems: [SKToolbarItem] = data.buttons.filter{ $0.data.placement == .secondary }
         let navigationItems: [SKToolbarItem] = data.buttons.filter{ $0.data.placement == .navigation }
         let primaryItems: [SKToolbarItem] = data.buttons.filter{ $0.data.placement == .primary }
-        #if os(macOS) || os(tvOS)
+        #if os(macOS)
         VStack{
             VStack(spacing: 5){
                 ForEach(noteItems){ buttons in
@@ -47,6 +47,45 @@ public struct SKToolbar: View {
                     buttons
                 }
                 Spacer()
+                if navigationItems.isEmpty, sheetSize != .medium{
+                    SKToolbarItem(placement: .navigation) {SKButton("Back"){}}
+                }else{
+                    ForEach(navigationItems){ buttons in
+                        buttons
+                    }
+                }
+                if primaryItems.isEmpty{
+                    SKToolbarItem(placement: .primary) {SKButton("Continue") {}}
+                }else{
+                    ForEach(primaryItems){ buttons in
+                        buttons
+                    }
+                }
+            }
+        }
+        #elseif os(tvOS)
+        VStack{
+            if #available(tvOS 26.0, *){
+                VStack(spacing: 5){
+                    ForEach(noteItems){ buttons in
+                        buttons
+                    }
+                }
+            }
+            HStack(spacing: 10){
+                ForEach(secondaryItems){ buttons in
+                    buttons
+                }
+                Spacer()
+                if #unavailable(tvOS 26.0){
+                    VStack(spacing: 5){
+                        ForEach(noteItems){ buttons in
+                            buttons
+                        }
+                    }
+                    Spacer()
+                }
+
                 if navigationItems.isEmpty, sheetSize != .medium{
                     SKToolbarItem(placement: .navigation) {SKButton("Back"){}}
                 }else{
