@@ -1,18 +1,18 @@
 //
-//  SKDatePickerWATCHOS.swift
+//  SKStepperWATCHOS.swift
 //  SheetKit
 //
-//  Created by Kamil Szpak on 12/07/2025.
+//  Created by Kamil Szpak on 01/08/2025.
 //
 
 import SwiftUI
-
 #if os(watchOS)
-public struct SKDatePickerWATCHOS: View {
+struct SKStepperWATCHOS<S: Strideable>: View, SKComponent {
     @Environment(\.colorScheme) var colorScheme
-    var data: SKDatePicker.Data
-    @State private var isUsingDatePicker: Bool = false
-    @State private var tempDate: Date = .now
+    var data: SKStepper<S>.Data
+    var type: SKComponentType = .field
+    @State private var isUsingStepper: Bool = false
+    @State private var tempValue: S
     
     var autoBackgroundColor: Color{
         if let backgroundColor = data.backgroundColor{
@@ -24,15 +24,15 @@ public struct SKDatePickerWATCHOS: View {
     
     public var body: some View {
         Button {
-            isUsingDatePicker = true
-            tempDate = data.date.wrappedValue
+            isUsingStepper = true
+            tempValue = data.value.wrappedValue
         }label:{
             HStack{
                 Text(data.title)
                     .lineLimit(1)
                 Spacer()
                 HStack(spacing: 5){
-                    Text(data.date.wrappedValue, format: .dateTime.day().month().year())
+                    Text(data.textForValue(data.value.wrappedValue))
                 }
                 .padding(.vertical, 7)
                 .padding(.horizontal, 10)
@@ -45,17 +45,17 @@ public struct SKDatePickerWATCHOS: View {
             .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 100, style: .continuous))
         }
         .buttonStyle(.plain)
-        .fullScreenCover(isPresented: $isUsingDatePicker) {
+        .fullScreenCover(isPresented: $isUsingStepper) {
             NavigationStack{
                 VStack{
-                    DatePicker(data.title, selection: data.date, in: data.range ?? Date.distantPast...Date.distantFuture, displayedComponents: data.components)
+                    Stepper(data.title, value: data.value, in: data.range)
                     HStack{
                         Button("Submit", role: .cancel) {
-                            isUsingDatePicker = false
-                            data.date.wrappedValue = tempDate
+                            isUsingStepper = false
+                            data.value.wrappedValue = tempValue
                         }
                         Button("Reset", role: .destructive) {
-                            tempDate = data.date.wrappedValue
+                            tempValue = data.value.wrappedValue
                         }
                     }
                 }
@@ -64,14 +64,15 @@ public struct SKDatePickerWATCHOS: View {
         }
     }
     
-    public init(data: SKDatePicker.Data) {
+    public init(data: SKStepper<S>.Data) {
         self.data = data
+        self.tempValue = data.value.wrappedValue
     }
 }
 
 #if DEBUG
 #Preview {
-    PreviewViewSKDatePicker()
+    PreviewViewSKStepper()
 }
 #endif
 #endif

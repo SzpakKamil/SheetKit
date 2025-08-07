@@ -21,7 +21,7 @@ public struct SKPrimaryButtonStyle: ButtonStyle {
         #elseif os(visionOS)
         SKPrimaryButtonStyleVISIONOS(isEnabled: isEnabled, accentColor: accentColor).makeBody(configuration: configuration)
         #elseif os(watchOS)
-        SKPrimaryButtonStyleWATCHOS().makeBody(configuration: configuration)
+        SKPrimaryButtonStyleWATCHOS(isEnabled: isEnabled, accentColor: accentColor).makeBody(configuration: configuration)
         #else
         EmptyView()
         #endif
@@ -46,7 +46,7 @@ public struct SKSecondaryButtonStyle: ButtonStyle {
         #elseif os(visionOS)
         SKSecondaryButtonStyleVISIONOS(isEnabled: isEnabled, accentColor: accentColor).makeBody(configuration: configuration)
         #elseif os(watchOS)
-        SKSecondaryButtonStyleWATCHOS().makeBody(configuration: configuration)
+        SKSecondaryButtonStyleWATCHOS(isEnabled: isEnabled, accentColor: accentColor).makeBody(configuration: configuration)
         #else
         EmptyView()
         #endif
@@ -73,7 +73,7 @@ public struct SKNoteButtonStyle: ButtonStyle {
         #elseif os(visionOS)
         SKNoteButtonStyleVISIONOS(colorScheme: colorScheme, isEnabled: isEnabled, accentColor: accentColor, textAlignment: textAlignment).makeBody(configuration: configuration)
         #elseif os(watchOS)
-        SKNoteButtonStyleWATCHOS(textAlignment: textAlignment).makeBody(configuration: configuration)
+        SKNoteButtonStyleWATCHOS(colorScheme: colorScheme, isEnabled: isEnabled, accentColor: accentColor, textAlignment: textAlignment).makeBody(configuration: configuration)
         #else
         EmptyView()
         #endif
@@ -101,7 +101,7 @@ public struct SKNavigationButtonStyle: ButtonStyle {
         #elseif os(visionOS)
         SKNavigationButtonStyleVISIONOS(sheetSize: sheetSize, colorScheme: colorScheme, isEnabled: isEnabled, accentColor: accentColor).makeBody(configuration: configuration)
         #elseif os(watchOS)
-        SKNavigationButtonStyleWATCHOS().makeBody(configuration: configuration)
+        SKNavigationButtonStyleWATCHOS(sheetSize: sheetSize, colorScheme: colorScheme, isEnabled: isEnabled, accentColor: accentColor).makeBody(configuration: configuration)
         #else
         EmptyView()
         #endif
@@ -116,51 +116,7 @@ public struct SKNavigationButtonStyle: ButtonStyle {
 }
 
 #if DEBUG
-struct SKButtonStylesPreviewContent: View {
-    @Environment(\.colorScheme) var colorScheme
-    @State private var style: String = "Primary"
-    var body: some View {
-        List{
-            Picker("Styles", selection: $style) {
-                Text("Primary")
-                    .tag("Primary")
-                Text("Secondary")
-                    .tag("Secondary")
-                Text("Note")
-                    .tag("Note")
-                Text("Navigation")
-                    .tag("Navigation")
-            }
-            
-            switch style{
-            case "Primary":
-                Button("Next"){
-                    
-                }.buttonStyle(SKPrimaryButtonStyle(isEnabled: true, accentColor: .accentColor, colorScheme: colorScheme))
-            case "Secondary":
-                Button("Back"){
-                    
-                }.buttonStyle(SKSecondaryButtonStyle(isEnabled: true, accentColor: .accentColor))
-            case "Note":
-                Button("Note"){
-                    
-                }.buttonStyle(SKNoteButtonStyle(isEnabled: true, accentColor: .accentColor, colorScheme: colorScheme))
-            default:
-                Button{
-                    
-                }label: {
-                    Image(systemName: "chevron.backward")
-                }
-                .buttonStyle(SKNavigationButtonStyle(colorScheme: colorScheme, sheetSize: .medium, isEnabled: true, accentColor: .accentColor))
-            }
-        }
-    }
-    
-    init(style: String = "Primary") {
-        self.style = style
-    }
-}
 #Preview {
-    SKButtonStylesPreviewContent()
+    PreviewViewSKButton()
 }
 #endif

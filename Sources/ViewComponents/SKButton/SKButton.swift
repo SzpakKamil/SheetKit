@@ -200,10 +200,53 @@ extension SKButton{
         self.init(image: {image}, destination: destination)
     }
 }
-
-#Preview {
-    SKToolbarItem(placement: .primary) {
-        SKButton("Note Button", systemImage: "house") { }
+#if DEBUG
+struct PreviewViewSKButton: View {
+    @Environment(\.colorScheme) var colorScheme
+    @State private var style: String = "Primary"
+    var body: some View {
+        List{
+            Picker("Styles", selection: $style) {
+                Text("Primary")
+                    .tag("Primary")
+                Text("Secondary")
+                    .tag("Secondary")
+                Text("Note")
+                    .tag("Note")
+                Text("Navigation")
+                    .tag("Navigation")
+            }
+            
+            switch style{
+            case "Primary":
+                Button("Next"){
+                    
+                }.buttonStyle(SKPrimaryButtonStyle(isEnabled: true, accentColor: .accentColor, colorScheme: colorScheme))
+            case "Secondary":
+                Button("Back"){
+                    
+                }.buttonStyle(SKSecondaryButtonStyle(isEnabled: true, accentColor: .accentColor))
+            case "Note":
+                Button("Note"){
+                    
+                }.buttonStyle(SKNoteButtonStyle(isEnabled: true, accentColor: .accentColor, colorScheme: colorScheme))
+            default:
+                Button{
+                    
+                }label: {
+                    Image(systemName: "chevron.backward")
+                }
+                .buttonStyle(SKNavigationButtonStyle(colorScheme: colorScheme, sheetSize: .medium, isEnabled: true, accentColor: .accentColor))
+            }
+        }
     }
-    .environment(\.skSheetSize, .medium)
+    
+    init(style: String = "Primary") {
+        self.style = style
+    }
 }
+#Preview {
+    PreviewViewSKButton()
+}
+#endif
+

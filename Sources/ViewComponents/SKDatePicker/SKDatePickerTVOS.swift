@@ -52,6 +52,7 @@ public struct SKDatePickerTVOS: View {
         }
         .foregroundStyle(colorScheme == .dark ? .white : .black)
         .buttonStyle(.borderedProminent)
+        .padding(.vertical, -13)
         .tint(autoBackgroundColor)
         .fullScreenCover(isPresented: $isUsingDatePicker) {
             NavigationStack{
@@ -86,10 +87,8 @@ public struct SKDatePickerTVOS: View {
 }
 
 #if DEBUG
-#Preview{
-    VStack{
-        SKDatePickerTVOS(data: .init(title: "Date", selection: .constant(.now)))
-    }
+#Preview {
+    PreviewViewSKDatePicker()
 }
 #endif
 #endif

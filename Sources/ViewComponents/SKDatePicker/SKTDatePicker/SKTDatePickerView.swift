@@ -10,10 +10,10 @@ extension SKTPickerViewStyle {
             focusedCellBackgroundColor: .white
         ),
         labels: .init(
-            selectedCellTextColor: .white,
-            unselectedCellTextColor: .white.withAlphaComponent(0.7),
+            selectedCellTextColor: .label,
+            unselectedCellTextColor: .label.withAlphaComponent(0.7),
             focusedCellTextColor: .black,
-            disabledCellTextColor: .white.withAlphaComponent(0.1),
+            disabledCellTextColor: .label.withAlphaComponent(0.1),
             font: UIFontDescriptor().withSize(48),
             focusedFont: {
                 let descriptor = UIFontDescriptor().withSize(48)

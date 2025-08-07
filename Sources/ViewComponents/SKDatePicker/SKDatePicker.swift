@@ -70,7 +70,7 @@ public struct SKDatePicker: View, SKComponent {
 
 }
 
-
+#if DEBUG
 struct PreviewViewSKDatePicker: View {
     @State private var selection = "John"
     
@@ -85,3 +85,4 @@ struct PreviewViewSKDatePicker: View {
 #Preview {
     PreviewViewSKDatePicker()
 }
+#endif

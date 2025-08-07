@@ -135,7 +135,7 @@ struct SKNavigationButtonStyleIOS: ButtonStyle {
 
 #if DEBUG
 #Preview{
-    SKButtonStylesPreviewContent()
+    PreviewViewSKButton()
 }
 #endif
 #endif

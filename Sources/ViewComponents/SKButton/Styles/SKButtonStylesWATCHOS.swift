@@ -138,7 +138,7 @@ struct SKNavigationButtonStyleWATCHOS: ButtonStyle {
 
 #if DEBUG
 #Preview{
-    SKButtonStylesPreviewContent()
+    PreviewViewSKButton()
 }
 #endif
 

@@ -27,9 +27,10 @@ public struct SKDatePickerVISIONOS: View {
             DatePicker(data.title, selection: data.date, in: data.range ?? Date.distantPast...Date.distantFuture, displayedComponents: data.components)
                 .labelsHidden()
                 .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 12, style: .continuous))
+                .scaleEffect(0.75)
         }
         .padding(.leading, 16)
-        .padding(.trailing, 7)
+        .padding(.trailing, -8)
         .padding(.vertical, 0)
         .background(LinearGradient(
             colors: [
@@ -62,13 +63,8 @@ public struct SKDatePickerVISIONOS: View {
 }
 
 #if DEBUG
-#Preview(windowStyle: .automatic){
-    ZStack{
-        VStack{
-            SKDatePickerVISIONOS(data: .init(title: "Date", selection: .constant(.now)))
-        }
-    }
-    .frame(width: 400, height: 200, alignment: .center)
+#Preview {
+    PreviewViewSKDatePicker()
 }
 #endif
 #endif

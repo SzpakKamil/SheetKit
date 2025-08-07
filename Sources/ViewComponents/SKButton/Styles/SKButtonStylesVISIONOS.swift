@@ -130,7 +130,7 @@ struct SKNavigationButtonStyleVISIONOS: ButtonStyle {
 
 #if DEBUG
 #Preview(windowStyle: .automatic){
-    SKButtonStylesPreviewContent()
+    PreviewViewSKButton()
 }
 #endif
 
