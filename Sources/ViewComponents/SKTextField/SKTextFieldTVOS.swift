@@ -67,6 +67,14 @@ struct SKTextFieldViewTVOS: View {
             .accessibilityHint("Tap to input text.")
             .accessibilityValue(text)
             .accessibilityAddTraits(.isButton)
+            .if{ content in
+                if #unavailable(tvOS 26.0){
+                    content
+                        .padding(.vertical, -13)
+                }else{
+                    content
+                }
+            }
         }
     }
 }

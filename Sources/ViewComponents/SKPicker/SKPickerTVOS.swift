@@ -1,5 +1,5 @@
 //
-//  SKDatePickerTVOS.swift
+//  SKPickerTVOS.swift
 //  SheetKit
 //
 //  Created by Kamil Szpak on 12/07/2025.
@@ -8,11 +8,10 @@
 import SwiftUI
 
 #if os(tvOS)
-public struct SKDatePickerTVOS: View {
+struct SKPickerTVOS<SelectionValue: Hashable, Content: View>: View, SKComponent {
+    let type: SKComponentType = .field
     @Environment(\.colorScheme) var colorScheme
-    var data: SKDatePicker.Data
-    @State private var isUsingDatePicker: Bool = false
-    @State private var tempDate: Date = .now
+    var data: SKPicker<SelectionValue, Content>.Data
     
     var autoBackgroundColor: Color{
         if let backgroundColor = data.backgroundColor{
@@ -28,19 +27,26 @@ public struct SKDatePickerTVOS: View {
         }
     }
     
-    public var body: some View {
-        Button {
-            isUsingDatePicker = true
-            tempDate = data.date.wrappedValue
-        }label:{
-            HStack{
+    var body: some View {
+        Menu{
+            if let headerView = data.headerView{
+                headerView
+            }
+            _VariadicView.Tree(SKPickerOptions(selectedValue: data.selection)) {
+                data.content
+            }
+            if let footerView = data.footerView{
+                footerView
+            }
+        }label: {
+            HStack(spacing: 5){
                 Text(data.title)
-                    .foregroundStyle(.primary)
-                    .tint(.primary)
-                    .lineLimit(1)
                 Spacer()
-                HStack(spacing: 5){
-                    Text(data.date.wrappedValue, format: .dateTime.day().month().year())
+                HStack(spacing: 3){
+                    Text(verbatim: String(describing: data.selection.wrappedValue))
+                    Image(systemName: "chevron.up.chevron.down")
+                        .fontWeight(.semibold)
+                        .imageScale(.small)
                 }
                 .padding(.vertical, 7)
                 .padding(.horizontal, 15)
@@ -55,20 +61,19 @@ public struct SKDatePickerTVOS: View {
                     }
                 }
             }
+            .foregroundStyle(colorScheme == .dark ? .white : .black)
+            .padding(.vertical, 2)
             .padding(.leading, -7)
             .if{ content in
                 if #available(tvOS 26.0, *){
                     content
-                        .padding(.vertical, 3)
                         .padding(.trailing, -21)
                 }else{
                     content
-                        .padding(.vertical, 2)
                         .padding(.trailing, -24)
                 }
             }
         }
-        .foregroundStyle(colorScheme == .dark ? .white : .black)
         .buttonStyle(.borderedProminent)
         .if{ content in
             if #available(tvOS 26.0, *){
@@ -79,43 +84,17 @@ public struct SKDatePickerTVOS: View {
                     .buttonBorderShape(.roundedRectangle(radius: data.cornerRadius ?? 12))
             }
         }
-        .padding(.vertical, -13)
         .tint(autoBackgroundColor)
-        .fullScreenCover(isPresented: $isUsingDatePicker) {
-            NavigationStack{
-                GeometryReader{ geo in
-                    ZStack{
-                        Rectangle()
-                            .fill(.ultraThinMaterial)
-                            .ignoresSafeArea()
-                        HStack{
-                            SKTDatePicker(date: $tempDate, minDate: data.range?.lowerBound ?? .distantPast, maxDate: data.range?.upperBound ?? .distantFuture)
-                                .frame(width: geo.size.width * 0.75, height: geo.size.height * 0.5)
-                            VStack{
-                                Button("Submit", role: .cancel) {
-                                    isUsingDatePicker = false
-                                    data.date.wrappedValue = tempDate
-                                }
-                                Button("Reset", role: .destructive) {
-                                    tempDate = data.date.wrappedValue
-                                }
-                            }
-                        }
-                    }
-                }
-                .navigationTitle("Select a Date")
-            }
-        }
     }
     
-    public init(data: SKDatePicker.Data) {
+    init(data: SKPicker<SelectionValue, Content>.Data) {
         self.data = data
     }
 }
 
 #if DEBUG
 #Preview {
-    PreviewViewSKDatePicker()
+    PreviewViewSKPicker()
 }
 #endif
 #endif

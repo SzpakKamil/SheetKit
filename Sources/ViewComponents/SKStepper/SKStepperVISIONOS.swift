@@ -57,11 +57,11 @@ struct SKStepperVISIONOS<S: Strideable>: View, SKComponent {
                 .buttonBorderShape(.circle)
                 .accessibilityLabel("Decrement \(data.title)")
             }
-            .scaleEffect(0.75)
+            .scaleEffect(0.70)
         }
         .padding(.leading, 16)
-        .padding(.trailing, -3)
-        .padding(.vertical, 0)
+        .padding(.trailing, -7)
+        .padding(.vertical, -1)
         .background(LinearGradient(
             colors: [
                 .black.opacity(0.4),

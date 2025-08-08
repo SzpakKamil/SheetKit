@@ -30,7 +30,7 @@ public struct SKDatePickerMACOS: View {
         }
         .padding(.leading, 6)
         .padding(.trailing, -6.5)
-        .padding(.vertical, 0.2)
+        .padding(.vertical, 0.75)
         .background(autoBackgroundColor)
         .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 6, style: .continuous))
         .overlay(

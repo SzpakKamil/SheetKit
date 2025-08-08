@@ -34,7 +34,7 @@ struct SKStepperIOS<S: Strideable>: View, SKComponent {
         }
         .padding(.leading, 16)
         .padding(.trailing, 7)
-        .padding(.vertical, 6)
+        .padding(.vertical, 7.25)
         .background(autoBackgroundColor)
         .if{ content in
             if #available(iOS 26.0, *){

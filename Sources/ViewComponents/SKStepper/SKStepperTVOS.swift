@@ -47,34 +47,45 @@ struct SKStepperTVOS<S: Strideable>: View, SKComponent {
                     let newValue = data.value.wrappedValue.advanced(by: data.step)
                     data.value.wrappedValue = min(newValue, data.range.upperBound)
                 }label:{
-                    Label("Increment", systemImage: "plus")
+                    Image(systemName: "plus")
+                        .frame(width: 20, height: 20)
                 }
                 .buttonRepeatBehavior(.enabled)
                 .disabled(isIncrementDisabled)
                 .opacity(isIncrementDisabled ? 0.5 : 1)
                 .foregroundStyle(.primary)
-                .buttonBorderShape(.circle)
+                .if{ content in
+                    if #available(tvOS 26.0, *){
+                        content
+                            .buttonBorderShape(.roundedRectangle(radius: data.cornerRadius ?? 50))
+                    }else{
+                        content
+                            .buttonBorderShape(.roundedRectangle(radius: data.cornerRadius ?? 12))
+                    }
+                }
                 .accessibilityLabel("Increment \(data.title)")
                 
                 Button{
                     let newValue = data.value.wrappedValue.advanced(by: -data.step)
                     data.value.wrappedValue = max(newValue, data.range.lowerBound)
                 }label:{
-                    Label("Decrement", systemImage: "minus")
-                        .if{ content in
-                            if #unavailable(tvOS 26.0){
-                                content
-                                    .padding(.all, 13)
-                            }else{
-                                content
-                            }
-                        }
+                    Image(systemName: "minus")
+                        .frame(width: 20, height: 20)
                 }
                 .buttonRepeatBehavior(.enabled)
                 .disabled(isDecrementDisabled)
                 .opacity(isDecrementDisabled ? 0.5 : 1)
                 .foregroundStyle(.primary)
-                .buttonBorderShape(.circle)
+                .padding(.trailing, 4)
+                .if{ content in
+                    if #available(tvOS 26.0, *){
+                        content
+                            .buttonBorderShape(.roundedRectangle(radius: data.cornerRadius ?? 50))
+                    }else{
+                        content
+                            .buttonBorderShape(.roundedRectangle(radius: data.cornerRadius ?? 12))
+                    }
+                }
                 .accessibilityLabel("Decrement \(data.title)")
             }
             .scaleEffect(0.9)
@@ -88,14 +99,12 @@ struct SKStepperTVOS<S: Strideable>: View, SKComponent {
                     .background(autoBackgroundColor, in: RoundedRectangle(cornerRadius: data.cornerRadius ?? 50, style: .continuous))
             }else{
                 content
-                    .padding(.vertical, 13)
+                    .padding(.vertical, 22)
                     .padding(.leading, 32)
+                    .padding(.trailing, -10)
                     .background(autoBackgroundColor, in: RoundedRectangle(cornerRadius: data.cornerRadius ?? 10, style: .continuous))
             }
-            
         }
-       
-
     }
     
     public init(data: SKStepper<S>.Data) {

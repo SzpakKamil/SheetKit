@@ -105,11 +105,11 @@ struct SKNavigationButtonStyleVISIONOS: ButtonStyle {
     let accentColor: Color
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .font(.title2)
+            .font(.title3)
             .labelsHidden()
             .foregroundStyle(accentColor)
             .fontWeight(.medium)
-            .padding(10)
+            .padding(12)
             .background(.white.opacity(0.10))
             .clipShape(.circle)
             .opacity(configuration.isPressed ? 0.5 : 1)

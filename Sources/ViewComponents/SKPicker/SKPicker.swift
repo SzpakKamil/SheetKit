@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-#if !os(watchOS)
 
 public extension SKPicker{
     struct Data{
@@ -90,192 +89,22 @@ public extension SKPicker{
 
 public struct SKPicker<SelectionValue: Hashable, Content: View>: View, SKComponent {
     public let type: SKComponentType = .field
-    @Environment(\.colorScheme) var colorScheme
     var data: SKPicker.Data
-    
-    var autoBackgroundColor: Color{
-        if let backgroundColor = data.backgroundColor{
-            return backgroundColor
-        }else{
-            if colorScheme == .dark{
-                return Color(red: 0.1647058824, green: 0.1647058824, blue: 0.1764705882)
-            }else{
-                return .white
-            }
-        }
-    }
-    
-    var menuIndicatorColor: Color{
-        if let backgroundColor = data.backgroundColor{
-            return backgroundColor
-        }else if colorScheme == .dark{
-            return Color(red: 0.2, green: 0.2196078431, blue: 0.2274509804)
-        }else{
-            return Color(red: 0.9294117647, green: 0.9294117647, blue: 0.9294117647)
-        }
-    }
-    
-    public var body: some View {
-        #if os(tvOS)
-        tvOSStyle()
-        #else
-        ZStack{
-            #if os(visionOS)
-            TextField(text: .constant(""), label: {
-                Text("")
-                    .padding(.vertical)
-            })
-                .textFieldStyle(.roundedBorder)
-                .allowsHitTesting(false)
-            #endif
-            HStack{
-                Text(data.title)
-                Spacer()
-                Menu{
-                    #if os(macOS)
-                    if let headerView = data.headerView{
-                        headerView
-                    }
-                    #else
-                    if let footerView = data.footerView{
-                        footerView
-                    }
-                    #endif
-                    _VariadicView.Tree(SKPickerOptions(selectedValue: data.selection)) {
-                        data.content
-                    }
-                    #if os(macOS)
-                    if let footerView = data.footerView{
-                        footerView
-                    }
-                    #else
-                    if let headerView = data.headerView{
-                        headerView
-                    }
-                    #endif
-                }label: {
-                    HStack(spacing: 5){
-                        Text(verbatim: String(describing: data.selection.wrappedValue))
-                            #if os(macOS)
-                            .font(.body)
-                            .padding(.horizontal, 11)
-                            #else
-                            .font(.callout)
-                            #endif
-                        #if os(macOS) || os(tvOS)
-                        Spacer()
-                        #endif
-                        Image(systemName: "chevron.up.chevron.down")
-                            #if os(macOS)
-                            .if{content in
-                                if #available(macOS 13.0, *) {
-                                    content
-                                        .fontWeight(.semibold)
-                                } else {
-                                    content
-                                }
-                            }
-                            .padding(.trailing, 7)
-                            #endif
-                            .imageScale(.small)
-                    }
-                    #if os(macOS)
-                    .padding(.vertical, 4)
-                    .background(menuIndicatorColor)
-                    .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
-                    #elseif os(iOS)
-                    .foregroundStyle(.secondary)
-                    #endif
-                }
-                #if os(visionOS)
-                .buttonStyle(.borderless)
-                .buttonBorderShape(.roundedRectangle)
-                #else
-                .buttonStyle(.plain)
-                #endif
-                .tint(.primary)
-            }
-            #if os(iOS)
-            .if{ content in
-                if #available(iOS 26.0, *){
-                    content
-                        .padding(.horizontal)
-                        .padding(.vertical, 15)
-                        .background(autoBackgroundColor)
-                        .if {content in
-                            if let cornerRadius = data.cornerRadius{
-                                content
-                                    .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
-                            }else{
-                                content
-                                    .clipShape( .capsule)
-                            }
-                        }
-                }else{
-                    content
-                        .padding(.horizontal, 19)
-                        .padding(.vertical, 12)
-                        .background(autoBackgroundColor)
-                        .if {content in
-                            if let cornerRadius = data.cornerRadius{
-                                content
-                                    .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
-                            }else{
-                                content
-                                    .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-                            }
-                        }
-                }
-            }
-            #elseif os(visionOS)
-            .padding(.leading)
-            #endif
-        }
-        #endif
-    }
-    @ViewBuilder
-    public func tvOSStyle() -> some View {
-        Menu{
-            #if os(macOS) || os(tvOS)
-            if let headerView = data.headerView{
-                headerView
-            }
-            #else
-            if let footerView = data.footerView{
-                footerView
-            }
-            #endif
-            _VariadicView.Tree(SKPickerOptions(selectedValue: data.selection)) {
-                data.content
-            }
-            #if os(macOS) || os(tvOS)
-            if let footerView = data.footerView{
-                footerView
-            }
-            #else
-            if let headerView = data.headerView{
-                headerView
-            }
-            #endif
-        }label: {
-            HStack(spacing: 5){
-                Text(data.title)
-                Spacer()
-                HStack(spacing: 5){
-                    Text(verbatim: String(describing: data.selection.wrappedValue))
-                        .font(.callout)
-                    Image(systemName: "chevron.up.chevron.down")
-                        .fontWeight(.semibold)
-                        .imageScale(.small)
-                }
-            }
-            .padding(.vertical, 3)
-            .padding(.leading, -7)
-            .padding(.trailing, -15)
 
-        }
-        .buttonStyle(.borderedProminent)
-        .tint(colorScheme == .dark ? .black : .white)
+    public var body: some View {
+        #if os(iOS)
+        SKPickerIOS(data: data)
+        #elseif os(macOS)
+        SKPickerMACOS(data: data)
+        #elseif os(tvOS)
+        SKPickerTVOS(data: data)
+        #elseif os(visionOS)
+        SKPickerVISIONOS(data: data)
+        #elseif os(watchOS)
+        SKPickerWATCHOS(data: data)
+        #else
+        EmptyView()
+        #endif
     }
     
     public init(
@@ -305,6 +134,10 @@ public struct SKPicker<SelectionValue: Hashable, Content: View>: View, SKCompone
         self.data = .init(title, selection: selection, content: content, headerView: headerView, footerView: footerView)
     }
     
+    public init(data: SKPicker<SelectionValue, Content>.Data) {
+        self.data = data
+    }
+    
     public init(
         _ title: LocalizedStringKey,
         selection: Binding<SelectionValue>,
@@ -316,7 +149,7 @@ public struct SKPicker<SelectionValue: Hashable, Content: View>: View, SKCompone
     }
 }
 
-private struct SKPickerOptions<Value: Hashable>: _VariadicView.MultiViewRoot {
+struct SKPickerOptions<Value: Hashable>: _VariadicView.MultiViewRoot {
     private let selectedValue: Binding<Value>
     
     init(selectedValue: Binding<Value>) {
@@ -338,13 +171,13 @@ private struct SKPickerOptions<Value: Hashable>: _VariadicView.MultiViewRoot {
     }
 }
 
-private struct SKPickerOption<Content: View, Value: Hashable>: View {
+struct SKPickerOption<Content: View, Value: Hashable>: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.accentColor) private var accentColor
     
-    private let selectedValue: Binding<Value>
-    private let value: Value?
-    private let content: Content
+    let selectedValue: Binding<Value>
+    let value: Value?
+    let content: Content
     
     init(
         selectedValue: Binding<Value>,
@@ -398,7 +231,7 @@ extension View {
     }
 }
 
-private struct CustomTagValueTraitKey<V: Hashable>: _ViewTraitKey {
+struct CustomTagValueTraitKey<V: Hashable>: _ViewTraitKey {
     enum Value {
         case untagged
         case tagged(V)
@@ -409,7 +242,8 @@ private struct CustomTagValueTraitKey<V: Hashable>: _ViewTraitKey {
     }
 }
 
-private struct PreviewContent: View {
+#if DEBUG
+struct PreviewViewSKPicker: View {
     @State private var selection = "John"
     
     var body: some View {
@@ -429,10 +263,12 @@ private struct PreviewContent: View {
                     Text(name)
                         .pickerTag(name)
                 }
-            }headerView: {
-                Text("Banana")
-            }footerView: {
-                Text("Test")
+            } headerView: {
+                Button("Header"){
+                    
+                }
+            } footerView: {
+                Text("Footer")
             }
             .backgroundColor(.red)
         }
@@ -441,13 +277,8 @@ private struct PreviewContent: View {
     }
 }
 
-#if os(visionOS)
-#Preview(windowStyle: .automatic) {
-  PreviewContent()
-}
-#else
+
 #Preview {
-  PreviewContent()
+    PreviewViewSKPicker()
 }
-#endif
 #endif
