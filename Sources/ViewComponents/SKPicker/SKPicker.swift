@@ -270,7 +270,7 @@ struct PreviewViewSKPicker: View {
             } footerView: {
                 Text("Footer")
             }
-            .backgroundColor(.red)
+//            .backgroundColor(.red)
         }
         .padding(.horizontal)
         .navigationTitle("Custom Picker")
