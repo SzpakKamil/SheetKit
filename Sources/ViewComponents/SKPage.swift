@@ -28,6 +28,20 @@ public struct SKPageBuilder {
     public static func buildEither(second component: [any SKComponent]) -> [any SKComponent] {
         component
     }
+    
+    public static func buildBlock(_ components: [any SKComponent]...) -> [any SKComponent] {
+        components.flatMap{ $0 }
+    }
+    
+    public static func buildLimitedAvailability(_ component: [any SKComponent]) -> [any SKComponent] {
+        component
+    }
+    public static func buildExpression<Data, ID>(_ forEach: SKForEach<Data, ID, Any>) -> [any SKComponent] where Data: RandomAccessCollection, ID: Hashable {
+        forEach.components
+    }
+    public static func buildExpression(_ components: any SKComponent...) -> [any SKComponent] {
+        return components
+    }
 }
 
 
@@ -172,6 +186,10 @@ public struct SKPage: View{
     public init(@SKPageBuilder content: () -> [any SKComponent], @SKToolbarBuilder toolbar: () -> [SKToolbarItem]) {
         self.data = .init(content: content, toolbar: toolbar)
     }
+    
+    public init(@SKPageBuilder content: () -> [any SKComponent]) {
+        self.data = .init(content: content, toolbar: {})
+    }
 }
 
 struct PreviewSKPageContent: View{
@@ -253,4 +271,18 @@ struct PreviewSKPageContent: View{
 
 #Preview {
     PreviewSKPageContent()
+}
+
+
+#Preview {
+    SKPage{
+        for i in 0..<100{
+            SKTitle("Text")
+        }
+        if #available(iOS 26.0, *){
+            SKDescription("Banan")
+        }
+    }toolbar:{
+        
+    }
 }
