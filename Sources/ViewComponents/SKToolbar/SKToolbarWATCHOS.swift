@@ -1,5 +1,5 @@
 //
-//  SKToolbar.swift
+//  SKToolbarWATCHOS.swift
 //  SheetKit
 //
 //  Created by Kamil Szpak on 14/07/2025.
@@ -7,30 +7,11 @@
 
 import SwiftUI
 
-
-@resultBuilder
-public struct SKToolbarBuilder {
-    public static func buildBlock(_ components: SKToolbarItem...) -> [SKToolbarItem] {
-        return components
-    }
-}
-
-// MARK: - Toolbar Data Extension
-public extension SKToolbar {
-    struct Data {
-        let buttons: [SKToolbarItem]
-        
-        public init(@SKToolbarBuilder content: () -> [SKToolbarItem]) {
-            self.buttons = content()
-        }
-    }
-}
-
-
-public struct SKToolbar: View {
+#if os(watchOS)
+struct SKToolbarWATCHOS: View {
     @Environment(\.skSheetSize) var sheetSize
     let data: SKToolbar.Data
-    public var body: some View {
+    var body: some View {
         let noteItems: [SKToolbarItem] = data.buttons.filter{ $0.data.placement == .note }
         let secondaryItems: [SKToolbarItem] = data.buttons.filter{ $0.data.placement == .secondary }
         let navigationItems: [SKToolbarItem] = data.buttons.filter{ $0.data.placement == .navigation }
@@ -126,37 +107,16 @@ public struct SKToolbar: View {
         #endif
     }
     
-    public init(data: SKToolbar.Data) {
+    init(data: SKToolbar.Data) {
         self.data = data
     }
     
-    public init(@SKToolbarBuilder content: () -> [SKToolbarItem]) {
-        self.data = .init(content: content)
-    }
     
 }
 
+#if DEBUG
 #Preview {
-    SKToolbar {
-        SKToolbarItem(placement: .secondary) { _ in
-            Button("Secondary"){
-                
-            }
-        }
-        SKToolbarItem(placement: .navigation) { _ in
-            Button("Navigation"){
-                
-            }
-        }
-        SKToolbarItem(placement: .note) { _ in
-            Button("Test Note"){
-                
-            }
-        }
-        SKToolbarItem(placement: .primary) { _ in
-            Button("Primary"){
-            }
-        }
-    }
-
+    PreviewViewSKToolbar()
 }
+#endif
+#endif
