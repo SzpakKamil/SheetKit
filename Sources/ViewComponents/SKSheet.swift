@@ -59,6 +59,13 @@ public struct SKSheetBuilder {
     public static func buildLimitedAvailability(_ component: [SKPage]) -> [SKPage] {
         return component
     }
+    
+    public static func buildExpression<Data, ID>(_ forEach: SKForEach<Data, ID, Any>) -> [SKPage] where Data: RandomAccessCollection, ID: Hashable {
+        forEach.pageComponents
+    }
+    public static func buildExpression(_ components: SKPage...) -> [SKPage] {
+        return components
+    }
 }
 
 
@@ -86,7 +93,7 @@ extension SKSheet{
 }
 public struct SKSheet: View {
     @Environment(\.dismiss) var dismiss
-    @Environment(\.accentColor) var accentColor
+    @Environment(\.skAccentColor) var accentColor
     @State private var path: [Int] = []
     @State private var shouldPresentAlert: Bool = false
     var selectedPresentationDent: Binding<PresentationDetent>
@@ -108,13 +115,17 @@ public struct SKSheet: View {
                 .navigationDestination(for: Int.self) { index in
                     pageView(currentIndex: index)
                 }
+                #if os(iOS)
+                .navigationTitle("‎ ")
+                .navigationBarTitleDisplayMode(.inline)
+                #endif
         }
         .presentationDragIndicator(data.dragIndicatorVisibility)
         .presentationDetents(data.presentationDents, selection: selectedPresentationDent)
         .interactiveDismissDisabled(!data.allowsInteractiveDismissal)
         .environment(\.alignment, data.alignment)
-        .environment(\.accentColor, autoAccentColor)
-        .environment(\.closeButtonHidden, data.hideCloseButton)
+        .environment(\.skAccentColor, autoAccentColor)
+        .environment(\.skIsCloseButtonHidden, data.hideCloseButton)
         .environment(\.skSheetSize, data.sheetSize)
     }
     
@@ -135,7 +146,7 @@ public struct SKSheet: View {
                 let page = data.pages[currentIndex]
                 let isPresented: Binding<Bool> = Binding {
                     if let alert = page.data.alert{
-                        if alert.type == .manual{
+                        if alert.type == nil{
                             return alert.isPresented.wrappedValue
                         }else{
                             return alert.isPresented.wrappedValue && shouldPresentAlert
@@ -145,7 +156,7 @@ public struct SKSheet: View {
                     }
                 } set: { newValue in
                     if let alert = page.data.alert{
-                        if alert.type == .manual{
+                        if alert.type == nil{
                             alert.isPresented.wrappedValue = newValue
                         }else{
                             shouldPresentAlert = newValue
@@ -154,22 +165,6 @@ public struct SKSheet: View {
                 }
 
                 page
-                    .if{ content in
-                        if data.pages.count > currentIndex + 1{
-                            content
-                                .environment(\.primaryAction) {
-                                    confirmationAction(currentIndex: currentIndex)
-                                }
-                        }else{
-                            content
-                                .environment(\.primaryAction) {
-                                    confirmationAction(currentIndex: currentIndex)
-                                }
-                        }
-                    }
-                    .environment(\.navigationAction) {
-                        dismissalAction(currentIndex: currentIndex)
-                    }
                     .alert(page.data.alert?.title ?? "", isPresented: isPresented) {
                         page.data.alert?.content
                     } message: {
@@ -184,42 +179,71 @@ public struct SKSheet: View {
         .toolbar{
             if !path.isEmpty{
                 ToolbarItem(placement: .navigation) {
-                    SKToolbarItem(placement: .navigation) { action in
+                    SKToolbarItem(placement: .navigation) { _ in
                         SKButton("Back", systemImage: "chevron.backward") {
-                            path.removeLast()
+                            dismissalAction(currentIndex: currentIndex)
                         }
                     }
                 }
             }
         }
         #endif
-        .environment(\.accentColor, currentIndex < data.pages.count ? data.pages[currentIndex].data.accentColor ?? autoAccentColor : autoAccentColor)
+        .environment(\.skPrimaryButtonAction) {
+            confirmationAction(currentIndex: currentIndex)
+        }
+        .environment(\.skIsShowingBackButton, currentIndex > 0)
+        .environment(\.skDismissButtonAction) {
+            dismissalAction(currentIndex: currentIndex)
+        }
+        .environment(\.skCloseButtonAction) {
+            closeAction(currentIndex: currentIndex)
+        }
+        .environment(\.skAccentColor, currentIndex < data.pages.count ? data.pages[currentIndex].data.accentColor ?? autoAccentColor : autoAccentColor)
     }
     
     public func confirmationAction(currentIndex: Int){
-        let page = data.pages[currentIndex]
-        if let alert = page.data.alert, alert.type == .confirmation, alert.isPresented.wrappedValue{
-            shouldPresentAlert = true
-        }else{
-            if data.pages.count > currentIndex + 1{
-                path.append(currentIndex + 1)
+        if data.pages.count > 0{
+            let page = data.pages[currentIndex]
+            if let alert = page.data.alert, alert.type == .confirmation, alert.isPresented.wrappedValue{
+                shouldPresentAlert = true
             }else{
-                path.removeAll(); dismiss()
+                if data.pages.count > currentIndex + 1{
+                    path.append(currentIndex + 1)
+                }else{
+                    path.removeAll(); dismiss()
+                }
             }
         }
     }
     
     public func dismissalAction(currentIndex: Int){
-        let page = data.pages[currentIndex]
-        if let alert = page.data.alert, alert.type == .dismissal, alert.isPresented.wrappedValue{
-            shouldPresentAlert = true
+        if data.pages.count > 0{
+            let page = data.pages[currentIndex]
+            if let alert = page.data.alert, alert.type == .dismissal, alert.isPresented.wrappedValue{
+                shouldPresentAlert = true
+            }else{
+                if !path.isEmpty{
+                    path.removeLast()
+                }else{
+                    dismiss()
+                }
+            }
         }else{
-            if !path.isEmpty{
-                path.removeLast()
+            dismiss()
+        }
+    }
+    
+    public func closeAction(currentIndex: Int){
+        if data.pages.count > 0{
+            let page = data.pages[currentIndex]
+            if let alert = page.data.alert, alert.type == .dismissal, alert.isPresented.wrappedValue{
+                shouldPresentAlert = true
             }else{
                 path.removeAll()
                 dismiss()
             }
+        }else{
+            dismiss()
         }
     }
 

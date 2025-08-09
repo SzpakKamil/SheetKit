@@ -58,7 +58,7 @@ struct SKTextFieldViewIOS: View {
 
 // MARK: - Decimal Field View
 struct SKDecimalFieldViewIOS<F: ParseableFormatStyle>: View where F.FormatOutput == String, F.FormatInput == Double {
-    @Environment(\.accentColor) var accentColor
+    @Environment(\.skAccentColor) var accentColor
     @Environment(\.colorScheme) var colorScheme
     let data: SKTextField.Data
     @Binding var value: Double
@@ -167,7 +167,7 @@ struct SKDecimalFieldViewIOS<F: ParseableFormatStyle>: View where F.FormatOutput
 struct SKIntFieldViewIOS<F: ParseableFormatStyle>: View where F.FormatOutput == String, F.FormatInput == Int {
     let data: SKTextField.Data
     @Environment(\.colorScheme) var colorScheme
-    @Environment(\.accentColor) var accentColor
+    @Environment(\.skAccentColor) var accentColor
     @Binding var value: Int
     private let format: F
     private let prompt: Text?

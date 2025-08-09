@@ -13,6 +13,11 @@ public extension SKSheet{
         copy.data.allowsInteractiveDismissal = !disabled
         return copy
     }
+    func hideCloseButton(_ configuration: Bool = true) -> SKSheet{
+        var copy = self
+        copy.data.hideCloseButton = configuration
+        return copy
+    }
     #if !os(macOS)
     func presentationDents(_ dents: Set<PresentationDetent>) -> SKSheet{
         var copy = self
@@ -25,11 +30,7 @@ public extension SKSheet{
         copy.data.dragIndicatorVisibility = visibility
         return copy
     }
-    func hideCloseButton(_ configuration: Bool = true) -> SKSheet{
-        var copy = self
-        copy.data.hideCloseButton = configuration
-        return copy
-    }
+
     func presentationDents(_ dents: Set<PresentationDetent>, selection: Binding<PresentationDetent>) -> SKSheet{
         var copy = self
         copy.data.presentationDents = dents

@@ -8,11 +8,10 @@
 import SwiftUI
 
 public struct SKButton: View {
+    @Environment(\.skToolbarButtonAction) var toolbarButtonAction
     @Environment(\.skToolbarPlacement) var toolbarPlacement
-    @Environment(\.primaryAction) var primaryAction
-    @Environment(\.navigationAction) var navigationAction
     @Environment(\.isEnabled) var isEnabled
-    @Environment(\.accentColor) var accentColor
+    @Environment(\.skAccentColor) var accentColor
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.skSheetSize) var sheetSize
     private let action: () -> Void
@@ -53,14 +52,7 @@ public struct SKButton: View {
             }else{
                 Button{
                     action()
-                    switch toolbarPlacement{
-                    case .primary:
-                        primaryAction()
-                    case .navigation:
-                        navigationAction()
-                    default:
-                        break
-                    }
+                    toolbarButtonAction()
                 }label: {
                     #if os(visionOS)
                     if let image, toolbarPlacement == .navigation{

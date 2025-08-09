@@ -12,7 +12,7 @@ struct SKHeaderImageMACOS: View {
     @Environment(\.accessibilityReduceMotion) var accessibilityReduceMotion
     @Environment(\.skSheetSize) var sheetSize
     @Environment(\.alignment) var alignment
-    @Environment(\.accentColor) var accentColor
+    @Environment(\.skAccentColor) var accentColor
     var data: SKHeaderImage.Data
     
     var autoVerticalPadding: SKHeaderImage.VerticalPadding{

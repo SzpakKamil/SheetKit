@@ -10,7 +10,7 @@ import SwiftUI
 #if os(tvOS)
 struct SKHighlightTVOS: View {
     @Environment(\.alignment) var alignment
-    @Environment(\.accentColor) var accentColor
+    @Environment(\.skAccentColor) var accentColor
     var data: SKHighlight.Data
     
     var autoSpacing: CGFloat{

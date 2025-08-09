@@ -158,6 +158,7 @@ struct SKNavigationButtonStyleMACOS: ButtonStyle{
                 .opacity(isEnabled ? 1 : 0.5)
         }else{
             configuration.label
+                .foregroundStyle(colorScheme == .dark ? .white : .black)
                 .buttonStyle(.plain)
                 .if{ content in
                     if #available(macOS 26.0, *){
@@ -172,7 +173,6 @@ struct SKNavigationButtonStyleMACOS: ButtonStyle{
                     }else{
                         content
                             .frame(minWidth: 50)
-                            .foregroundStyle(.primary)
                             .padding(.vertical, 6)
                             .padding(.horizontal, 11)
                             .if{ content in

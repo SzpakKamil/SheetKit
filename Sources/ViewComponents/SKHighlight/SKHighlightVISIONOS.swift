@@ -9,7 +9,7 @@ import SwiftUI
 
 #if os(visionOS)
 struct SKHighlightVISIONOS: View {
-    @Environment(\.accentColor) var accentColor
+    @Environment(\.skAccentColor) var accentColor
     @Environment(\.alignment) var alignment
     var data: SKHighlight.Data
     

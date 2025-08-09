@@ -173,7 +173,7 @@ struct SKPickerOptions<Value: Hashable>: _VariadicView.MultiViewRoot {
 
 struct SKPickerOption<Content: View, Value: Hashable>: View {
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.accentColor) private var accentColor
+    @Environment(\.skAccentColor) private var accentColor
     
     let selectedValue: Binding<Value>
     let value: Value?

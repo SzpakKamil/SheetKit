@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-private struct AccentColorKey: EnvironmentKey {
+private struct SKAccentColorKey: EnvironmentKey {
     #if os(tvOS)
     static let defaultValue: Color = .blue
     #else
@@ -15,8 +15,8 @@ private struct AccentColorKey: EnvironmentKey {
     #endif
 }
 extension EnvironmentValues {
-    var accentColor: Color {
-        get { self[AccentColorKey.self] }
-        set { self[AccentColorKey.self] = newValue }
+    var skAccentColor: Color {
+        get { self[SKAccentColorKey.self] }
+        set { self[SKAccentColorKey.self] = newValue }
     }
 }
