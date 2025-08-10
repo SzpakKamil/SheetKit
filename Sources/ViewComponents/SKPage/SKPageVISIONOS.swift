@@ -11,7 +11,7 @@ import SwiftUI
 struct SKPageVISIONOS: View{
     @Environment(\.skAccentColor) var accentColor
     @Environment(\.skSheetSize) var sheetSize
-    @Environment(\.closeButtonHidden) var closeButtonHidden
+    @Environment(\.skIsCloseButtonHidden) var isCloseButtonHidden
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
     @State private var presentAlert: Bool = false
@@ -46,7 +46,7 @@ struct SKPageVISIONOS: View{
                 }
             }
         .environment(\.alignment, data.alignment)
-        .environment(\.closeButtonHidden, data.hideCloseButton ?? closeButtonHidden)
+        .environment(\.skIsCloseButtonHidden, data.hideCloseButton ?? isCloseButtonHidden)
     }
     
     init(data: SKPage.Data) {

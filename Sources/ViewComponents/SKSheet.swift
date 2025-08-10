@@ -115,7 +115,7 @@ public struct SKSheet: View {
                 .navigationDestination(for: Int.self) { index in
                     pageView(currentIndex: index)
                 }
-                #if os(iOS)
+                #if !os(macOS) && !os(tvOS)
                 .navigationTitle("‎ ")
                 .navigationBarTitleDisplayMode(.inline)
                 #endif
