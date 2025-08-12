@@ -38,7 +38,7 @@ struct SKTitleWATCHOS: View {
     }
     
     var paddingBottomAuto: CGFloat {
-        return 10
+        return 2
     }
     var body: some View {
         HStack {

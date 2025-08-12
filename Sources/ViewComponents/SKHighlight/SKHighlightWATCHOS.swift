@@ -46,9 +46,9 @@ struct SKHighlightWATCHOS: View {
                 .alignment(autoAlignment)
             SKTitle(data.title)
                 .alignment(autoTextAlignment)
-                .tint(autoTintColor)
+                .tint(.primary)
             SKDescription(data.description)
-                .tint(autoTintColor)
+                .tint(.secondary)
                 .alignment(autoTextAlignment)
         }
     }

@@ -132,7 +132,7 @@ public extension SKHeaderImage {
 public struct SKHeaderImage: SKComponent {
 
     public let type: SKComponentType = .header
-    var data: SKHeaderImage.Data
+    public var data: SKHeaderImage.Data
     
     public init(data: SKHeaderImage.Data) {
         self.data = data

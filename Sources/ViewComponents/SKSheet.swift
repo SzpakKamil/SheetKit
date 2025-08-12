@@ -115,9 +115,13 @@ public struct SKSheet: View {
                 .navigationDestination(for: Int.self) { index in
                     pageView(currentIndex: index)
                 }
-                #if !os(macOS) && !os(tvOS)
+                #if os(watchOS)
+                .navigationBarTitleDisplayMode(.inline)
+                .navigationBarBackButtonHidden()
+                #elseif !os(macOS) && !os(tvOS)
                 .navigationTitle("‎ ")
                 .navigationBarTitleDisplayMode(.inline)
+                .navigationBarBackButtonHidden()
                 #endif
         }
         .presentationDragIndicator(data.dragIndicatorVisibility)

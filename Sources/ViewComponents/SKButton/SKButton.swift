@@ -23,7 +23,14 @@ public struct SKButton: View {
         Group{
             if let destination{
                 Link(destination: destination) {
-                    #if !os(iOS)
+                    #if os(watchOS)
+                    if let image, toolbarPlacement != .note{
+                        image
+                            .accessibilityHidden(true)
+                    }else{
+                        text
+                    }
+                    #elseif !os(iOS)
                     if let image, sheetSize == .medium && toolbarPlacement == .navigation{
                         image
                             .accessibilityHidden(true)
@@ -60,6 +67,15 @@ public struct SKButton: View {
                     }else {
                         text
                     }
+                    #elseif os(watchOS)
+                    if toolbarPlacement == .note{
+                        Image(systemName: "info")
+                    }else if let image{
+                        image
+                            .accessibilityHidden(true)
+                    }else{
+                        text
+                    }
                     #elseif !os(iOS)
                     if let image, sheetSize == .medium && toolbarPlacement == .navigation{
                         image
@@ -88,6 +104,9 @@ public struct SKButton: View {
             }
         }
         .if{ content in
+            #if os(watchOS)
+            content
+            #else
             switch toolbarPlacement{
             case .primary: content.buttonStyle(SKPrimaryButtonStyle(isEnabled: isEnabled, accentColor: accentColor, colorScheme: colorScheme))
             case .secondary: content.buttonStyle(SKSecondaryButtonStyle(isEnabled: isEnabled, accentColor: accentColor))
@@ -95,6 +114,7 @@ public struct SKButton: View {
             case .note: content.buttonStyle(SKNoteButtonStyle(isEnabled: isEnabled, accentColor: accentColor, colorScheme: colorScheme))
             default: content.buttonStyle(SKPrimaryButtonStyle(isEnabled: isEnabled, accentColor: accentColor, colorScheme: colorScheme))
             }
+            #endif
         }
     }
     

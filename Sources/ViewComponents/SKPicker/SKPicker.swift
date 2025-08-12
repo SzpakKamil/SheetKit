@@ -199,6 +199,9 @@ struct SKPickerOption<Content: View, Value: Hashable>: View {
                 if let value {
                     selectedValue.wrappedValue = value
                 }
+                #if os(watchOS)
+                dismiss()
+                #endif
             },
             label: {
                 HStack {

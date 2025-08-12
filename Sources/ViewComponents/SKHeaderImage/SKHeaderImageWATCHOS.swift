@@ -18,7 +18,7 @@ struct SKHeaderImageWATCHOS: View {
         if let verticalPadding = data.verticalPadding{
             return verticalPadding
         }else{
-            return .medium
+            return .custom(5)
         }
     }
     

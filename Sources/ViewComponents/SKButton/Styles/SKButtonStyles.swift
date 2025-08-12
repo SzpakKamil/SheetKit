@@ -20,8 +20,6 @@ public struct SKPrimaryButtonStyle: ButtonStyle {
         SKPrimaryButtonStyleTVOS(isEnabled: isEnabled, accentColor: accentColor).makeBody(configuration: configuration)
         #elseif os(visionOS)
         SKPrimaryButtonStyleVISIONOS(isEnabled: isEnabled, accentColor: accentColor).makeBody(configuration: configuration)
-        #elseif os(watchOS)
-        SKPrimaryButtonStyleWATCHOS(isEnabled: isEnabled, accentColor: accentColor).makeBody(configuration: configuration)
         #else
         EmptyView()
         #endif
@@ -45,8 +43,6 @@ public struct SKSecondaryButtonStyle: ButtonStyle {
         SKSecondaryButtonStyleTVOS(isEnabled: isEnabled, accentColor: accentColor).makeBody(configuration: configuration)
         #elseif os(visionOS)
         SKSecondaryButtonStyleVISIONOS(isEnabled: isEnabled, accentColor: accentColor).makeBody(configuration: configuration)
-        #elseif os(watchOS)
-        SKSecondaryButtonStyleWATCHOS(isEnabled: isEnabled, accentColor: accentColor).makeBody(configuration: configuration)
         #else
         EmptyView()
         #endif
@@ -72,8 +68,6 @@ public struct SKNoteButtonStyle: ButtonStyle {
         SKNoteButtonStyleTVOS(isEnabled: isEnabled, accentColor: accentColor, colorScheme: colorScheme, textAlignment: textAlignment).makeBody(configuration: configuration)
         #elseif os(visionOS)
         SKNoteButtonStyleVISIONOS(colorScheme: colorScheme, isEnabled: isEnabled, accentColor: accentColor, textAlignment: textAlignment).makeBody(configuration: configuration)
-        #elseif os(watchOS)
-        SKNoteButtonStyleWATCHOS(colorScheme: colorScheme, isEnabled: isEnabled, accentColor: accentColor, textAlignment: textAlignment).makeBody(configuration: configuration)
         #else
         EmptyView()
         #endif
@@ -100,8 +94,6 @@ public struct SKNavigationButtonStyle: ButtonStyle {
         SKNavigationButtonStyleTVOS(sheetSize: sheetSize, isEnabled: isEnabled, accentColor: accentColor).makeBody(configuration: configuration)
         #elseif os(visionOS)
         SKNavigationButtonStyleVISIONOS(sheetSize: sheetSize, colorScheme: colorScheme, isEnabled: isEnabled, accentColor: accentColor).makeBody(configuration: configuration)
-        #elseif os(watchOS)
-        SKNavigationButtonStyleWATCHOS(sheetSize: sheetSize, colorScheme: colorScheme, isEnabled: isEnabled, accentColor: accentColor).makeBody(configuration: configuration)
         #else
         EmptyView()
         #endif

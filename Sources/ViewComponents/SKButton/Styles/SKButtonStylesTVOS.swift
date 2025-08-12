@@ -27,7 +27,7 @@ struct SKPrimaryButtonStyleTVOS: ButtonStyle {
                         #endif
                         .opacity(configuration.isPressed ? 0.5 : 1)
                         .hoverEffect(.highlight)
-                }else if #available(tvOS 18.0, *){
+                }else{
                     content
                         .fontWeight(.medium)
                         .foregroundStyle(.white)

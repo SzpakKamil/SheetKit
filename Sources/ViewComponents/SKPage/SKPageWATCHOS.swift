@@ -39,12 +39,42 @@ struct SKPageWATCHOS: View{
             return .large
         }
     }
+    
+    var highlights: [SKHighlight]{
+        var components: [SKHighlight] = []
+        if data.content.count >= 3{
+            if let headerImage = data.content[0] as? SKHeaderImage, let title = data.content[1] as? SKTitle, let description = data.content[2] as? SKDescription{
+                components.append(SKHighlight(title: title.data.title, description: description.data.title, image: headerImage.data.image))
+            }
+            components.append(contentsOf: data.content.compactMap{ return $0 as? SKHighlight })
+        }else{
+            components.append(contentsOf: data.content.compactMap{ return $0 as? SKHighlight })
+        }
+        
+        return components
+    }
     var body: some View {
-        SKScrollView(backgroundStyle: autoStyle, toolbar: data.toolbar) {
-            ForEach(data.content.indices, id: \.self){index in
-                data.content[index].erasedContent()
+        TabView{
+            ForEach(highlights.indices){ index in
+                SKScrollView(backgroundStyle: autoStyle, toolbar: data.toolbar) {
+                    highlights[index]
+                }
+            }
+            
+            let fields = data.content.filter{ $0.type == .field}
+            
+            if !fields.isEmpty{
+                SKScrollView(backgroundStyle: autoStyle, toolbar: data.toolbar) {
+                    VStack{
+                        ForEach(fields.indices){ index in
+                            fields[index].erasedContent()
+                        }
+                    }
+                }
+                .navigationTitle("Enter Fields")
             }
         }
+        .tabViewStyle(.carousel)
         .environment(\.alignment, data.alignment)
         .environment(\.skIsCloseButtonHidden, data.hideCloseButton ?? isCloseButtonHidden)
     }

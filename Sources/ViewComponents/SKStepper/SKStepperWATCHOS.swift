@@ -27,20 +27,19 @@ struct SKStepperWATCHOS<S: Strideable>: View, SKComponent {
             isUsingStepper = true
             tempValue = data.value.wrappedValue
         }label:{
-            HStack{
+            VStack{
                 Text(data.title)
                     .lineLimit(1)
-                Spacer()
-                HStack(spacing: 5){
-                    Text(data.textForValue(data.value.wrappedValue))
-                }
-                .padding(.vertical, 7)
-                .padding(.horizontal, 10)
-                .clipShape(.capsule)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                Text(data.textForValue(data.value.wrappedValue))
+                    .lineLimit(1)
+                    .foregroundStyle(.secondary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
+            .padding(.horizontal, 17)
+            .padding(.vertical, 5)
+            .frame(maxWidth: .infinity, alignment: .leading)
             .multilineTextAlignment(.leading)
-            .padding(.horizontal, 15)
-            .padding(.vertical, 13)
             .background(autoBackgroundColor)
             .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 100, style: .continuous))
         }
@@ -48,7 +47,7 @@ struct SKStepperWATCHOS<S: Strideable>: View, SKComponent {
         .fullScreenCover(isPresented: $isUsingStepper) {
             NavigationStack{
                 VStack{
-                    Stepper(data.title, value: data.value, in: data.range)
+                    Stepper(data.textForValue(data.value.wrappedValue), value: data.value, in: data.range)
                     HStack{
                         Button("Submit", role: .cancel) {
                             isUsingStepper = false
@@ -59,7 +58,7 @@ struct SKStepperWATCHOS<S: Strideable>: View, SKComponent {
                         }
                     }
                 }
-                .navigationTitle("Select a Date")
+                .navigationTitle("Adjust Value")
             }
         }
     }

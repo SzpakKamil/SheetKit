@@ -30,8 +30,9 @@ struct SKScrollViewWATCHOS<Content: View>: View {
 
             ScrollView {
                 content()
-                    .padding(.horizontal, 30)
+                    .padding(.horizontal, 15)
             }
+            toolbar
         }
     }
 

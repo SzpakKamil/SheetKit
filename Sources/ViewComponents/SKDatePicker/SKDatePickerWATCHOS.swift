@@ -27,20 +27,19 @@ public struct SKDatePickerWATCHOS: View {
             isUsingDatePicker = true
             tempDate = data.date.wrappedValue
         }label:{
-            HStack{
+            VStack(alignment: .leading){
                 Text(data.title)
                     .lineLimit(1)
-                Spacer()
-                HStack(spacing: 5){
-                    Text(data.date.wrappedValue, format: .dateTime.day().month().year())
-                }
-                .padding(.vertical, 7)
-                .padding(.horizontal, 10)
-                .clipShape(.capsule)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                Text(data.date.wrappedValue, format: .dateTime.day().month().year())
+                    .lineLimit(1)
+                    .foregroundStyle(.secondary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
+            .padding(.horizontal, 17)
+            .padding(.vertical, 5)
+            .frame(maxWidth: .infinity, alignment: .leading)
             .multilineTextAlignment(.leading)
-            .padding(.horizontal, 15)
-            .padding(.vertical, 13)
             .background(autoBackgroundColor)
             .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 100, style: .continuous))
         }
