@@ -45,6 +45,19 @@ struct SKPageVISIONOS: View{
                     data.content[index].erasedContent()
                 }
             }
+            .toolbar {
+                let navigationButtons = data.toolbar.data.buttons.filter{ $0.data.placement == .navigation}
+                ToolbarItemGroup(placement: .topBarTrailing) {
+                    if navigationButtons.isEmpty && !(data.hideCloseButton ?? isCloseButtonHidden){
+                        SKToolbarItem(placement: .navigation, actionType: .close) {
+                            SKButton("Close", systemImage: "xmark"){}
+                        }
+                    }
+                    ForEach(navigationButtons) { button in
+                        button
+                    }
+                }
+            }
         .environment(\.alignment, data.alignment)
         .environment(\.skIsCloseButtonHidden, data.hideCloseButton ?? isCloseButtonHidden)
     }

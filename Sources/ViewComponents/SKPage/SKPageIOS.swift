@@ -47,7 +47,7 @@ struct SKPageIOS: View{
         }
         .toolbar {
             let navigationButtons = data.toolbar.data.buttons.filter{ $0.data.placement == .navigation}
-            ToolbarItem(placement: .topBarTrailing) {
+            ToolbarItemGroup(placement: .topBarTrailing) {
                 if navigationButtons.isEmpty && !(data.hideCloseButton ?? isCloseButtonHidden){
                     SKToolbarItem(placement: .navigation, actionType: .close) {
                         if #available(iOS 26.0, *){
@@ -55,12 +55,11 @@ struct SKPageIOS: View{
                         }else{
                             SKButton("Close"){}
                         }
-
+                        
                     }
-                }else{
-                    ForEach(navigationButtons) { button in
-                        button
-                    }
+                }
+                ForEach(navigationButtons) { button in
+                    button
                 }
             }
         }
