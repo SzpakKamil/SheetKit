@@ -49,14 +49,18 @@ struct SKPageMACOS: View{
                 .frame(width: autoSheetSize.frameWidth)
                 .frame(maxWidth: .infinity)
             }
-            if sheetSize == .medium{
+            if sheetSize != .large{
                 HStack{
                     let navigationAction = data.toolbar.data.buttons.filter{
                         $0.data.placement == .navigation
                     }
                     if navigationAction.isEmpty && (!(data.hideCloseButton ?? isCloseButtonHidden) || isShowingBackButton) {
-                        SKToolbarItem(placement: .navigation) {
-                            SKButton("Back", systemImage: "chevron.backward") {}
+                        SKToolbarItem(placement: .navigation, actionType: .dismiss) {
+                            if isShowingBackButton{
+                                SKButton("Back", systemImage: "chevron.backward") {}
+                            }else{
+                                SKButton("Close", systemImage: "xmark") {}
+                            }
                         }
                     }else{
                         ForEach(navigationAction) { button in

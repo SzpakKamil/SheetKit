@@ -9,6 +9,7 @@ import SwiftUI
 
 #if os(macOS)
 struct SKHighlightMACOS: View {
+    @Environment(\.skSheetSize) var sheetSize
     @Environment(\.skAccentColor) var accentColor
     @Environment(\.alignment) var alignment
     var data: SKHighlight.Data
@@ -36,6 +37,23 @@ struct SKHighlightMACOS: View {
         }
     }
     
+    var autoHeadlineFont: Font{
+        if sheetSize == .small{
+            return .subheadline
+        }else{
+            return .headline
+        }
+    }
+    
+    var autoDescriptionFont: Font{
+        if sheetSize == .small{
+            return .subheadline
+        }else{
+            return .headline
+        }
+    }
+    
+    
     var autoTintColor: Color{
         data.tintColor ?? accentColor
     }
@@ -52,11 +70,11 @@ struct SKHighlightMACOS: View {
 
             VStack(alignment: autoAlignment == .trailing ? .trailing : .leading, spacing: autoSpacing) {
                 Text(data.title)
-                    .font(.headline)
+                    .font(autoHeadlineFont)
                     .fontWeight(.semibold)
                     .foregroundStyle(data.textColor)
                 Text(data.description)
-                    .font(.headline)
+                    .font(autoDescriptionFont)
                     .fontWeight(.regular)
                     .if{ content in
                         if #available(macOS 14.0, *){

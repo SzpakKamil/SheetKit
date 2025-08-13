@@ -195,7 +195,8 @@ public struct SKSheet: View {
         .environment(\.skPrimaryButtonAction) {
             confirmationAction(currentIndex: currentIndex)
         }
-        .environment(\.skIsShowingBackButton, currentIndex > 0)
+        .environment(\.skIsFinalPage, path.last == currentIndex)
+        .environment(\.skIsShowingBackButton, !path.isEmpty)
         .environment(\.skDismissButtonAction) {
             dismissalAction(currentIndex: currentIndex)
         }

@@ -7,13 +7,12 @@ public extension SKHeaderImage {
         var color: Color?
         var variant: Variant
         var renderingMode: SKRenderingMode
-        var size: SKHeaderImage.Size
+        var size: SKHeaderImage.Size?
         var weight: Font.Weight
         var verticalPadding: VerticalPadding?
         var alignment: HorizontalAlignment?
-        
-        #if os(iOS)
-        public init(image: Image, color: Color? = nil, variant: Variant = .none, renderingMode: SKRenderingMode = .monochrome, verticalPadding: VerticalPadding? = nil, weight: Font.Weight = .regular, alignment: HorizontalAlignment? = nil, size: SKHeaderImage.Size = .medium) {
+    
+        public init(image: Image, color: Color? = nil, variant: Variant = .none, renderingMode: SKRenderingMode = .monochrome, verticalPadding: VerticalPadding? = nil, weight: Font.Weight = .regular, alignment: HorizontalAlignment? = nil, size: SKHeaderImage.Size? = nil) {
             self.image = image
             self.color = color
             self.variant = variant
@@ -23,18 +22,6 @@ public extension SKHeaderImage {
             self.size = size
             self.weight = weight
         }
-        #else
-        public init(image: Image, color: Color? = nil, variant: Variant = .none, renderingMode: SKRenderingMode = .monochrome, verticalPadding: VerticalPadding? = nil, weight: Font.Weight = .regular, alignment: HorizontalAlignment? = nil, size: SKHeaderImage.Size = .medium) {
-            self.image = image
-            self.color = color
-            self.variant = variant
-            self.renderingMode = renderingMode
-            self.verticalPadding = verticalPadding
-            self.alignment = alignment
-            self.size = size
-            self.weight = weight
-        }
-        #endif
     }
     
     enum VerticalPadding: Hashable {
@@ -89,7 +76,7 @@ public extension SKHeaderImage {
             case .medium:
                 return 85
             case .small:
-                return 50
+                return 70
             case .custom(let value):
                 return value
             }

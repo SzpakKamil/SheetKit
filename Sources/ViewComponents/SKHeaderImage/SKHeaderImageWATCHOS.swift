@@ -22,6 +22,14 @@ struct SKHeaderImageWATCHOS: View {
         }
     }
     
+    var autoSize: SKHeaderImage.Size{
+        if let size = data.size{
+            return size
+        }else{
+            return .medium
+        }
+    }
+    
     var autoAccentColor: Color{
         if let color = data.color{
             return color
@@ -53,7 +61,7 @@ struct SKHeaderImageWATCHOS: View {
                 .foregroundStyle(autoAccentColor.gradient)
                 .fontWeight(data.weight)
                 .contentTransition(.symbolEffect(.replace))
-                .frame(width: data.size.rawValue, height: data.size.rawValue)
+                .frame(width: autoSize.rawValue, height: autoSize.rawValue)
                 .accessibilityHidden(true)
             
             if [HorizontalAlignment.center, .leading].contains(autoAlignment){

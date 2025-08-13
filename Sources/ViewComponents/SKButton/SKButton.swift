@@ -77,7 +77,7 @@ public struct SKButton: View {
                         text
                     }
                     #elseif !os(iOS)
-                    if let image, sheetSize == .medium && toolbarPlacement == .navigation{
+                    if let image, sheetSize != .large && toolbarPlacement == .navigation{
                         image
                             .accessibilityHidden(true)
                     }else {
@@ -108,11 +108,11 @@ public struct SKButton: View {
             content
             #else
             switch toolbarPlacement{
-            case .primary: content.buttonStyle(SKPrimaryButtonStyle(isEnabled: isEnabled, accentColor: accentColor, colorScheme: colorScheme))
-            case .secondary: content.buttonStyle(SKSecondaryButtonStyle(isEnabled: isEnabled, accentColor: accentColor))
+            case .primary: content.buttonStyle(SKPrimaryButtonStyle( isEnabled: isEnabled, accentColor: accentColor, sheetSize: sheetSize, colorScheme: colorScheme))
+            case .secondary: content.buttonStyle(SKSecondaryButtonStyle(sheetSize: sheetSize, isEnabled: isEnabled, accentColor: accentColor))
             case .navigation: content.buttonStyle(SKNavigationButtonStyle(colorScheme: colorScheme, sheetSize: sheetSize, isEnabled: isEnabled, accentColor: accentColor))
             case .note: content.buttonStyle(SKNoteButtonStyle(isEnabled: isEnabled, accentColor: accentColor, colorScheme: colorScheme))
-            default: content.buttonStyle(SKPrimaryButtonStyle(isEnabled: isEnabled, accentColor: accentColor, colorScheme: colorScheme))
+            default: content.buttonStyle(SKPrimaryButtonStyle(isEnabled: isEnabled, accentColor: accentColor, sheetSize: sheetSize, colorScheme: colorScheme))
             }
             #endif
         }
@@ -215,6 +215,7 @@ extension SKButton{
 #if DEBUG
 struct PreviewViewSKButton: View {
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.skSheetSize) var sheetSize
     @State private var style: String = "Primary"
     var body: some View {
         List{
@@ -233,11 +234,11 @@ struct PreviewViewSKButton: View {
             case "Primary":
                 Button("Next"){
                     
-                }.buttonStyle(SKPrimaryButtonStyle(isEnabled: true, accentColor: .accentColor, colorScheme: colorScheme))
+                }.buttonStyle(SKPrimaryButtonStyle(isEnabled: true, accentColor: .accentColor, sheetSize: sheetSize, colorScheme: colorScheme))
             case "Secondary":
                 Button("Back"){
                     
-                }.buttonStyle(SKSecondaryButtonStyle(isEnabled: true, accentColor: .accentColor))
+                }.buttonStyle(SKSecondaryButtonStyle(sheetSize: sheetSize, isEnabled: true, accentColor: .accentColor))
             case "Note":
                 Button("Note"){
                     

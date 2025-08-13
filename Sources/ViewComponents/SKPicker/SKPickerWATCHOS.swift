@@ -47,12 +47,14 @@ struct SKPickerWATCHOS<SelectionValue: Hashable, Content: View>: View, SKCompone
                 List{
                     if let headerView = data.headerView{
                         headerView
+                            .simultaneousGesture(TapGesture().onEnded{isUsingPicker.toggle()})
                     }
                     _VariadicView.Tree(SKPickerOptions(selectedValue: data.selection)) {
                         data.content
                     }
                     if let footerView = data.footerView{
                         footerView
+                            .simultaneousGesture(TapGesture().onEnded{isUsingPicker.toggle()})
                     }
                 }
                 .navigationTitle("Select Value")

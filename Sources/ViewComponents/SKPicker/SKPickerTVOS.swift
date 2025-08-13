@@ -85,6 +85,7 @@ struct SKPickerTVOS<SelectionValue: Hashable, Content: View>: View, SKComponent 
             }
         }
         .tint(autoBackgroundColor)
+        .padding(.vertical, -5)
     }
     
     init(data: SKPicker<SelectionValue, Content>.Data) {

@@ -10,6 +10,7 @@ import SwiftUI
 #if os(macOS)
 struct SKScrollViewMACOS<Content: View>: View {
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.skSheetSize) var sheetSize
     let content: () -> Content
     let backgroundStyle: SKPage.BackgroundStyle
     let toolbar: SKToolbar
@@ -43,6 +44,7 @@ struct SKScrollViewMACOS<Content: View>: View {
                     VStack{
                         Spacer()
                         toolbar
+                            .frame(maxWidth: .infinity, alignment: .center)
                             .padding(.horizontal, 20)
                             .padding(.bottom, 20)
                             .onGeometryChange(for: CGSize.self) { proxy in

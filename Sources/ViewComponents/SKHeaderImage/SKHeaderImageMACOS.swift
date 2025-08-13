@@ -23,6 +23,18 @@ struct SKHeaderImageMACOS: View {
         }
     }
     
+    var autoSize: SKHeaderImage.Size{
+        if let size = data.size{
+            return size
+        }else{
+            if sheetSize == .small{
+                return .small
+            }else{
+                return .medium
+            }
+        }
+    }
+    
     var autoAccentColor: Color{
         if let color = data.color{
             return color
@@ -37,7 +49,7 @@ struct SKHeaderImageMACOS: View {
         }else if let alignment{
             return alignment
         }else{
-            if #available(macOS 26.0, *){
+            if #available(macOS 26.0, *), sheetSize != .small{
                 return .leading
             }else{
                 return .center
@@ -79,7 +91,7 @@ struct SKHeaderImageMACOS: View {
                         content
                     }
                 }
-                .frame(width: data.size.rawValue, height: data.size.rawValue)
+                .frame(width: autoSize.rawValue, height: autoSize.rawValue)
                 .padding(.leading, autoLeadingPadding)
                 .padding(.top, autoTopPadding)
                 .accessibilityHidden(true)

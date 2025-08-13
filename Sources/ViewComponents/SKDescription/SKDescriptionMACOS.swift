@@ -10,12 +10,13 @@ import SwiftUI
 #if os(macOS)
 struct SKDescriptionMACOS: View {
     @Environment(\.alignment) var alignment
+    @Environment(\.skSheetSize) var sheetSize
     var data: SKDescription.Data
     
     var fontAuto: Font {
         if let font = data.font{
             font
-        }else if #available(macOS 26.0, *){
+        }else if #available(macOS 26.0, *), sheetSize != .small{
             .title2
         }else{
             .body
@@ -44,7 +45,7 @@ struct SKDescriptionMACOS: View {
                 return .center
             }
         }else{
-            if #available(macOS 26.0, *){
+            if #available(macOS 26.0, *), sheetSize != .small{
                 return .leading
             }else{
                 return .center

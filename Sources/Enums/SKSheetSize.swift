@@ -8,7 +8,6 @@
 import Foundation
 
 public enum SKSheetSize{
-   
     case small
     case medium
     case large
@@ -16,13 +15,13 @@ public enum SKSheetSize{
     public var frameWidth: CGFloat{
         if #available(macOS 26.0, *){
             switch self{
-            case .small: return 400
+            case .small: return 350
             case .medium: return 330
             case .large: return 400
             }
         }else{
             switch self{
-            case .small: return 400
+            case .small: return 350
             case .medium: return 330
             case .large: return 379
             }
@@ -32,13 +31,13 @@ public enum SKSheetSize{
     public var windowWidth: CGFloat{
         if #available(macOS 26.0, *){
             switch self{
-            case .small: return 750
+            case .small: return 480
             case .medium: return 500
             case .large: return 750
             }
         }else{
             switch self{
-            case .small: return 500
+            case .small: return 480
             case .medium: return 480
             case .large: return 520
             }
@@ -47,7 +46,7 @@ public enum SKSheetSize{
     public var height: CGFloat{
         if #available(macOS 26.0, *){
             switch self{
-            case .small: return 700
+            case .small: return 600
             case .medium: return 600
             case .large: return 700
             }

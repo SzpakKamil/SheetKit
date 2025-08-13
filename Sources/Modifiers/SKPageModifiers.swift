@@ -14,7 +14,7 @@ public extension SKPage{
         return copy
     }
     
-    func alert(title: String, description: String, type: AlertType, condition: Bool, @ViewBuilder content: @escaping () -> some View) -> SKPage{
+    func alert(title: String, description: String, type: AlertType, condition: Bool = true, @ViewBuilder content: @escaping () -> some View) -> SKPage{
         var copy = self
         copy.data.alert = .init(isPresented: Binding(get: { condition }, set: { _ in }), title: title, description: description, type: type, content: content)
         return copy

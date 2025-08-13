@@ -16,6 +16,9 @@ private struct SKIsShowingBackButtonKey: EnvironmentKey {
 private struct SKToolbarPlacementKey: EnvironmentKey {
     static let defaultValue: SKToolbarItem.Placement? = nil
 }
+private struct SKIsFinalPageKey: EnvironmentKey {
+    static let defaultValue: Bool = false
+}
 extension EnvironmentValues {
     var skIsCloseButtonHidden: Bool {
         get { self[SKIsCloseButtonHiddenKey.self] }
@@ -28,6 +31,10 @@ extension EnvironmentValues {
     var skToolbarPlacement: SKToolbarItem.Placement? {
         get { self[SKToolbarPlacementKey.self] }
         set { self[SKToolbarPlacementKey.self] = newValue }
+    }
+    var skIsFinalPage: Bool {
+        get { self[SKIsFinalPageKey.self] }
+        set { self[SKIsFinalPageKey.self] = newValue }
     }
 }
 

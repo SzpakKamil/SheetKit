@@ -23,24 +23,38 @@ struct SKToolbarMACOS: View {
                 ForEach(noteItems){ buttons in
                     buttons
                 }
-            }
-            HStack(spacing: 10){
-                ForEach(secondaryItems){ buttons in
-                    buttons
-                }
-                Spacer()
-                if navigationItems.isEmpty && (!isCloseButtonHidden || isShowingBackButton) && sheetSize != .medium{
-                    SKToolbarItem(placement: .navigation, actionType: .dismiss) {SKButton("Back"){}}
-                }else{
-                    ForEach(navigationItems){ buttons in
+                VStack(spacing: 10){
+                    if primaryItems.isEmpty{
+                        SKToolbarItem(placement: .primary) {SKButton("Continue") {}}
+                    }else{
+                        ForEach(primaryItems){ buttons in
+                            buttons
+                        }
+                    }
+                    ForEach(secondaryItems){ buttons in
                         buttons
                     }
                 }
-                if primaryItems.isEmpty{
-                    SKToolbarItem(placement: .primary) {SKButton("Continue") {}}
-                }else{
-                    ForEach(primaryItems){ buttons in
+            }
+            if sheetSize != .small{
+                HStack(spacing: 10){
+                    ForEach(secondaryItems){ buttons in
                         buttons
+                    }
+                    Spacer()
+                    if navigationItems.isEmpty && (!isCloseButtonHidden || isShowingBackButton) && sheetSize == .large {
+                        SKToolbarItem(placement: .navigation, actionType: .dismiss) {SKButton("Back"){}}
+                    }else{
+                        ForEach(navigationItems){ buttons in
+                            buttons
+                        }
+                    }
+                    if primaryItems.isEmpty{
+                        SKToolbarItem(placement: .primary) {SKButton("Continue") {}}
+                    }else{
+                        ForEach(primaryItems){ buttons in
+                            buttons
+                        }
                     }
                 }
             }

@@ -16,7 +16,7 @@ struct SKTitleMACOS: View {
     var fontAuto: Font {
         if let font = data.font{
             font
-        }else if #available(macOS 26.0, *){
+        }else if #available(macOS 26.0, *), sheetSize != .small{
             .title2
         }else{
             .largeTitle
@@ -36,7 +36,8 @@ struct SKTitleMACOS: View {
                 return .center
             }
         }else{
-            if #available(macOS 26.0, *){
+            if #available(macOS 26.0, *), sheetSize != .small{
+                
                 return .leading
             }else{
                 return .center
@@ -46,7 +47,11 @@ struct SKTitleMACOS: View {
     
     var paddingBottomAuto: CGFloat {
         if #available(macOS 26.0, *){
-            return -4
+            if sheetSize == .small{
+                return 5
+            }else{
+                return -4
+            }
         }else{
             return 8
         }

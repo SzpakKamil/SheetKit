@@ -12,6 +12,7 @@ struct SKPageWATCHOS: View{
     @Environment(\.skAccentColor) var accentColor
     @Environment(\.skSheetSize) var sheetSize
     @Environment(\.skIsCloseButtonHidden) var isCloseButtonHidden
+    @Environment(\.skIsShowingBackButton) var isShowingBackButton
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
     @State private var presentAlert: Bool = false
@@ -72,6 +73,22 @@ struct SKPageWATCHOS: View{
                     }
                 }
                 .navigationTitle("Enter Fields")
+            }
+        }
+        .toolbar{
+            if isShowingBackButton{
+                ToolbarItem(placement: .cancellationAction) {
+                    SKToolbarItem(placement: .navigation, actionType: .dismiss) {
+                        SKButton("Back", systemImage: "chevron.backward") {}
+                    }
+                }
+            }else{
+                ToolbarItem(placement: .cancellationAction) {
+                    SKToolbarItem(placement: .navigation, actionType: .close) {
+                        SKButton("Close", systemImage: "xmark") {}
+                    }
+                    .opacity(data.hideCloseButton ?? isCloseButtonHidden ? 0 : 1)
+                }
             }
         }
         .tabViewStyle(.carousel)

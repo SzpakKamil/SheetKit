@@ -218,6 +218,7 @@ struct SKPickerOption<Content: View, Value: Hashable>: View {
                 }
                 .accessibilityElement(children: .combine)
                 .accessibilityAddTraits(isSelected ? .isSelected : [])
+                .contentShape(Rectangle())
             }
         )
         .buttonStyle(.plain)

@@ -11,6 +11,7 @@ import SwiftUI
 struct SKToolbarWATCHOS: View {
     @Environment(\.skSheetSize) var sheetSize
     @Environment(\.skIsShowingBackButton) var isShowingBackButton
+    @Environment(\.skIsFinalPage) var IsFinalPage
     let data: SKToolbar.Data
     var body: some View {
         let noteItems: [SKToolbarItem] = data.buttons.filter{ $0.data.placement == .note }
@@ -19,11 +20,6 @@ struct SKToolbarWATCHOS: View {
         let primaryItems: [SKToolbarItem] = data.buttons.filter{ $0.data.placement == .primary }
         Text("")
             .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    SKToolbarItem(placement: .navigation, actionType: .dismiss) {
-                        SKButton(systemImage: "chevron.backward"){}
-                    }
-                }
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     ForEach(navigationItems){ item in
                         item
@@ -47,7 +43,11 @@ struct SKToolbarWATCHOS: View {
                     if primaryItems.isEmpty{
 
                         SKToolbarItem(placement: .primary, actionType: .primary) {
-                            SKButton("Continue", systemImage: "checkmark"){}
+                            if IsFinalPage{
+                                SKButton("Continue", systemImage: "checkmark"){}
+                            }else{
+                                SKButton("Continue", systemImage: "chevron.forward"){}
+                            }
                         }
                     }else{
                         ForEach(primaryItems){ item in
