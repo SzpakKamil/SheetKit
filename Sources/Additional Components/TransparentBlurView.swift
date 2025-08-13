@@ -84,6 +84,22 @@ public struct Blur: View {
                         LinearGradient(
                             colors: [
                                 Color.black.opacity(1),
+                                Color.black.opacity(0),
+                            ],
+                            startPoint: .bottom,
+                            endPoint: .top
+                        )
+                        Rectangle()
+                    }
+                }
+                .ignoresSafeArea()
+            Rectangle()
+                .fill(.bar)
+                .padding(.bottom, -25)
+                .mask {
+                    VStack(spacing: 0) {
+                        LinearGradient(
+                            colors: [
                                 Color.black.opacity(1),
                                 Color.black.opacity(0),
                             ],
