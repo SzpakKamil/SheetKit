@@ -9,24 +9,26 @@ import SwiftUI
 
 #if os(macOS)
 struct SKHighlightMACOS: View {
-    @Environment(\.skSheetSize) var sheetSize
-    @Environment(\.skAccentColor) var accentColor
-    @Environment(\.alignment) var alignment
+    @Environment(\.skAccentColor) var skAccentColor
+    @Environment(\.skPrimaryColor) var skPrimaryColor
+    @Environment(\.skSecondaryColor) var skSecondaryColor
+    @Environment(\.skAlignment) var skAlignment
+    @Environment(\.skSheetSize) var skSheetSize
     var data: SKHighlight.Data
     
     var autoSpacing: CGFloat{
         return 0
     }
     var autoAlignment: HorizontalAlignment{
-        if let alignment{
-           return alignment
+        if let skAlignment{
+           return skAlignment
         }else{
             return .leading
         }
     }
     var autoTextAlignment: TextAlignment{
-        if let alignment{
-            switch alignment{
+        if let skAlignment{
+            switch skAlignment{
             case .trailing:
                 return .trailing
             default:
@@ -38,7 +40,7 @@ struct SKHighlightMACOS: View {
     }
     
     var autoHeadlineFont: Font{
-        if sheetSize == .small{
+        if skSheetSize == .small{
             return .subheadline
         }else{
             return .headline
@@ -46,17 +48,35 @@ struct SKHighlightMACOS: View {
     }
     
     var autoDescriptionFont: Font{
-        if sheetSize == .small{
+        if skSheetSize == .small{
             return .subheadline
         }else{
             return .headline
         }
     }
     
-    
-    var autoTintColor: Color{
-        data.tintColor ?? accentColor
+    var autoPrimaryTextColor: Color{
+        if let skPrimaryColor{
+            skPrimaryColor
+        }else{
+            .primary
+        }
     }
+    
+    var autoSecondaryTextColor: Color{
+        if let skSecondaryColor{
+            return skSecondaryColor
+        }else if let skPrimaryColor{
+            return skPrimaryColor.opacity(0.6)
+        }else{
+            if #available(iOS 17.0, *){
+                return .secondary
+            }else{
+                return .primary.opacity(0.6)
+            }
+        }
+    }
+    
     
     var body: some View {
         HStack(alignment: .top) {
@@ -72,20 +92,11 @@ struct SKHighlightMACOS: View {
                 Text(data.title)
                     .font(autoHeadlineFont)
                     .fontWeight(.semibold)
-                    .foregroundStyle(data.textColor)
+                    .foregroundStyle(autoPrimaryTextColor)
                 Text(data.description)
                     .font(autoDescriptionFont)
                     .fontWeight(.regular)
-                    .if{ content in
-                        if #available(macOS 14.0, *){
-                            content
-                                .foregroundStyle(data.textColor.secondary)
-                        }else{
-                            content
-                                .foregroundStyle(data.textColor.opacity(0.6))
-                        }
-                    }
-                    
+                    .foregroundStyle(autoSecondaryTextColor)
             }
             .multilineTextAlignment(autoTextAlignment)
             .padding(.top, -2)
@@ -115,7 +126,7 @@ struct SKHighlightMACOS: View {
                     }
                 }
                 .frame(width: 50)
-                .foregroundStyle(autoTintColor)
+                .foregroundStyle(skAccentColor)
                 .accessibilityHidden(true)
             
         }

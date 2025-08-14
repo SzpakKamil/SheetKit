@@ -9,23 +9,25 @@ import SwiftUI
 
 #if os(iOS)
 struct SKHighlightIOS: View {
-    @Environment(\.skAccentColor) var accentColor
-    @Environment(\.alignment) var alignment
+    @Environment(\.skAccentColor) var skAccentColor
+    @Environment(\.skPrimaryColor) var skPrimaryColor
+    @Environment(\.skSecondaryColor) var skSecondaryColor
+    @Environment(\.skAlignment) var skAlignment
     var data: SKHighlight.Data
     
     var autoSpacing: CGFloat{
         return 5
     }
     var autoAlignment: HorizontalAlignment{
-        if let alignment{
-           return alignment
+        if let skAlignment{
+           return skAlignment
         }else{
             return .leading
         }
     }
     var autoTextAlignment: TextAlignment{
-        if let alignment{
-            switch alignment{
+        if let skAlignment{
+            switch skAlignment{
             case .trailing:
                 return .trailing
             default:
@@ -36,8 +38,25 @@ struct SKHighlightIOS: View {
         }
     }
     
-    var autoTintColor: Color{
-        data.tintColor ?? accentColor
+    var autoPrimaryTextColor: Color{
+        if let skPrimaryColor{
+            skPrimaryColor
+        }else{
+            .primary
+        }
+    }
+    var autoSecondaryTextColor: Color{
+        if let skSecondaryColor{
+            return skSecondaryColor
+        }else if let skPrimaryColor{
+            return skPrimaryColor.opacity(0.6)
+        }else{
+            if #available(iOS 17.0, *){
+                return .secondary
+            }else{
+                return .primary.opacity(0.6)
+            }
+        }
     }
     
     var body: some View {
@@ -54,19 +73,11 @@ struct SKHighlightIOS: View {
                 Text(data.title)
                     .font(.headline)
                     .fontWeight(.semibold)
-                    .foregroundStyle(data.textColor)
+                    .foregroundStyle(autoPrimaryTextColor)
                 Text(data.description)
                     .font(.headline)
                     .fontWeight(.regular)
-                    .if{ content in
-                        if #available(iOS 17.0, *){
-                            content
-                                .foregroundStyle(data.textColor.secondary)
-                        }else{
-                            content
-                                .foregroundStyle(data.textColor.opacity(0.6))
-                        }
-                    }
+                    .foregroundStyle(autoSecondaryTextColor)
                     
             }
             .multilineTextAlignment(autoTextAlignment)
@@ -90,7 +101,7 @@ struct SKHighlightIOS: View {
                 .scaledToFit()
                 .frame(width: 35, height: 35)
                 .frame(width: 50)
-                .foregroundStyle(autoTintColor)
+                .foregroundStyle(skAccentColor)
                 .accessibilityHidden(true)
             
         }

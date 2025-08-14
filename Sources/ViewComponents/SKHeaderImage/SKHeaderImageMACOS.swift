@@ -10,9 +10,9 @@ import SwiftUI
 
 struct SKHeaderImageMACOS: View {
     @Environment(\.accessibilityReduceMotion) var accessibilityReduceMotion
-    @Environment(\.skSheetSize) var sheetSize
-    @Environment(\.alignment) var alignment
-    @Environment(\.skAccentColor) var accentColor
+    @Environment(\.skSheetSize) var skSheetSize
+    @Environment(\.skAlignment) var skAlignment
+    @Environment(\.skAccentColor) var skAccentColor
     var data: SKHeaderImage.Data
     
     var autoVerticalPadding: SKHeaderImage.VerticalPadding{
@@ -27,29 +27,19 @@ struct SKHeaderImageMACOS: View {
         if let size = data.size{
             return size
         }else{
-            if sheetSize == .small{
+            if skSheetSize == .small{
                 return .small
             }else{
                 return .medium
             }
         }
     }
-    
-    var autoAccentColor: Color{
-        if let color = data.color{
-            return color
-        }else{
-            return accentColor
-        }
-    }
-    
+
     var autoAlignment: HorizontalAlignment{
-        if let alignment = data.alignment{
-            return alignment
-        }else if let alignment{
-            return alignment
+        if let skAlignment{
+            return skAlignment
         }else{
-            if #available(macOS 26.0, *), sheetSize != .small{
+            if #available(macOS 26.0, *), skSheetSize != .small{
                 return .leading
             }else{
                 return .center
@@ -57,14 +47,14 @@ struct SKHeaderImageMACOS: View {
         }
     }
     var autoLeadingPadding: CGFloat{
-        if sheetSize == .medium{
+        if skSheetSize == .medium{
             return 5
         }else{
             return 0
         }
     }
     var autoTopPadding: CGFloat{
-        if sheetSize == .medium{
+        if skSheetSize == .medium{
             return 3
         }else{
             return 0
@@ -81,7 +71,7 @@ struct SKHeaderImageMACOS: View {
                 .scaledToFit()
                 .symbolVariant(data.variant.getSymbolVariant())
                 .symbolRenderingMode(data.renderingMode.getSymbolRenderingMode())
-                .foregroundStyle(autoAccentColor.gradient)
+                .foregroundStyle(skAccentColor.gradient)
                 .fontWeight(data.weight)
                 .if{content in
                     if #available(macOS 14.0, *), !accessibilityReduceMotion{

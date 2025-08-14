@@ -13,6 +13,10 @@ public struct SKPageBuilder {
         components
     }
     
+    public static func buildBlock() -> [any SKComponent] {
+        []
+    }
+    
     public static func buildArray(_ components: [[any SKComponent]]) -> [any SKComponent] {
         components.flatMap { $0 }
     }
@@ -67,15 +71,11 @@ public extension SKPage{
         var hideCloseButton: Bool?
         let toolbar: SKToolbar
         var backgroundStyle: BackgroundStyle?
-        var alignment: HorizontalAlignment?
-        var accentColor: Color?
         
         public init(backgroundStyle: BackgroundStyle? = nil, hideCloseButton: Bool? = nil, accentColor: Color? = nil, alignment: HorizontalAlignment? = nil, alert: Alert? = nil, @SKPageBuilder content: () -> [any SKComponent], @SKToolbarBuilder toolbar: () -> [SKToolbarItem]) {
             self.content = content()
-            self.accentColor = accentColor
             self.hideCloseButton = hideCloseButton
             self.backgroundStyle = backgroundStyle
-            self.alignment = alignment
             self.toolbar = SKToolbar(content: toolbar)
             self.alert = alert
         }
@@ -93,8 +93,8 @@ public extension SKPage{
     }
 }
 
-public struct SKPage: View{
-    var data: SKPage.Data
+public struct SKPage: View, SKPageable{
+    public var data: SKPage.Data
 
     public var body: some View {
         #if os(iOS)
@@ -149,7 +149,7 @@ struct PreviewSKPageContent: View{
                             SKButton("When you enable ChatGPT, you agree to OpenAI's Terms of Use...") {}
                         }
                     }
-                    .alert(isPresented: $isPresentingAlert, title: "This is example Alert", description: "It is a test for alert modifiers") {
+                    .skAlert(isPresented: $isPresentingAlert, title: "This is example Alert", description: "It is a test for alert modifiers") {
                         Button("Destructive", role: .destructive){}
                         Button("Dismiss", role: .cancel){}
                     }

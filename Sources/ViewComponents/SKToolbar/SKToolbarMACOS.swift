@@ -9,7 +9,7 @@ import SwiftUI
 
 #if os(macOS)
 struct SKToolbarMACOS: View {
-    @Environment(\.skSheetSize) var sheetSize
+    @Environment(\.skSheetSize) var skSheetSize
     @Environment(\.skIsCloseButtonHidden) var isCloseButtonHidden
     @Environment(\.skIsShowingBackButton) var isShowingBackButton
     let data: SKToolbar.Data
@@ -23,26 +23,29 @@ struct SKToolbarMACOS: View {
                 ForEach(noteItems){ buttons in
                     buttons
                 }
-                VStack(spacing: 10){
-                    if primaryItems.isEmpty{
-                        SKToolbarItem(placement: .primary) {SKButton("Continue") {}}
-                    }else{
-                        ForEach(primaryItems){ buttons in
+                
+                if skSheetSize == .small{
+                    VStack(spacing: 10){
+                        if primaryItems.isEmpty{
+                            SKToolbarItem(placement: .primary) {SKButton("Continue") {}}
+                        }else{
+                            ForEach(primaryItems){ buttons in
+                                buttons
+                            }
+                        }
+                        ForEach(secondaryItems){ buttons in
                             buttons
                         }
                     }
-                    ForEach(secondaryItems){ buttons in
-                        buttons
-                    }
                 }
             }
-            if sheetSize != .small{
+            if skSheetSize != .small{
                 HStack(spacing: 10){
                     ForEach(secondaryItems){ buttons in
                         buttons
                     }
                     Spacer()
-                    if navigationItems.isEmpty && (!isCloseButtonHidden || isShowingBackButton) && sheetSize == .large {
+                    if navigationItems.isEmpty && (!isCloseButtonHidden || isShowingBackButton) && skSheetSize == .large {
                         SKToolbarItem(placement: .navigation, actionType: .dismiss) {SKButton("Back"){}}
                     }else{
                         ForEach(navigationItems){ buttons in

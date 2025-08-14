@@ -9,11 +9,13 @@ import SwiftUI
 
 #if os(iOS)
 public struct SKDatePickerIOS: View {
+    @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
+    @Environment(\.skRowShape) var skRowShape
     @Environment(\.colorScheme) var colorScheme
     var data: SKDatePicker.Data
     
     var autoBackgroundColor: Color{
-        if let backgroundColor = data.backgroundColor{
+        if let backgroundColor = skRowBackgroundColor{
             return backgroundColor
         }else{
             if colorScheme == .dark{
@@ -33,10 +35,10 @@ public struct SKDatePickerIOS: View {
                 .if{ content in
                     if #available(iOS 26.0, *){
                         content
-                            .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 100, style: .continuous))
+                            .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 100, style: .continuous))
                     }else{
                         content
-                            .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 10, style: .continuous))
+                            .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 10, style: .continuous))
                     }
                 }
         }
@@ -47,10 +49,10 @@ public struct SKDatePickerIOS: View {
         .if{ content in
             if #available(iOS 26.0, *){
                 content
-                    .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 100, style: .continuous))
+                    .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 100, style: .continuous))
             }else{
                 content
-                    .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 13, style: .continuous))
+                    .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 13, style: .continuous))
             }
         }
         .contentShape(Rectangle())

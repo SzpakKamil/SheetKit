@@ -12,15 +12,11 @@ public extension SKTitle{
         var title: String
         var weight: Font.Weight
         var font: Font?
-        var color: Color
-        var alignment: TextAlignment?
             
-        public init(title: String, weight: Font.Weight = .bold, font: Font? = nil, color: Color = .primary, alignment: TextAlignment? = nil) {
+        public init(title: String, weight: Font.Weight = .bold, font: Font? = nil) {
             self.title = title
             self.weight = weight
             self.font = font
-            self.color = color
-            self.alignment = alignment
         }
     }
 }
@@ -60,14 +56,14 @@ struct PreviewViewSKTitle: View {
     @State private var font: Font? = nil
     @State private var weight: Font.Weight = .bold
     @State private var color: Color = .primary
-    @State private var alignment: TextAlignment? = nil
+    @State private var alignment: HorizontalAlignment? = nil
     var body: some View{
         List{
             SKTitle(text)
-                .font(font)
-                .tint(color)
-                .alignment(alignment)
-                .weight(weight)
+                .skFont(font)
+                .skFontWeight(weight)
+                .skAccentColor(color)
+                .skAlignment(alignment)
             
             Section{
                 let fonts: [Font?] = [nil, .largeTitle, .title, .title2, .title3, .headline, .subheadline, .body, .callout, .footnote, .caption, .caption2]
@@ -126,21 +122,6 @@ struct PreviewViewSKTitle: View {
                             Text("Ultra Light")
                         default:
                             Text("Default")
-                        }
-                    }
-                }
-
-                Picker("Alignment", selection: $alignment){
-                    ForEach(alignments, id: \.self){ alignment in
-                        switch alignment {
-                        case .leading:
-                            Text("Leading")
-                        case .center:
-                            Text("Center")
-                        case .trailing:
-                            Text("Trailing")
-                        case nil:
-                            Text("Auto")
                         }
                     }
                 }

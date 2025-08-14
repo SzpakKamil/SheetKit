@@ -7,51 +7,91 @@
 
 import SwiftUI
 
-public extension SKSheet{
-    func interactiveDismissDisabled(_ disabled: Bool = true) -> SKSheet{
-        var copy = self
-        copy.data.allowsInteractiveDismissal = !disabled
-        return copy
-    }
-    func hideCloseButton(_ configuration: Bool = true) -> SKSheet{
-        var copy = self
-        copy.data.hideCloseButton = configuration
-        return copy
-    }
-    #if !os(macOS)
-    func presentationDents(_ dents: Set<PresentationDetent>) -> SKSheet{
-        var copy = self
-        copy.data.presentationDents = dents
-        copy.selectedPresentationDent = .constant(dents.first ?? .large)
-        return copy
-    }
-    func dragIndicatorVisibility(_ visibility: Visibility = .hidden) -> SKSheet{
-        var copy = self
-        copy.data.dragIndicatorVisibility = visibility
-        return copy
-    }
 
-    func presentationDents(_ dents: Set<PresentationDetent>, selection: Binding<PresentationDetent>) -> SKSheet{
-        var copy = self
-        copy.data.presentationDents = dents
-        copy.selectedPresentationDent = selection
-        return copy
+public extension SKSheetable{
+    func skAccentColor(_ color: Color = .accentColor) -> SKCustomSheet{
+        return SKCustomSheet(data: self.data) {
+            self.environment(\.skAccentColor, color)
+        }
+    }
+    func skAlignment(_ alignment: HorizontalAlignment?) -> SKCustomSheet{
+        return SKCustomSheet(data: self.data) {
+            self.environment(\.skAlignment, alignment)
+        }
+    }
+    func skRowBackground(_ color: Color? = nil) -> SKCustomSheet{
+        return SKCustomSheet(data: self.data) {
+            self.environment(\.skRowBackgroundColor, color)
+        }
+    }
+    func skRowShape(cornerRadius: CGFloat? = nil) -> SKCustomSheet{
+        return SKCustomSheet(data: self.data) {
+            self.environment(\.skRowShape, cornerRadius)
+        }
+    }
+    func skRowSpacing(_ spacing: CGFloat? = nil) -> SKCustomSheet{
+        return SKCustomSheet(data: self.data) {
+            self.environment(\.skRowSpacing, spacing)
+        }
+    }
+    func skPrimaryTextColor(_ color: Color? = nil) -> SKCustomSheet{
+        return SKCustomSheet(data: self.data) {
+            self.environment(\.skPrimaryColor, color)
+        }
+    }
+    func skSecondaryTextColor(_ color: Color? = nil) -> SKCustomSheet{
+        return SKCustomSheet(data: self.data) {
+            self.environment(\.skSecondaryColor, color)
+        }
+    }
+    func skHideCloseButton(_ configuration: Bool = true) -> SKCustomSheet{
+        return SKCustomSheet(data: self.data) {
+            self.environment(\.skIsCloseButtonHidden, configuration)
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    func skInteractiveDismissDisabled(_ disabled: Bool = true) -> SKCustomSheet{
+        return SKCustomSheet(data: self.data) {
+            self.environment(\.skSheetInteractiveDismissDisabled, disabled)
+        }
+    }
+    
+    #if !os(macOS)
+    func skSheetSize(_ dents: Set<PresentationDetent>) -> SKCustomSheet{
+        return SKCustomSheet(data: self.data) {
+            self.environment(\.skSheetSizeDents, dents)
+        }
+    }
+    func skDragIndicatorVisibility(_ visibility: Visibility = .hidden) -> SKCustomSheet{
+        return SKCustomSheet(data: self.data) {
+            self.environment(\.skSheetDragIndicatorVisibility, visibility)
+        }
+    }
+    func skSheetSize(_ dents: Set<PresentationDetent>, selection: Binding<PresentationDetent>) -> SKCustomSheet{
+        return SKCustomSheet(data: self.data) {
+            self.environment(\.skSheetSizeDentsSelection, selection).environment(\.skSheetSizeDents, dents)
+        }
     }
     #else
-    func sheetSize(_ sheetSize: SKSheetSize? = nil) -> SKSheet{
-        var copy = self
-        copy.data.sheetSize = sheetSize
-        return copy
+    func skSheetSize(_ sheetSize: SKSheetSize = .large) -> SKCustomSheet{
+        return SKCustomSheet(data: self.data) {
+            self.environment(\.skSheetSize, sheetSize)
+        }
     }
     #endif
-    func tint(_ color: Color) -> SKSheet{
-        var copy = self
-        copy.data.accentColor = color
-        return copy
-    }
-    func alignment(_ alignment: HorizontalAlignment? = nil) -> SKSheet{
-        var copy = self
-        copy.data.alignment = alignment
-        return copy
-    }
 }

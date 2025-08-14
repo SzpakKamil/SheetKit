@@ -10,13 +10,9 @@ import SwiftUI
 public extension SKTextField{
     struct Data{
         let title: String
-        var backgroundColor: Color?
-        var cornerRadius: CGFloat?
         
-        public init(title: String, backgroundColor: Color?  = nil, cornerRadius: CGFloat? = nil) {
+        public init(title: String) {
             self.title = title
-            self.backgroundColor = backgroundColor
-            self.cornerRadius = cornerRadius
         }
     }
 }

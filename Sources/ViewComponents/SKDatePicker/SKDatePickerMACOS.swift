@@ -9,12 +9,15 @@ import SwiftUI
 
 #if os(macOS)
 public struct SKDatePickerMACOS: View {
+    @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
+    @Environment(\.skIsInSection) var skIsInSection
+    @Environment(\.skRowShape) var skRowShape
     @Environment(\.colorScheme) var colorScheme
     var data: SKDatePicker.Data
     
     var autoBackgroundColor: Color{
-        if let backgroundColor = data.backgroundColor{
-            return backgroundColor
+        if let skRowBackgroundColor{
+            return skRowBackgroundColor
         }else{
             return .clear
         }
@@ -32,10 +35,10 @@ public struct SKDatePickerMACOS: View {
         .padding(.trailing, -6.5)
         .padding(.vertical, 0.75)
         .background(autoBackgroundColor)
-        .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 6, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: skIsInSection ? 0 : skRowShape ?? 6, style: .continuous))
         .overlay(
-            RoundedRectangle(cornerRadius: data.cornerRadius ?? 6, style: .continuous)
-                .stroke(.primary.opacity(0.06), lineWidth: 1)
+            RoundedRectangle(cornerRadius: skRowShape ?? 6, style: .continuous)
+                .stroke(.primary.opacity(0.06), lineWidth: skIsInSection ? 0 : 1)
         )
         .contentShape(Rectangle())
     }

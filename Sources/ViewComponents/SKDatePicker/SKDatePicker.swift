@@ -15,25 +15,19 @@ public extension SKDatePicker{
         #if !os(tvOS)
         let components: DatePicker.Components
         #endif
-        var backgroundColor: Color?
-        var cornerRadius: CGFloat?
         
         #if !os(tvOS)
-        public init(title: LocalizedStringKey, backgroundColor: Color? = nil, cornerRadius: CGFloat? = nil, range: ClosedRange<Date>? = nil, selection: Binding<Date>, components: DatePicker.Components = .date) {
+        public init(title: LocalizedStringKey, range: ClosedRange<Date>? = nil, selection: Binding<Date>, components: DatePicker.Components = .date) {
             self.title = title
-            self.backgroundColor = backgroundColor
             self.components = components
             self.range = range
             self.date = selection
-            self.cornerRadius = cornerRadius
         }
         #else
-        public init(title: LocalizedStringKey, backgroundColor: Color? = nil, range: ClosedRange<Date>? = nil, cornerRadius: CGFloat? = nil, selection: Binding<Date>) {
+        public init(title: LocalizedStringKey, range: ClosedRange<Date>? = nil, selection: Binding<Date>) {
             self.title = title
-            self.backgroundColor = backgroundColor
             self.date = selection
             self.range = range
-            self.cornerRadius = cornerRadius
         }
         #endif
     }

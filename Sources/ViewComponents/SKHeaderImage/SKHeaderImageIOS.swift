@@ -10,8 +10,8 @@ import SwiftUI
 
 struct SKHeaderImageIOS: View {
     @Environment(\.accessibilityReduceMotion) var accessibilityReduceMotion
-    @Environment(\.alignment) var alignment
-    @Environment(\.skAccentColor) var accentColor
+    @Environment(\.skAlignment) var skAlignment
+    @Environment(\.skAccentColor) var skAccentColor
     var data: SKHeaderImage.Data
     
     var autoVerticalPadding: SKHeaderImage.VerticalPadding{
@@ -34,19 +34,9 @@ struct SKHeaderImageIOS: View {
         }
     }
     
-    var autoAccentColor: Color{
-        if let color = data.color{
-            return color
-        }else{
-            return accentColor
-        }
-    }
-    
     var autoAlignment: HorizontalAlignment{
-        if let alignment = data.alignment{
-            return alignment
-        }else if let alignment{
-            return alignment
+        if let skAlignment{
+            return skAlignment
         }else{
             return .center
         }
@@ -62,7 +52,7 @@ struct SKHeaderImageIOS: View {
                 .scaledToFit()
                 .symbolVariant(data.variant.getSymbolVariant())
                 .symbolRenderingMode(data.renderingMode.getSymbolRenderingMode())
-                .foregroundStyle(autoAccentColor)
+                .foregroundStyle(skAccentColor)
                 .fontWeight(data.weight)
                 .if{content in
                     if #available(iOS 17.0, *), !accessibilityReduceMotion{

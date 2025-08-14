@@ -9,7 +9,8 @@ import SwiftUI
 
 #if os(iOS)
 struct SKDescriptionIOS: View {
-    @Environment(\.alignment) var alignment
+    @Environment(\.skAlignment) var skAlignment
+    @Environment(\.skPrimaryColor) var skPrimaryColor
     var data: SKDescription.Data
     
     var fontAuto: Font {
@@ -22,8 +23,8 @@ struct SKDescriptionIOS: View {
         }
     }
     var colorAuto: Color {
-        if let color = data.color{
-            color
+        if let skPrimaryColor{
+            skPrimaryColor
         }else if #available(iOS 26.0, *){
             .secondary
         }else{
@@ -32,10 +33,8 @@ struct SKDescriptionIOS: View {
     }
 
     var alignmentAuto: TextAlignment {
-        if let alignment = data.alignment{
-            return alignment
-        }else if let alignment {
-            switch alignment{
+        if let skAlignment {
+            switch skAlignment{
             case .leading:
                 return .leading
             case .trailing:

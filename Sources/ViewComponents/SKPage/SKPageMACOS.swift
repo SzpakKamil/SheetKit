@@ -31,22 +31,13 @@ struct SKPageMACOS: View{
         }
     }
     
-    var autoSheetSize: SKSheetSize{
-        if let sheetSize{
-            return sheetSize
-        }else if #available(macOS 26.0, *){
-            return .large
-        }else{
-            return .large
-        }
-    }
     var body: some View {
         ZStack(alignment: .top){
             SKScrollView(backgroundStyle: autoStyle, toolbar: data.toolbar) {
                 ForEach(data.content.indices, id: \.self){index in
                     data.content[index].erasedContent()
                 }
-                .frame(width: autoSheetSize.frameWidth)
+                .frame(width: sheetSize.frameWidth)
                 .frame(maxWidth: .infinity)
             }
             if sheetSize != .large{
@@ -73,8 +64,7 @@ struct SKPageMACOS: View{
                 .padding(.top, 20)
             }
         }
-        .frame(width: autoSheetSize.windowWidth, height: autoSheetSize.height)
-        .environment(\.alignment, data.alignment)
+        .frame(width: sheetSize.windowWidth, height: sheetSize.height)
         .environment(\.skIsCloseButtonHidden, data.hideCloseButton ?? isCloseButtonHidden)
             
     }

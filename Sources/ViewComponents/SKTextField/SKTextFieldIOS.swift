@@ -10,14 +10,16 @@ import SwiftUI
 #if os(iOS)
 // MARK: - Text Field View
 struct SKTextFieldViewIOS: View {
+    @Environment(\.skRowShape) var skRowShape
+    @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
     @Environment(\.colorScheme) var colorScheme
     let data: SKTextField.Data
     let prompt: Text?
     @Binding var text: String
     
     var autoBackgroundColor: Color{
-        if let backgroundColor = data.backgroundColor{
-            return backgroundColor
+        if let skRowBackgroundColor{
+            return skRowBackgroundColor
         }else{
             if colorScheme == .dark{
                 return Color(red: 0.1647058824, green: 0.1647058824, blue: 0.1764705882)
@@ -41,10 +43,10 @@ struct SKTextFieldViewIOS: View {
             .if{ content in
                 if #available(iOS 26.0, *){
                     content
-                        .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 100, style: .continuous))
+                        .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 100, style: .continuous))
                 }else{
                     content
-                        .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 13, style: .continuous))
+                        .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 13, style: .continuous))
                 }
             }
             .contentShape(Rectangle())
@@ -58,7 +60,9 @@ struct SKTextFieldViewIOS: View {
 
 // MARK: - Decimal Field View
 struct SKDecimalFieldViewIOS<F: ParseableFormatStyle>: View where F.FormatOutput == String, F.FormatInput == Double {
-    @Environment(\.skAccentColor) var accentColor
+    @Environment(\.skAccentColor) var skAccentColor
+    @Environment(\.skRowShape) var skRowShape
+    @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
     @Environment(\.colorScheme) var colorScheme
     let data: SKTextField.Data
     @Binding var value: Double
@@ -68,8 +72,8 @@ struct SKDecimalFieldViewIOS<F: ParseableFormatStyle>: View where F.FormatOutput
     @FocusState private var isFocused: Bool
     
     var autoBackgroundColor: Color{
-        if let backgroundColor = data.backgroundColor{
-            return backgroundColor
+        if let skRowBackgroundColor{
+            return skRowBackgroundColor
         }else{
             if colorScheme == .dark{
                 return Color(red: 0.1647058824, green: 0.1647058824, blue: 0.1764705882)
@@ -97,13 +101,13 @@ struct SKDecimalFieldViewIOS<F: ParseableFormatStyle>: View where F.FormatOutput
                             .padding(.horizontal)
                             .padding(.vertical, 15)
                             .background(autoBackgroundColor)
-                            .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 100, style: .continuous))
+                            .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 100, style: .continuous))
                     }else{
                         content
                             .padding(.horizontal, 19)
                             .padding(.vertical, 12)
                             .background(autoBackgroundColor)
-                            .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 10, style: .continuous))
+                            .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 10, style: .continuous))
                     }
                 }
                 .contentShape(Rectangle())
@@ -122,13 +126,13 @@ struct SKDecimalFieldViewIOS<F: ParseableFormatStyle>: View where F.FormatOutput
                             .padding(.horizontal)
                             .padding(.vertical, 15)
                             .background(autoBackgroundColor)
-                            .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 100, style: .continuous))
+                            .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 100, style: .continuous))
                     }else{
                         content
                             .padding(.horizontal, 19)
                             .padding(.vertical, 12)
                             .background(autoBackgroundColor)
-                            .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 10, style: .continuous))
+                            .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 10, style: .continuous))
                     }
                 }
                 .contentShape(Rectangle())
@@ -149,13 +153,13 @@ struct SKDecimalFieldViewIOS<F: ParseableFormatStyle>: View where F.FormatOutput
                         #if compiler(>=6.2)
                         .buttonStyle(.glassProminent)
                         #endif
-                        .tint(accentColor)
+                        .tint(skAccentColor)
                         .contentShape(Rectangle())
                     }else{
                         Button("Submit"){
                             isFocused = false
                         }
-                        .tint(accentColor)
+                        .tint(skAccentColor)
                     }
                 }
             }
@@ -167,7 +171,9 @@ struct SKDecimalFieldViewIOS<F: ParseableFormatStyle>: View where F.FormatOutput
 struct SKIntFieldViewIOS<F: ParseableFormatStyle>: View where F.FormatOutput == String, F.FormatInput == Int {
     let data: SKTextField.Data
     @Environment(\.colorScheme) var colorScheme
-    @Environment(\.skAccentColor) var accentColor
+    @Environment(\.skAccentColor) var skAccentColor
+    @Environment(\.skRowShape) var skRowShape
+    @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
     @Binding var value: Int
     private let format: F
     private let prompt: Text?
@@ -175,8 +181,8 @@ struct SKIntFieldViewIOS<F: ParseableFormatStyle>: View where F.FormatOutput == 
     @FocusState private var isFocused: Bool
     
     var autoBackgroundColor: Color{
-        if let backgroundColor = data.backgroundColor{
-            return backgroundColor
+        if let skRowBackgroundColor{
+            return skRowBackgroundColor
         }else{
             if colorScheme == .dark{
                 return Color(red: 0.1647058824, green: 0.1647058824, blue: 0.1764705882)
@@ -204,13 +210,13 @@ struct SKIntFieldViewIOS<F: ParseableFormatStyle>: View where F.FormatOutput == 
                             .padding(.horizontal)
                             .padding(.vertical, 15)
                             .background(autoBackgroundColor)
-                            .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 100, style: .continuous))
+                            .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 100, style: .continuous))
                     }else{
                         content
                             .padding(.horizontal, 19)
                             .padding(.vertical, 12)
                             .background(autoBackgroundColor)
-                            .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 10, style: .continuous))
+                            .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 10, style: .continuous))
                     }
                 }
                 .contentShape(Rectangle())
@@ -229,13 +235,13 @@ struct SKIntFieldViewIOS<F: ParseableFormatStyle>: View where F.FormatOutput == 
                             .padding(.horizontal)
                             .padding(.vertical, 15)
                             .background(autoBackgroundColor)
-                            .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 100, style: .continuous))
+                            .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 100, style: .continuous))
                     }else{
                         content
                             .padding(.horizontal, 19)
                             .padding(.vertical, 12)
                             .background(autoBackgroundColor)
-                            .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 10, style: .continuous))
+                            .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 10, style: .continuous))
                     }
                 }
                 .contentShape(Rectangle())
@@ -256,13 +262,13 @@ struct SKIntFieldViewIOS<F: ParseableFormatStyle>: View where F.FormatOutput == 
                         #if compiler(>=6.2)
                         .buttonStyle(.glassProminent)
                         #endif
-                        .tint(accentColor)
+                        .tint(skAccentColor)
                         .contentShape(Rectangle())
                     }else{
                         Button("Submit"){
                             isFocused = false
                         }
-                        .tint(accentColor)
+                        .tint(skAccentColor)
                     }
                 }
             }

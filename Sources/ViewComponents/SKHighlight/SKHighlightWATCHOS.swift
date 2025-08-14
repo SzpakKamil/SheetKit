@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+#if os(watchOS)
 struct SKHighlightWATCHOS: View {
     @Environment(\.skAccentColor) var accentColor
     @Environment(\.alignment) var alignment
@@ -42,14 +43,14 @@ struct SKHighlightWATCHOS: View {
     var body: some View {
         VStack{
             SKHeaderImage(image: data.image)
-                .tint(autoTintColor)
-                .alignment(autoAlignment)
+                .skTint(autoTintColor)
+                .skAlignment(autoAlignment)
             SKTitle(data.title)
-                .alignment(autoTextAlignment)
-                .tint(.primary)
+                .skAlignment(autoTextAlignment)
+                .skTint(.primary)
             SKDescription(data.description)
-                .tint(.secondary)
-                .alignment(autoTextAlignment)
+                .skTint(.secondary)
+                .skAlignment(autoTextAlignment)
         }
     }
     
@@ -57,6 +58,9 @@ struct SKHighlightWATCHOS: View {
         self.data = data
     }
 }
+
+#endif
+
 
 #if DEBUG
 #Preview {

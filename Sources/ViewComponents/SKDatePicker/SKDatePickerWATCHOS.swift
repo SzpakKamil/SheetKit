@@ -9,6 +9,8 @@ import SwiftUI
 
 #if os(watchOS)
 public struct SKDatePickerWATCHOS: View {
+    @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
+    @Environment(\.skRowShape) var skRowShape
     @Environment(\.colorScheme) var colorScheme
     var data: SKDatePicker.Data
     @State private var isUsingDatePicker: Bool = false

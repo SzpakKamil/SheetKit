@@ -11,12 +11,15 @@ import SwiftUI
 struct SKTextFieldViewMACOS: View {
     @Environment(\.colorScheme) var colorScheme
     let data: SKTextField.Data
+    @Environment(\.skRowShape) var skRowShape
+    @Environment(\.skIsInSection) var skIsInSection
+    @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
     let prompt: Text?
     @Binding var text: String
     
     var autoBackgroundColor: Color{
-        if let backgroundColor = data.backgroundColor{
-            return backgroundColor
+        if let skRowBackgroundColor{
+            return skRowBackgroundColor
         }else{
             return .clear
         }
@@ -34,10 +37,10 @@ struct SKTextFieldViewMACOS: View {
             .padding(.horizontal, 6)
             .padding(.vertical, 4)
             .background(autoBackgroundColor)
-            .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 6, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: skIsInSection ? 0 : skRowShape ?? 6, style: .continuous))
             .overlay(
-                RoundedRectangle(cornerRadius: data.cornerRadius ?? 6, style: .continuous)
-                    .stroke(.primary.opacity(0.06), lineWidth: 1)
+                RoundedRectangle(cornerRadius: skRowShape ?? 6, style: .continuous)
+                    .stroke(.primary.opacity(0.06), lineWidth: skIsInSection ? 0 : 1)
             )
             .contentShape(Rectangle())
             .accessibilityElement()
@@ -51,6 +54,9 @@ struct SKTextFieldViewMACOS: View {
 // MARK: - Decimal Field View
 struct SKDecimalFieldViewMACOS<F: ParseableFormatStyle>: View where F.FormatOutput == String, F.FormatInput == Double {
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.skRowShape) var skRowShape
+    @Environment(\.skIsInSection) var skIsInSection
+    @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
     let data: SKTextField.Data
     @Binding var value: Double
     private let format: F
@@ -59,8 +65,8 @@ struct SKDecimalFieldViewMACOS<F: ParseableFormatStyle>: View where F.FormatOutp
     @FocusState private var isFocused: Bool
     
     var autoBackgroundColor: Color{
-        if let backgroundColor = data.backgroundColor{
-            return backgroundColor
+        if let skRowBackgroundColor{
+            return skRowBackgroundColor
         }else{
             return .clear
         }
@@ -81,10 +87,10 @@ struct SKDecimalFieldViewMACOS<F: ParseableFormatStyle>: View where F.FormatOutp
                 .padding(.horizontal, 6)
                 .padding(.vertical, 4)
                 .background(autoBackgroundColor)
-                .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 6, style: .continuous))
+                .clipShape(RoundedRectangle(cornerRadius: skIsInSection ? 0 : skRowShape ?? 6, style: .continuous))
                 .overlay(
-                    RoundedRectangle(cornerRadius: data.cornerRadius ?? 6, style: .continuous)
-                        .stroke(.primary.opacity(0.06), lineWidth: 1)
+                    RoundedRectangle(cornerRadius: skRowShape ?? 6, style: .continuous)
+                        .stroke(.primary.opacity(0.06), lineWidth: skIsInSection ? 0 : 1)
                 )
                 .contentShape(Rectangle())
                 .focused($isFocused)
@@ -99,10 +105,10 @@ struct SKDecimalFieldViewMACOS<F: ParseableFormatStyle>: View where F.FormatOutp
                 .padding(.horizontal, 6)
                 .padding(.vertical, 4)
                 .background(autoBackgroundColor)
-                .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 6, style: .continuous))
+                .clipShape(RoundedRectangle(cornerRadius: skIsInSection ? 0 : skRowShape ?? 6, style: .continuous))
                 .overlay(
-                    RoundedRectangle(cornerRadius: data.cornerRadius ?? 6, style: .continuous)
-                        .stroke(.primary.opacity(0.06), lineWidth: 1)
+                    RoundedRectangle(cornerRadius: skRowShape ?? 6, style: .continuous)
+                        .stroke(.primary.opacity(0.06), lineWidth: skIsInSection ? 0 : 1)
                 )
                 .contentShape(Rectangle())
                 .allowsHitTesting(false)
@@ -118,6 +124,9 @@ struct SKDecimalFieldViewMACOS<F: ParseableFormatStyle>: View where F.FormatOutp
 // MARK: - Integer Field View
 struct SKIntFieldViewMACOS<F: ParseableFormatStyle>: View where F.FormatOutput == String, F.FormatInput == Int {
     let data: SKTextField.Data
+    @Environment(\.skRowShape) var skRowShape
+    @Environment(\.skIsInSection) var skIsInSection
+    @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
     @Environment(\.colorScheme) var colorScheme
     @Binding var value: Int
     private let format: F
@@ -126,8 +135,8 @@ struct SKIntFieldViewMACOS<F: ParseableFormatStyle>: View where F.FormatOutput =
     @FocusState private var isFocused: Bool
     
     var autoBackgroundColor: Color{
-        if let backgroundColor = data.backgroundColor{
-            return backgroundColor
+        if let skRowBackgroundColor{
+            return skRowBackgroundColor
         }else{
             return .clear
         }
@@ -148,10 +157,10 @@ struct SKIntFieldViewMACOS<F: ParseableFormatStyle>: View where F.FormatOutput =
                 .padding(.horizontal, 6)
                 .padding(.vertical, 4)
                 .background(autoBackgroundColor)
-                .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 6, style: .continuous))
+                .clipShape(RoundedRectangle(cornerRadius: skIsInSection ? 0 : skRowShape ?? 6, style: .continuous))
                 .overlay(
-                    RoundedRectangle(cornerRadius: data.cornerRadius ?? 6)
-                        .stroke(.primary.opacity(0.06), lineWidth: 1)
+                    RoundedRectangle(cornerRadius: skRowShape ?? 6, style: .continuous)
+                        .stroke(.primary.opacity(0.06), lineWidth: skIsInSection ? 0 : 1)
                 )
                 .contentShape(Rectangle())
                 .focused($isFocused)
@@ -166,10 +175,10 @@ struct SKIntFieldViewMACOS<F: ParseableFormatStyle>: View where F.FormatOutput =
                 .padding(.horizontal, 6)
                 .padding(.vertical, 4)
                 .background(autoBackgroundColor)
-                .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 6, style: .continuous))
+                .clipShape(RoundedRectangle(cornerRadius: skIsInSection ? 0 : skRowShape ?? 6, style: .continuous))
                 .overlay(
-                    RoundedRectangle(cornerRadius: data.cornerRadius ?? 6)
-                        .stroke(.primary.opacity(0.06), lineWidth: 1)
+                    RoundedRectangle(cornerRadius: skRowShape ?? 6, style: .continuous)
+                        .stroke(.primary.opacity(0.06), lineWidth: skIsInSection ? 0 : 1)
                 )
                 .contentShape(Rectangle())
                 .allowsHitTesting(false)

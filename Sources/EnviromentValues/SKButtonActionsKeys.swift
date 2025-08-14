@@ -19,7 +19,7 @@ private struct SKPrimaryButtonActionKey: EnvironmentKey {
 private struct SKToolbarButtonActionKey: EnvironmentKey {
     static let defaultValue: () -> Void = {}
 }
-extension EnvironmentValues {
+public extension EnvironmentValues {
     var skDismissButtonAction: () -> Void {
         get { self[SKDismissButtonActionKey.self] }
         set { self[SKDismissButtonActionKey.self] = newValue }

@@ -9,22 +9,23 @@ import SwiftUI
 
 #if os(macOS)
 struct SKDescriptionMACOS: View {
-    @Environment(\.alignment) var alignment
-    @Environment(\.skSheetSize) var sheetSize
+    @Environment(\.skAlignment) var skAlignment
+    @Environment(\.skPrimaryColor) var skPrimaryColor
+    @Environment(\.skSheetSize) var skSheetSize
     var data: SKDescription.Data
     
     var fontAuto: Font {
         if let font = data.font{
             font
-        }else if #available(macOS 26.0, *), sheetSize != .small{
+        }else if #available(macOS 26.0, *), skSheetSize != .small{
             .title2
         }else{
             .body
         }
     }
     var colorAuto: Color {
-        if let color = data.color{
-            color
+        if let skPrimaryColor{
+            skPrimaryColor
         }else if #available(macOS 26.0, *){
             .secondary
         }else{
@@ -33,10 +34,8 @@ struct SKDescriptionMACOS: View {
     }
 
     var alignmentAuto: TextAlignment {
-        if let alignment = data.alignment{
-            return alignment
-        }else if let alignment {
-            switch alignment{
+        if let skAlignment {
+            switch skAlignment{
             case .leading:
                 return .leading
             case .trailing:
@@ -45,7 +44,7 @@ struct SKDescriptionMACOS: View {
                 return .center
             }
         }else{
-            if #available(macOS 26.0, *), sheetSize != .small{
+            if #available(macOS 26.0, *), skSheetSize != .small{
                 return .leading
             }else{
                 return .center

@@ -10,6 +10,7 @@ import SwiftUI
 #if os(iOS)
 struct SKScrollViewIOS<Content: View>: View {
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.skRowSpacing) var skRowSpacing
     let content: () -> Content
     let backgroundStyle: SKPage.BackgroundStyle
     let toolbar: SKToolbar
@@ -32,9 +33,11 @@ struct SKScrollViewIOS<Content: View>: View {
                 .ignoresSafeArea()
 
             ScrollView {
-                content()
-                    .padding(.horizontal, 30)
-                    .padding(.bottom, toolbarHeight)
+                VStack(spacing: skRowSpacing){
+                    content()
+                }
+                .padding(.horizontal, 30)
+                .padding(.bottom, toolbarHeight)
             }
 
             ZStack(alignment: .bottom) {

@@ -9,6 +9,8 @@ import SwiftUI
 
 #if os(visionOS)
 public struct SKDatePickerVISIONOS: View {
+    @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
+    @Environment(\.skRowShape) var skRowShape
     @Environment(\.colorScheme) var colorScheme
     var data: SKDatePicker.Data
     

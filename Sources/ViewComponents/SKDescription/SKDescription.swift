@@ -12,15 +12,11 @@ public extension SKDescription{
         var title: String
         var weight: Font.Weight
         var font: Font?
-        var color: Color?
-        var alignment: TextAlignment?
             
-        public init(title: String, weight: Font.Weight = .regular, font: Font? = nil, color: Color? = nil, alignment: TextAlignment? = nil) {
+        public init(title: String, weight: Font.Weight = .regular, font: Font? = nil) {
             self.title = title
             self.weight = weight
             self.font = font
-            self.color = color
-            self.alignment = alignment
         }
     }
 }
@@ -60,16 +56,17 @@ struct PreviewViewSKDescription: View {
     @State private var text = "Hello World Hello World Hello World Hello World Hello World"
     @State private var font: Font? = nil
     @State private var weight: Font.Weight = .regular
-    @State private var color: Color? = nil
-    @State private var alignment: TextAlignment? = nil
+    @State private var color: Color = .primary
+    @State private var alignment: HorizontalAlignment? = nil
     var body: some View{
         List{
             VStack{
                 SKDescription(text)
-                    .font(font)
-                    .tint(color)
-                    .alignment(alignment)
-                    .weight(weight)
+                    .skFontWeight(weight)
+                    .skFont(font)
+                    .skPrimaryTextColor(color)
+                    .skAlignment(alignment)
+
             }
             Section{
                 let fonts: [Font?] = [nil, .largeTitle, .title, .title2, .title3, .headline, .subheadline, .body, .callout, .footnote, .caption, .caption2]
@@ -128,20 +125,6 @@ struct PreviewViewSKDescription: View {
                             Text("Ultra Light")
                         default:
                             Text("Default")
-                        }
-                    }
-                }
-                Picker("Alignment", selection: $alignment){
-                    ForEach(alignments, id: \.self){ alignment in
-                        switch alignment {
-                        case .leading:
-                            Text("Leading")
-                        case .center:
-                            Text("Center")
-                        case .trailing:
-                            Text("Trailing")
-                        case nil:
-                            Text("Auto")
                         }
                     }
                 }

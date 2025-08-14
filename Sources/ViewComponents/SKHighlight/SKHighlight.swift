@@ -13,25 +13,19 @@ public extension SKHighlight{
         var description: String
         var image: Image
         var tintColor: Color?
-        var textColor: Color
-        var alignment: HorizontalAlignment?
             
-        public init(title: String, description: String, image: Image, tintColor: Color? = nil, textColor: Color = .primary, alignment: HorizontalAlignment? = nil) {
+        public init(title: String, description: String, image: Image, tintColor: Color? = nil) {
             self.title = title
             self.description = description
             self.image = image
             self.tintColor = tintColor
-            self.textColor = textColor
-            self.alignment = alignment
         }
         
-        public init(title: String, description: String, systemName: String, tintColor: Color? = nil, textColor: Color = .primary, alignment: HorizontalAlignment? = nil) {
+        public init(title: String, description: String, systemName: String, tintColor: Color? = nil) {
             self.title = title
             self.description = description
             self.image = Image(systemName: systemName)
             self.tintColor = tintColor
-            self.textColor = textColor
-            self.alignment = alignment
         }
     }
 }
@@ -80,8 +74,8 @@ struct PreviewViewSKHighlight: View {
     var body: some View{
         List{
             SKHighlight(title: title, description: description, systemName: systemName)
-                .tint(tintColor)
-                .textColor(textColor)
+                .skAlignment(.leading)
+                .skPrimaryTextColor(textColor)
             Section{
                 TextField("Title", text: $title)
                 TextField("Description", text: $description)

@@ -9,14 +9,15 @@ import SwiftUI
 
 #if os(macOS)
 struct SKTitleMACOS: View {
-    @Environment(\.skSheetSize) var sheetSize
-    @Environment(\.alignment) var alignment
+    @Environment(\.skSheetSize) var skSheetSize
+    @Environment(\.skAlignment) var skAlignment
+    @Environment(\.skPrimaryColor) var skPrimaryColor
     var data: SKTitle.Data
     
     var fontAuto: Font {
         if let font = data.font{
             font
-        }else if #available(macOS 26.0, *), sheetSize != .small{
+        }else if #available(macOS 26.0, *), skSheetSize != .small{
             .title2
         }else{
             .largeTitle
@@ -24,10 +25,8 @@ struct SKTitleMACOS: View {
     }
 
     var alignmentAuto: TextAlignment {
-        if let alignment = data.alignment{
-            return alignment
-        }else if let alignment {
-            switch alignment{
+        if let skAlignment {
+            switch skAlignment{
             case .leading:
                 return .leading
             case .trailing:
@@ -36,8 +35,7 @@ struct SKTitleMACOS: View {
                 return .center
             }
         }else{
-            if #available(macOS 26.0, *), sheetSize != .small{
-                
+            if #available(macOS 26.0, *), skSheetSize != .small{
                 return .leading
             }else{
                 return .center
@@ -47,7 +45,7 @@ struct SKTitleMACOS: View {
     
     var paddingBottomAuto: CGFloat {
         if #available(macOS 26.0, *){
-            if sheetSize == .small{
+            if skSheetSize == .small{
                 return 5
             }else{
                 return -4
@@ -67,7 +65,7 @@ struct SKTitleMACOS: View {
                 .padding(.bottom, paddingBottomAuto)
                 .font(fontAuto)
                 .multilineTextAlignment(alignmentAuto)
-                .foregroundStyle(data.color)
+                .foregroundStyle(skPrimaryColor ?? .primary)
                 .fontWeight(data.weight)
                 
             if [TextAlignment.leading, .center].contains(alignmentAuto)  {

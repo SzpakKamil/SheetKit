@@ -30,15 +30,6 @@ struct SKPageIOS: View{
         }
     }
     
-    var autoSheetSize: SKSheetSize{
-        if let sheetSize{
-            return sheetSize
-        }else if #available(macOS 26.0, *){
-            return .large
-        }else{
-            return .large
-        }
-    }
     var body: some View {
         SKScrollView(backgroundStyle: autoStyle, toolbar: data.toolbar) {
             ForEach(data.content.indices, id: \.self){index in
@@ -63,7 +54,6 @@ struct SKPageIOS: View{
                 }
             }
         }
-        .environment(\.alignment, data.alignment)
         .environment(\.skIsCloseButtonHidden, data.hideCloseButton ?? isCloseButtonHidden)
     }
     

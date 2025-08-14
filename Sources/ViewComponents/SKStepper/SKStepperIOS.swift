@@ -11,11 +11,13 @@ import SwiftUI
 struct SKStepperIOS<S: Strideable>: View, SKComponent {
 
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.skRowShape) var skRowShape
+    @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
     public let type: SKComponentType = .field
     var data: SKStepper<S>.Data
     var autoBackgroundColor: Color{
-        if let backgroundColor = data.backgroundColor{
-            return backgroundColor
+        if let skRowBackgroundColor{
+            return skRowBackgroundColor
         }else{
             if colorScheme == .dark{
                 return Color(red: 0.1647058824, green: 0.1647058824, blue: 0.1764705882)
@@ -30,7 +32,11 @@ struct SKStepperIOS<S: Strideable>: View, SKComponent {
                 .contentTransition(.numericText())
                 .animation(.smooth, value: data.value.wrappedValue)
             Spacer()
-            Stepper("", value: data.value, in: data.range, step: data.step)
+            if let range = data.range{
+                Stepper("", value: data.value, in: range, step: data.step)
+            }else{
+                Stepper("", value: data.value, step: data.step)
+            }
         }
         .padding(.leading, 16)
         .padding(.trailing, 7)
@@ -39,10 +45,10 @@ struct SKStepperIOS<S: Strideable>: View, SKComponent {
         .if{ content in
             if #available(iOS 26.0, *){
                 content
-                    .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 100, style: .continuous))
+                    .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 100, style: .continuous))
             }else{
                 content
-                    .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 13, style: .continuous))
+                    .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 13, style: .continuous))
             }
         }
         .contentShape(Rectangle())

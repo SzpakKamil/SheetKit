@@ -1,5 +1,5 @@
 //
-//  SKComponent.swift
+//  SKSheetable.swift
 //  SheetKit
 //
 //  Created by Kamil Szpak on 14/07/2025.
@@ -7,29 +7,29 @@
 
 import SwiftUI
 
-public protocol SKComponent: View where Body: View {
-    var type: SKComponentType { get }
+public protocol SKSheetable: View where Body: View {
+    var data: SKSheet.Data { get set }
     
     @ViewBuilder @MainActor @preconcurrency var body: Self.Body { get }
     
     
 }
-public extension SKComponent {
+public extension SKSheetable {
     func erasedContent() -> AnyView {
         AnyView(self)
     }
 }
 
-public struct SKCustomView: View, SKComponent{
-    public let type: SKComponentType
+public struct SKCustomSheet: View, SKSheetable{
+    public var data: SKSheet.Data
     let content: AnyView
     
     public var body: some View{
         content
     }
     
-    public init(type: SKComponentType, @ViewBuilder content: @escaping () -> some View) {
-        self.type = type
+    public init(data: SKSheet.Data, @ViewBuilder content: @escaping () -> some View) {
+        self.data = data
         self.content = AnyView(content())
     }
 }

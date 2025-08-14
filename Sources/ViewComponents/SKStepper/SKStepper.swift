@@ -12,18 +12,14 @@ public extension SKStepper{
         var title: String
         var textForValue: (S) -> String
         var value: Binding<S>
-        var range: ClosedRange<S>
+        var range: ClosedRange<S>?
         var step: S.Stride
-        var backgroundColor: Color?
-        var cornerRadius: CGFloat?
         
-        public init(title: String, value: Binding<S>, range: ClosedRange<S>, step: S.Stride = 1, backgroundColor: Color? = nil, cornerRadius: CGFloat? = nil, textForValue: @escaping (S) -> String) {
+        public init(title: String, value: Binding<S>, range: ClosedRange<S>? = nil, step: S.Stride = 1, textForValue: @escaping (S) -> String) {
             self.title = title
             self.textForValue = textForValue
             self.step = step
             self.value = value
-            self.backgroundColor = backgroundColor
-            self.cornerRadius = cornerRadius
             self.range = range
         }
     }
@@ -52,7 +48,7 @@ public struct SKStepper<S: Strideable>: View, SKComponent {
         self.data = data
     }
     
-    public init(title: String, value: Binding<S>, step: S.Stride = 1, range: ClosedRange<S>, textForValue: @escaping (S) -> String = { s in "\(s)" }) {
+    public init(title: String, value: Binding<S>, step: S.Stride = 1, range: ClosedRange<S>?, textForValue: @escaping (S) -> String = { s in "\(s)" }) {
         self.data = .init(title: title, value: value, range: range, step: step, textForValue: textForValue)
     }
 }
@@ -70,7 +66,7 @@ struct PreviewViewSKStepper: View {
             }
         }
         #if os(iOS)
-        .backgroundColor(.red)
+        .skRowBackground(.red)
         #endif
     }
 }

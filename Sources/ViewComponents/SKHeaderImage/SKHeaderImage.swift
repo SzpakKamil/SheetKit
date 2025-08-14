@@ -4,21 +4,17 @@ public extension SKHeaderImage {
     struct Data {
         // Store systemName for system images to enable hashing and equality
         let image: Image
-        var color: Color?
         var variant: Variant
         var renderingMode: SKRenderingMode
         var size: SKHeaderImage.Size?
         var weight: Font.Weight
         var verticalPadding: VerticalPadding?
-        var alignment: HorizontalAlignment?
     
-        public init(image: Image, color: Color? = nil, variant: Variant = .none, renderingMode: SKRenderingMode = .monochrome, verticalPadding: VerticalPadding? = nil, weight: Font.Weight = .regular, alignment: HorizontalAlignment? = nil, size: SKHeaderImage.Size? = nil) {
+        public init(image: Image, variant: Variant = .none, renderingMode: SKRenderingMode = .monochrome, verticalPadding: VerticalPadding? = nil, weight: Font.Weight = .regular, size: SKHeaderImage.Size? = nil) {
             self.image = image
-            self.color = color
             self.variant = variant
             self.renderingMode = renderingMode
             self.verticalPadding = verticalPadding
-            self.alignment = alignment
             self.size = size
             self.weight = weight
         }
@@ -165,12 +161,12 @@ private struct PreviewViewSKHeaderImage: View {
         if #available(iOS 26.0, macOS 26.0, *) {
             List {
                 SKHeaderImage(systemName: systemName)
-                    .tint(color)
-                    .size(size)
-                    .weight(weight)
-                    .verticalPadding(padding)
-                    .renderingMode(renderingMode)
-                    .variant(variant)
+                    .skSize(size)
+                    .skWeight(weight)
+                    .skVerticalPadding(padding)
+                    .skRenderingMode(renderingMode)
+                    .skVariant(variant)
+                    .skAccentColor(color)
                 Section {
                     Picker("SystemName", selection: $systemName) {
                         ForEach(["trash", "wifi", "airpods.max", "music.note", "signature"], id: \.self) { name in

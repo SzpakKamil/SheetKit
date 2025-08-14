@@ -12,32 +12,24 @@ public extension SKPicker{
         let title: LocalizedStringKey
         let selection: Binding<SelectionValue>
         let content: Content
-        var cornerRadius: CGFloat?
-        var backgroundColor: Color?
         let headerView: AnyView?
         let footerView: AnyView?
         
         public init(
             _ title: LocalizedStringKey,
             selection: Binding<SelectionValue>,
-            backgroundColor: Color? = nil,
-            cornerRadius: CGFloat? = nil,
             @ViewBuilder content: () -> Content
         ) {
             self.title = title
             self.selection = selection
             self.headerView = nil
             self.footerView = nil
-            self.backgroundColor = backgroundColor
-            self.cornerRadius = cornerRadius
             self.content = content()
         }
         
         public init(
             _ title: LocalizedStringKey,
             selection: Binding<SelectionValue>,
-            backgroundColor: Color? = nil,
-            cornerRadius: CGFloat? = nil,
             @ViewBuilder content: () -> Content,
             @ViewBuilder headerView: () -> some View
         ) {
@@ -45,16 +37,12 @@ public extension SKPicker{
             self.selection = selection
             self.headerView = AnyView(headerView())
             self.footerView = nil
-            self.backgroundColor = backgroundColor
-            self.cornerRadius = cornerRadius
             self.content = content()
         }
         
         public init(
             _ title: LocalizedStringKey,
             selection: Binding<SelectionValue>,
-            backgroundColor: Color? = nil,
-            cornerRadius: CGFloat? = nil,
             @ViewBuilder content: () -> Content,
             @ViewBuilder headerView: () -> some View,
             @ViewBuilder footerView: () -> some View
@@ -63,25 +51,19 @@ public extension SKPicker{
             self.selection = selection
             self.headerView = AnyView(headerView())
             self.footerView = AnyView(footerView())
-            self.backgroundColor = backgroundColor
-            self.cornerRadius = cornerRadius
             self.content = content()
         }
         
         public init(
             _ title: LocalizedStringKey,
             selection: Binding<SelectionValue>,
-            backgroundColor: Color? = nil,
-            cornerRadius: CGFloat? = nil,
             @ViewBuilder content: () -> Content,
             @ViewBuilder footerView: () -> some View
         ) {
             self.title = title
             self.selection = selection
             self.headerView = nil
-            self.footerView = AnyView(footerView())
-            self.backgroundColor = backgroundColor
-            self.cornerRadius = cornerRadius    
+            self.footerView = AnyView(footerView())   
             self.content = content()
         }
     }

@@ -10,12 +10,14 @@ import SwiftUI
 #if os(iOS)
 struct SKPickerIOS<SelectionValue: Hashable, Content: View>: View, SKComponent {
     let type: SKComponentType = .field
+    @Environment(\.skRowShape) var skRowShape
+    @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
     @Environment(\.colorScheme) var colorScheme
     var data: SKPicker<SelectionValue, Content>.Data
     
     var autoBackgroundColor: Color{
-        if let backgroundColor = data.backgroundColor{
-            return backgroundColor
+        if let skRowBackgroundColor{
+            return skRowBackgroundColor
         }else{
             if colorScheme == .dark{
                 return Color(red: 0.1647058824, green: 0.1647058824, blue: 0.1764705882)
@@ -58,10 +60,10 @@ struct SKPickerIOS<SelectionValue: Hashable, Content: View>: View, SKComponent {
         .if{ content in
             if #available(iOS 26.0, *){
                 content
-                    .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 100, style: .continuous))
+                    .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 100, style: .continuous))
             }else{
                 content
-                    .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 13, style: .continuous))
+                    .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 13, style: .continuous))
             }
         }
         .contentShape(Rectangle())

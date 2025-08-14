@@ -19,7 +19,7 @@ private struct SKToolbarPlacementKey: EnvironmentKey {
 private struct SKIsFinalPageKey: EnvironmentKey {
     static let defaultValue: Bool = false
 }
-extension EnvironmentValues {
+public extension EnvironmentValues {
     var skIsCloseButtonHidden: Bool {
         get { self[SKIsCloseButtonHiddenKey.self] }
         set { self[SKIsCloseButtonHiddenKey.self] = newValue }
