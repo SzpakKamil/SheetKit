@@ -9,7 +9,7 @@ import SwiftUI
 
 #if os(watchOS)
 struct SKToolbarWATCHOS: View {
-    @Environment(\.skSheetSize) var sheetSize
+    @Environment(\.skSheetStyle) var sheetStyle
     @Environment(\.skIsShowingBackButton) var isShowingBackButton
     @Environment(\.skIsFinalPage) var IsFinalPage
     let data: SKToolbar.Data

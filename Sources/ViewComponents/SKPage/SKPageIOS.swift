@@ -10,7 +10,6 @@ import SwiftUI
 #if os(iOS)
 struct SKPageIOS: View{
     @Environment(\.skAccentColor) var accentColor
-    @Environment(\.skSheetSize) var sheetSize
     @Environment(\.skIsCloseButtonHidden) var isCloseButtonHidden
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
@@ -39,7 +38,7 @@ struct SKPageIOS: View{
         .toolbar {
             let navigationButtons = data.toolbar.data.buttons.filter{ $0.data.placement == .navigation}
             ToolbarItemGroup(placement: .topBarTrailing) {
-                if navigationButtons.isEmpty && !(data.hideCloseButton ?? isCloseButtonHidden){
+                if !isCloseButtonHidden{
                     SKToolbarItem(placement: .navigation, actionType: .close) {
                         if #available(iOS 26.0, *){
                             SKButton("Close", systemImage: "xmark"){}
@@ -54,7 +53,6 @@ struct SKPageIOS: View{
                 }
             }
         }
-        .environment(\.skIsCloseButtonHidden, data.hideCloseButton ?? isCloseButtonHidden)
     }
     
     init(data: SKPage.Data) {

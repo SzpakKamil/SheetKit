@@ -8,7 +8,7 @@
 import SwiftUI
 
 public struct SKPrimaryButtonStyle: ButtonStyle {
-    let sheetSize: SKSheetSize?
+    let sheetStyle: SKSheetStyle?
     let isEnabled: Bool
     let accentColor: Color
     let colorScheme: ColorScheme
@@ -16,7 +16,7 @@ public struct SKPrimaryButtonStyle: ButtonStyle {
         #if os(iOS)
         SKPrimaryButtonStyleIOS(isEnabled: isEnabled, accentColor: accentColor).makeBody(configuration: configuration)
         #elseif os(macOS)
-        SKPrimaryButtonStyleMACOS(isEnabled: isEnabled, accentColor: accentColor, sheetSize: sheetSize, colorScheme: colorScheme).makeBody(configuration: configuration)
+        SKPrimaryButtonStyleMACOS(isEnabled: isEnabled, accentColor: accentColor, sheetStyle: sheetStyle, colorScheme: colorScheme).makeBody(configuration: configuration)
         #elseif os(tvOS)
         SKPrimaryButtonStyleTVOS(isEnabled: isEnabled, accentColor: accentColor).makeBody(configuration: configuration)
         #elseif os(visionOS)
@@ -26,22 +26,22 @@ public struct SKPrimaryButtonStyle: ButtonStyle {
         #endif
     }
     
-    public init(isEnabled: Bool, accentColor: Color, sheetSize: SKSheetSize?, colorScheme: ColorScheme) {
+    public init(isEnabled: Bool, accentColor: Color, sheetStyle: SKSheetStyle?, colorScheme: ColorScheme) {
         self.isEnabled = isEnabled
-        self.sheetSize = sheetSize
+        self.sheetStyle = sheetStyle
         self.accentColor = accentColor
         self.colorScheme = colorScheme
     }
 }
 public struct SKSecondaryButtonStyle: ButtonStyle {
-    let sheetSize: SKSheetSize?
+    let sheetStyle: SKSheetStyle?
     let isEnabled: Bool
     let accentColor: Color
     public func makeBody(configuration: Configuration) -> some View {
         #if os(iOS)
         SKSecondaryButtonStyleIOS(isEnabled: isEnabled, accentColor: accentColor).makeBody(configuration: configuration)
         #elseif os(macOS)
-        SKSecondaryButtonStyleMACOS(sheetSize: sheetSize, isEnabled: isEnabled, accentColor: accentColor).makeBody(configuration: configuration)
+        SKSecondaryButtonStyleMACOS(sheetStyle: sheetStyle, isEnabled: isEnabled, accentColor: accentColor).makeBody(configuration: configuration)
         #elseif os(tvOS)
         SKSecondaryButtonStyleTVOS(isEnabled: isEnabled, accentColor: accentColor).makeBody(configuration: configuration)
         #elseif os(visionOS)
@@ -51,8 +51,8 @@ public struct SKSecondaryButtonStyle: ButtonStyle {
         #endif
     }
     
-    public init(sheetSize: SKSheetSize?, isEnabled: Bool, accentColor: Color) {
-        self.sheetSize = sheetSize
+    public init(sheetStyle: SKSheetStyle?, isEnabled: Bool, accentColor: Color) {
+        self.sheetStyle = sheetStyle
         self.isEnabled = isEnabled
         self.accentColor = accentColor
     }
@@ -86,26 +86,26 @@ public struct SKNoteButtonStyle: ButtonStyle {
 
 public struct SKNavigationButtonStyle: ButtonStyle {
     let colorScheme: ColorScheme
-    let sheetSize: SKSheetSize?
+    let sheetStyle: SKSheetStyle?
     let isEnabled: Bool
     let accentColor: Color
     public func makeBody(configuration: Configuration) -> some View {
         #if os(iOS)
-        SKNavigationButtonStyleIOS(sheetSize: sheetSize, colorScheme: colorScheme, isEnabled: isEnabled, accentColor: accentColor).makeBody(configuration: configuration)
+        SKNavigationButtonStyleIOS(sheetStyle: sheetStyle, colorScheme: colorScheme, isEnabled: isEnabled, accentColor: accentColor).makeBody(configuration: configuration)
         #elseif os(macOS)
-        SKNavigationButtonStyleMACOS(sheetSize: sheetSize, isEnabled: isEnabled, accentColor: accentColor, colorScheme: colorScheme).makeBody(configuration: configuration)
+        SKNavigationButtonStyleMACOS(sheetStyle: sheetStyle, isEnabled: isEnabled, accentColor: accentColor, colorScheme: colorScheme).makeBody(configuration: configuration)
         #elseif os(tvOS)
-        SKNavigationButtonStyleTVOS(sheetSize: sheetSize, isEnabled: isEnabled, accentColor: accentColor).makeBody(configuration: configuration)
+        SKNavigationButtonStyleTVOS(sheetStyle: sheetStyle, isEnabled: isEnabled, accentColor: accentColor).makeBody(configuration: configuration)
         #elseif os(visionOS)
-        SKNavigationButtonStyleVISIONOS(sheetSize: sheetSize, colorScheme: colorScheme, isEnabled: isEnabled, accentColor: accentColor).makeBody(configuration: configuration)
+        SKNavigationButtonStyleVISIONOS(sheetStyle: sheetStyle, colorScheme: colorScheme, isEnabled: isEnabled, accentColor: accentColor).makeBody(configuration: configuration)
         #else
         EmptyView()
         #endif
     }
     
-    public init(colorScheme: ColorScheme, sheetSize: SKSheetSize?, isEnabled: Bool, accentColor: Color) {
+    public init(colorScheme: ColorScheme, sheetStyle: SKSheetStyle?, isEnabled: Bool, accentColor: Color) {
         self.colorScheme = colorScheme
-        self.sheetSize = sheetSize
+        self.sheetStyle = sheetStyle
         self.isEnabled = isEnabled
         self.accentColor = accentColor
     }

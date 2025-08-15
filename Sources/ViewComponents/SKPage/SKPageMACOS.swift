@@ -10,7 +10,7 @@ import SwiftUI
 #if os(macOS)
 struct SKPageMACOS: View{
     @Environment(\.skAccentColor) var accentColor
-    @Environment(\.skSheetSize) var sheetSize
+    @Environment(\.skSheetStyle) var sheetStyle
     @Environment(\.skIsCloseButtonHidden) var isCloseButtonHidden
     @Environment(\.skIsShowingBackButton) var isShowingBackButton
     @Environment(\.colorScheme) var colorScheme
@@ -37,10 +37,10 @@ struct SKPageMACOS: View{
                 ForEach(data.content.indices, id: \.self){index in
                     data.content[index].erasedContent()
                 }
-                .frame(width: sheetSize.frameWidth)
+                .frame(width: sheetStyle.frameWidth)
                 .frame(maxWidth: .infinity)
             }
-            if sheetSize != .large{
+            if sheetStyle != .default{
                 HStack{
                     let navigationAction = data.toolbar.data.buttons.filter{
                         $0.data.placement == .navigation
@@ -64,8 +64,7 @@ struct SKPageMACOS: View{
                 .padding(.top, 20)
             }
         }
-        .frame(width: sheetSize.windowWidth, height: sheetSize.height)
-        .environment(\.skIsCloseButtonHidden, data.hideCloseButton ?? isCloseButtonHidden)
+        .frame(width: sheetStyle.windowWidth, height: sheetStyle.height)
             
     }
     

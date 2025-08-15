@@ -10,7 +10,7 @@ import SwiftUI
 #if os(tvOS)
 struct SKPageTVOS: View{
     @Environment(\.skAccentColor) var accentColor
-    @Environment(\.skSheetSize) var sheetSize
+    @Environment(\.skSheetStyle) var sheetStyle
     @Environment(\.skIsCloseButtonHidden) var isCloseButtonHidden
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
@@ -30,23 +30,12 @@ struct SKPageTVOS: View{
         }
     }
     
-    var autoSheetSize: SKSheetSize{
-        if let sheetSize{
-            return sheetSize
-        }else if #available(macOS 26.0, *){
-            return .large
-        }else{
-            return .large
-        }
-    }
     var body: some View {
         SKScrollView(backgroundStyle: autoStyle, toolbar: data.toolbar) {
             ForEach(data.content.indices, id: \.self){index in
                 data.content[index].erasedContent()
             }
         }
-        .environment(\.alignment, data.alignment)
-        .environment(\.skIsCloseButtonHidden, data.hideCloseButton ?? isCloseButtonHidden)
     }
     
     init(data: SKPage.Data) {

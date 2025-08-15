@@ -28,7 +28,6 @@ public extension SKToolbar {
 
 
 public struct SKToolbar: View {
-    @Environment(\.skSheetSize) var sheetSize
     let data: SKToolbar.Data
     public var body: some View {
         #if os(iOS)

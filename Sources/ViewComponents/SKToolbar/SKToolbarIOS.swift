@@ -9,7 +9,6 @@ import SwiftUI
 
 #if os(iOS)
 struct SKToolbarIOS: View {
-    @Environment(\.skSheetSize) var sheetSize
     let data: SKToolbar.Data
     var body: some View {
         let noteItems: [SKToolbarItem] = data.buttons.filter{ $0.data.placement == .note }

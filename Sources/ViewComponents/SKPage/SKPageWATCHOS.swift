@@ -10,7 +10,7 @@ import SwiftUI
 #if os(watchOS)
 struct SKPageWATCHOS: View{
     @Environment(\.skAccentColor) var accentColor
-    @Environment(\.skSheetSize) var sheetSize
+    @Environment(\.skSheetStyle) var sheetStyle
     @Environment(\.skIsCloseButtonHidden) var isCloseButtonHidden
     @Environment(\.skIsShowingBackButton) var isShowingBackButton
     @Environment(\.colorScheme) var colorScheme
@@ -28,16 +28,6 @@ struct SKPageWATCHOS: View{
             }else{
                 return .list
             }
-        }
-    }
-    
-    var autoSheetSize: SKSheetSize{
-        if let sheetSize{
-            return sheetSize
-        }else if #available(macOS 26.0, *){
-            return .large
-        }else{
-            return .large
         }
     }
     

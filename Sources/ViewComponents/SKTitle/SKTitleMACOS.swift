@@ -9,7 +9,7 @@ import SwiftUI
 
 #if os(macOS)
 struct SKTitleMACOS: View {
-    @Environment(\.skSheetSize) var skSheetSize
+    @Environment(\.skSheetStyle) var skSheetStyle
     @Environment(\.skAlignment) var skAlignment
     @Environment(\.skPrimaryColor) var skPrimaryColor
     var data: SKTitle.Data
@@ -17,7 +17,7 @@ struct SKTitleMACOS: View {
     var fontAuto: Font {
         if let font = data.font{
             font
-        }else if #available(macOS 26.0, *), skSheetSize != .small{
+        }else if #available(macOS 26.0, *), skSheetStyle != .small{
             .title2
         }else{
             .largeTitle
@@ -35,7 +35,7 @@ struct SKTitleMACOS: View {
                 return .center
             }
         }else{
-            if #available(macOS 26.0, *), skSheetSize != .small{
+            if #available(macOS 26.0, *), skSheetStyle != .small{
                 return .leading
             }else{
                 return .center
@@ -45,7 +45,7 @@ struct SKTitleMACOS: View {
     
     var paddingBottomAuto: CGFloat {
         if #available(macOS 26.0, *){
-            if skSheetSize == .small{
+            if skSheetStyle == .small{
                 return 5
             }else{
                 return -4

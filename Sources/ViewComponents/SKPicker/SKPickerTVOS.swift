@@ -10,12 +10,14 @@ import SwiftUI
 #if os(tvOS)
 struct SKPickerTVOS<SelectionValue: Hashable, Content: View>: View, SKComponent {
     let type: SKComponentType = .field
+    @Environment(\.skRowShape) var skRowShape
+    @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
     @Environment(\.colorScheme) var colorScheme
     var data: SKPicker<SelectionValue, Content>.Data
     
     var autoBackgroundColor: Color{
-        if let backgroundColor = data.backgroundColor{
-            return backgroundColor
+        if let skRowBackgroundColor{
+            return skRowBackgroundColor
         }else{
             if #available(tvOS 26.0, *){
                 return colorScheme == .dark ? .black.opacity(0.5) : .white.opacity(0.5)
@@ -54,10 +56,10 @@ struct SKPickerTVOS<SelectionValue: Hashable, Content: View>: View, SKComponent 
                 .if{ content in
                     if #available(tvOS 26.0, *){
                         content
-                            .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 50))
+                            .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 50))
                     }else{
                         content
-                            .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 12))
+                            .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 12))
                     }
                 }
             }
@@ -78,10 +80,10 @@ struct SKPickerTVOS<SelectionValue: Hashable, Content: View>: View, SKComponent 
         .if{ content in
             if #available(tvOS 26.0, *){
                 content
-                    .buttonBorderShape(.roundedRectangle(radius: data.cornerRadius ?? 50))
+                    .buttonBorderShape(.roundedRectangle(radius: skRowShape ?? 50))
             }else{
                 content
-                    .buttonBorderShape(.roundedRectangle(radius: data.cornerRadius ?? 12))
+                    .buttonBorderShape(.roundedRectangle(radius: skRowShape ?? 12))
             }
         }
         .tint(autoBackgroundColor)

@@ -10,14 +10,15 @@ import SwiftUI
 // MARK: - Text Field View
 struct SKTextFieldViewTVOS: View {
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
     let data: SKTextField.Data
     let prompt: Text?
     @State private var isFocused = false
     @Binding var text: String
     
     var autoBackgroundColor: Color{
-        if let backgroundColor = data.backgroundColor{
-            return backgroundColor
+        if let skRowBackgroundColor{
+            return skRowBackgroundColor
         }else{
             if #available(tvOS 26.0, *){
                 return colorScheme == .dark ? .black.opacity(0.5) : .white.opacity(0.5)
@@ -82,6 +83,7 @@ struct SKTextFieldViewTVOS: View {
 // MARK: - Decimal Field View
 struct SKDecimalFieldViewTVOS<F: ParseableFormatStyle>: View where F.FormatOutput == String, F.FormatInput == Double {
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
     let data: SKTextField.Data
     @Binding var value: Double
     private let format: F
@@ -90,8 +92,8 @@ struct SKDecimalFieldViewTVOS<F: ParseableFormatStyle>: View where F.FormatOutpu
     @State private var isFocused = false
     
     var autoBackgroundColor: Color{
-        if let backgroundColor = data.backgroundColor{
-            return backgroundColor
+        if let skRowBackgroundColor{
+            return skRowBackgroundColor
         }else{
             return colorScheme == .dark ? .black : .white
         }
@@ -140,6 +142,7 @@ struct SKDecimalFieldViewTVOS<F: ParseableFormatStyle>: View where F.FormatOutpu
 struct SKIntFieldViewTVOS<F: ParseableFormatStyle>: View where F.FormatOutput == String, F.FormatInput == Int {
     let data: SKTextField.Data
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
     @Binding var value: Int
     private let format: F
     private let prompt: Text?
@@ -147,8 +150,8 @@ struct SKIntFieldViewTVOS<F: ParseableFormatStyle>: View where F.FormatOutput ==
     @State private var isFocused = false
     
     var autoBackgroundColor: Color{
-        if let backgroundColor = data.backgroundColor{
-            return backgroundColor
+        if let skRowBackgroundColor{
+            return skRowBackgroundColor
         }else{
             return colorScheme == .dark ? .black : .white
         }

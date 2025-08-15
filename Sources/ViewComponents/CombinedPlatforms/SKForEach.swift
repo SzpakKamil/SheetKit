@@ -11,13 +11,13 @@ public struct SKForEach<Data, ID, Content>: View where Data: RandomAccessCollect
     let data: Data
     let keyPath: KeyPath<Data.Element, ID>
     let content: ((Data.Element) -> [any SKComponent])?
-    let pages: ((Data.Element) -> [any SKPageable])?
+    let pages: ((Data.Element) -> [SKPage])?
 
     public var components: [any SKComponent] {
         data.flatMap { content?($0) ?? [] }
     }
     
-    public var pageComponents: [any SKPageable] {
+    public var pageComponents: [SKPage] {
         data.flatMap { pages?($0) ?? [] }
     }
     
@@ -42,14 +42,14 @@ public struct SKForEach<Data, ID, Content>: View where Data: RandomAccessCollect
         self.pages = nil
     }
     
-    public init(_ data: Data, id: KeyPath<Data.Element, ID>, @SKSheetBuilder pages: @escaping (Data.Element) -> [any SKPageable]) {
+    public init(_ data: Data, id: KeyPath<Data.Element, ID>, @SKSheetBuilder pages: @escaping (Data.Element) -> [SKPage]) {
         self.data = data
         self.keyPath = id
         self.content = nil
         self.pages = pages
     }
     
-    public init<T>(_ data: Data, @SKSheetBuilder pages: @escaping (Data.Element) -> [any SKPageable])
+    public init<T>(_ data: Data, @SKSheetBuilder pages: @escaping (Data.Element) -> [SKPage])
     where Data.Element == T, T: Identifiable, ID == T.ID {
         self.data = data
         self.keyPath = \T.id
@@ -60,7 +60,7 @@ public struct SKForEach<Data, ID, Content>: View where Data: RandomAccessCollect
 
 
 #Preview {
-    SKSheet{
+    SKSheetView{
         SKForEach<Range<Int>, Int, Any>(0..<10, id: \.self){ item in
             SKPage{
                 SKForEach<Range<Int>, Int, Any>(0..<10, id: \.self){ item in

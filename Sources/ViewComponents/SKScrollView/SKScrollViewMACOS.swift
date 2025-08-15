@@ -10,7 +10,7 @@ import SwiftUI
 #if os(macOS)
 struct SKScrollViewMACOS<Content: View>: View {
     @Environment(\.colorScheme) var colorScheme
-    @Environment(\.skSheetSize) var sheetSize
+    @Environment(\.skSheetStyle) var sheetStyle
     @Environment(\.skRowSpacing) var skRowSpacing
     let content: () -> Content
     let backgroundStyle: SKPage.BackgroundStyle

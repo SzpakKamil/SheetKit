@@ -11,6 +11,7 @@ import SwiftUI
 struct SKDescriptionIOS: View {
     @Environment(\.skAlignment) var skAlignment
     @Environment(\.skPrimaryColor) var skPrimaryColor
+    @Environment(\.skSecondaryColor) var skSecondaryColor
     var data: SKDescription.Data
     
     var fontAuto: Font {
@@ -23,12 +24,10 @@ struct SKDescriptionIOS: View {
         }
     }
     var colorAuto: Color {
-        if let skPrimaryColor{
-            skPrimaryColor
-        }else if #available(iOS 26.0, *){
-            .secondary
+        if #available(iOS 26.0, *){
+            return skSecondaryColor ?? .secondary
         }else{
-            .primary
+            return skPrimaryColor ?? .primary
         }
     }
 

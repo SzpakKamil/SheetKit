@@ -10,7 +10,7 @@ import SwiftUI
 
 struct SKHeaderImageMACOS: View {
     @Environment(\.accessibilityReduceMotion) var accessibilityReduceMotion
-    @Environment(\.skSheetSize) var skSheetSize
+    @Environment(\.skSheetStyle) var skSheetStyle
     @Environment(\.skAlignment) var skAlignment
     @Environment(\.skAccentColor) var skAccentColor
     var data: SKHeaderImage.Data
@@ -27,7 +27,7 @@ struct SKHeaderImageMACOS: View {
         if let size = data.size{
             return size
         }else{
-            if skSheetSize == .small{
+            if skSheetStyle == .small{
                 return .small
             }else{
                 return .medium
@@ -39,7 +39,7 @@ struct SKHeaderImageMACOS: View {
         if let skAlignment{
             return skAlignment
         }else{
-            if #available(macOS 26.0, *), skSheetSize != .small{
+            if #available(macOS 26.0, *), skSheetStyle != .small{
                 return .leading
             }else{
                 return .center
@@ -47,14 +47,14 @@ struct SKHeaderImageMACOS: View {
         }
     }
     var autoLeadingPadding: CGFloat{
-        if skSheetSize == .medium{
+        if skSheetStyle == .medium{
             return 5
         }else{
             return 0
         }
     }
     var autoTopPadding: CGFloat{
-        if skSheetSize == .medium{
+        if skSheetStyle == .medium{
             return 3
         }else{
             return 0

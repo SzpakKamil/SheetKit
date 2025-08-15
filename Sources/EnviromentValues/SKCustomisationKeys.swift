@@ -11,6 +11,9 @@ import SwiftUI
 private struct SKRowBackgroundColorKey: EnvironmentKey {
     static let defaultValue: Color? = nil
 }
+private struct SKAlignmentKey: EnvironmentKey {
+    static let defaultValue: HorizontalAlignment? = nil
+}
 private struct SKRowShapeKey: EnvironmentKey {
     static let defaultValue: CGFloat? = nil
 }
@@ -33,13 +36,13 @@ private struct SKPrimaryColorKey: EnvironmentKey {
 private struct SKSecondaryColorKey: EnvironmentKey {
     static let defaultValue: Color? = nil
 }
-private struct SKSheetSizeKey: EnvironmentKey {
-    static let defaultValue: SKSheetSize = .large
+private struct SKSheetStyleKey: EnvironmentKey {
+    static let defaultValue: SKSheetStyle = .default
 }
-private struct SKSheetSizeDentsKey: EnvironmentKey {
+private struct SKSheetStyleDentsKey: EnvironmentKey {
     static let defaultValue: Set<PresentationDetent>? = nil
 }
-private struct SKSheetSizeDentsSelectionKey: EnvironmentKey {
+private struct SKSheetStyleDentsSelectionKey: EnvironmentKey {
     static let defaultValue: Binding<PresentationDetent>? = nil
 }
 private struct SKSheetDragIndicatorVisibilityKey: EnvironmentKey {
@@ -57,6 +60,10 @@ public extension EnvironmentValues {
     var skIsInSection: Bool {
         get { self[SKIsInSection.self] }
         set { self[SKIsInSection.self] = newValue }
+    }
+    var skAlignment: HorizontalAlignment? {
+        get { self[SKAlignmentKey.self] }
+        set { self[SKAlignmentKey.self] = newValue }
     }
     var skRowShape: CGFloat? {
         get { self[SKRowShapeKey.self] }
@@ -78,17 +85,17 @@ public extension EnvironmentValues {
         get { self[SKSecondaryColorKey.self] }
         set { self[SKSecondaryColorKey.self] = newValue }
     }
-    var skSheetSize: SKSheetSize {
-        get { self[SKSheetSizeKey.self] }
-        set { self[SKSheetSizeKey.self] = newValue }
+    var skSheetStyle: SKSheetStyle {
+        get { self[SKSheetStyleKey.self] }
+        set { self[SKSheetStyleKey.self] = newValue }
     }
-    var skSheetSizeDents: Set<PresentationDetent>? {
-        get { self[SKSheetSizeDentsKey.self] }
-        set { self[SKSheetSizeDentsKey.self] = newValue }
+    var skSheetStyleDents: Set<PresentationDetent>? {
+        get { self[SKSheetStyleDentsKey.self] }
+        set { self[SKSheetStyleDentsKey.self] = newValue }
     }
-    var skSheetSizeDentsSelection: Binding<PresentationDetent>? {
-        get { self[SKSheetSizeDentsSelectionKey.self] }
-        set { self[SKSheetSizeDentsSelectionKey.self] = newValue }
+    var skSheetStyleDentsSelection: Binding<PresentationDetent>? {
+        get { self[SKSheetStyleDentsSelectionKey.self] }
+        set { self[SKSheetStyleDentsSelectionKey.self] = newValue }
     }
     var skSheetDragIndicatorVisibility: Visibility {
         get { self[SKSheetDragIndicatorVisibilityKey.self] }

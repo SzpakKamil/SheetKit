@@ -7,7 +7,7 @@ let package = Package(
     name: "SheetKit",
     defaultLocalization: "en",
     platforms: [
-        .macOS(.v13), .iOS(.v16), .visionOS(.v1), .tvOS(.v17), .watchOS(.v10)
+        .macOS(.v14), .iOS(.v17), .visionOS(.v1), .tvOS(.v17), .watchOS(.v10)
     ],
     products: [
         .library(name: "SheetKit", targets: ["SheetKit"])

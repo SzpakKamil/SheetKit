@@ -9,7 +9,7 @@ import SwiftUI
 
 #if os(tvOS)
 struct SKToolbarTVOS: View {
-    @Environment(\.skSheetSize) var sheetSize
+    @Environment(\.skSheetStyle) var sheetStyle
     @Environment(\.skIsCloseButtonHidden) var isCloseButtonHidden
     @Environment(\.skIsShowingBackButton) var isShowingBackButton
     let data: SKToolbar.Data
@@ -40,7 +40,7 @@ struct SKToolbarTVOS: View {
                     Spacer()
                 }
                 
-                if navigationItems.isEmpty && (!isCloseButtonHidden || isShowingBackButton) && sheetSize != .medium{
+                if navigationItems.isEmpty && (!isCloseButtonHidden || isShowingBackButton) && sheetStyle != .medium{
                     SKToolbarItem(placement: .navigation, actionType: .dismiss) {SKButton("Back"){}}
                 }else{
                     ForEach(navigationItems){ buttons in

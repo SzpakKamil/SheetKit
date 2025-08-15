@@ -61,7 +61,6 @@ public struct SKToolbarItem: View, Identifiable, Hashable {
     @Environment(\.skCloseButtonAction) var closeAction
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.skAccentColor) var accentColor
-    @Environment(\.skSheetSize) var sheetSize
     public var id: UUID {
         data.id
     }

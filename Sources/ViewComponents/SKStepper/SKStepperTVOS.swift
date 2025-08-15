@@ -12,10 +12,12 @@ struct SKStepperTVOS<S: Strideable>: View, SKComponent {
 
     @Environment(\.colorScheme) var colorScheme
     public let type: SKComponentType = .field
+    @Environment(\.skRowShape) var skRowShape
+    @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
     var data: SKStepper<S>.Data
     var autoBackgroundColor: Color{
-        if let backgroundColor = data.backgroundColor{
-            return backgroundColor
+        if let skRowBackgroundColor{
+            return skRowBackgroundColor
         }else{
             if #available(tvOS 26.0, *){
                 return colorScheme == .dark ? .black.opacity(0.5) : .white.opacity(0.5)
@@ -41,11 +43,15 @@ struct SKStepperTVOS<S: Strideable>: View, SKComponent {
                 .animation(.smooth, value: data.value.wrappedValue)
             Spacer()
             HStack(spacing: 8){
-                let isIncrementDisabled = data.value.wrappedValue >= data.range.upperBound
-                let isDecrementDisabled = data.value.wrappedValue <= data.range.lowerBound
+                let isIncrementDisabled = data.range == nil ? false : data.value.wrappedValue >= data.range!.upperBound
+                let isDecrementDisabled = data.range == nil ? false : data.value.wrappedValue <= data.range!.lowerBound
                 Button{
                     let newValue = data.value.wrappedValue.advanced(by: data.step)
-                    data.value.wrappedValue = min(newValue, data.range.upperBound)
+                    if let range = data.range{
+                        data.value.wrappedValue = min(newValue,range.upperBound)
+                    }else{
+                        data.value.wrappedValue = newValue
+                    }
                 }label:{
                     Image(systemName: "plus")
                         .frame(width: 20, height: 20)
@@ -57,17 +63,22 @@ struct SKStepperTVOS<S: Strideable>: View, SKComponent {
                 .if{ content in
                     if #available(tvOS 26.0, *){
                         content
-                            .buttonBorderShape(.roundedRectangle(radius: data.cornerRadius ?? 50))
+                            .buttonBorderShape(.roundedRectangle(radius: skRowShape ?? 50))
                     }else{
                         content
-                            .buttonBorderShape(.roundedRectangle(radius: data.cornerRadius ?? 12))
+                            .buttonBorderShape(.roundedRectangle(radius: skRowShape ?? 12))
                     }
                 }
                 .accessibilityLabel("Increment \(data.title)")
                 
                 Button{
                     let newValue = data.value.wrappedValue.advanced(by: -data.step)
-                    data.value.wrappedValue = max(newValue, data.range.lowerBound)
+                    if let range = data.range{
+                        data.value.wrappedValue = max(newValue, range.lowerBound)
+                    }else{
+                        data.value.wrappedValue = newValue
+                    }
+
                 }label:{
                     Image(systemName: "minus")
                         .frame(width: 20, height: 20)
@@ -80,10 +91,10 @@ struct SKStepperTVOS<S: Strideable>: View, SKComponent {
                 .if{ content in
                     if #available(tvOS 26.0, *){
                         content
-                            .buttonBorderShape(.roundedRectangle(radius: data.cornerRadius ?? 50))
+                            .buttonBorderShape(.roundedRectangle(radius: skRowShape ?? 50))
                     }else{
                         content
-                            .buttonBorderShape(.roundedRectangle(radius: data.cornerRadius ?? 12))
+                            .buttonBorderShape(.roundedRectangle(radius: skRowShape ?? 12))
                     }
                 }
                 .accessibilityLabel("Decrement \(data.title)")
@@ -96,13 +107,13 @@ struct SKStepperTVOS<S: Strideable>: View, SKComponent {
             if #available(tvOS 26.0, *){
                 content
                     .padding(.leading, 22)
-                    .background(autoBackgroundColor, in: RoundedRectangle(cornerRadius: data.cornerRadius ?? 50, style: .continuous))
+                    .background(autoBackgroundColor, in: RoundedRectangle(cornerRadius: skRowShape ?? 50, style: .continuous))
             }else{
                 content
                     .padding(.vertical, 22)
                     .padding(.leading, 32)
                     .padding(.trailing, -10)
-                    .background(autoBackgroundColor, in: RoundedRectangle(cornerRadius: data.cornerRadius ?? 10, style: .continuous))
+                    .background(autoBackgroundColor, in: RoundedRectangle(cornerRadius: skRowShape ?? 10, style: .continuous))
             }
         }
     }

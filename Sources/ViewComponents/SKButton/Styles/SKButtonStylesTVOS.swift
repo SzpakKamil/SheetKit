@@ -119,11 +119,11 @@ struct SKNoteButtonStyleTVOS: ButtonStyle {
     }
 }
 struct SKNavigationButtonStyleTVOS: ButtonStyle {
-    let sheetSize: SKSheetSize?
+    let sheetStyle: SKSheetStyle?
     let isEnabled: Bool
     let accentColor: Color
     func makeBody(configuration: Configuration) -> some View {
-        if sheetSize == .medium{
+        if sheetStyle == .medium{
             configuration.label
                 .labelsHidden()
                 .buttonStyle(.plain)
@@ -183,8 +183,8 @@ struct SKNavigationButtonStyleTVOS: ButtonStyle {
         }
     }
     
-    init(sheetSize: SKSheetSize?, isEnabled: Bool, accentColor: Color) {
-        self.sheetSize = sheetSize
+    init(sheetStyle: SKSheetStyle?, isEnabled: Bool, accentColor: Color) {
+        self.sheetStyle = sheetStyle
         self.isEnabled = isEnabled
         self.accentColor = accentColor
     }

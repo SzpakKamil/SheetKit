@@ -84,7 +84,7 @@ public struct SKFieldsSection: SKComponent {
 }
 
 #Preview {
-    SKSheet{
+    SKSheetView{
         SKPage{
             SKFieldsSection{
                 SKTextField("Test", text: .constant(""))

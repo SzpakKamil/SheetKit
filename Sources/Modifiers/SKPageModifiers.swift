@@ -7,50 +7,48 @@
 
 import SwiftUI
 
-public extension SKPageable{
-    func skAccentColor(_ color: Color = .accentColor) -> SKCustomPage{
-        return SKCustomPage(data: data) {
+public extension SKPage{
+    func skAccentColor(_ color: Color = .accentColor) -> SKPage{
+        return SKPage(data: data) {
             self.environment(\.skAccentColor, color)
         }
     }
-    func skAlignment(_ alignment: HorizontalAlignment?) -> SKCustomPage{
-        return SKCustomPage(data: data) {
+    func skAlignment(_ alignment: HorizontalAlignment?) -> SKPage{
+        return SKPage(data: data) {
             self.environment(\.skAlignment, alignment)
         }
     }
-    func skRowBackground(_ color: Color? = nil) -> SKCustomPage{
-        return SKCustomPage(data: data) {
+    func skRowBackground(_ color: Color? = nil) -> SKPage{
+        return SKPage(data: data) {
             self.environment(\.skRowBackgroundColor, color)
         }
     }
-    func skRowSpacing(_ spacing: CGFloat? = nil) -> SKCustomPage{
-        return SKCustomPage(data: data) {
+    func skRowSpacing(_ spacing: CGFloat? = nil) -> SKPage{
+        return SKPage(data: data) {
             self.environment(\.skRowSpacing, spacing)
         }
     }
-    func skRowShape(cornerRadius: CGFloat? = nil) -> SKCustomPage{
-        return SKCustomPage(data: data) {
+    func skRowShape(cornerRadius: CGFloat? = nil) -> SKPage{
+        return SKPage(data: data) {
             self.environment(\.skRowShape, cornerRadius)
         }
     }
-    func skPrimaryTextColor(_ color: Color? = nil) -> SKCustomPage{
-        return SKCustomPage(data: data) {
+    func skPrimaryTextColor(_ color: Color? = nil) -> SKPage{
+        return SKPage(data: data) {
             self.environment(\.skPrimaryColor, color)
         }
     }
-    func skSecondaryTextColor(_ color: Color? = nil) -> SKCustomPage{
-        return SKCustomPage(data: data) {
+    func skSecondaryTextColor(_ color: Color? = nil) -> SKPage{
+        return SKPage(data: data) {
             self.environment(\.skSecondaryColor, color)
         }
     }
-    func skHideCloseButton(_ configuration: Bool = true) -> SKCustomPage{
-        return SKCustomPage(data: data) {
+    func skHideCloseButton(_ configuration: Bool = true) -> SKPage{
+        return SKPage(data: data) {
             self.environment(\.skIsCloseButtonHidden, configuration)
         }
     }
-}
 
-public extension SKPage{
     
     func skAlert(isPresented: Binding<Bool>, title: String, description: String, type: AlertType? = nil, @ViewBuilder content: @escaping () -> some View) -> SKPage{
         var copy = self
@@ -66,11 +64,6 @@ public extension SKPage{
     func skStyle(_ style: SKPage.BackgroundStyle? = nil) -> SKPage{
         var copy = self
         copy.data.backgroundStyle = style
-        return copy
-    }
-    func skHideCloseButton(_ configuration: Bool = true) -> SKPage{
-        var copy = self
-        copy.data.hideCloseButton = configuration
         return copy
     }
 }

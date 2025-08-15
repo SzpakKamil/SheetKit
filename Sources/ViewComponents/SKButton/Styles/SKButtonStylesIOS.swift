@@ -114,7 +114,7 @@ struct SKNoteButtonStyleIOS: ButtonStyle {
 }
 
 struct SKNavigationButtonStyleIOS: ButtonStyle {
-    let sheetSize: SKSheetSize?
+    let sheetStyle: SKSheetStyle?
     let colorScheme: ColorScheme
     let isEnabled: Bool
     let accentColor: Color
@@ -125,8 +125,8 @@ struct SKNavigationButtonStyleIOS: ButtonStyle {
             .foregroundStyle(accentColor)
             .contentShape(Rectangle())
     }
-    init(sheetSize: SKSheetSize?, colorScheme: ColorScheme, isEnabled: Bool, accentColor: Color) {
-        self.sheetSize = sheetSize
+    init(sheetStyle: SKSheetStyle?, colorScheme: ColorScheme, isEnabled: Bool, accentColor: Color) {
+        self.sheetStyle = sheetStyle
         self.colorScheme = colorScheme
         self.isEnabled = isEnabled
         self.accentColor = accentColor

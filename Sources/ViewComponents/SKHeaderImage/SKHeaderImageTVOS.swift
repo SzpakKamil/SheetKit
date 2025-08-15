@@ -10,8 +10,8 @@ import SwiftUI
 
 struct SKHeaderImageTVOS: View {
     @Environment(\.accessibilityReduceMotion) var accessibilityReduceMotion
-    @Environment(\.alignment) var alignment
-    @Environment(\.skAccentColor) var accentColor
+    @Environment(\.skAlignment) var skAlignment
+    @Environment(\.skAccentColor) var skAccentColor
     var data: SKHeaderImage.Data
     
     var autoVerticalPadding: SKHeaderImage.VerticalPadding{
@@ -30,19 +30,10 @@ struct SKHeaderImageTVOS: View {
         }
     }
     
-    var autoAccentColor: Color{
-        if let color = data.color{
-            return color
-        }else{
-            return accentColor
-        }
-    }
     
     var autoAlignment: HorizontalAlignment{
-        if let alignment = data.alignment{
-            return alignment
-        }else if let alignment{
-            return alignment
+        if let skAlignment{
+            return skAlignment
         }else{
             if #available(tvOS 26.0, *){
                 return .center
@@ -62,7 +53,7 @@ struct SKHeaderImageTVOS: View {
                 .scaledToFit()
                 .symbolVariant(data.variant.getSymbolVariant())
                 .symbolRenderingMode(data.renderingMode.getSymbolRenderingMode())
-                .foregroundStyle(autoAccentColor.gradient)
+                .foregroundStyle(skAccentColor.gradient)
                 .fontWeight(data.weight)
                 .contentTransition(.symbolEffect(.replace))
                 .frame(width: autoSize.rawValue, height: autoSize.rawValue)

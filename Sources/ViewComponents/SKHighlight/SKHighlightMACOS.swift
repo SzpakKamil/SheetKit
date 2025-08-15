@@ -13,7 +13,7 @@ struct SKHighlightMACOS: View {
     @Environment(\.skPrimaryColor) var skPrimaryColor
     @Environment(\.skSecondaryColor) var skSecondaryColor
     @Environment(\.skAlignment) var skAlignment
-    @Environment(\.skSheetSize) var skSheetSize
+    @Environment(\.skSheetStyle) var skSheetStyle
     var data: SKHighlight.Data
     
     var autoSpacing: CGFloat{
@@ -40,7 +40,7 @@ struct SKHighlightMACOS: View {
     }
     
     var autoHeadlineFont: Font{
-        if skSheetSize == .small{
+        if skSheetStyle == .small{
             return .subheadline
         }else{
             return .headline
@@ -48,7 +48,7 @@ struct SKHighlightMACOS: View {
     }
     
     var autoDescriptionFont: Font{
-        if skSheetSize == .small{
+        if skSheetStyle == .small{
             return .subheadline
         }else{
             return .headline

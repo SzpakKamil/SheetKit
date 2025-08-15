@@ -68,13 +68,11 @@ public extension SKPage{
     struct Data{
         var content: [any SKComponent]
         var alert: Alert?
-        var hideCloseButton: Bool?
         let toolbar: SKToolbar
         var backgroundStyle: BackgroundStyle?
         
-        public init(backgroundStyle: BackgroundStyle? = nil, hideCloseButton: Bool? = nil, accentColor: Color? = nil, alignment: HorizontalAlignment? = nil, alert: Alert? = nil, @SKPageBuilder content: () -> [any SKComponent], @SKToolbarBuilder toolbar: () -> [SKToolbarItem]) {
+        public init(backgroundStyle: BackgroundStyle? = nil, alert: Alert? = nil, @SKPageBuilder content: () -> [any SKComponent], @SKToolbarBuilder toolbar: () -> [SKToolbarItem]) {
             self.content = content()
-            self.hideCloseButton = hideCloseButton
             self.backgroundStyle = backgroundStyle
             self.toolbar = SKToolbar(content: toolbar)
             self.alert = alert
@@ -93,23 +91,27 @@ public extension SKPage{
     }
 }
 
-public struct SKPage: View, SKPageable{
+public struct SKPage: View{
     public var data: SKPage.Data
-
+    public var adjustedContent: AnyView?
     public var body: some View {
-        #if os(iOS)
-        SKPageIOS(data: data)
-        #elseif os(macOS)
-        SKPageMACOS(data: data)
-        #elseif os(tvOS)
-        SKPageTVOS(data: data)
-        #elseif os(visionOS)
-        SKPageVISIONOS(data: data)
-        #elseif os(watchOS)
-        SKPageWATCHOS(data: data)
-        #else
-        EmptyView()
-        #endif
+        if let adjustedContent{
+            adjustedContent
+        }else{
+            #if os(iOS)
+            SKPageIOS(data: data)
+            #elseif os(macOS)
+            SKPageMACOS(data: data)
+            #elseif os(tvOS)
+            SKPageTVOS(data: data)
+            #elseif os(visionOS)
+            SKPageVISIONOS(data: data)
+            #elseif os(watchOS)
+            SKPageWATCHOS(data: data)
+            #else
+            EmptyView()
+            #endif
+        }
     }
     
     public init(@SKPageBuilder content: () -> [any SKComponent], @SKToolbarBuilder toolbar: () -> [SKToolbarItem]) {
@@ -118,6 +120,13 @@ public struct SKPage: View, SKPageable{
     
     public init(@SKPageBuilder content: () -> [any SKComponent]) {
         self.data = .init(content: content, toolbar: {})
+    }
+    public init(data: SKPage.Data) {
+        self.data = data
+    }
+    public init(data: SKPage.Data, @ViewBuilder content: @escaping () -> some View) {
+        self.data = data
+        self.adjustedContent = AnyView(content())
     }
 }
 

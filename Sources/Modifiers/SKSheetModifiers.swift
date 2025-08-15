@@ -8,44 +8,44 @@
 import SwiftUI
 
 
-public extension SKSheetable{
-    func skAccentColor(_ color: Color = .accentColor) -> SKCustomSheet{
-        return SKCustomSheet(data: self.data) {
+public extension SKSheetView{
+    func skAccentColor(_ color: Color = .accentColor) -> SKSheetView{
+        return SKSheetView(data: self.data) {
             self.environment(\.skAccentColor, color)
         }
     }
-    func skAlignment(_ alignment: HorizontalAlignment?) -> SKCustomSheet{
-        return SKCustomSheet(data: self.data) {
+    func skAlignment(_ alignment: HorizontalAlignment?) -> SKSheetView{
+        return SKSheetView(data: self.data) {
             self.environment(\.skAlignment, alignment)
         }
     }
-    func skRowBackground(_ color: Color? = nil) -> SKCustomSheet{
-        return SKCustomSheet(data: self.data) {
+    func skRowBackground(_ color: Color? = nil) -> SKSheetView{
+        return SKSheetView(data: self.data) {
             self.environment(\.skRowBackgroundColor, color)
         }
     }
-    func skRowShape(cornerRadius: CGFloat? = nil) -> SKCustomSheet{
-        return SKCustomSheet(data: self.data) {
+    func skRowShape(cornerRadius: CGFloat? = nil) -> SKSheetView{
+        return SKSheetView(data: self.data) {
             self.environment(\.skRowShape, cornerRadius)
         }
     }
-    func skRowSpacing(_ spacing: CGFloat? = nil) -> SKCustomSheet{
-        return SKCustomSheet(data: self.data) {
+    func skRowSpacing(_ spacing: CGFloat? = nil) -> SKSheetView{
+        return SKSheetView(data: self.data) {
             self.environment(\.skRowSpacing, spacing)
         }
     }
-    func skPrimaryTextColor(_ color: Color? = nil) -> SKCustomSheet{
-        return SKCustomSheet(data: self.data) {
+    func skPrimaryTextColor(_ color: Color? = nil) -> SKSheetView{
+        return SKSheetView(data: self.data) {
             self.environment(\.skPrimaryColor, color)
         }
     }
-    func skSecondaryTextColor(_ color: Color? = nil) -> SKCustomSheet{
-        return SKCustomSheet(data: self.data) {
+    func skSecondaryTextColor(_ color: Color? = nil) -> SKSheetView{
+        return SKSheetView(data: self.data) {
             self.environment(\.skSecondaryColor, color)
         }
     }
-    func skHideCloseButton(_ configuration: Bool = true) -> SKCustomSheet{
-        return SKCustomSheet(data: self.data) {
+    func skHideCloseButton(_ configuration: Bool = true) -> SKSheetView{
+        return SKSheetView(data: self.data) {
             self.environment(\.skIsCloseButtonHidden, configuration)
         }
     }
@@ -65,32 +65,32 @@ public extension SKSheetable{
     
     
     
-    func skInteractiveDismissDisabled(_ disabled: Bool = true) -> SKCustomSheet{
-        return SKCustomSheet(data: self.data) {
+    func skInteractiveDismissDisabled(_ disabled: Bool = true) -> SKSheetView{
+        return SKSheetView(data: self.data) {
             self.environment(\.skSheetInteractiveDismissDisabled, disabled)
         }
     }
     
     #if !os(macOS)
-    func skSheetSize(_ dents: Set<PresentationDetent>) -> SKCustomSheet{
-        return SKCustomSheet(data: self.data) {
-            self.environment(\.skSheetSizeDents, dents)
+    func skSheetStyle(_ dents: Set<PresentationDetent>) -> SKSheetView{
+        return SKSheetView(data: self.data) {
+            self.environment(\.skSheetStyleDents, dents)
         }
     }
-    func skDragIndicatorVisibility(_ visibility: Visibility = .hidden) -> SKCustomSheet{
-        return SKCustomSheet(data: self.data) {
+    func skDragIndicatorVisibility(_ visibility: Visibility = .hidden) -> SKSheetView{
+        return SKSheetView(data: self.data) {
             self.environment(\.skSheetDragIndicatorVisibility, visibility)
         }
     }
-    func skSheetSize(_ dents: Set<PresentationDetent>, selection: Binding<PresentationDetent>) -> SKCustomSheet{
-        return SKCustomSheet(data: self.data) {
-            self.environment(\.skSheetSizeDentsSelection, selection).environment(\.skSheetSizeDents, dents)
+    func skSheetStyle(_ dents: Set<PresentationDetent>, selection: Binding<PresentationDetent>) -> SKSheetView{
+        return SKSheetView(data: self.data) {
+            self.environment(\.skSheetStyleDentsSelection, selection).environment(\.skSheetStyleDents, dents)
         }
     }
     #else
-    func skSheetSize(_ sheetSize: SKSheetSize = .large) -> SKCustomSheet{
-        return SKCustomSheet(data: self.data) {
-            self.environment(\.skSheetSize, sheetSize)
+    func skSheetStyle(_ sheetStyle: SKSheetStyle = .default) -> SKSheetView{
+        return SKSheetView(data: self.data) {
+            self.environment(\.skSheetStyle, sheetStyle)
         }
     }
     #endif

@@ -11,25 +11,24 @@ import SwiftUI
 struct SKDescriptionMACOS: View {
     @Environment(\.skAlignment) var skAlignment
     @Environment(\.skPrimaryColor) var skPrimaryColor
-    @Environment(\.skSheetSize) var skSheetSize
+    @Environment(\.skSecondaryColor) var skSecondaryColor
+    @Environment(\.skSheetStyle) var skSheetStyle
     var data: SKDescription.Data
     
     var fontAuto: Font {
         if let font = data.font{
             font
-        }else if #available(macOS 26.0, *), skSheetSize != .small{
+        }else if #available(macOS 26.0, *), skSheetStyle != .small{
             .title2
         }else{
             .body
         }
     }
     var colorAuto: Color {
-        if let skPrimaryColor{
-            skPrimaryColor
-        }else if #available(macOS 26.0, *){
-            .secondary
+        if #available(macOS 26.0, *){
+            return skSecondaryColor ?? .secondary
         }else{
-            .primary
+            return skPrimaryColor ?? .primary
         }
     }
 
@@ -44,7 +43,7 @@ struct SKDescriptionMACOS: View {
                 return .center
             }
         }else{
-            if #available(macOS 26.0, *), skSheetSize != .small{
+            if #available(macOS 26.0, *), skSheetStyle != .small{
                 return .leading
             }else{
                 return .center

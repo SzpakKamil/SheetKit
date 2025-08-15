@@ -11,110 +11,116 @@ import SwiftUI
 public struct SKSheetBuilder {
 
     /// Handles zero components (empty builder block).
-    public static func buildBlock() -> [any SKPageable] {
+    public static func buildBlock() -> [SKPage] {
         return []
     }
 
     /// Handles a single SKPage component.
-    public static func buildBlock(_ component: any SKPageable) -> [any SKPageable] {
+    public static func buildBlock(_ component: SKPage) -> [SKPage] {
         return [component]
     }
 
     /// Handles multiple SKPage components.
-    public static func buildBlock(_ components: any SKPageable...) -> [any SKPageable] {
+    public static func buildBlock(_ components: SKPage...) -> [SKPage] {
         return components
     }
 
     /// Handles multiple already-wrapped components (e.g. arrays from conditionals or loops).
-    public static func buildBlock(_ components: [any SKPageable]...) -> [any SKPageable] {
+    public static func buildBlock(_ components: [SKPage]...) -> [SKPage] {
         return components.flatMap { $0 }
     }
 
     /// Support for expressions (bare `SKPage` values).
-    public static func buildExpression(_ expression: any SKPageable) -> [any SKPageable] {
+    public static func buildExpression(_ expression: SKPage) -> [SKPage] {
         return [expression]
     }
 
     /// Support for optional SKPage arrays (e.g. from `if let`).
-    public static func buildOptional(_ component: [any SKPageable]?) -> [any SKPageable] {
+    public static func buildOptional(_ component: [SKPage]?) -> [SKPage] {
         return component ?? []
     }
 
     /// Support for `if`/`else` first branch.
-    public static func buildEither(first component: [any SKPageable]) -> [any SKPageable] {
+    public static func buildEither(first component: [SKPage]) -> [SKPage] {
         return component
     }
 
     /// Support for `if`/`else` second branch.
-    public static func buildEither(second component: [any SKPageable]) -> [any SKPageable] {
+    public static func buildEither(second component: [SKPage]) -> [SKPage] {
         return component
     }
 
     /// Support for loops like `for` that produce `[SKPage]`.
-    public static func buildArray(_ components: [[any SKPageable]]) -> [any SKPageable] {
+    public static func buildArray(_ components: [[SKPage]]) -> [SKPage] {
         return components.flatMap { $0 }
     }
 
     /// Support for availability checks.
-    public static func buildLimitedAvailability(_ component: [any SKPageable]) -> [any SKPageable] {
+    public static func buildLimitedAvailability(_ component: [SKPage]) -> [SKPage] {
         return component
     }
     
-    public static func buildExpression<Data, ID>(_ forEach: SKForEach<Data, ID, Any>) -> [any SKPageable] where Data: RandomAccessCollection, ID: Hashable {
+    public static func buildExpression<Data, ID>(_ forEach: SKForEach<Data, ID, Any>) -> [SKPage] where Data: RandomAccessCollection, ID: Hashable {
         forEach.pageComponents
     }
-    public static func buildExpression(_ components: any SKPageable...) -> [any SKPageable] {
+    public static func buildExpression(_ components: SKPage...) -> [SKPage] {
         return components
     }
 }
 
-
-public extension SKSheet{
-    struct Data {
-        var pages: [any SKPageable]
-        
-        public init(@SKSheetBuilder pages: () -> [any SKPageable]) {
-            self.pages = pages()
-        }
+public struct SKSheetData {
+    var pages: [SKPage]
+    
+    init(@SKSheetBuilder pages: () -> [SKPage]) {
+        self.pages = pages()
+    }
+    init(pages: [SKPage]) {
+        self.pages = pages
     }
 }
-public struct SKSheet: View, SKSheetable {
+
+public struct SKSheetView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.skSheetDragIndicatorVisibility) var skSheetDragIndicatorVisibility
     @Environment(\.skSheetInteractiveDismissDisabled) var skSheetInteractiveDismissDisabled
-    @Environment(\.skSheetSizeDents) var skSheetSizeDents
-    @Environment(\.skSheetSizeDentsSelection) var skSheetSizeDentsSelection
+    @Environment(\.skSheetStyleDents) var skSheetStyleDents
+    @Environment(\.skSheetStyleDentsSelection) var skSheetStyleDentsSelection
     @State private var path: [Int] = []
     @State private var shouldPresentAlert: Bool = false
-    public var data: Data
+    public var data: SKSheetData
+    let adjustedContent: AnyView?
     public var body: some View {
-        NavigationStack(path: $path){
-            pageView(currentIndex: 0)
-                .navigationDestination(for: Int.self) { index in
-                    pageView(currentIndex: index)
-                }
-                #if os(watchOS)
-                .navigationBarTitleDisplayMode(.inline)
-                .navigationBarBackButtonHidden()
-                #elseif !os(macOS) && !os(tvOS)
-                .navigationTitle("‎ ")
-                .navigationBarTitleDisplayMode(.inline)
-                .navigationBarBackButtonHidden()
-                #endif
-        }
-        .presentationDragIndicator(skSheetDragIndicatorVisibility)
-        .if{ content in
-            if let skSheetSizeDents, let skSheetSizeDentsSelection{
-                content
-                    .presentationDetents(skSheetSizeDents, selection: skSheetSizeDentsSelection)
-            }else if let skSheetSizeDents{
-                content
-                    .presentationDetents(skSheetSizeDents)
-            }else{
-                content
+        if let adjustedContent{
+            adjustedContent
+        }else{
+            NavigationStack(path: $path){
+                pageView(currentIndex: 0)
+                    .navigationDestination(for: Int.self) { index in
+                        pageView(currentIndex: index)
+                    }
+                    #if os(watchOS)
+                    .navigationBarTitleDisplayMode(.inline)
+                    .navigationBarBackButtonHidden()
+                    #elseif !os(macOS) && !os(tvOS)
+                    .navigationTitle("‎ ")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .navigationBarBackButtonHidden()
+                    #endif
             }
+            .presentationDragIndicator(skSheetDragIndicatorVisibility)
+            .if{ content in
+                if let skSheetStyleDents, let skSheetStyleDentsSelection{
+                    content
+                        .presentationDetents(skSheetStyleDents, selection: skSheetStyleDentsSelection)
+                }else if let skSheetStyleDents{
+                    content
+                        .presentationDetents(skSheetStyleDents)
+                }else{
+                    content
+                }
+            }
+            .interactiveDismissDisabled(skSheetInteractiveDismissDisabled)
         }
-        .interactiveDismissDisabled(skSheetInteractiveDismissDisabled)
     }
     
     @ViewBuilder
@@ -142,7 +148,7 @@ public struct SKSheet: View, SKSheetable {
                     }
                 }
 
-                page.erasedContent()
+                page
                     .alert(page.data.alert?.title ?? "", isPresented: isPresented) {
                         page.data.alert?.content
                     } message: {
@@ -226,13 +232,24 @@ public struct SKSheet: View, SKSheetable {
     }
 
     
-    public init(@SKSheetBuilder pages: () -> [any SKPageable]) {
+    public init(@SKSheetBuilder pages: () -> [SKPage]) {
         self.data = .init(pages: pages)
+        self.adjustedContent = nil
+    }
+    
+    public init(pages: [SKPage]) {
+        self.data = .init(pages: pages)
+        self.adjustedContent = nil
+    }
+    
+    public init(data: SKSheetData, @ViewBuilder content: @escaping () -> some View) {
+        self.data = data
+        self.adjustedContent = AnyView(content())
     }
 }
 
 #Preview {
-    SKSheet{
+    SKSheetView{
         
     }
 }

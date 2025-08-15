@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SKPrimaryButtonStyleMACOS: ButtonStyle {
-    let sheetSize: SKSheetSize?
+    let sheetStyle: SKSheetStyle?
     let isEnabled: Bool
     let accentColor: Color
     let colorScheme: ColorScheme
@@ -18,10 +18,10 @@ struct SKPrimaryButtonStyleMACOS: ButtonStyle {
             .if{ content in
                 if #available(macOS 26.0, *){
                     content
-                        .frame(minWidth: sheetSize == .small ? 125 : 105)
+                        .frame(minWidth: sheetStyle == .small ? 125 : 105)
                         .foregroundStyle(.white)
-                        .padding(.vertical, sheetSize == .small ? 5 : 10)
-                        .padding(.horizontal, sheetSize == .small ? 11 : 11)
+                        .padding(.vertical, sheetStyle == .small ? 5 : 10)
+                        .padding(.horizontal, sheetStyle == .small ? 11 : 11)
                         #if compiler(>=6.2)
                         .glassEffect(.regular.tint(accentColor).interactive(true))
                         #endif
@@ -52,16 +52,16 @@ struct SKPrimaryButtonStyleMACOS: ButtonStyle {
             .contentShape(Rectangle())
     }
     
-    init(isEnabled: Bool, accentColor: Color, sheetSize: SKSheetSize?, colorScheme: ColorScheme) {
+    init(isEnabled: Bool, accentColor: Color, sheetStyle: SKSheetStyle?, colorScheme: ColorScheme) {
         self.isEnabled = isEnabled
-        self.sheetSize = sheetSize
+        self.sheetStyle = sheetStyle
         self.accentColor = accentColor
         self.colorScheme = colorScheme
     }
 }
 
 struct SKSecondaryButtonStyleMACOS: ButtonStyle {
-    let sheetSize: SKSheetSize?
+    let sheetStyle: SKSheetStyle?
     let isEnabled: Bool
     let accentColor: Color
     
@@ -71,9 +71,9 @@ struct SKSecondaryButtonStyleMACOS: ButtonStyle {
             .if{ content in
                 if #available(macOS 26.0, *){
                     content
-                        .frame(minWidth: sheetSize == .small ? 125 : 105)
-                        .padding(.vertical, sheetSize == .small ? 6 : 10)
-                        .padding(.horizontal, sheetSize == .small ? 11 : 11)
+                        .frame(minWidth: sheetStyle == .small ? 125 : 105)
+                        .padding(.vertical, sheetStyle == .small ? 6 : 10)
+                        .padding(.horizontal, sheetStyle == .small ? 11 : 11)
                         #if compiler(>=6.2)
                         .glassEffect(.regular.interactive(true))
                         #endif
@@ -124,7 +124,7 @@ struct SKNoteButtonStyleMACOS: ButtonStyle {
 }
 
 struct SKNavigationButtonStyleMACOS: ButtonStyle{
-    let sheetSize: SKSheetSize?
+    let sheetStyle: SKSheetStyle?
     let isEnabled: Bool
     let accentColor: Color
     let colorScheme: ColorScheme
@@ -137,7 +137,7 @@ struct SKNavigationButtonStyleMACOS: ButtonStyle{
         }
     }
     func makeBody(configuration: Configuration) -> some View {
-        if sheetSize != .large{
+        if sheetStyle != .default{
             configuration.label
                 .labelsHidden()
                 .buttonStyle(.plain)
@@ -204,8 +204,8 @@ struct SKNavigationButtonStyleMACOS: ButtonStyle{
         }
     }
     
-    init(sheetSize: SKSheetSize?, isEnabled: Bool, accentColor: Color, colorScheme: ColorScheme) {
-        self.sheetSize = sheetSize
+    init(sheetStyle: SKSheetStyle?, isEnabled: Bool, accentColor: Color, colorScheme: ColorScheme) {
+        self.sheetStyle = sheetStyle
         self.isEnabled = isEnabled
         self.accentColor = accentColor
         self.colorScheme = colorScheme

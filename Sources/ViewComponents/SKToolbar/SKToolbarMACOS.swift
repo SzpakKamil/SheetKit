@@ -9,7 +9,7 @@ import SwiftUI
 
 #if os(macOS)
 struct SKToolbarMACOS: View {
-    @Environment(\.skSheetSize) var skSheetSize
+    @Environment(\.skSheetStyle) var skSheetStyle
     @Environment(\.skIsCloseButtonHidden) var isCloseButtonHidden
     @Environment(\.skIsShowingBackButton) var isShowingBackButton
     let data: SKToolbar.Data
@@ -24,7 +24,7 @@ struct SKToolbarMACOS: View {
                     buttons
                 }
                 
-                if skSheetSize == .small{
+                if skSheetStyle == .small{
                     VStack(spacing: 10){
                         if primaryItems.isEmpty{
                             SKToolbarItem(placement: .primary) {SKButton("Continue") {}}
@@ -39,13 +39,13 @@ struct SKToolbarMACOS: View {
                     }
                 }
             }
-            if skSheetSize != .small{
+            if skSheetStyle != .small{
                 HStack(spacing: 10){
                     ForEach(secondaryItems){ buttons in
                         buttons
                     }
                     Spacer()
-                    if navigationItems.isEmpty && (!isCloseButtonHidden || isShowingBackButton) && skSheetSize == .large {
+                    if navigationItems.isEmpty && (!isCloseButtonHidden || isShowingBackButton) && skSheetStyle == .default {
                         SKToolbarItem(placement: .navigation, actionType: .dismiss) {SKButton("Back"){}}
                     }else{
                         ForEach(navigationItems){ buttons in
