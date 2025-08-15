@@ -18,10 +18,10 @@ struct SKPrimaryButtonStyleMACOS: ButtonStyle {
             .if{ content in
                 if #available(macOS 26.0, *){
                     content
-                        .frame(minWidth: sheetStyle == .small ? 125 : 105)
+                        .frame(minWidth: sheetStyle == .prominent ? 125 : 105)
                         .foregroundStyle(.white)
-                        .padding(.vertical, sheetStyle == .small ? 5 : 10)
-                        .padding(.horizontal, sheetStyle == .small ? 11 : 11)
+                        .padding(.vertical, sheetStyle == .prominent ? 5 : 10)
+                        .padding(.horizontal, sheetStyle == .prominent ? 11 : 11)
                         #if compiler(>=6.2)
                         .glassEffect(.regular.tint(accentColor).interactive(true))
                         #endif
@@ -71,9 +71,9 @@ struct SKSecondaryButtonStyleMACOS: ButtonStyle {
             .if{ content in
                 if #available(macOS 26.0, *){
                     content
-                        .frame(minWidth: sheetStyle == .small ? 125 : 105)
-                        .padding(.vertical, sheetStyle == .small ? 6 : 10)
-                        .padding(.horizontal, sheetStyle == .small ? 11 : 11)
+                        .frame(minWidth: sheetStyle == .prominent ? 125 : 105)
+                        .padding(.vertical, sheetStyle == .prominent ? 6 : 10)
+                        .padding(.horizontal, sheetStyle == .prominent ? 11 : 11)
                         #if compiler(>=6.2)
                         .glassEffect(.regular.interactive(true))
                         #endif

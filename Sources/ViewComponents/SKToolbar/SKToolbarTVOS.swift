@@ -40,7 +40,7 @@ struct SKToolbarTVOS: View {
                     Spacer()
                 }
                 
-                if navigationItems.isEmpty && (!isCloseButtonHidden || isShowingBackButton) && sheetStyle != .medium{
+                if navigationItems.isEmpty && (!isCloseButtonHidden || isShowingBackButton){
                     SKToolbarItem(placement: .navigation, actionType: .dismiss) {SKButton("Back"){}}
                 }else{
                     ForEach(navigationItems){ buttons in

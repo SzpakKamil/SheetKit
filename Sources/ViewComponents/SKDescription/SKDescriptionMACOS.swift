@@ -18,7 +18,7 @@ struct SKDescriptionMACOS: View {
     var fontAuto: Font {
         if let font = data.font{
             font
-        }else if #available(macOS 26.0, *), skSheetStyle != .small{
+        }else if #available(macOS 26.0, *), skSheetStyle != .prominent{
             .title2
         }else{
             .body
@@ -43,7 +43,7 @@ struct SKDescriptionMACOS: View {
                 return .center
             }
         }else{
-            if #available(macOS 26.0, *), skSheetStyle != .small{
+            if #available(macOS 26.0, *), skSheetStyle != .prominent{
                 return .leading
             }else{
                 return .center

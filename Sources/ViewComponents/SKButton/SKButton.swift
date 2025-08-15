@@ -31,7 +31,7 @@ public struct SKButton: View {
                         text
                     }
                     #elseif !os(iOS)
-                    if let image, sheetStyle == .medium && toolbarPlacement == .navigation{
+                    if let image, sheetStyle == .compact && toolbarPlacement == .navigation{
                         image
                             .accessibilityHidden(true)
                     }else {

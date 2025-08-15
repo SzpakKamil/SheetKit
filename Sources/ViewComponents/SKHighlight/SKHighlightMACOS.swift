@@ -40,7 +40,7 @@ struct SKHighlightMACOS: View {
     }
     
     var autoHeadlineFont: Font{
-        if skSheetStyle == .small{
+        if skSheetStyle == .prominent{
             return .subheadline
         }else{
             return .headline
@@ -48,7 +48,7 @@ struct SKHighlightMACOS: View {
     }
     
     var autoDescriptionFont: Font{
-        if skSheetStyle == .small{
+        if skSheetStyle == .prominent{
             return .subheadline
         }else{
             return .headline

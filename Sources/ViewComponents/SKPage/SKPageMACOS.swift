@@ -45,7 +45,7 @@ struct SKPageMACOS: View{
                     let navigationAction = data.toolbar.data.buttons.filter{
                         $0.data.placement == .navigation
                     }
-                    if navigationAction.isEmpty && (!(data.hideCloseButton ?? isCloseButtonHidden) || isShowingBackButton) {
+                    if navigationAction.isEmpty && (!isCloseButtonHidden || isShowingBackButton) {
                         SKToolbarItem(placement: .navigation, actionType: .dismiss) {
                             if isShowingBackButton{
                                 SKButton("Back", systemImage: "chevron.backward") {}

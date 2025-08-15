@@ -40,19 +40,11 @@ struct SKHighlightTVOS: View {
     }
     
     var autoHeadlineFont: Font{
-        if skSheetStyle == .small{
-            return .subheadline
-        }else{
-            return .headline
-        }
+        return .body
     }
     
     var autoDescriptionFont: Font{
-        if skSheetStyle == .small{
-            return .subheadline
-        }else{
-            return .headline
-        }
+        return .footnote
     }
     
     var autoPrimaryTextColor: Color{

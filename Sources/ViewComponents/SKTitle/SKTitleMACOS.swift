@@ -17,7 +17,7 @@ struct SKTitleMACOS: View {
     var fontAuto: Font {
         if let font = data.font{
             font
-        }else if #available(macOS 26.0, *), skSheetStyle != .small{
+        }else if #available(macOS 26.0, *), skSheetStyle != .prominent{
             .title2
         }else{
             .largeTitle
@@ -35,7 +35,7 @@ struct SKTitleMACOS: View {
                 return .center
             }
         }else{
-            if #available(macOS 26.0, *), skSheetStyle != .small{
+            if #available(macOS 26.0, *), skSheetStyle != .prominent{
                 return .leading
             }else{
                 return .center
@@ -45,7 +45,7 @@ struct SKTitleMACOS: View {
     
     var paddingBottomAuto: CGFloat {
         if #available(macOS 26.0, *){
-            if skSheetStyle == .small{
+            if skSheetStyle == .prominent{
                 return 5
             }else{
                 return -4

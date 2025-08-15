@@ -123,64 +123,32 @@ struct SKNavigationButtonStyleTVOS: ButtonStyle {
     let isEnabled: Bool
     let accentColor: Color
     func makeBody(configuration: Configuration) -> some View {
-        if sheetStyle == .medium{
-            configuration.label
-                .labelsHidden()
-                .buttonStyle(.plain)
-                .foregroundStyle(accentColor)
-                .if{ content in
-                    if #available(tvOS 26.0, *){
-                        content
-                            .fontWeight(.medium)
-                            .foregroundStyle(.primary)
-                            .padding(.vertical, 10)
-                            .padding(.horizontal, 11)
-                            #if compiler(>=6.2)
-                            .glassEffect(.regular.interactive(true))
-                            #endif
-                            .opacity(configuration.isPressed ? 0.5 : 1)
-                            .hoverEffect(.highlight)
-                    }else{
-                        content
-                            .fontWeight(.medium)
-                            .foregroundStyle(.primary)
-                            .padding(.vertical, 10)
-                            .padding(.horizontal, 11)
-                            .background(.primary.opacity(0.1))
-                            .opacity(configuration.isPressed ? 0.5 : 1)
-                            .hoverEffect(.highlight)
-                    }
+        configuration.label
+            .buttonStyle(.plain)
+            .frame(minWidth: 105)
+            .if{ content in
+                if #available(tvOS 26.0, *){
+                    content
+                        .padding(.vertical, 10)
+                        .padding(.horizontal, 11)
+#if compiler(>=6.2)
+                        .glassEffect(.regular.interactive(true))
+#endif
+                        .opacity(configuration.isPressed ? 0.5 : 1)
+                        .hoverEffect(.highlight)
+                }else{
+                    content
+                        .fontWeight(.medium)
+                        .foregroundStyle(.primary)
+                        .padding(.vertical, 10)
+                        .padding(.horizontal, 11)
+                        .background(.primary.opacity(0.1))
+                        .opacity(configuration.isPressed ? 0.5 : 1)
+                        .hoverEffect(.highlight)
                 }
-                .contentShape(Rectangle())
-                .opacity(isEnabled ? 1 : 0.5)
-        }else{
-            configuration.label
-                .buttonStyle(.plain)
-                .frame(minWidth: 105)
-                .if{ content in
-                    if #available(tvOS 26.0, *){
-                        content
-                            .padding(.vertical, 10)
-                            .padding(.horizontal, 11)
-                            #if compiler(>=6.2)
-                            .glassEffect(.regular.interactive(true))
-                            #endif
-                            .opacity(configuration.isPressed ? 0.5 : 1)
-                            .hoverEffect(.highlight)
-                    }else{
-                        content
-                            .fontWeight(.medium)
-                            .foregroundStyle(.primary)
-                            .padding(.vertical, 10)
-                            .padding(.horizontal, 11)
-                            .background(.primary.opacity(0.1))
-                            .opacity(configuration.isPressed ? 0.5 : 1)
-                            .hoverEffect(.highlight)
-                    }
-                }
-                .contentShape(Rectangle())
-                .opacity(isEnabled ? 1 : 0.5)
-        }
+            }
+            .contentShape(Rectangle())
+            .opacity(isEnabled ? 1 : 0.5)
     }
     
     init(sheetStyle: SKSheetStyle?, isEnabled: Bool, accentColor: Color) {

@@ -27,7 +27,7 @@ struct SKHeaderImageMACOS: View {
         if let size = data.size{
             return size
         }else{
-            if skSheetStyle == .small{
+            if skSheetStyle == .prominent{
                 return .small
             }else{
                 return .medium
@@ -39,7 +39,7 @@ struct SKHeaderImageMACOS: View {
         if let skAlignment{
             return skAlignment
         }else{
-            if #available(macOS 26.0, *), skSheetStyle != .small{
+            if #available(macOS 26.0, *), skSheetStyle != .prominent{
                 return .leading
             }else{
                 return .center
@@ -47,14 +47,14 @@ struct SKHeaderImageMACOS: View {
         }
     }
     var autoLeadingPadding: CGFloat{
-        if skSheetStyle == .medium{
+        if skSheetStyle == .compact{
             return 5
         }else{
             return 0
         }
     }
     var autoTopPadding: CGFloat{
-        if skSheetStyle == .medium{
+        if skSheetStyle == .compact{
             return 3
         }else{
             return 0

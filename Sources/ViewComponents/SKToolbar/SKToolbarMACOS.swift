@@ -24,7 +24,7 @@ struct SKToolbarMACOS: View {
                     buttons
                 }
                 
-                if skSheetStyle == .small{
+                if skSheetStyle == .prominent{
                     VStack(spacing: 10){
                         if primaryItems.isEmpty{
                             SKToolbarItem(placement: .primary) {SKButton("Continue") {}}
@@ -39,7 +39,7 @@ struct SKToolbarMACOS: View {
                     }
                 }
             }
-            if skSheetStyle != .small{
+            if skSheetStyle != .prominent{
                 HStack(spacing: 10){
                     ForEach(secondaryItems){ buttons in
                         buttons
