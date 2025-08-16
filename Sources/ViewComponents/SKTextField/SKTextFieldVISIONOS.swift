@@ -10,13 +10,16 @@ import SwiftUI
 // MARK: - Text Field View
 struct SKTextFieldViewVISIONOS: View {
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.skRowShape) var skRowShape
+    @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
+    
     let data: SKTextField.Data
     let prompt: Text?
     @Binding var text: String
     
     var autoBackgroundColor: Color{
-        if let backgroundColor = data.backgroundColor{
-            return backgroundColor
+        if let skRowBackgroundColor{
+            return skRowBackgroundColor
         }else{
             return .clear
         }
@@ -41,9 +44,9 @@ struct SKTextFieldViewVISIONOS: View {
                 startPoint: .top,
                 endPoint: .bottom
             ))
-            .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 12, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 12, style: .continuous))
             .overlay(
-                RoundedRectangle(cornerRadius: data.cornerRadius ?? 12, style: .continuous)
+                RoundedRectangle(cornerRadius: skRowShape ?? 12, style: .continuous)
                     .stroke(LinearGradient(
                         colors: [
                             .black.opacity(0.4),
@@ -55,7 +58,7 @@ struct SKTextFieldViewVISIONOS: View {
             )
             .contentShape(Rectangle())
             .hoverEffect()
-            .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 12, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 12, style: .continuous))
             .accessibilityElement()
             .accessibilityLabel(data.title + " Field")
             .accessibilityHint("Tap to input text.")
@@ -67,6 +70,8 @@ struct SKTextFieldViewVISIONOS: View {
 // MARK: - Decimal Field View
 struct SKDecimalFieldViewVISIONOS<F: ParseableFormatStyle>: View where F.FormatOutput == String, F.FormatInput == Double {
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.skRowShape) var skRowShape
+    @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
     let data: SKTextField.Data
     @Binding var value: Double
     private let format: F
@@ -75,8 +80,8 @@ struct SKDecimalFieldViewVISIONOS<F: ParseableFormatStyle>: View where F.FormatO
     @FocusState private var isFocused: Bool
     
     var autoBackgroundColor: Color{
-        if let backgroundColor = data.backgroundColor{
-            return backgroundColor
+        if let skRowBackgroundColor{
+            return skRowBackgroundColor
         }else{
             return .clear
         }
@@ -104,9 +109,9 @@ struct SKDecimalFieldViewVISIONOS<F: ParseableFormatStyle>: View where F.FormatO
                     startPoint: .top,
                     endPoint: .bottom
                 ))
-                .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 12, style: .continuous))
+                .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 12, style: .continuous))
                 .overlay(
-                    RoundedRectangle(cornerRadius: data.cornerRadius ?? 12, style: .continuous)
+                    RoundedRectangle(cornerRadius: skRowShape ?? 12, style: .continuous)
                         .stroke(LinearGradient(
                             colors: [
                                 .black.opacity(0.4),
@@ -121,7 +126,7 @@ struct SKDecimalFieldViewVISIONOS<F: ParseableFormatStyle>: View where F.FormatO
                 .opacity(isFocused ? 1 : value != defaultValue ? 1 : 0.05)
                 .allowsHitTesting(true)
                 .hoverEffect()
-                .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 12, style: .continuous))
+                .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 12, style: .continuous))
                 .accessibilityLabel(data.title + " Field")
                 .accessibilityHint("Tap to input a value.")
                 .accessibilityValue(value.formatted(format))
@@ -138,9 +143,9 @@ struct SKDecimalFieldViewVISIONOS<F: ParseableFormatStyle>: View where F.FormatO
                     startPoint: .top,
                     endPoint: .bottom
                 ))
-                .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 12, style: .continuous))
+                .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 12, style: .continuous))
                 .overlay(
-                    RoundedRectangle(cornerRadius: data.cornerRadius ?? 12, style: .continuous)
+                    RoundedRectangle(cornerRadius: skRowShape ?? 12, style: .continuous)
                         .stroke(LinearGradient(
                             colors: [
                                 .black.opacity(0.4),
@@ -165,6 +170,8 @@ struct SKDecimalFieldViewVISIONOS<F: ParseableFormatStyle>: View where F.FormatO
 struct SKIntFieldViewVISIONOS<F: ParseableFormatStyle>: View where F.FormatOutput == String, F.FormatInput == Int {
     let data: SKTextField.Data
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.skRowShape) var skRowShape
+    @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
     @Binding var value: Int
     private let format: F
     private let prompt: Text?
@@ -172,8 +179,8 @@ struct SKIntFieldViewVISIONOS<F: ParseableFormatStyle>: View where F.FormatOutpu
     @FocusState private var isFocused: Bool
     
     var autoBackgroundColor: Color{
-        if let backgroundColor = data.backgroundColor{
-            return backgroundColor
+        if let skRowBackgroundColor{
+            return skRowBackgroundColor
         }else{
             return .clear
         }
@@ -201,9 +208,9 @@ struct SKIntFieldViewVISIONOS<F: ParseableFormatStyle>: View where F.FormatOutpu
                     startPoint: .top,
                     endPoint: .bottom
                 ))
-                .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 12, style: .continuous))
+                .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 12, style: .continuous))
                 .overlay(
-                    RoundedRectangle(cornerRadius: data.cornerRadius ?? 12, style: .continuous)
+                    RoundedRectangle(cornerRadius: skRowShape ?? 12, style: .continuous)
                         .stroke(LinearGradient(
                             colors: [
                                 .black.opacity(0.4),
@@ -218,7 +225,7 @@ struct SKIntFieldViewVISIONOS<F: ParseableFormatStyle>: View where F.FormatOutpu
                 .opacity(isFocused ? 1 : value != defaultValue ? 1 : 0.05)
                 .allowsHitTesting(true)
                 .hoverEffect()
-                .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 12, style: .continuous))
+                .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 12, style: .continuous))
                 .accessibilityLabel(data.title + " Field")
                 .accessibilityHint("Tap to input a value.")
                 .accessibilityValue(value.formatted(format))
@@ -235,9 +242,9 @@ struct SKIntFieldViewVISIONOS<F: ParseableFormatStyle>: View where F.FormatOutpu
                     startPoint: .top,
                     endPoint: .bottom
                 ))
-                .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 12, style: .continuous))
+                .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 12, style: .continuous))
                 .overlay(
-                    RoundedRectangle(cornerRadius: data.cornerRadius ?? 12, style: .continuous)
+                    RoundedRectangle(cornerRadius: skRowShape ?? 12, style: .continuous)
                         .stroke(LinearGradient(
                             colors: [
                                 .black.opacity(0.4),

@@ -9,14 +9,16 @@ import SwiftUI
 #if os(watchOS)
 struct SKStepperWATCHOS<S: Strideable>: View, SKComponent {
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
+    @Environment(\.skRowShape) var skRowShape
     var data: SKStepper<S>.Data
     var type: SKComponentType = .field
     @State private var isUsingStepper: Bool = false
     @State private var tempValue: S
     
     var autoBackgroundColor: Color{
-        if let backgroundColor = data.backgroundColor{
-            return backgroundColor
+        if let skRowBackgroundColor{
+            return skRowBackgroundColor
         }else{
             return .primary.opacity(0.1)
         }
@@ -41,13 +43,18 @@ struct SKStepperWATCHOS<S: Strideable>: View, SKComponent {
             .frame(maxWidth: .infinity, alignment: .leading)
             .multilineTextAlignment(.leading)
             .background(autoBackgroundColor)
-            .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 100, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 100, style: .continuous))
         }
         .buttonStyle(.plain)
         .fullScreenCover(isPresented: $isUsingStepper) {
             NavigationStack{
                 VStack{
-                    Stepper(data.textForValue(data.value.wrappedValue), value: data.value, in: data.range)
+                    if let range = data.range{
+                        Stepper(data.textForValue(data.value.wrappedValue), value: data.value, in: range)
+                    }else{
+                        Stepper(data.textForValue(data.value.wrappedValue), value: data.value)
+                    }
+                    
                     HStack{
                         Button("Submit", role: .cancel) {
                             isUsingStepper = false

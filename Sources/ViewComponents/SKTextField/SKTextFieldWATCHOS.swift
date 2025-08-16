@@ -10,14 +10,16 @@ import SwiftUI
 // MARK: - Text Field View
 struct SKTextFieldViewWATCHOS: View {
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.skRowShape) var skRowShape
+    @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
     let data: SKTextField.Data
     let prompt: Text?
     @State private var isFocused = false
     @Binding var text: String
     
     var autoBackgroundColor: Color{
-        if let backgroundColor = data.backgroundColor{
-            return backgroundColor
+        if let skRowBackgroundColor{
+            return skRowBackgroundColor
         }else{
             return .primary.opacity(0.1)
         }
@@ -50,7 +52,7 @@ struct SKTextFieldViewWATCHOS: View {
             .padding(.horizontal, 15)
             .padding(.vertical, 13)
             .background(autoBackgroundColor)
-            .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 100, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 100, style: .continuous))
         } onSubmit: { newValue in
             text = newValue
         }
@@ -67,6 +69,8 @@ struct SKTextFieldViewWATCHOS: View {
 // MARK: - Decimal Field View
 struct SKDecimalFieldViewWATCHOS<F: ParseableFormatStyle>: View where F.FormatOutput == String, F.FormatInput == Double {
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.skRowShape) var skRowShape
+    @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
     let data: SKTextField.Data
     @Binding var value: Double
     private let format: F
@@ -75,8 +79,8 @@ struct SKDecimalFieldViewWATCHOS<F: ParseableFormatStyle>: View where F.FormatOu
     @State private var isFocused = false
     
     var autoBackgroundColor: Color{
-        if let backgroundColor = data.backgroundColor{
-            return backgroundColor
+        if let skRowBackgroundColor{
+            return skRowBackgroundColor
         }else{
             return .primary.opacity(0.1)
         }
@@ -111,7 +115,7 @@ struct SKDecimalFieldViewWATCHOS<F: ParseableFormatStyle>: View where F.FormatOu
             .padding(.horizontal, 15)
             .padding(.vertical, 13)
             .background(autoBackgroundColor)
-            .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 100, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 100, style: .continuous))
         } onSubmit: { newValue in
             if let newValue = Double(newValue){
                 value = newValue
@@ -131,6 +135,8 @@ struct SKDecimalFieldViewWATCHOS<F: ParseableFormatStyle>: View where F.FormatOu
 struct SKIntFieldViewWATCHOS<F: ParseableFormatStyle>: View where F.FormatOutput == String, F.FormatInput == Int {
     let data: SKTextField.Data
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.skRowShape) var skRowShape
+    @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
     @Binding var value: Int
     private let format: F
     private let prompt: Text?
@@ -138,8 +144,8 @@ struct SKIntFieldViewWATCHOS<F: ParseableFormatStyle>: View where F.FormatOutput
     @State private var isFocused = false
     
     var autoBackgroundColor: Color{
-        if let backgroundColor = data.backgroundColor{
-            return backgroundColor
+        if let skRowBackgroundColor{
+            return skRowBackgroundColor
         }else{
             return .primary.opacity(0.1)
         }
@@ -174,7 +180,7 @@ struct SKIntFieldViewWATCHOS<F: ParseableFormatStyle>: View where F.FormatOutput
             .padding(.horizontal, 15)
             .padding(.vertical, 13)
             .background(autoBackgroundColor)
-            .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 100, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 100, style: .continuous))
         } onSubmit: { newValue in
             if let newValue = Int(newValue){
                 value = newValue

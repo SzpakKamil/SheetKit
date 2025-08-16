@@ -17,8 +17,8 @@ public struct SKDatePickerWATCHOS: View {
     @State private var tempDate: Date = .now
     
     var autoBackgroundColor: Color{
-        if let backgroundColor = data.backgroundColor{
-            return backgroundColor
+        if let skRowBackgroundColor{
+            return skRowBackgroundColor
         }else{
             return .primary.opacity(0.1)
         }
@@ -43,7 +43,7 @@ public struct SKDatePickerWATCHOS: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .multilineTextAlignment(.leading)
             .background(autoBackgroundColor)
-            .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 100, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 100, style: .continuous))
         }
         .buttonStyle(.plain)
         .fullScreenCover(isPresented: $isUsingDatePicker) {

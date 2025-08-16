@@ -11,27 +11,19 @@ import SwiftUI
 struct SKPickerVISIONOS<SelectionValue: Hashable, Content: View>: View, SKComponent {
     let type: SKComponentType = .field
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.skRowShape) var skRowShape
+    @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
     var data: SKPicker<SelectionValue, Content>.Data
     
     var autoBackgroundColor: Color{
-        if let backgroundColor = data.backgroundColor{
-            return backgroundColor
+        if let skRowBackgroundColor{
+            return skRowBackgroundColor
         }else{
             if colorScheme == .dark{
                 return Color(red: 0.1647058824, green: 0.1647058824, blue: 0.1764705882)
             }else{
                 return .white
             }
-        }
-    }
-    
-    var menuIndicatorColor: Color{
-        if let backgroundColor = data.backgroundColor{
-            return backgroundColor
-        }else if colorScheme == .dark{
-            return Color(red: 0.2, green: 0.2196078431, blue: 0.2274509804)
-        }else{
-            return Color(red: 0.9294117647, green: 0.9294117647, blue: 0.9294117647)
         }
     }
     
@@ -72,9 +64,9 @@ struct SKPickerVISIONOS<SelectionValue: Hashable, Content: View>: View, SKCompon
             startPoint: .top,
             endPoint: .bottom
         ))
-        .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 12, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 12, style: .continuous))
         .overlay(
-            RoundedRectangle(cornerRadius: data.cornerRadius ?? 12, style: .continuous)
+            RoundedRectangle(cornerRadius: skRowShape ?? 12, style: .continuous)
                 .stroke(LinearGradient(
                     colors: [
                         .black.opacity(0.4),
@@ -86,7 +78,7 @@ struct SKPickerVISIONOS<SelectionValue: Hashable, Content: View>: View, SKCompon
         )
         .contentShape(Rectangle())
         .hoverEffect()
-        .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 12, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 12, style: .continuous))
     }
     
     init(data: SKPicker<SelectionValue, Content>.Data) {

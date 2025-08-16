@@ -9,7 +9,8 @@ import SwiftUI
 
 #if os(watchOS)
 struct SKTitleWATCHOS: View {
-    @Environment(\.alignment) var alignment
+    @Environment(\.skAlignment) var skAlignment
+    @Environment(\.skPrimaryColor) var skPrimaryColor
     var data: SKTitle.Data
     
     var fontAuto: Font {
@@ -21,10 +22,8 @@ struct SKTitleWATCHOS: View {
     }
 
     var alignmentAuto: TextAlignment {
-        if let alignment = data.alignment{
-            return alignment
-        }else if let alignment {
-            switch alignment{
+        if let skAlignment {
+            switch skAlignment{
             case .leading:
                 return .leading
             case .trailing:
@@ -51,7 +50,7 @@ struct SKTitleWATCHOS: View {
                 .padding(.bottom, paddingBottomAuto)
                 .font(fontAuto)
                 .multilineTextAlignment(alignmentAuto)
-                .foregroundStyle(data.color)
+                .foregroundStyle(skPrimaryColor ?? .primary)
                 .fontWeight(data.weight)
                 
             if [TextAlignment.leading, .center].contains(alignmentAuto)  {

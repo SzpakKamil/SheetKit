@@ -30,25 +30,29 @@ struct SKPageWATCHOS: View{
             }
         }
     }
-    
-    var highlights: [SKHighlight]{
-        var components: [SKHighlight] = []
-        if data.content.count >= 3{
-            if let headerImage = data.content[0] as? SKHeaderImage, let title = data.content[1] as? SKTitle, let description = data.content[2] as? SKDescription{
-                components.append(SKHighlight(title: title.data.title, description: description.data.title, image: headerImage.data.image))
-            }
-            components.append(contentsOf: data.content.compactMap{ return $0 as? SKHighlight })
-        }else{
-            components.append(contentsOf: data.content.compactMap{ return $0 as? SKHighlight })
+    var header: [SKComponent] { data.content.filter{ $0.type == .header } }
+    var highlights: [SKComponent]{
+        var components: [SKComponent] = []
+        if !header.isEmpty{
+            components.append(
+                SKCustomView(type: .highlight) {
+                    VStack{
+                        ForEach(header.indices){ index in
+                            header[index].erasedContent()
+                        }
+                    }
+                }
+            )
         }
-        
+        components.append(contentsOf: data.content.filter{ $0.type == .highlight })
         return components
     }
     var body: some View {
         TabView{
-            ForEach(highlights.indices){ index in
+
+            ForEach(highlights.indices, id: \.self){ index in
                 SKScrollView(backgroundStyle: autoStyle, toolbar: data.toolbar) {
-                    highlights[index]
+                    highlights[index].erasedContent()
                 }
             }
             
@@ -77,13 +81,11 @@ struct SKPageWATCHOS: View{
                     SKToolbarItem(placement: .navigation, actionType: .close) {
                         SKButton("Close", systemImage: "xmark") {}
                     }
-                    .opacity(data.hideCloseButton ?? isCloseButtonHidden ? 0 : 1)
+                    .opacity(isCloseButtonHidden ? 0 : 1)
                 }
             }
         }
         .tabViewStyle(.carousel)
-        .environment(\.alignment, data.alignment)
-        .environment(\.skIsCloseButtonHidden, data.hideCloseButton ?? isCloseButtonHidden)
     }
     
     init(data: SKPage.Data) {

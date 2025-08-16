@@ -11,11 +11,13 @@ import SwiftUI
 struct SKPickerWATCHOS<SelectionValue: Hashable, Content: View>: View, SKComponent {
     let type: SKComponentType = .field
     var data: SKPicker<SelectionValue, Content>.Data
+    @Environment(\.skRowShape) var skRowShape
+    @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
     @State private var isUsingPicker = false
     
     var autoBackgroundColor: Color{
-        if let backgroundColor = data.backgroundColor{
-            return backgroundColor
+        if let skRowBackgroundColor{
+            return skRowBackgroundColor
         }else{
             return .primary.opacity(0.1)
         }
@@ -39,7 +41,7 @@ struct SKPickerWATCHOS<SelectionValue: Hashable, Content: View>: View, SKCompone
             .frame(maxWidth: .infinity, alignment: .leading)
             .multilineTextAlignment(.leading)
             .background(autoBackgroundColor)
-            .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 100, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 100, style: .continuous))
         }
         .buttonStyle(.plain)
         .fullScreenCover(isPresented: $isUsingPicker) {

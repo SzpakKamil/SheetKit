@@ -9,7 +9,9 @@ import SwiftUI
 
 #if os(watchOS)
 struct SKDescriptionWATCHOS: View {
-    @Environment(\.alignment) var alignment
+    @Environment(\.skAlignment) var skAlignment
+    @Environment(\.skPrimaryColor) var skPrimaryColor
+    @Environment(\.skSecondaryColor) var skSecondaryColor
     var data: SKDescription.Data
     
     var fontAuto: Font {
@@ -20,20 +22,16 @@ struct SKDescriptionWATCHOS: View {
         }
     }
     var colorAuto: Color {
-        if let color = data.color{
-            color
-        }else if #available(watchOS 26.0, *){
-            .secondary
+        if #available(watchOS 26.0, *){
+            return skSecondaryColor ?? .secondary
         }else{
-            .primary
+            return skPrimaryColor ?? .primary
         }
     }
 
     var alignmentAuto: TextAlignment {
-        if let alignment = data.alignment{
-            return alignment
-        }else if let alignment {
-            switch alignment{
+        if let skAlignment {
+            switch skAlignment{
             case .leading:
                 return .leading
             case .trailing:

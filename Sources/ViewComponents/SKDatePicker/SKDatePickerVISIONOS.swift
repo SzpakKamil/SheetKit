@@ -15,8 +15,8 @@ public struct SKDatePickerVISIONOS: View {
     var data: SKDatePicker.Data
     
     var autoBackgroundColor: Color{
-        if let backgroundColor = data.backgroundColor{
-            return backgroundColor
+        if let skRowBackgroundColor{
+            return skRowBackgroundColor
         }else{
             return .clear
         }
@@ -28,7 +28,7 @@ public struct SKDatePickerVISIONOS: View {
             Spacer()
             DatePicker(data.title, selection: data.date, in: data.range ?? Date.distantPast...Date.distantFuture, displayedComponents: data.components)
                 .labelsHidden()
-                .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 12, style: .continuous))
+                .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 12, style: .continuous))
                 .scaleEffect(0.70)
         }
         .padding(.leading, 16)
@@ -42,9 +42,9 @@ public struct SKDatePickerVISIONOS: View {
             startPoint: .top,
             endPoint: .bottom
         ))
-        .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 12, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 12, style: .continuous))
         .overlay(
-            RoundedRectangle(cornerRadius: data.cornerRadius ?? 12, style: .continuous)
+            RoundedRectangle(cornerRadius: skRowShape ?? 12, style: .continuous)
                 .stroke(LinearGradient(
                     colors: [
                         .black.opacity(0.4),
@@ -56,7 +56,7 @@ public struct SKDatePickerVISIONOS: View {
         )
         .contentShape(Rectangle())
         .hoverEffect()
-        .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 12, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 12, style: .continuous))
     }
     
     public init(data: SKDatePicker.Data) {

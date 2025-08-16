@@ -9,13 +9,14 @@ import SwiftUI
 
 #if os(visionOS)
 struct SKStepperVISIONOS<S: Strideable>: View, SKComponent {
-
+    @Environment(\.skRowShape) var skRowShape
+    @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
     @Environment(\.colorScheme) var colorScheme
     public let type: SKComponentType = .field
     var data: SKStepper<S>.Data
     var autoBackgroundColor: Color{
-        if let backgroundColor = data.backgroundColor{
-            return backgroundColor
+        if let skRowBackgroundColor{
+            return skRowBackgroundColor
         }else{
             if colorScheme == .dark{
                 return Color(red: 0.1647058824, green: 0.1647058824, blue: 0.1764705882)
@@ -29,11 +30,15 @@ struct SKStepperVISIONOS<S: Strideable>: View, SKComponent {
             Text("\(data.title): \(data.textForValue(data.value.wrappedValue))")
             Spacer()
             HStack(spacing: 8){
-                let isIncrementDisabled = data.value.wrappedValue >= data.range.upperBound
-                let isDecrementDisabled = data.value.wrappedValue <= data.range.lowerBound
+                let isIncrementDisabled = data.range == nil ? false : data.value.wrappedValue >= data.range!.upperBound
+                let isDecrementDisabled = data.range == nil ? false : data.value.wrappedValue <= data.range!.lowerBound
                 Button{
                     let newValue = data.value.wrappedValue.advanced(by: data.step)
-                    data.value.wrappedValue = min(newValue, data.range.upperBound)
+                    if let range = data.range{
+                        data.value.wrappedValue = min(newValue,range.upperBound)
+                    }else{
+                        data.value.wrappedValue = newValue
+                    }
                 }label:{
                     Image(systemName: "plus")
                 }
@@ -46,7 +51,11 @@ struct SKStepperVISIONOS<S: Strideable>: View, SKComponent {
                 
                 Button{
                     let newValue = data.value.wrappedValue.advanced(by: -data.step)
-                    data.value.wrappedValue = max(newValue, data.range.lowerBound)
+                    if let range = data.range{
+                        data.value.wrappedValue = max(newValue, range.lowerBound)
+                    }else{
+                        data.value.wrappedValue = newValue
+                    }
                 }label:{
                     Image(systemName: "minus")
                 }
@@ -70,9 +79,9 @@ struct SKStepperVISIONOS<S: Strideable>: View, SKComponent {
             startPoint: .top,
             endPoint: .bottom
         ))
-        .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 12, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 12, style: .continuous))
         .overlay(
-            RoundedRectangle(cornerRadius: data.cornerRadius ?? 12, style: .continuous)
+            RoundedRectangle(cornerRadius: skRowShape ?? 12, style: .continuous)
                 .stroke(LinearGradient(
                     colors: [
                         .black.opacity(0.4),
@@ -84,7 +93,7 @@ struct SKStepperVISIONOS<S: Strideable>: View, SKComponent {
         )
         .contentShape(Rectangle())
         .hoverEffect()
-        .clipShape(RoundedRectangle(cornerRadius: data.cornerRadius ?? 12, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 12, style: .continuous))
     }
     
     public init(data: SKStepper<S>.Data) {

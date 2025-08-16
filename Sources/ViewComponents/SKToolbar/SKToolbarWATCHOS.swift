@@ -26,7 +26,7 @@ struct SKToolbarWATCHOS: View {
                     }
                 }
                 ToolbarItemGroup(placement: .bottomBar) {
-                    if secondaryItems.isEmpty && navigationItems.isEmpty{
+                    if secondaryItems.isEmpty && noteItems.isEmpty{
                         Button(""){
                             
                         }
@@ -41,7 +41,6 @@ struct SKToolbarWATCHOS: View {
                     }
                     
                     if primaryItems.isEmpty{
-
                         SKToolbarItem(placement: .primary, actionType: .primary) {
                             if IsFinalPage{
                                 SKButton("Continue", systemImage: "checkmark"){}

@@ -9,23 +9,25 @@ import SwiftUI
 
 #if os(visionOS)
 struct SKHighlightVISIONOS: View {
-    @Environment(\.skAccentColor) var accentColor
-    @Environment(\.alignment) var alignment
+    @Environment(\.skAccentColor) var skAccentColor
+    @Environment(\.skPrimaryColor) var skPrimaryColor
+    @Environment(\.skSecondaryColor) var skSecondaryColor
+    @Environment(\.skAlignment) var skAlignment
     var data: SKHighlight.Data
     
     var autoSpacing: CGFloat{
-        return 5
+        return 0
     }
     var autoAlignment: HorizontalAlignment{
-        if let alignment{
-           return alignment
+        if let skAlignment{
+           return skAlignment
         }else{
             return .leading
         }
     }
     var autoTextAlignment: TextAlignment{
-        if let alignment{
-            switch alignment{
+        if let skAlignment{
+            switch skAlignment{
             case .trailing:
                 return .trailing
             default:
@@ -36,8 +38,34 @@ struct SKHighlightVISIONOS: View {
         }
     }
     
-    var autoTintColor: Color{
-        data.tintColor ?? accentColor
+    var autoHeadlineFont: Font{
+        return .headline
+    }
+    
+    var autoDescriptionFont: Font{
+        return .headline
+    }
+    
+    var autoPrimaryTextColor: Color{
+        if let skPrimaryColor{
+            skPrimaryColor
+        }else{
+            .primary
+        }
+    }
+    
+    var autoSecondaryTextColor: Color{
+        if let skSecondaryColor{
+            return skSecondaryColor
+        }else if let skPrimaryColor{
+            return skPrimaryColor.opacity(0.6)
+        }else{
+            if #available(iOS 17.0, *){
+                return .secondary
+            }else{
+                return .primary.opacity(0.6)
+            }
+        }
     }
     
     var body: some View {
@@ -52,13 +80,13 @@ struct SKHighlightVISIONOS: View {
 
             VStack(alignment: autoAlignment == .trailing ? .trailing : .leading, spacing: autoSpacing) {
                 Text(data.title)
-                    .font(.headline)
+                    .font(autoHeadlineFont)
                     .fontWeight(.semibold)
-                    .foregroundStyle(data.textColor)
+                    .foregroundStyle(autoPrimaryTextColor)
                 Text(data.description)
-                    .font(.headline)
+                    .font(autoHeadlineFont)
                     .fontWeight(.regular)
-                    .foregroundStyle(data.textColor.secondary)
+                    .foregroundStyle(autoSecondaryTextColor)
             }
             .multilineTextAlignment(autoTextAlignment)
             .padding(.top, -2)
@@ -81,7 +109,7 @@ struct SKHighlightVISIONOS: View {
                 .scaledToFit()
                 .frame(width: 33, height: 33)
                 .frame(width: 50)
-                .foregroundStyle(autoTintColor)
+                .foregroundStyle(skAccentColor)
                 .accessibilityHidden(true)
             
         }
