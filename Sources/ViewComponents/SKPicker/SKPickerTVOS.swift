@@ -8,12 +8,13 @@
 import SwiftUI
 
 #if os(tvOS)
-struct SKPickerTVOS<SelectionValue: Hashable, Content: View>: View, SKComponent {
+struct SKPickerTVOS<SelectionValue: Hashable, Content: View, HeaderContent: View, FooterContent: View>: View, SKComponent {
     let type: SKComponentType = .field
+    @Binding var selection: SelectionValue
     @Environment(\.skRowShape) var skRowShape
     @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
     @Environment(\.colorScheme) var colorScheme
-    var data: SKPicker<SelectionValue, Content>.Data
+    var data: SKPicker<SelectionValue, Content, HeaderContent, FooterContent>.Data
     
     var autoBackgroundColor: Color{
         if let skRowBackgroundColor{
@@ -34,7 +35,7 @@ struct SKPickerTVOS<SelectionValue: Hashable, Content: View>: View, SKComponent 
             if let headerView = data.headerView{
                 headerView
             }
-            _VariadicView.Tree(SKPickerOptions(selectedValue: data.selection)) {
+            _VariadicView.Tree(SKPickerOptions(selectedValue: $selection)) {
                 data.content
             }
             if let footerView = data.footerView{
@@ -45,7 +46,7 @@ struct SKPickerTVOS<SelectionValue: Hashable, Content: View>: View, SKComponent 
                 Text(data.title)
                 Spacer()
                 HStack(spacing: 3){
-                    Text(verbatim: String(describing: data.selection.wrappedValue))
+                    Text(verbatim: String(describing: $selection))
                     Image(systemName: "chevron.up.chevron.down")
                         .fontWeight(.semibold)
                         .imageScale(.small)
@@ -90,7 +91,8 @@ struct SKPickerTVOS<SelectionValue: Hashable, Content: View>: View, SKComponent 
         .padding(.vertical, -5)
     }
     
-    init(data: SKPicker<SelectionValue, Content>.Data) {
+    init(selection: Binding<SelectionValue>, data: SKPicker<SelectionValue, Content, HeaderContent, FooterContent>.Data) {
+        self._selection = selection
         self.data = data
     }
 }

@@ -12,7 +12,7 @@ struct SKTextFieldViewWATCHOS: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.skRowShape) var skRowShape
     @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
-    let data: SKTextField.Data
+    let data: SKTextFieldData
     let prompt: Text?
     @State private var isFocused = false
     @Binding var text: String
@@ -25,7 +25,7 @@ struct SKTextFieldViewWATCHOS: View {
         }
     }
 
-    init(text: Binding<String>, prompt: Text? = nil, data: SKTextField.Data) {
+    init(text: Binding<String>, prompt: Text? = nil, data: SKTextFieldData) {
         self._text = text
         self.data = data
         self.prompt = prompt
@@ -71,7 +71,7 @@ struct SKDecimalFieldViewWATCHOS<F: ParseableFormatStyle>: View where F.FormatOu
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.skRowShape) var skRowShape
     @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
-    let data: SKTextField.Data
+    let data: SKTextFieldData
     @Binding var value: Double
     private let format: F
     private let prompt: Text?
@@ -86,7 +86,7 @@ struct SKDecimalFieldViewWATCHOS<F: ParseableFormatStyle>: View where F.FormatOu
         }
     }
     
-    init(value: Binding<Double>, defaultValue: Double = 0, format: F, prompt: Text? = nil, data: SKTextField.Data) {
+    init(value: Binding<Double>, defaultValue: Double = 0, format: F, prompt: Text? = nil, data: SKTextFieldData) {
         self.data = data
         self._value = value
         self.defaultValue = defaultValue
@@ -133,7 +133,7 @@ struct SKDecimalFieldViewWATCHOS<F: ParseableFormatStyle>: View where F.FormatOu
 
 // MARK: - Integer Field View
 struct SKIntFieldViewWATCHOS<F: ParseableFormatStyle>: View where F.FormatOutput == String, F.FormatInput == Int {
-    let data: SKTextField.Data
+    let data: SKTextFieldData
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.skRowShape) var skRowShape
     @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
@@ -151,7 +151,7 @@ struct SKIntFieldViewWATCHOS<F: ParseableFormatStyle>: View where F.FormatOutput
         }
     }
     
-    init(value: Binding<Int>, defaultValue: Int = 0, format: F, prompt: Text? = nil, data: SKTextField.Data) {
+    init(value: Binding<Int>, defaultValue: Int = 0, format: F, prompt: Text? = nil, data: SKTextFieldData) {
         self._value = value
         self.defaultValue = defaultValue
         self.format = format

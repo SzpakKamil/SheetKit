@@ -12,17 +12,18 @@ struct SKToolbarWATCHOS: View {
     @Environment(\.skSheetStyle) var sheetStyle
     @Environment(\.skIsShowingBackButton) var isShowingBackButton
     @Environment(\.skIsFinalPage) var IsFinalPage
+    @Environment(\.skIsContinueButtonHidden) var skIsContinueButtonHidden
     let data: SKToolbar.Data
     var body: some View {
-        let noteItems: [SKToolbarItem] = data.buttons.filter{ $0.data.placement == .note }
-        let secondaryItems: [SKToolbarItem] = data.buttons.filter{ $0.data.placement == .secondary }
-        let navigationItems: [SKToolbarItem] = data.buttons.filter{ $0.data.placement == .navigation }
-        let primaryItems: [SKToolbarItem] = data.buttons.filter{ $0.data.placement == .primary }
+        let noteItems: [SKToolbarItem] = data.buttons.filter{ $0.placement == .note }
+        let secondaryItems: [SKToolbarItem] = data.buttons.filter{ $0.placement == .secondary }
+        let navigationItems: [SKToolbarItem] = data.buttons.filter{ $0.placement == .navigation }
+        let primaryItems: [SKToolbarItem] = data.buttons.filter{ $0.placement == .primary }
         Text("")
             .toolbar {
                 ToolbarItemGroup(placement: .topBarTrailing) {
-                    ForEach(navigationItems){ item in
-                        item
+                    ForEach(navigationItems.indices){ index in
+                        navigationItems[index]
                     }
                 }
                 ToolbarItemGroup(placement: .bottomBar) {
@@ -32,15 +33,15 @@ struct SKToolbarWATCHOS: View {
                         }
                         .buttonStyle(.plain)
                     }else{
-                        ForEach(secondaryItems){ item in
-                            item
+                        ForEach(secondaryItems.indices){ index in
+                            secondaryItems[index]
                         }
                     }
-                    ForEach(noteItems){ item in
-                        item
+                    ForEach(noteItems.indices){ index in
+                        noteItems[index]
                     }
                     
-                    if primaryItems.isEmpty{
+                    if primaryItems.isEmpty && !skIsContinueButtonHidden{
                         SKToolbarItem(placement: .primary, actionType: .primary) {
                             if IsFinalPage{
                                 SKButton("Continue", systemImage: "checkmark"){}
@@ -49,8 +50,8 @@ struct SKToolbarWATCHOS: View {
                             }
                         }
                     }else{
-                        ForEach(primaryItems){ item in
-                            item
+                        ForEach(primaryItems.indices){ index in
+                            primaryItems[index]
                         }
                     }
                 }

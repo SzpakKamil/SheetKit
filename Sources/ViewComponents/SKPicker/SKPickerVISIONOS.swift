@@ -8,12 +8,13 @@
 import SwiftUI
 
 #if os(visionOS)
-struct SKPickerVISIONOS<SelectionValue: Hashable, Content: View>: View, SKComponent {
+struct SKPickerVISIONOS<SelectionValue: Hashable, Content: View, HeaderContent: View, FooterContent: View>: View, SKComponent {
     let type: SKComponentType = .field
+    @Binding var selection: SelectionValue
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.skRowShape) var skRowShape
     @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
-    var data: SKPicker<SelectionValue, Content>.Data
+    var data: SKPicker<SelectionValue, Content, HeaderContent, FooterContent>.Data
     
     var autoBackgroundColor: Color{
         if let skRowBackgroundColor{
@@ -35,7 +36,7 @@ struct SKPickerVISIONOS<SelectionValue: Hashable, Content: View>: View, SKCompon
                 if let headerView = data.headerView{
                     headerView
                 }
-                _VariadicView.Tree(SKPickerOptions(selectedValue: data.selection)) {
+                _VariadicView.Tree(SKPickerOptions(selectedValue: $selection)) {
                     data.content
                 }
                 if let footerView = data.footerView{
@@ -43,7 +44,7 @@ struct SKPickerVISIONOS<SelectionValue: Hashable, Content: View>: View, SKCompon
                 }
             }label: {
                 HStack(spacing: 5){
-                    Text(verbatim: String(describing: data.selection.wrappedValue))
+                    Text(verbatim: String(describing: selection))
                     Image(systemName: "chevron.up.chevron.down")
                         .imageScale(.small)
                 }
@@ -81,7 +82,8 @@ struct SKPickerVISIONOS<SelectionValue: Hashable, Content: View>: View, SKCompon
         .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 12, style: .continuous))
     }
     
-    init(data: SKPicker<SelectionValue, Content>.Data) {
+    init(selection: Binding<SelectionValue>, data: SKPicker<SelectionValue, Content, HeaderContent, FooterContent>.Data) {
+        self._selection = selection
         self.data = data
     }
 }

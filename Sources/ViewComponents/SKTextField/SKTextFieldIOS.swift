@@ -13,7 +13,7 @@ struct SKTextFieldViewIOS: View {
     @Environment(\.skRowShape) var skRowShape
     @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
     @Environment(\.colorScheme) var colorScheme
-    let data: SKTextField.Data
+    let data: SKTextFieldData
     let prompt: Text?
     @Binding var text: String
     
@@ -29,7 +29,7 @@ struct SKTextFieldViewIOS: View {
         }
     }
 
-    init(text: Binding<String>, prompt: Text? = nil, data: SKTextField.Data) {
+    init(text: Binding<String>, prompt: Text? = nil, data: SKTextFieldData) {
         self._text = text
         self.data = data
         self.prompt = prompt
@@ -64,7 +64,7 @@ struct SKDecimalFieldViewIOS<F: ParseableFormatStyle>: View where F.FormatOutput
     @Environment(\.skRowShape) var skRowShape
     @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
     @Environment(\.colorScheme) var colorScheme
-    let data: SKTextField.Data
+    let data: SKTextFieldData
     @Binding var value: Double
     private let format: F
     private let prompt: Text?
@@ -83,7 +83,7 @@ struct SKDecimalFieldViewIOS<F: ParseableFormatStyle>: View where F.FormatOutput
         }
     }
     
-    init(value: Binding<Double>, defaultValue: Double = 0, format: F, prompt: Text? = nil, data: SKTextField.Data) {
+    init(value: Binding<Double>, defaultValue: Double = 0, format: F, prompt: Text? = nil, data: SKTextFieldData) {
         self.data = data
         self._value = value
         self.defaultValue = defaultValue
@@ -169,7 +169,7 @@ struct SKDecimalFieldViewIOS<F: ParseableFormatStyle>: View where F.FormatOutput
 
 // MARK: - Integer Field View
 struct SKIntFieldViewIOS<F: ParseableFormatStyle>: View where F.FormatOutput == String, F.FormatInput == Int {
-    let data: SKTextField.Data
+    let data: SKTextFieldData
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.skAccentColor) var skAccentColor
     @Environment(\.skRowShape) var skRowShape
@@ -192,7 +192,7 @@ struct SKIntFieldViewIOS<F: ParseableFormatStyle>: View where F.FormatOutput == 
         }
     }
     
-    init(value: Binding<Int>, defaultValue: Int = 0, format: F, prompt: Text? = nil, data: SKTextField.Data) {
+    init(value: Binding<Int>, defaultValue: Int = 0, format: F, prompt: Text? = nil, data: SKTextFieldData) {
         self._value = value
         self.defaultValue = defaultValue
         self.format = format

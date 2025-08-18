@@ -10,18 +10,15 @@ import SwiftUI
 public extension SKPicker{
     struct Data{
         let title: LocalizedStringKey
-        let selection: Binding<SelectionValue>
         let content: Content
-        let headerView: AnyView?
-        let footerView: AnyView?
+        let headerView: HeaderContent?
+        let footerView: FooterContent?
         
         public init(
             _ title: LocalizedStringKey,
-            selection: Binding<SelectionValue>,
             @ViewBuilder content: () -> Content
-        ) {
+        )  where HeaderContent == EmptyView, FooterContent == EmptyView{
             self.title = title
-            self.selection = selection
             self.headerView = nil
             self.footerView = nil
             self.content = content()
@@ -29,63 +26,56 @@ public extension SKPicker{
         
         public init(
             _ title: LocalizedStringKey,
-            selection: Binding<SelectionValue>,
             @ViewBuilder content: () -> Content,
-            @ViewBuilder headerView: () -> some View
-        ) {
+            @ViewBuilder headerView: () -> HeaderContent
+        )  where FooterContent == EmptyView {
             self.title = title
-            self.selection = selection
-            self.headerView = AnyView(headerView())
+            self.headerView = headerView()
             self.footerView = nil
             self.content = content()
         }
         
         public init(
             _ title: LocalizedStringKey,
-            selection: Binding<SelectionValue>,
             @ViewBuilder content: () -> Content,
-            @ViewBuilder headerView: () -> some View,
-            @ViewBuilder footerView: () -> some View
+            @ViewBuilder headerView: () -> HeaderContent,
+            @ViewBuilder footerView: () -> FooterContent
         ) {
             self.title = title
-            self.selection = selection
-            self.headerView = AnyView(headerView())
-            self.footerView = AnyView(footerView())
+            self.headerView = headerView()
+            self.footerView = footerView()
             self.content = content()
         }
         
         public init(
             _ title: LocalizedStringKey,
-            selection: Binding<SelectionValue>,
             @ViewBuilder content: () -> Content,
-            @ViewBuilder footerView: () -> some View
-        ) {
+            @ViewBuilder footerView: () -> FooterContent
+        ) where HeaderContent == EmptyView {
             self.title = title
-            self.selection = selection
             self.headerView = nil
-            self.footerView = AnyView(footerView())   
+            self.footerView = footerView()
             self.content = content()
         }
     }
 }
 
-public struct SKPicker<SelectionValue: Hashable, Content: View>: View, SKComponent {
+public struct SKPicker<SelectionValue: Hashable, Content: View, HeaderContent: View, FooterContent: View>: View, SKComponent {
     public let type: SKComponentType = .field
+    @Binding var selection: SelectionValue
     var data: SKPicker.Data
 
     public var body: some View {
         #if os(iOS)
-        SKPickerIOS(data: data)
+        SKPickerIOS(selection: $selection, data: data)
         #elseif os(macOS)
-        SKPickerMACOS(data: data)
+        SKPickerMACOS(selection: $selection, data: data)
         #elseif os(tvOS)
-        SKPickerTVOS(data: data)
+        SKPickerTVOS(selection: $selection, data: data)
         #elseif os(visionOS)
-        SKPickerVISIONOS(data: data)
+        SKPickerVISIONOS(selection: $selection, data: data)
         #elseif os(watchOS)
-        SKPickerWATCHOS(data: data)
-        #else
-        EmptyView()
+        SKPickerWATCHOS(selection: $selection, data: data)
         #endif
     }
     
@@ -93,30 +83,34 @@ public struct SKPicker<SelectionValue: Hashable, Content: View>: View, SKCompone
         _ title: LocalizedStringKey,
         selection: Binding<SelectionValue>,
         @ViewBuilder content: () -> Content
-    ) {
-        self.data = .init(title, selection: selection, content: content)
+    ) where HeaderContent == EmptyView, FooterContent == EmptyView {
+        self._selection = selection
+        self.data = .init(title, content: content)
     }
     
     public init(
         _ title: LocalizedStringKey,
         selection: Binding<SelectionValue>,
         @ViewBuilder content: () -> Content,
-        @ViewBuilder headerView: () -> some View
-    ) {
-        self.data = .init(title, selection: selection, content: content, headerView: headerView)
+        @ViewBuilder headerView: () -> HeaderContent
+    )  where FooterContent == EmptyView {
+        self._selection = selection
+        self.data = .init(title, content: content, headerView: headerView)
     }
     
     public init(
         _ title: LocalizedStringKey,
         selection: Binding<SelectionValue>,
         @ViewBuilder content: () -> Content,
-        @ViewBuilder headerView: () -> some View,
-        @ViewBuilder footerView: () -> some View
+        @ViewBuilder headerView: () -> HeaderContent,
+        @ViewBuilder footerView: () -> FooterContent
     ) {
-        self.data = .init(title, selection: selection, content: content, headerView: headerView, footerView: footerView)
+        self._selection = selection
+        self.data = .init(title, content: content, headerView: headerView, footerView: footerView)
     }
     
-    public init(data: SKPicker<SelectionValue, Content>.Data) {
+    public init(selection: Binding<SelectionValue>, data: SKPicker<SelectionValue, Content, HeaderContent, FooterContent>.Data) {
+        self._selection = selection
         self.data = data
     }
     
@@ -125,9 +119,10 @@ public struct SKPicker<SelectionValue: Hashable, Content: View>: View, SKCompone
         selection: Binding<SelectionValue>,
         backgroundColor: Color? = nil,
         @ViewBuilder content: () -> Content,
-        @ViewBuilder footerView: () -> some View
-    ) {
-        self.data = .init(title, selection: selection, content: content, footerView: footerView)
+        @ViewBuilder footerView: () -> FooterContent
+    ) where HeaderContent == EmptyView {
+        self._selection = selection
+        self.data = .init(title, content: content, headerView: {EmptyView()}, footerView: footerView)
     }
 }
 

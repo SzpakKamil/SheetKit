@@ -10,23 +10,20 @@ import SwiftUI
 public extension SKDatePicker{
     struct Data{
         let title: LocalizedStringKey
-        let date: Binding<Date>
         let range: ClosedRange<Date>?
         #if !os(tvOS)
         let components: DatePicker.Components
         #endif
         
         #if !os(tvOS)
-        public init(title: LocalizedStringKey, range: ClosedRange<Date>? = nil, selection: Binding<Date>, components: DatePicker.Components = .date) {
+        public init(title: LocalizedStringKey, range: ClosedRange<Date>? = nil, components: DatePicker.Components = .date) {
             self.title = title
             self.components = components
             self.range = range
-            self.date = selection
         }
         #else
-        public init(title: LocalizedStringKey, range: ClosedRange<Date>? = nil, selection: Binding<Date>) {
+        public init(title: LocalizedStringKey, range: ClosedRange<Date>? = nil) {
             self.title = title
-            self.date = selection
             self.range = range
         }
         #endif
@@ -34,31 +31,34 @@ public extension SKDatePicker{
 }
 
 public struct SKDatePicker: View, SKComponent {
+    @Binding var date: Date
     public let type: SKComponentType = .field
     var data: SKDatePicker.Data
     
     public var body: some View {
         #if os(iOS)
-        SKDatePickerIOS(data: data)
+        SKDatePickerIOS(date: $date, data: data)
         #elseif os(macOS)
-        SKDatePickerMACOS(data: data)
+        SKDatePickerMACOS(date: $date, data: data)
         #elseif os(tvOS)
-        SKDatePickerTVOS(data: data)
+        SKDatePickerTVOS(date: $date, data: data)
         #elseif os(visionOS)
-        SKDatePickerVISIONOS(data: data)
+        SKDatePickerVISIONOS(date: $date, data: data)
         #elseif os(watchOS)
-        SKDatePickerWATCHOS(data: data)
+        SKDatePickerWATCHOS(date: $date, data: data)
         #else
         EmptyView()
         #endif
     }
     #if os(tvOS)
     public init(_ title: LocalizedStringKey, selection: Binding<Date>, in range: ClosedRange<Date>? = nil) {
-        self.data = .init(title: title, range: range, selection: selection)
+        self._date = selection
+        self.data = .init(title: title, range: range)
     }
     #else
     public init(_ title: LocalizedStringKey, selection: Binding<Date>, in range: ClosedRange<Date>? = nil, components: DatePicker.Components = .date) {
-        self.data = .init(title: title, range: range, selection: selection, components: components)
+        self._date = selection
+        self.data = .init(title: title, range: range, components: components)
     }
     #endif
 

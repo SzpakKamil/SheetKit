@@ -7,93 +7,22 @@
 
 import SwiftUI
 
-@resultBuilder
-public struct SKSheetBuilder {
-
-    /// Handles zero components (empty builder block).
-    public static func buildBlock() -> [SKPage] {
-        return []
-    }
-
-    /// Handles a single SKPage component.
-    public static func buildBlock(_ component: SKPage) -> [SKPage] {
-        return [component]
-    }
-
-    /// Handles multiple SKPage components.
-    public static func buildBlock(_ components: SKPage...) -> [SKPage] {
-        return components
-    }
-
-    /// Handles multiple already-wrapped components (e.g. arrays from conditionals or loops).
-    public static func buildBlock(_ components: [SKPage]...) -> [SKPage] {
-        return components.flatMap { $0 }
-    }
-
-    /// Support for expressions (bare `SKPage` values).
-    public static func buildExpression(_ expression: SKPage) -> [SKPage] {
-        return [expression]
-    }
-
-    /// Support for optional SKPage arrays (e.g. from `if let`).
-    public static func buildOptional(_ component: [SKPage]?) -> [SKPage] {
-        return component ?? []
-    }
-
-    /// Support for `if`/`else` first branch.
-    public static func buildEither(first component: [SKPage]) -> [SKPage] {
-        return component
-    }
-
-    /// Support for `if`/`else` second branch.
-    public static func buildEither(second component: [SKPage]) -> [SKPage] {
-        return component
-    }
-
-    /// Support for loops like `for` that produce `[SKPage]`.
-    public static func buildArray(_ components: [[SKPage]]) -> [SKPage] {
-        return components.flatMap { $0 }
-    }
-
-    /// Support for availability checks.
-    public static func buildLimitedAvailability(_ component: [SKPage]) -> [SKPage] {
-        return component
-    }
-    
-    public static func buildExpression<Data, ID>(_ forEach: SKForEach<Data, ID, Any>) -> [SKPage] where Data: RandomAccessCollection, ID: Hashable {
-        forEach.pageComponents
-    }
-    public static func buildExpression(_ components: SKPage...) -> [SKPage] {
-        return components
-    }
-}
-
-public struct SKSheetData {
-    var pages: [SKPage]
-    
-    init(@SKSheetBuilder pages: () -> [SKPage]) {
-        self.pages = pages()
-    }
-    init(pages: [SKPage]) {
-        self.pages = pages
-    }
-}
-
 public struct SKSheetView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.skSheetDragIndicatorVisibility) var skSheetDragIndicatorVisibility
     @Environment(\.skSheetInteractiveDismissDisabled) var skSheetInteractiveDismissDisabled
     @Environment(\.skSheetStyleDents) var skSheetStyleDents
     @Environment(\.skSheetStyleDentsSelection) var skSheetStyleDentsSelection
+    var pathBinding: Binding<[Int]>?
     @State private var path: [Int] = []
     @State private var shouldPresentAlert: Bool = false
-    public var data: SKSheetData
+    var pages: [SKPage]
     let adjustedContent: AnyView?
     public var body: some View {
         if let adjustedContent{
             adjustedContent
         }else{
-            NavigationStack(path: $path){
+            NavigationStack(path: pathBinding ?? $path){
                 pageView(currentIndex: 0)
                     .navigationDestination(for: Int.self) { index in
                         pageView(currentIndex: index)
@@ -126,8 +55,8 @@ public struct SKSheetView: View {
     @ViewBuilder
     func pageView(currentIndex: Int) -> some View{
         Group{
-            if data.pages.count > currentIndex{
-                let page = data.pages[currentIndex]
+            if pages.count > currentIndex{
+                let page = pages[currentIndex]
                 let isPresented: Binding<Bool> = Binding {
                     if let alert = page.data.alert{
                         if alert.type == nil{
@@ -161,7 +90,7 @@ public struct SKSheetView: View {
         .navigationBarBackButtonHidden()
         #if !os(macOS) && !os(tvOS) && !os(watchOS)
         .toolbar{
-            if !path.isEmpty{
+            if !(pathBinding?.wrappedValue ?? path).isEmpty{
                 ToolbarItem(placement: .navigation) {
                     SKToolbarItem(placement: .navigation) { _ in
                         SKButton("Back", systemImage: "chevron.backward") {
@@ -175,8 +104,8 @@ public struct SKSheetView: View {
         .environment(\.skPrimaryButtonAction) {
             confirmationAction(currentIndex: currentIndex)
         }
-        .environment(\.skIsFinalPage, path.last == currentIndex)
-        .environment(\.skIsShowingBackButton, !path.isEmpty)
+        .environment(\.skIsFinalPage, (pathBinding?.wrappedValue ?? path).last == currentIndex)
+        .environment(\.skIsShowingBackButton, !(pathBinding?.wrappedValue ?? path).isEmpty)
         .environment(\.skDismissButtonAction) {
             dismissalAction(currentIndex: currentIndex)
         }
@@ -186,30 +115,46 @@ public struct SKSheetView: View {
     }
     
     public func confirmationAction(currentIndex: Int){
-        if data.pages.count > 0{
-            let page = data.pages[currentIndex]
+        if pages.count > 0{
+            let page = pages[currentIndex]
             if let alert = page.data.alert, alert.type == .confirmation, alert.isPresented.wrappedValue{
                 shouldPresentAlert = true
             }else{
-                if data.pages.count > currentIndex + 1{
-                    path.append(currentIndex + 1)
+                if let pathBinding{
+                    if pages.count > currentIndex + 1{
+                        pathBinding.wrappedValue.append(currentIndex + 1)
+                    }else{
+                        pathBinding.wrappedValue.removeAll(); dismiss()
+                    }
                 }else{
-                    path.removeAll(); dismiss()
+                    if pages.count > currentIndex + 1{
+                        path.append(currentIndex + 1)
+                    }else{
+                        path.removeAll(); dismiss()
+                    }
                 }
             }
         }
     }
     
     public func dismissalAction(currentIndex: Int){
-        if data.pages.count > 0{
-            let page = data.pages[currentIndex]
+        if pages.count > 0{
+            let page = pages[currentIndex]
             if let alert = page.data.alert, alert.type == .dismissal, alert.isPresented.wrappedValue{
                 shouldPresentAlert = true
             }else{
-                if !path.isEmpty{
-                    path.removeLast()
+                if let pathBinding{
+                    if !pathBinding.wrappedValue.isEmpty{
+                        pathBinding.wrappedValue.removeLast()
+                    }else{
+                        dismiss()
+                    }
                 }else{
-                    dismiss()
+                    if !path.isEmpty{
+                        path.removeLast()
+                    }else{
+                        dismiss()
+                    }
                 }
             }
         }else{
@@ -218,12 +163,16 @@ public struct SKSheetView: View {
     }
     
     public func closeAction(currentIndex: Int){
-        if data.pages.count > 0{
-            let page = data.pages[currentIndex]
+        if pages.count > 0{
+            let page = pages[currentIndex]
             if let alert = page.data.alert, alert.type == .dismissal, alert.isPresented.wrappedValue{
                 shouldPresentAlert = true
             }else{
-                path.removeAll()
+                if let pathBinding{
+                    pathBinding.wrappedValue.removeAll()
+                }else{
+                    path.removeAll()
+                }
                 dismiss()
             }
         }else{
@@ -233,18 +182,24 @@ public struct SKSheetView: View {
 
     
     public init(@SKSheetBuilder pages: () -> [SKPage]) {
-        self.data = .init(pages: pages)
+        self.pages = pages()
         self.adjustedContent = nil
     }
     
     public init(pages: [SKPage]) {
-        self.data = .init(pages: pages)
+        self.pages = pages
         self.adjustedContent = nil
     }
     
-    public init(data: SKSheetData, @ViewBuilder content: @escaping () -> some View) {
-        self.data = data
+    public init(pages: [SKPage], @ViewBuilder content: @escaping () -> some View) {
+        self.pages = pages
         self.adjustedContent = AnyView(content())
+    }
+    
+    func skSheetPathBinding(_ path: Binding<[Int]>?) -> SKSheetView{
+        var copy = self
+        copy.pathBinding = path
+        return copy
     }
 }
 

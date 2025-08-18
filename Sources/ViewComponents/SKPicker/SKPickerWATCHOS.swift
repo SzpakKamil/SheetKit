@@ -8,9 +8,10 @@
 import SwiftUI
 
 #if os(watchOS)
-struct SKPickerWATCHOS<SelectionValue: Hashable, Content: View>: View, SKComponent {
+struct SKPickerWATCHOS<SelectionValue: Hashable, Content: View, HeaderContent: View, FooterContent: View>: View, SKComponent {
     let type: SKComponentType = .field
-    var data: SKPicker<SelectionValue, Content>.Data
+    @Binding var selection: SelectionValue
+    var data: SKPicker<SelectionValue, Content, HeaderContent, FooterContent>.Data
     @Environment(\.skRowShape) var skRowShape
     @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
     @State private var isUsingPicker = false
@@ -31,7 +32,7 @@ struct SKPickerWATCHOS<SelectionValue: Hashable, Content: View>: View, SKCompone
                 Text(data.title)
                     .lineLimit(1)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                Text(verbatim: String(describing: data.selection.wrappedValue))
+                Text(verbatim: String(describing: selection))
                     .lineLimit(1)
                     .foregroundStyle(.secondary)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -51,7 +52,7 @@ struct SKPickerWATCHOS<SelectionValue: Hashable, Content: View>: View, SKCompone
                         headerView
                             .simultaneousGesture(TapGesture().onEnded{isUsingPicker.toggle()})
                     }
-                    _VariadicView.Tree(SKPickerOptions(selectedValue: data.selection)) {
+                    _VariadicView.Tree(SKPickerOptions(selectedValue: $selection)) {
                         data.content
                     }
                     if let footerView = data.footerView{
@@ -63,7 +64,9 @@ struct SKPickerWATCHOS<SelectionValue: Hashable, Content: View>: View, SKCompone
             }
         }
     }
-    init(data: SKPicker<SelectionValue, Content>.Data) {
+    
+    init(selection: Binding<SelectionValue>, data: SKPicker<SelectionValue, Content, HeaderContent, FooterContent>.Data) {
+        self._selection = selection
         self.data = data
     }
 }

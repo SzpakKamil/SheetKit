@@ -37,15 +37,15 @@ struct SKPageVISIONOS: View{
                 }
             }
             .toolbar {
-                let navigationButtons = data.toolbar.data.buttons.filter{ $0.data.placement == .navigation}
+                let navigationButtons = data.toolbar.data.buttons.filter{ $0.placement == .navigation}
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     if !isCloseButtonHidden{
                         SKToolbarItem(placement: .navigation, actionType: .close) {
                             SKButton("Close", systemImage: "xmark"){}
                         }
                     }
-                    ForEach(navigationButtons) { button in
-                        button
+                    ForEach(navigationButtons.indices) { index in
+                        navigationButtons[index]
                     }
                 }
             }

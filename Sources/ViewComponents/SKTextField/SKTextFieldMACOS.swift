@@ -10,7 +10,7 @@ import SwiftUI
 // MARK: - Text Field View
 struct SKTextFieldViewMACOS: View {
     @Environment(\.colorScheme) var colorScheme
-    let data: SKTextField.Data
+    let data: SKTextFieldData
     @Environment(\.skRowShape) var skRowShape
     @Environment(\.skIsInSection) var skIsInSection
     @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
@@ -25,7 +25,7 @@ struct SKTextFieldViewMACOS: View {
         }
     }
 
-    init(text: Binding<String>, prompt: Text? = nil, data: SKTextField.Data) {
+    init(text: Binding<String>, prompt: Text? = nil, data: SKTextFieldData) {
         self._text = text
         self.data = data
         self.prompt = prompt
@@ -57,7 +57,7 @@ struct SKDecimalFieldViewMACOS<F: ParseableFormatStyle>: View where F.FormatOutp
     @Environment(\.skRowShape) var skRowShape
     @Environment(\.skIsInSection) var skIsInSection
     @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
-    let data: SKTextField.Data
+    let data: SKTextFieldData
     @Binding var value: Double
     private let format: F
     private let prompt: Text?
@@ -72,7 +72,7 @@ struct SKDecimalFieldViewMACOS<F: ParseableFormatStyle>: View where F.FormatOutp
         }
     }
     
-    init(value: Binding<Double>, defaultValue: Double = 0, format: F, prompt: Text? = nil, data: SKTextField.Data) {
+    init(value: Binding<Double>, defaultValue: Double = 0, format: F, prompt: Text? = nil, data: SKTextFieldData) {
         self.data = data
         self._value = value
         self.defaultValue = defaultValue
@@ -123,7 +123,7 @@ struct SKDecimalFieldViewMACOS<F: ParseableFormatStyle>: View where F.FormatOutp
 
 // MARK: - Integer Field View
 struct SKIntFieldViewMACOS<F: ParseableFormatStyle>: View where F.FormatOutput == String, F.FormatInput == Int {
-    let data: SKTextField.Data
+    let data: SKTextFieldData
     @Environment(\.skRowShape) var skRowShape
     @Environment(\.skIsInSection) var skIsInSection
     @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
@@ -142,7 +142,7 @@ struct SKIntFieldViewMACOS<F: ParseableFormatStyle>: View where F.FormatOutput =
         }
     }
     
-    init(value: Binding<Int>, defaultValue: Int = 0, format: F, prompt: Text? = nil, data: SKTextField.Data) {
+    init(value: Binding<Int>, defaultValue: Int = 0, format: F, prompt: Text? = nil, data: SKTextFieldData) {
         self._value = value
         self.defaultValue = defaultValue
         self.format = format

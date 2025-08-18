@@ -8,13 +8,14 @@
 import SwiftUI
 
 #if os(macOS)
-struct SKPickerMACOS<SelectionValue: Hashable, Content: View>: View, SKComponent {
+struct SKPickerMACOS<SelectionValue: Hashable, Content: View, HeaderContent: View, FooterContent: View>: View, SKComponent {
     let type: SKComponentType = .field
+    @Binding var selection: SelectionValue
     @Environment(\.skRowShape) var skRowShape
     @Environment(\.skIsInSection) var skIsInSection
     @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
     @Environment(\.colorScheme) var colorScheme
-    var data: SKPicker<SelectionValue, Content>.Data
+    var data: SKPicker<SelectionValue, Content, HeaderContent, FooterContent>.Data
     
     var autoBackgroundColor: Color{
         if let skRowBackgroundColor{
@@ -32,7 +33,7 @@ struct SKPickerMACOS<SelectionValue: Hashable, Content: View>: View, SKComponent
                 if let headerView = data.headerView{
                     headerView
                 }
-                _VariadicView.Tree(SKPickerOptions(selectedValue: data.selection)) {
+                _VariadicView.Tree(SKPickerOptions(selectedValue: $selection)) {
                     data.content
                 }
                 if let footerView = data.footerView{
@@ -40,7 +41,7 @@ struct SKPickerMACOS<SelectionValue: Hashable, Content: View>: View, SKComponent
                 }
             }label: {
                 HStack(spacing: 2){
-                    Text(verbatim: String(describing: data.selection.wrappedValue))
+                    Text(verbatim: String(describing: selection))
                         .font(.subheadline)
                     Image(systemName: "chevron.up.chevron.down")
                         .fontWeight(.semibold)
@@ -62,7 +63,8 @@ struct SKPickerMACOS<SelectionValue: Hashable, Content: View>: View, SKComponent
         .contentShape(Rectangle())
     }
     
-    init(data: SKPicker<SelectionValue, Content>.Data) {
+    init(selection: Binding<SelectionValue>, data: SKPicker<SelectionValue, Content, HeaderContent, FooterContent>.Data) {
+        self._selection = selection
         self.data = data
     }
 }

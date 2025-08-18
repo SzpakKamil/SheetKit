@@ -14,6 +14,7 @@ struct SKStepperTVOS<S: Strideable>: View, SKComponent {
     public let type: SKComponentType = .field
     @Environment(\.skRowShape) var skRowShape
     @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
+    @Binding var value: S
     var data: SKStepper<S>.Data
     var autoBackgroundColor: Color{
         if let skRowBackgroundColor{
@@ -30,7 +31,7 @@ struct SKStepperTVOS<S: Strideable>: View, SKComponent {
     }
     public var body: some View {
         HStack(spacing: 0){
-            Text("\(data.title): \(data.textForValue(data.value.wrappedValue))")
+            Text("\(data.title): \(data.textForValue(value))")
                 .if{ content in
                     if #unavailable(tvOS 26.0){
                         content
@@ -40,17 +41,17 @@ struct SKStepperTVOS<S: Strideable>: View, SKComponent {
                     }
                 }
                 .contentTransition(.numericText())
-                .animation(.smooth, value: data.value.wrappedValue)
+                .animation(.smooth, value: value)
             Spacer()
             HStack(spacing: 8){
-                let isIncrementDisabled = data.range == nil ? false : data.value.wrappedValue >= data.range!.upperBound
-                let isDecrementDisabled = data.range == nil ? false : data.value.wrappedValue <= data.range!.lowerBound
+                let isIncrementDisabled = data.range == nil ? false : value >= data.range!.upperBound
+                let isDecrementDisabled = data.range == nil ? false : value <= data.range!.lowerBound
                 Button{
-                    let newValue = data.value.wrappedValue.advanced(by: data.step)
+                    let newValue = value.advanced(by: data.step)
                     if let range = data.range{
-                        data.value.wrappedValue = min(newValue,range.upperBound)
+                        value = min(newValue,range.upperBound)
                     }else{
-                        data.value.wrappedValue = newValue
+                        value = newValue
                     }
                 }label:{
                     Image(systemName: "plus")
@@ -72,11 +73,11 @@ struct SKStepperTVOS<S: Strideable>: View, SKComponent {
                 .accessibilityLabel("Increment \(data.title)")
                 
                 Button{
-                    let newValue = data.value.wrappedValue.advanced(by: -data.step)
+                    let newValue = value.advanced(by: -data.step)
                     if let range = data.range{
-                        data.value.wrappedValue = max(newValue, range.lowerBound)
+                        value = max(newValue, range.lowerBound)
                     }else{
-                        data.value.wrappedValue = newValue
+                        value = newValue
                     }
 
                 }label:{
@@ -118,7 +119,8 @@ struct SKStepperTVOS<S: Strideable>: View, SKComponent {
         }
     }
     
-    public init(data: SKStepper<S>.Data) {
+    public init(value: Binding<S>, data: SKStepper<S>.Data) {
+        self._value = value
         self.data = data
     }
 }

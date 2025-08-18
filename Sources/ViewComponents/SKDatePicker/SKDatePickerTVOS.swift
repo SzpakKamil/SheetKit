@@ -9,6 +9,7 @@ import SwiftUI
 
 #if os(tvOS)
 public struct SKDatePickerTVOS: View {
+    @Binding var date: Date
     @Environment(\.skRowShape) var skRowShape
     @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
     @Environment(\.colorScheme) var colorScheme
@@ -33,7 +34,7 @@ public struct SKDatePickerTVOS: View {
     public var body: some View {
         Button {
             isUsingDatePicker = true
-            tempDate = data.date.wrappedValue
+            tempDate = date
         }label:{
             HStack{
                 Text(data.title)
@@ -42,7 +43,7 @@ public struct SKDatePickerTVOS: View {
                     .lineLimit(1)
                 Spacer()
                 HStack(spacing: 5){
-                    Text(data.date.wrappedValue, format: .dateTime.day().month().year())
+                    Text(date, format: .dateTime.day().month().year())
                 }
                 .padding(.vertical, 7)
                 .padding(.horizontal, 15)
@@ -96,10 +97,10 @@ public struct SKDatePickerTVOS: View {
                             VStack{
                                 Button("Submit", role: .cancel) {
                                     isUsingDatePicker = false
-                                    data.date.wrappedValue = tempDate
+                                    date = tempDate
                                 }
                                 Button("Reset", role: .destructive) {
-                                    tempDate = data.date.wrappedValue
+                                    tempDate = date
                                 }
                             }
                         }
@@ -110,7 +111,8 @@ public struct SKDatePickerTVOS: View {
         }
     }
     
-    public init(data: SKDatePicker.Data) {
+    public init(date: Binding<Date>, data: SKDatePicker.Data) {
+        self._date = date
         self.data = data
     }
 }

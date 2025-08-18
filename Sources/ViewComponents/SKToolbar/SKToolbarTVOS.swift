@@ -12,29 +12,30 @@ struct SKToolbarTVOS: View {
     @Environment(\.skSheetStyle) var sheetStyle
     @Environment(\.skIsCloseButtonHidden) var isCloseButtonHidden
     @Environment(\.skIsShowingBackButton) var isShowingBackButton
+    @Environment(\.skIsContinueButtonHidden) var skIsContinueButtonHidden
     let data: SKToolbar.Data
     var body: some View {
-        let noteItems: [SKToolbarItem] = data.buttons.filter{ $0.data.placement == .note }
-        let secondaryItems: [SKToolbarItem] = data.buttons.filter{ $0.data.placement == .secondary }
-        let navigationItems: [SKToolbarItem] = data.buttons.filter{ $0.data.placement == .navigation }
-        let primaryItems: [SKToolbarItem] = data.buttons.filter{ $0.data.placement == .primary }
+        let noteItems: [SKToolbarItem] = data.buttons.filter{ $0.placement == .note }
+        let secondaryItems: [SKToolbarItem] = data.buttons.filter{ $0.placement == .secondary }
+        let navigationItems: [SKToolbarItem] = data.buttons.filter{ $0.placement == .navigation }
+        let primaryItems: [SKToolbarItem] = data.buttons.filter{ $0.placement == .primary }
         VStack{
             if #available(tvOS 26.0, *){
                 VStack(spacing: 5){
-                    ForEach(noteItems){ buttons in
-                        buttons
+                    ForEach(noteItems.indices){ index in
+                        noteItems[index]
                     }
                 }
             }
             HStack(spacing: 10){
-                ForEach(secondaryItems){ buttons in
-                    buttons
+                ForEach(secondaryItems.indices){ index in
+                    secondaryItems[index]
                 }
                 Spacer()
                 if #unavailable(tvOS 26.0){
                     VStack(spacing: 5){
-                        ForEach(noteItems){ buttons in
-                            buttons
+                        ForEach(noteItems.indices){ index in
+                            noteItems[index]
                         }
                     }
                     Spacer()
@@ -43,15 +44,15 @@ struct SKToolbarTVOS: View {
                 if navigationItems.isEmpty && (!isCloseButtonHidden || isShowingBackButton){
                     SKToolbarItem(placement: .navigation, actionType: .dismiss) {SKButton("Back"){}}
                 }else{
-                    ForEach(navigationItems){ buttons in
-                        buttons
+                    ForEach(navigationItems.indices){ index in
+                        navigationItems[index]
                     }
                 }
-                if primaryItems.isEmpty{
+                if primaryItems.isEmpty && !skIsContinueButtonHidden{
                     SKToolbarItem(placement: .primary) {SKButton("Continue") {}}
                 }else{
-                    ForEach(primaryItems){ buttons in
-                        buttons
+                    ForEach(primaryItems.indices){ index in
+                        primaryItems[index]
                     }
                 }
             }

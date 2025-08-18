@@ -9,6 +9,7 @@ import SwiftUI
 
 #if os(iOS)
 public struct SKDatePickerIOS: View {
+    @Binding var date: Date
     @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
     @Environment(\.skRowShape) var skRowShape
     @Environment(\.colorScheme) var colorScheme
@@ -30,7 +31,7 @@ public struct SKDatePickerIOS: View {
         HStack{
             Text(data.title)
             Spacer()
-            DatePicker(data.title, selection: data.date, in: data.range ?? Date.distantPast...Date.distantFuture, displayedComponents: data.components)
+            DatePicker(data.title, selection: $date, in: data.range ?? Date.distantPast...Date.distantFuture, displayedComponents: data.components)
                 .labelsHidden()
                 .if{ content in
                     if #available(iOS 26.0, *){
@@ -58,7 +59,8 @@ public struct SKDatePickerIOS: View {
         .contentShape(Rectangle())
     }
     
-    public init(data: SKDatePicker.Data) {
+    public init(date: Binding<Date>, data: SKDatePicker.Data) {
+        self._date = date
         self.data = data
     }
 }

@@ -7,69 +7,19 @@
 
 import SwiftUI
 
-public extension SKToolbarItem {
-    struct Data: Identifiable, Hashable {
-        public let id: UUID
-        let placement: SKToolbarItem.Placement
-        let actionType: SKToolbarItem.ActionType
-        let content: (@escaping () -> Void) -> AnyView
-        
-        // Initializer for content with action
-        public init(placement: SKToolbarItem.Placement, actionType: SKToolbarItem.ActionType = .auto, @ViewBuilder content: @escaping (@escaping () -> Void) -> some View) {
-            self.id = UUID()
-            self.placement = placement
-            self.actionType = actionType
-            self.content = { AnyView(content($0).environment(\.skToolbarButtonAction, {}))}
-        }
-        
-        // Initializer for content without action
-        public init(placement: SKToolbarItem.Placement, actionType: SKToolbarItem.ActionType = .auto, @ViewBuilder content: @escaping () -> some View) {
-            self.id = UUID()
-            self.placement = placement
-            self.actionType = actionType
-            self.content = { _ in AnyView(content()) }
-        }
-        
-        public static func == (lhs: SKToolbarItem.Data, rhs: SKToolbarItem.Data) -> Bool {
-            lhs.id == rhs.id
-        }
-        
-        public func hash(into hasher: inout Hasher) {
-            hasher.combine(id)
-        }
-    }
-    
-    enum Placement {
-        case primary
-        case secondary
-        case navigation
-        case note
-    }
-    
-    enum ActionType {
-        case primary
-        case dismiss
-        case close
-        case none
-        case auto
-    }
-}
-
-public struct SKToolbarItem: View, Identifiable, Hashable {
+public struct SKToolbarItem: View {
     @Environment(\.skPrimaryButtonAction) var primaryAction
     @Environment(\.skDismissButtonAction) var dismissAction
     @Environment(\.skCloseButtonAction) var closeAction
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.skAccentColor) var accentColor
-    public var id: UUID {
-        data.id
-    }
-    
-    var data: SKToolbarItem.Data
+    let placement: SKToolbarItemPlacement
+    let actionType: SKToolbarItemActionType
+    let content: (@escaping () -> Void) -> AnyView
     
     public var body: some View {
         let action: () -> Void = {
-            switch data.actionType {
+            switch actionType {
             case .primary:
                 primaryAction()
             case .dismiss:
@@ -79,7 +29,7 @@ public struct SKToolbarItem: View, Identifiable, Hashable {
             case .none:
                 break
             case .auto:
-                switch data.placement{
+                switch placement{
                 case .primary:
                     primaryAction()
                 default:
@@ -88,27 +38,23 @@ public struct SKToolbarItem: View, Identifiable, Hashable {
             }
         }
         
-        data.content(action)
-        .environment(\.skToolbarPlacement, data.placement)
+        content(action)
         .environment(\.skToolbarButtonAction, action)
+        .environment(\.skToolbarPlacement, placement)
     }
     
     // Initializer for content with action
-    public init(placement: SKToolbarItem.Placement, actionType: SKToolbarItem.ActionType = .auto, @ViewBuilder content: @escaping (@escaping () -> Void) -> some View) {
-        self.data = .init(placement: placement, actionType: actionType, content: content)
+    public init(placement: SKToolbarItemPlacement, actionType: SKToolbarItemActionType = .auto, @ViewBuilder content: @escaping (@escaping () -> Void) -> some View) {
+        self.placement = placement
+        self.actionType = actionType
+        self.content = { AnyView(content($0).environment(\.skToolbarButtonAction, {}))}
     }
     
     // Initializer for content without action
-    public init(placement: SKToolbarItem.Placement, actionType: SKToolbarItem.ActionType = .auto, @ViewBuilder content: @escaping () -> some View) {
-        self.data = .init(placement: placement, actionType: actionType, content: content)
-    }
-    
-    public static func == (lhs: SKToolbarItem, rhs: SKToolbarItem) -> Bool {
-        lhs.data.id == rhs.data.id
-    }
-    
-    public func hash(into hasher: inout Hasher) {
-        data.hash(into: &hasher)
+    public init(placement: SKToolbarItemPlacement, actionType: SKToolbarItemActionType = .auto, @ViewBuilder content: @escaping () -> some View) {
+        self.placement = placement
+        self.actionType = actionType
+        self.content = { _ in AnyView(content()) }
     }
 }
 

@@ -9,6 +9,7 @@ import SwiftUI
 
 #if os(visionOS)
 public struct SKDatePickerVISIONOS: View {
+    @Binding var date: Date
     @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
     @Environment(\.skRowShape) var skRowShape
     @Environment(\.colorScheme) var colorScheme
@@ -26,7 +27,7 @@ public struct SKDatePickerVISIONOS: View {
         HStack{
             Text(data.title)
             Spacer()
-            DatePicker(data.title, selection: data.date, in: data.range ?? Date.distantPast...Date.distantFuture, displayedComponents: data.components)
+            DatePicker(data.title, selection: $date, in: data.range ?? Date.distantPast...Date.distantFuture, displayedComponents: data.components)
                 .labelsHidden()
                 .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 12, style: .continuous))
                 .scaleEffect(0.70)
@@ -59,7 +60,8 @@ public struct SKDatePickerVISIONOS: View {
         .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 12, style: .continuous))
     }
     
-    public init(data: SKDatePicker.Data) {
+    public init(date: Binding<Date>, data: SKDatePicker.Data) {
+        self._date = date
         self.data = data
     }
 }

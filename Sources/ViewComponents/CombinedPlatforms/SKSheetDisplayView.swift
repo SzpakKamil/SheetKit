@@ -8,6 +8,7 @@
 import SwiftUI
 
 public struct SKSheetDisplayView: View {
+    @State private var path: [Int] = []
     @Environment(\.skSheetManager) var sheetManager
     let index: Int
 
@@ -40,7 +41,11 @@ public struct SKSheetDisplayView: View {
     func sheetContent() -> some View{
         Group{
             if let sheet = sheetManager.getOpenedSheet(forIndex: index){
-                sheet.view
+                if let sheet = sheet.sheet{
+                    AnyView(sheet)
+                }else{
+                    sheet.view
+                }
             }
         }
         .sheet(isPresented: sheetManager.getOpenedSheet(forIndex: index + 1)?.isPresentedBinding ?? .constant(false)) {

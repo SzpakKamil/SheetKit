@@ -11,6 +11,7 @@ struct SKStepperWATCHOS<S: Strideable>: View, SKComponent {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
     @Environment(\.skRowShape) var skRowShape
+    @Binding var value: S
     var data: SKStepper<S>.Data
     var type: SKComponentType = .field
     @State private var isUsingStepper: Bool = false
@@ -27,13 +28,13 @@ struct SKStepperWATCHOS<S: Strideable>: View, SKComponent {
     public var body: some View {
         Button {
             isUsingStepper = true
-            tempValue = data.value.wrappedValue
+            tempValue = value
         }label:{
             VStack{
                 Text(data.title)
                     .lineLimit(1)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                Text(data.textForValue(data.value.wrappedValue))
+                Text(data.textForValue(value))
                     .lineLimit(1)
                     .foregroundStyle(.secondary)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -50,18 +51,18 @@ struct SKStepperWATCHOS<S: Strideable>: View, SKComponent {
             NavigationStack{
                 VStack{
                     if let range = data.range{
-                        Stepper(data.textForValue(data.value.wrappedValue), value: data.value, in: range)
+                        Stepper(data.textForValue(value), value: $value, in: range)
                     }else{
-                        Stepper(data.textForValue(data.value.wrappedValue), value: data.value)
+                        Stepper(data.textForValue(value), value: $value)
                     }
                     
                     HStack{
                         Button("Submit", role: .cancel) {
                             isUsingStepper = false
-                            data.value.wrappedValue = tempValue
+                            value = tempValue
                         }
                         Button("Reset", role: .destructive) {
-                            tempValue = data.value.wrappedValue
+                            tempValue = value
                         }
                     }
                 }
@@ -70,9 +71,10 @@ struct SKStepperWATCHOS<S: Strideable>: View, SKComponent {
         }
     }
     
-    public init(data: SKStepper<S>.Data) {
+    public init(value: Binding<S>, data: SKStepper<S>.Data) {
         self.data = data
-        self.tempValue = data.value.wrappedValue
+        self._value = value
+        self.tempValue = value.wrappedValue
     }
 }
 

@@ -43,7 +43,7 @@ struct SKPageMACOS: View{
             if sheetStyle != .default{
                 HStack{
                     let navigationAction = data.toolbar.data.buttons.filter{
-                        $0.data.placement == .navigation
+                        $0.placement == .navigation
                     }
                     if navigationAction.isEmpty && (!isCloseButtonHidden || isShowingBackButton) {
                         SKToolbarItem(placement: .navigation, actionType: .dismiss) {
@@ -54,8 +54,8 @@ struct SKPageMACOS: View{
                             }
                         }
                     }else{
-                        ForEach(navigationAction) { button in
-                            button
+                        ForEach(navigationAction.indices) { index in
+                            navigationAction[index]
                         }
                     }
                     Spacer()

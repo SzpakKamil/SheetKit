@@ -9,6 +9,7 @@ import SwiftUI
 
 #if os(watchOS)
 public struct SKDatePickerWATCHOS: View {
+    @Binding var date: Date
     @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
     @Environment(\.skRowShape) var skRowShape
     @Environment(\.colorScheme) var colorScheme
@@ -27,13 +28,13 @@ public struct SKDatePickerWATCHOS: View {
     public var body: some View {
         Button {
             isUsingDatePicker = true
-            tempDate = data.date.wrappedValue
+            tempDate = date
         }label:{
             VStack(alignment: .leading){
                 Text(data.title)
                     .lineLimit(1)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                Text(data.date.wrappedValue, format: .dateTime.day().month().year())
+                Text(date, format: .dateTime.day().month().year())
                     .lineLimit(1)
                     .foregroundStyle(.secondary)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -49,14 +50,14 @@ public struct SKDatePickerWATCHOS: View {
         .fullScreenCover(isPresented: $isUsingDatePicker) {
             NavigationStack{
                 VStack{
-                    DatePicker(data.title, selection: data.date, in: data.range ?? Date.distantPast...Date.distantFuture, displayedComponents: data.components)
+                    DatePicker(data.title, selection: $date, in: data.range ?? Date.distantPast...Date.distantFuture, displayedComponents: data.components)
                     HStack{
                         Button("Submit", role: .cancel) {
                             isUsingDatePicker = false
-                            data.date.wrappedValue = tempDate
+                            date = tempDate
                         }
                         Button("Reset", role: .destructive) {
-                            tempDate = data.date.wrappedValue
+                            tempDate = date
                         }
                     }
                 }
@@ -65,7 +66,8 @@ public struct SKDatePickerWATCHOS: View {
         }
     }
     
-    public init(data: SKDatePicker.Data) {
+    public init(date: Binding<Date>, data: SKDatePicker.Data) {
+        self._date = date
         self.data = data
     }
 }

@@ -48,6 +48,11 @@ public extension SKPage{
             self.environment(\.skIsCloseButtonHidden, configuration)
         }
     }
+    func skHideContinueButton(_ configuration: Bool = true) -> SKPage{
+        return SKPage(data: data) {
+            self.environment(\.skIsContinueButtonHidden, configuration)
+        }
+    }
 
     
     func skAlert(isPresented: Binding<Bool>, title: String, description: String, type: AlertType? = nil, @ViewBuilder content: @escaping () -> some View) -> SKPage{

@@ -13,6 +13,7 @@ struct SKStepperVISIONOS<S: Strideable>: View, SKComponent {
     @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
     @Environment(\.colorScheme) var colorScheme
     public let type: SKComponentType = .field
+    @Binding var value: S
     var data: SKStepper<S>.Data
     var autoBackgroundColor: Color{
         if let skRowBackgroundColor{
@@ -27,17 +28,17 @@ struct SKStepperVISIONOS<S: Strideable>: View, SKComponent {
     }
     public var body: some View {
         HStack(spacing: 0){
-            Text("\(data.title): \(data.textForValue(data.value.wrappedValue))")
+            Text("\(data.title): \(data.textForValue(value))")
             Spacer()
             HStack(spacing: 8){
-                let isIncrementDisabled = data.range == nil ? false : data.value.wrappedValue >= data.range!.upperBound
-                let isDecrementDisabled = data.range == nil ? false : data.value.wrappedValue <= data.range!.lowerBound
+                let isIncrementDisabled = data.range == nil ? false : value >= data.range!.upperBound
+                let isDecrementDisabled = data.range == nil ? false : value <= data.range!.lowerBound
                 Button{
-                    let newValue = data.value.wrappedValue.advanced(by: data.step)
+                    let newValue = value.advanced(by: data.step)
                     if let range = data.range{
-                        data.value.wrappedValue = min(newValue,range.upperBound)
+                        value = min(newValue,range.upperBound)
                     }else{
-                        data.value.wrappedValue = newValue
+                        value = newValue
                     }
                 }label:{
                     Image(systemName: "plus")
@@ -50,7 +51,7 @@ struct SKStepperVISIONOS<S: Strideable>: View, SKComponent {
                 .accessibilityLabel("Increment \(data.title)")
                 
                 Button{
-                    let newValue = data.value.wrappedValue.advanced(by: -data.step)
+                    let newValue = value.advanced(by: -data.step)
                     if let range = data.range{
                         data.value.wrappedValue = max(newValue, range.lowerBound)
                     }else{
@@ -96,10 +97,10 @@ struct SKStepperVISIONOS<S: Strideable>: View, SKComponent {
         .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 12, style: .continuous))
     }
     
-    public init(data: SKStepper<S>.Data) {
+    public init(value: Binding<S>, data: SKStepper<S>.Data) {
+        self._value = value
         self.data = data
-    }
-}
+    }}
 
 #if DEBUG
 #Preview {

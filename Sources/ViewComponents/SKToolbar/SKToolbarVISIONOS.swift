@@ -10,30 +10,31 @@ import SwiftUI
 #if os(visionOS)
 struct SKToolbarVISIONOS: View {
     @Environment(\.skSheetStyle) var sheetStyle
+    @Environment(\.skIsContinueButtonHidden) var skIsContinueButtonHidden
     let data: SKToolbar.Data
     var body: some View {
-        let noteItems: [SKToolbarItem] = data.buttons.filter{ $0.data.placement == .note }
-        let secondaryItems: [SKToolbarItem] = data.buttons.filter{ $0.data.placement == .secondary }
-        let navigationItems: [SKToolbarItem] = data.buttons.filter{ $0.data.placement == .navigation }
-        let primaryItems: [SKToolbarItem] = data.buttons.filter{ $0.data.placement == .primary }
+        let noteItems: [SKToolbarItem] = data.buttons.filter{ $0.placement == .note }
+        let secondaryItems: [SKToolbarItem] = data.buttons.filter{ $0.placement == .secondary }
+        let navigationItems: [SKToolbarItem] = data.buttons.filter{ $0.placement == .navigation }
+        let primaryItems: [SKToolbarItem] = data.buttons.filter{ $0.placement == .primary }
         VStack{
             VStack{
-                ForEach(noteItems){ buttons in
-                    buttons
+                ForEach(noteItems.indices){ index in
+                    noteItems[index]
                 }
             }
             .padding(.bottom, 8)
-            if primaryItems.isEmpty{
+            if primaryItems.isEmpty && !skIsContinueButtonHidden{
                 SKToolbarItem(placement: .primary) {
                     SKButton("Continue") {}
                 }
             }else{
-                ForEach(primaryItems){ buttons in
-                    buttons
+                ForEach(primaryItems.indices){ index in
+                    primaryItems[index]
                 }
             }
-            ForEach(secondaryItems){ buttons in
-                buttons
+            ForEach(secondaryItems.indices){ index in
+                secondaryItems[index]
             }
         }
     }

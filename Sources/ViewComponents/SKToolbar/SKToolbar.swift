@@ -8,12 +8,6 @@
 import SwiftUI
 
 
-@resultBuilder
-public struct SKToolbarBuilder {
-    public static func buildBlock(_ components: SKToolbarItem...) -> [SKToolbarItem] {
-        return components
-    }
-}
 
 // MARK: - Toolbar Data Extension
 public extension SKToolbar {

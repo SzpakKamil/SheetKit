@@ -20,17 +20,4 @@ public extension SKComponent {
     }
 }
 
-public struct SKCustomView: View, SKComponent{
-    public let type: SKComponentType
-    let content: AnyView
-    
-    public var body: some View{
-        content
-    }
-    
-    public init(type: SKComponentType, @ViewBuilder content: @escaping () -> some View) {
-        self.type = type
-        self.content = AnyView(content())
-    }
-}
 
