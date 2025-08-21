@@ -36,30 +36,43 @@ struct SKScrollViewMACOS<Content: View>: View {
                     content()
                 }
                 .padding(.top, 55)
-                .padding(.bottom, toolbarHeight)
             }
-
-            ZStack(alignment: .bottom) {
-                Blur()
-                    .frame(height: toolbarHeight + 30)
-                    
-                GeometryReader{ proxy in
-                    VStack{
-                        Spacer()
-                        toolbar
-                            .frame(maxWidth: .infinity, alignment: .center)
-                            .padding(.horizontal, 20)
-                            .padding(.bottom, 20)
-                            .onGeometryChange(for: CGSize.self) { proxy in
-                                proxy.size
-                            } action: {
-                                self.toolbarHeight = $0.height
-                            }
-                    }
+            .if{ content in
+                if #available(macOS 26.0, *){
+                    content
+                        .safeAreaBar(edge: .bottom) {
+                            toolbar
+                                .padding(.horizontal, 20)
+                                .padding(.bottom, 20)
+                        }
+                }else{
+                    content
                 }
             }
-            .ignoresSafeArea()
-            .frame(maxWidth: .infinity)
+
+            if #unavailable(macOS 26.0, *){
+                ZStack(alignment: .bottom) {
+                    Blur()
+                        .frame(height: toolbarHeight + 30)
+                    
+                    GeometryReader{ proxy in
+                        VStack{
+                            Spacer()
+                            toolbar
+                                .frame(maxWidth: .infinity, alignment: .center)
+                                .padding(.horizontal, 20)
+                                .padding(.bottom, 20)
+                                .onGeometryChange(for: CGSize.self) { proxy in
+                                    proxy.size
+                                } action: {
+                                    self.toolbarHeight = $0.height
+                                }
+                        }
+                    }
+                }
+                .ignoresSafeArea()
+                .frame(maxWidth: .infinity)
+            }
         }
     }
 

@@ -23,83 +23,89 @@ public struct SKButton<TextContent: View, ImageContent: View>: View {
         Group {
             if let destination {
                 Link(destination: destination) {
-                    #if os(watchOS)
-                    if ImageContent.self != EmptyView.self && toolbarPlacement != .note {
-                        image
-                            .accessibilityHidden(true)
-                    } else {
-                        text
-                    }
-                    #elseif !os(iOS)
-                    if ImageContent.self != EmptyView.self && sheetStyle == .compact && toolbarPlacement == .navigation {
-                        image
-                            .accessibilityHidden(true)
-                    } else {
-                        text
-                    }
-                    #else
-                    HStack {
-                        if ImageContent.self != EmptyView.self && toolbarPlacement == .navigation {
-                            if #available(iOS 26.0, *) {
-                                image
-                                    .accessibilityHidden(true)
-                            } else {
-                                HStack {
-                                    image
-                                        .accessibilityHidden(true)
-                                    text
-                                }
-                            }
+                    Group{
+                        #if os(watchOS)
+                        if ImageContent.self != EmptyView.self && toolbarPlacement != .note {
+                            image
+                                .accessibilityHidden(true)
                         } else {
                             text
                         }
+                        #elseif !os(iOS)
+                        if ImageContent.self != EmptyView.self && sheetStyle == .compact && toolbarPlacement == .navigation {
+                            image
+                                .accessibilityHidden(true)
+                        } else {
+                            text
+                        }
+                        #else
+                        HStack {
+                            if ImageContent.self != EmptyView.self && toolbarPlacement == .navigation {
+                                if #available(iOS 26.0, *) {
+                                    image
+                                        .accessibilityHidden(true)
+                                } else {
+                                    HStack {
+                                        image
+                                            .accessibilityHidden(true)
+                                        text
+                                    }
+                                }
+                            } else {
+                                text
+                            }
+                        }
+                        #endif
                     }
-                    #endif
+                    .lineLimit(1)
                 }
             } else {
                 Button {
                     action()
                     toolbarButtonAction()
                 } label: {
-                    #if os(visionOS)
-                    if ImageContent.self != EmptyView.self && toolbarPlacement == .navigation {
-                        image
-                    } else {
-                        text
-                    }
-                    #elseif os(watchOS)
-                    if toolbarPlacement == .note {
-                        Image(systemName: "info")
-                    } else if ImageContent.self != EmptyView.self {
-                        image
-                            .accessibilityHidden(true)
-                    } else {
-                        text
-                    }
-                    #elseif !os(iOS)
-                    if ImageContent.self != EmptyView.self && sheetStyle != .default && toolbarPlacement == .navigation {
-                        image
-                            .accessibilityHidden(true)
-                    } else {
-                        text
-                    }
-                    #else
-                    HStack {
+                    Group{
+                        #if os(visionOS)
                         if ImageContent.self != EmptyView.self && toolbarPlacement == .navigation {
-                            if #available(iOS 26.0, *) {
-                                image
-                            } else {
-                                HStack {
-                                    image
-                                        .accessibilityHidden(true)
-                                    text
-                                }
-                            }
+                            image
                         } else {
                             text
                         }
+                        #elseif os(watchOS)
+                        if toolbarPlacement == .note {
+                            Image(systemName: "info")
+                        } else if ImageContent.self != EmptyView.self {
+                            image
+                                .accessibilityHidden(true)
+                        } else {
+                            text
+                        }
+                        #elseif !os(iOS)
+                        if ImageContent.self != EmptyView.self && sheetStyle != .default && toolbarPlacement == .navigation {
+                            image
+                                .accessibilityHidden(true)
+                        } else {
+                            text
+                        }
+                        #else
+                        HStack {
+                            if ImageContent.self != EmptyView.self && toolbarPlacement == .navigation {
+                                if #available(iOS 26.0, *) {
+                                    image
+                                } else {
+                                    HStack {
+                                        image
+                                            .accessibilityHidden(true)
+                                        text
+                                    }
+                                }
+                            } else {
+                                text
+                            }
+                        }
+                        #endif
                     }
-                    #endif
+                    .lineLimit(1)
                 }
             }
         }

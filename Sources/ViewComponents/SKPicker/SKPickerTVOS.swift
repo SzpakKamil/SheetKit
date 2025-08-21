@@ -46,7 +46,7 @@ struct SKPickerTVOS<SelectionValue: Hashable, Content: View, HeaderContent: View
                 Text(data.title)
                 Spacer()
                 HStack(spacing: 3){
-                    Text(verbatim: String(describing: $selection))
+                    Text(verbatim: String(describing: selection))
                     Image(systemName: "chevron.up.chevron.down")
                         .fontWeight(.semibold)
                         .imageScale(.small)

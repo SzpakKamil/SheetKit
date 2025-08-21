@@ -18,7 +18,7 @@ public struct SKPrimaryButtonStyle: ButtonStyle {
         #elseif os(macOS)
         SKPrimaryButtonStyleMACOS(isEnabled: isEnabled, accentColor: accentColor, sheetStyle: sheetStyle, colorScheme: colorScheme).makeBody(configuration: configuration)
         #elseif os(tvOS)
-        SKPrimaryButtonStyleTVOS(isEnabled: isEnabled, accentColor: accentColor).makeBody(configuration: configuration)
+        SKPrimaryButtonStyleTVOS(isEnabled: isEnabled, accentColor: accentColor, colorSheme: colorScheme).makeBody(configuration: configuration)
         #elseif os(visionOS)
         SKPrimaryButtonStyleVISIONOS(isEnabled: isEnabled, accentColor: accentColor).makeBody(configuration: configuration)
         #else

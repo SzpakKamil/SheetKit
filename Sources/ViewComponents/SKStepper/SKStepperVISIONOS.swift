@@ -53,9 +53,9 @@ struct SKStepperVISIONOS<S: Strideable>: View, SKComponent {
                 Button{
                     let newValue = value.advanced(by: -data.step)
                     if let range = data.range{
-                        data.value.wrappedValue = max(newValue, range.lowerBound)
+                        value = max(newValue, range.lowerBound)
                     }else{
-                        data.value.wrappedValue = newValue
+                        value = newValue
                     }
                 }label:{
                     Image(systemName: "minus")

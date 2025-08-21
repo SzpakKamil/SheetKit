@@ -11,9 +11,16 @@ import SwiftUI
 public class SKSheetManager: Codable{
     @MainActor
     var sheets: [SKSheetDisplayWrapper] = []
+    
+    var paths: [String: [Int]] = [:]
     @MainActor
     var openedSheets: [SKSheetDisplayWrapper]{
         return sheets.filter{ $0.shouldBePresented }
+    }
+    
+    @MainActor
+    var handoffableSheets: [SKSheetDisplayWrapper]{
+        return sheets.filter{ $0.sheet?.options.first{ $0.id == 0}?.value1 as? Bool == true && $0.shouldBePresented }
     }
     
     @MainActor
@@ -22,18 +29,29 @@ public class SKSheetManager: Codable{
     }
     
     @MainActor
-    var changesCount: Int{
-        openedSheetsCount + openedSheets.map{
-            if let handoffable = $0.sheet as? SKHandoffableSheet {
-                return handoffable.data.path.reduce(0){ $0 + $1 }
-            }else {
-                return 0
-            }
-        }.reduce(0){$0 + $1}
-    }
+    var changesCount: Int = 0
     @MainActor
     public var openedSheetsCount: Int{
         openedSheets.count
+    }
+    
+    
+    @MainActor public func getPathBinding(forID id: String) -> Binding<[Int]>{
+        if let pathValue = paths[id]{
+            return Binding {
+                pathValue
+            } set: { newValue in
+                self.paths[id] = newValue
+            }
+
+        }else{
+            paths[id] = []
+            return Binding {
+                self.paths[id] ?? []
+            } set: { newValue in
+                self.paths[id] = newValue
+            }
+        }
     }
     
     @MainActor public func add(sheet: SKSheet){
@@ -41,6 +59,16 @@ public class SKSheetManager: Codable{
             sheets.remove(at: index)
         }
         let wrapped = SKSheetDisplayWrapper(sheet: sheet)
+        changesCount += 1
+        sheets.append(wrapped)
+    }
+    
+    @MainActor public func add(sheet: SKCustomViewSheet){
+        if let index = sheets.firstIndex(where: { $0.id == sheet.id }) {
+            sheets.remove(at: index)
+        }
+        let wrapped = SKSheetDisplayWrapper(customViewSheet: sheet)
+        changesCount += 1
         sheets.append(wrapped)
     }
     
@@ -49,6 +77,7 @@ public class SKSheetManager: Codable{
             sheets.remove(at: index)
         }
         let wrapped = SKSheetDisplayWrapper(id: id, view: view)
+        changesCount += 1
         sheets.append(wrapped)
     }
     
@@ -57,6 +86,16 @@ public class SKSheetManager: Codable{
             sheets.remove(at: index)
         }
         var wrapped = SKSheetDisplayWrapper(sheet: sheet)
+        changesCount += 1
+        wrapped.shouldBePresented = true
+        sheets.append(wrapped)
+    }
+    @MainActor public func show(sheet: SKCustomViewSheet){
+        if let index = sheets.firstIndex(where: { $0.id == sheet.id }) {
+            sheets.remove(at: index)
+        }
+        var wrapped = SKSheetDisplayWrapper(customViewSheet: sheet)
+        changesCount += 1
         wrapped.shouldBePresented = true
         sheets.append(wrapped)
     }
@@ -66,29 +105,21 @@ public class SKSheetManager: Codable{
             sheets.remove(at: index)
         }
         var wrapped = SKSheetDisplayWrapper(id: id, view: view)
+        changesCount += 1
         wrapped.shouldBePresented = true
         sheets.append(wrapped)
     }
     
     @MainActor func handleContinuingHandoff(activity: NSUserActivity){
-        if let userInfo = activity.userInfo,
-           let sheetsData = userInfo["sheetsJSON"] as? Data {
-            do {
-                let decodedSheets = try JSONDecoder().decode([SKSheetDisplayWrapper].self, from: sheetsData)
-                for sheet in decodedSheets {
-                    let originalSheet = getSheet(forId: sheet.id)
-                    if let handoffableSheet = sheet.sheet as? SKHandoffableSheet, let handoffableOriginalSheet = originalSheet?.sheet as? SKHandoffableSheet {
-                        // Try to get the handoff path from userInfo
-                        if let handoffPath = userInfo["ID-\(sheet.id)"] as? [Int] {
-                            handoffableOriginalSheet.data.path = handoffPath
-                        } else {
-                            handoffableOriginalSheet.data.path = handoffableSheet.data.path
-                        }
-                    }
-                    originalSheet?.shouldBePresented = sheet.shouldBePresented
-                }
-            } catch {
-                print("Failed to decode sheetsJSON: \(error)")
+        if let decodedOpenedSheetsIDs = activity.userInfo?["OpenedSheetsIDs"] as? [String],
+           let paths = activity.userInfo?["SheetPaths"] as? [String: [Int]],
+           let additionalData = activity.userInfo?["SheetsData"] as? [String: [AnyHashable: Any]] {
+            for openedSheetID in decodedOpenedSheetsIDs {
+                let sheet = getSheet(forId: openedSheetID)
+                sheet?.shouldBePresented = true
+                sheet?.sheet?.loadData(sentData: additionalData[openedSheetID] ?? [:])
+                sheet?.customViewSheet?.loadData(sentData: additionalData[openedSheetID] ?? [:])
+                self.paths = paths
             }
         }
     }
@@ -96,28 +127,29 @@ public class SKSheetManager: Codable{
         activity.title = "Continue Sheet"
         activity.isEligibleForHandoff = true
         activity.isEligibleForSearch = true
-        activity.targetContentIdentifier = "SKSheet\(openedSheets.last?.id ?? "ID")ContinuationActivity"
+        activity.targetContentIdentifier = "SKSheet\(handoffableSheets.last?.id ?? "ID")ContinuationActivity"
 
         do {
-            let sheetsData = try JSONEncoder().encode(sheets)
-            activity.addUserInfoEntries(from: ["sheetsJSON": sheetsData])
-            
-            // Collect ID-path mapping from opened sheets
-            var pathMapping: [String: Any] = [:]
-            openedSheets.compactMap { $0.sheet as? SKHandoffableSheet }.forEach {
-                pathMapping["ID-\($0.id)"] = $0.data.path
+            let sheetsHandoffableIDs: [String] = handoffableSheets.map{ $0.id }
+            let sheetsData: [String: [AnyHashable: Any]] = handoffableSheets.reduce(into: [:]) { dict, wrapper in
+                if let id = wrapper.sheet?.id, let data = wrapper.sheet?.sentData() {
+                    dict[id] = data
+                }else if let id = wrapper.customViewSheet?.id, let data = wrapper.customViewSheet?.sentData() {
+                    dict[id] = data
+                }
             }
-            if !pathMapping.isEmpty {
-                activity.addUserInfoEntries(from: pathMapping)
-            }
+            try activity.addUserInfoEntries(from: ["OpenedSheetsIDs": sheetsHandoffableIDs])
+            try activity.addUserInfoEntries(from: ["SheetPaths": paths])
+            try activity.addUserInfoEntries(from: ["SheetsData": sheetsData])
         } catch {
-            print("Failed to encode sheets for user activity: \(error)")
+            print("Failed to transfer opened sheets for user activity: \(error)")
         }
     }
     
     @MainActor public func show(id: String){
         if let index = sheets.firstIndex(where: { $0.id == id }) {
             sheets[index].shouldBePresented = true
+            changesCount += 1
         }
     }
     
@@ -125,12 +157,14 @@ public class SKSheetManager: Codable{
         sheets.indices.forEach{ index in
             sheets[index].shouldBePresented = true
         }
+        changesCount += 1
     }
     
     @MainActor public func hideAllSheets(dismissAction: (() -> Void)? = nil){
         sheets.indices.forEach{ index in
             sheets[index].isPresented = false
         }
+        changesCount += 1
         dismissAction?()
     }
     
@@ -138,6 +172,7 @@ public class SKSheetManager: Codable{
         sheets.indices.forEach{ index in
             sheets[index].isPresented = false
         }
+        changesCount += 1
         DispatchQueue.main.asyncAfter(deadline: .now()){
             self.sheets.removeAll()
             dismissAction?()
@@ -154,6 +189,7 @@ public class SKSheetManager: Codable{
             }else{
                 dismissAction?()
             }
+            changesCount += 1
         }
 
     }
@@ -169,7 +205,23 @@ public class SKSheetManager: Codable{
             }else{
                 dismissAction?()
             }
-            
+            changesCount += 1
+        }
+
+    }
+    
+    @MainActor public func hide(sheet: SKCustomViewSheet, removeAfter: Bool = false, dismissAction: (() -> Void)? = nil){
+        if let index = sheets.firstIndex(where: { $0.id == sheet.id }) {
+            sheets[index].isPresented = false
+            if removeAfter{
+                DispatchQueue.main.asyncAfter(deadline: .now()){
+                    self.sheets.remove(at: index)
+                    dismissAction?()
+                }
+            }else{
+                dismissAction?()
+            }
+            changesCount += 1
         }
 
     }

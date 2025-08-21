@@ -75,7 +75,7 @@ struct SKSheetManagerView<Content: View>: View {
                     skSheetManager.handleContinuingHandoff(activity: activity)
                 }
                 Text("")
-                .userActivity(skSheetActivityType, isActive: skSheetManager.openedSheetsCount != 0) { activity in
+                    .userActivity(skSheetActivityType, isActive: !skSheetManager.handoffableSheets.isEmpty) { activity in
                     print("Triggered activity")
                     skSheetManager.startUserActivity(activity: activity)
                 }

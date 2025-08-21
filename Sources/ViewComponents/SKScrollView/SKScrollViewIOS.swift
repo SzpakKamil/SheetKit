@@ -37,29 +37,26 @@ struct SKScrollViewIOS<Content: View>: View {
                     content()
                 }
                 .padding(.horizontal, 30)
-                .padding(.bottom, toolbarHeight)
             }
-
-            ZStack(alignment: .bottom) {
-                Blur()
-                    .frame(height: toolbarHeight + 30)
-                    
-                GeometryReader{ proxy in
-                    VStack{
-                        Spacer()
-                        toolbar
-                            .padding(.horizontal, 30)
-                            .padding(.bottom, 30)
-                            .onGeometryChange(for: CGSize.self) { proxy in
-                                proxy.size
-                            } action: {
-                                self.toolbarHeight = $0.height
-                            }
-                    }
+            .if{ content in
+                if #available(iOS 26.0, *){
+                    content
+                        .safeAreaBar(edge: .bottom) {
+                            toolbar
+                                .padding(.horizontal, 30)
+                                .padding(.bottom, 30)
+                        }
+                }else{
+                    content
+                        .safeAreaInset(edge: .bottom) {
+                            toolbar
+                                .padding(.horizontal, 30)
+                                .padding(.bottom, 30)
+                                .background(.ultraThinMaterial)
+                        }
                 }
             }
-            .ignoresSafeArea()
-            .frame(maxWidth: .infinity)
+            .ignoresSafeArea(edges: .bottom)
         }
     }
 

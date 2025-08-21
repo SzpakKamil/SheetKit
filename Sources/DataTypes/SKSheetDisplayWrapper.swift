@@ -25,6 +25,7 @@ public class SKSheetDisplayWrapper: Identifiable, Hashable, Equatable, Codable {
             }
         }
     }
+    var customViewSheet: SKCustomViewSheet?
     var view: AnyView?
     var sheet: SKSheet?
     
@@ -40,7 +41,6 @@ public class SKSheetDisplayWrapper: Identifiable, Hashable, Equatable, Codable {
     public enum CodingKeys: String, CodingKey {
         case id
         case shouldBePresented
-        case viewData
     }
     
     required public init(from decoder: Decoder) throws {
@@ -59,10 +59,13 @@ public class SKSheetDisplayWrapper: Identifiable, Hashable, Equatable, Codable {
         self.id = sheet.id
         self.sheet = sheet
     }
+    init(customViewSheet: SKCustomViewSheet){
+        self.id = customViewSheet.id
+        self.customViewSheet = customViewSheet
+    }
     
     init(id: String, @ViewBuilder view: @escaping () -> some View){
         self.id = id
-        self.sheet = nil
         self.view = AnyView(view())
     }
 }

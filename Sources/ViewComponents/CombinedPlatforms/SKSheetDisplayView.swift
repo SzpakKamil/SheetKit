@@ -43,6 +43,8 @@ public struct SKSheetDisplayView: View {
             if let sheet = sheetManager.getOpenedSheet(forIndex: index){
                 if let sheet = sheet.sheet{
                     AnyView(sheet)
+                }else if let customViewSheet = sheet.customViewSheet{
+                    AnyView(customViewSheet)
                 }else{
                     sheet.view
                 }

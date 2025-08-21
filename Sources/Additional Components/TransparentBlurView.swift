@@ -64,7 +64,7 @@ class TransparentBlurViewHelper: UIVisualEffectView {
 #endif
 
 public struct Blur: View {
-    
+    @Environment(\.colorScheme) var colorScheme
     public var radius: CGFloat
     public var opaque: Bool
     
@@ -119,7 +119,7 @@ public struct Blur: View {
                                 .fill(.white.opacity(0.01))
                         }else{
                             content
-                                .fill(.primary.opacity(0.20))
+                                .fill((colorScheme == .dark ? Color.black : .white).opacity(0.5))
                         }
                     }
                     

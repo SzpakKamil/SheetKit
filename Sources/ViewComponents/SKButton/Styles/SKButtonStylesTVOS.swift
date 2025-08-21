@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct SKPrimaryButtonStyleTVOS: ButtonStyle {
+    let colorScheme: ColorScheme
     let isEnabled: Bool
     let accentColor: Color
     func makeBody(configuration: Configuration) -> some View {
@@ -19,7 +20,7 @@ struct SKPrimaryButtonStyleTVOS: ButtonStyle {
                 if #available(tvOS 26.0, *){
                     content
                         .fontWeight(.medium)
-                        .foregroundStyle(.white)
+                        .foregroundStyle(colorScheme == .dark ? .white : .black)
                         .padding(.vertical, 10)
                         .padding(.horizontal, 11)
                         #if compiler(>=6.2)
@@ -30,7 +31,7 @@ struct SKPrimaryButtonStyleTVOS: ButtonStyle {
                 }else{
                     content
                         .fontWeight(.medium)
-                        .foregroundStyle(.white)
+                        .foregroundStyle(colorScheme == .dark ? .white : .black)
                         .padding(.vertical, 10)
                         .padding(.horizontal, 11)
                         .background(accentColor)
@@ -42,8 +43,9 @@ struct SKPrimaryButtonStyleTVOS: ButtonStyle {
             .contentShape(Rectangle())
     }
     
-    init(isEnabled: Bool, accentColor: Color) {
+    init(isEnabled: Bool, accentColor: Color, colorSheme: ColorScheme) {
         self.isEnabled = isEnabled
+        self.colorScheme = colorSheme
         self.accentColor = accentColor
     }
 }

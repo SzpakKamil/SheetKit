@@ -31,13 +31,16 @@ struct SKToolbarTVOS: View {
                 ForEach(secondaryItems.indices){ index in
                     secondaryItems[index]
                 }
-                Spacer()
                 if #unavailable(tvOS 26.0){
                     VStack(spacing: 5){
                         ForEach(noteItems.indices){ index in
                             noteItems[index]
                         }
                     }
+                    if !secondaryItems.isEmpty{
+                        Spacer()
+                    }
+                }else{
                     Spacer()
                 }
                 
