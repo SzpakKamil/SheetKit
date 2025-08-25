@@ -73,6 +73,7 @@ Whether you're designing onboarding experiences, interactive forms, or tailored 
 - ``SKForEach``
 - ``SKComponent``
 - ``SKComponentType``
+- ``SwiftUICore/View/asComponent``
 - ``SwiftUICore/View/pickerTag(_:)``
 
 ### Protocols
