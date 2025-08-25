@@ -11,7 +11,7 @@ import SwiftUI
 struct SKStepperTVOS<S: Strideable>: View, SKComponent {
 
     @Environment(\.colorScheme) var colorScheme
-    public let type: SKComponentType = .field
+    let type: SKComponentType = .field
     @Environment(\.skRowShape) var skRowShape
     @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
     @Binding var value: S
@@ -29,7 +29,7 @@ struct SKStepperTVOS<S: Strideable>: View, SKComponent {
             }
         }
     }
-    public var body: some View {
+    var body: some View {
         HStack(spacing: 0){
             Text("\(data.title): \(data.textForValue(value))")
                 .if{ content in
@@ -119,7 +119,7 @@ struct SKStepperTVOS<S: Strideable>: View, SKComponent {
         }
     }
     
-    public init(value: Binding<S>, data: SKStepper<S>.Data) {
+    init(value: Binding<S>, data: SKStepper<S>.Data) {
         self._value = value
         self.data = data
     }

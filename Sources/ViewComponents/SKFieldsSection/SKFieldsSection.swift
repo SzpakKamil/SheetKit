@@ -10,8 +10,8 @@ import SwiftUI
 #if os(iOS) || os(macOS)
 public extension SKFieldsSection{
     struct Data{
-        let content: [SKComponent]
-        public init(@SKPageBuilder content: () -> [SKComponent]) {
+        let content: [any SKComponent]
+        public init(@SKPageBuilder content: () -> [any SKComponent]) {
             self.content = content()
         }
     }
@@ -78,7 +78,7 @@ public struct SKFieldsSection: SKComponent {
         #endif
     }
     
-    public init(@SKPageBuilder content: () -> [SKComponent]) {
+    public init(@SKPageBuilder content: () -> [any SKComponent]) {
         self.data = .init(content: content)
     }
 }

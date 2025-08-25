@@ -7,14 +7,14 @@
 
 import SwiftUI
 
-public struct SKScrollView<Content: View>: View {
+struct SKScrollView<Content: View>: View {
     @Environment(\.colorScheme) var colorScheme
-    public let content: () -> Content
-    public let backgroundStyle: SKPage.BackgroundStyle
-    public let toolbar: SKToolbar
+    let content: () -> Content
+    let backgroundStyle: SKPage.BackgroundStyle
+    let toolbar: SKToolbar
 
 
-    public var body: some View {
+    var body: some View {
         #if os(iOS)
         SKScrollViewIOS(backgroundStyle: backgroundStyle, toolbar: toolbar, content: content)
         #elseif os(macOS)
@@ -30,7 +30,7 @@ public struct SKScrollView<Content: View>: View {
         #endif
     }
 
-    public init(backgroundStyle: SKPage.BackgroundStyle, toolbar: SKToolbar, @ViewBuilder content: @escaping () -> Content) {
+    init(backgroundStyle: SKPage.BackgroundStyle, toolbar: SKToolbar, @ViewBuilder content: @escaping () -> Content) {
         self.content = content
         self.backgroundStyle = backgroundStyle
         self.toolbar = toolbar

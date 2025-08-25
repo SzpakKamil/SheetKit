@@ -40,12 +40,12 @@ struct SKPageMACOS: View{
                 .frame(width: sheetStyle.frameWidth)
                 .frame(maxWidth: .infinity)
             }
-            if sheetStyle != .default{
+            if #available(macOS 26.0, *), sheetStyle != .default{
                 HStack{
                     let navigationAction = data.toolbar.data.buttons.filter{
                         $0.placement == .navigation
                     }
-                    if navigationAction.isEmpty && (!isCloseButtonHidden || isShowingBackButton) {
+                    if (!isCloseButtonHidden || isShowingBackButton) {
                         SKToolbarItem(placement: .navigation, actionType: .dismiss) {
                             if isShowingBackButton{
                                 SKButton("Back", systemImage: "chevron.backward") {}
@@ -53,14 +53,36 @@ struct SKPageMACOS: View{
                                 SKButton("Close", systemImage: "xmark") {}
                             }
                         }
-                    }else{
-                        ForEach(navigationAction.indices) { index in
-                            navigationAction[index]
+                    }
+                    Spacer()
+                    ForEach(navigationAction.indices) { index in
+                        navigationAction[index]
+                    }
+                    
+                }
+                .padding(.horizontal, 20)
+                .padding(.top, 20)
+            }else if sheetStyle == .prominent{
+                HStack{
+                    let navigationAction = data.toolbar.data.buttons.filter{
+                        $0.placement == .navigation
+                    }
+                    if (!isCloseButtonHidden || isShowingBackButton) {
+                        SKToolbarItem(placement: .navigation, actionType: .dismiss) {
+                            if isShowingBackButton{
+                                SKButton("Back", systemImage: "chevron.backward") {}
+                            }else{
+                                SKButton("Close", systemImage: "xmark") {}
+                            }
                         }
                     }
                     Spacer()
+                    ForEach(navigationAction.indices) { index in
+                        navigationAction[index]
+                    }
+                    
                 }
-                .padding(.leading, 20)
+                .padding(.horizontal, 20)
                 .padding(.top, 20)
             }
         }

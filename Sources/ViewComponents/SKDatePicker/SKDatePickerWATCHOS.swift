@@ -8,7 +8,7 @@
 import SwiftUI
 
 #if os(watchOS)
-public struct SKDatePickerWATCHOS: View {
+struct SKDatePickerWATCHOS: View {
     @Binding var date: Date
     @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
     @Environment(\.skRowShape) var skRowShape
@@ -25,7 +25,7 @@ public struct SKDatePickerWATCHOS: View {
         }
     }
     
-    public var body: some View {
+    var body: some View {
         Button {
             isUsingDatePicker = true
             tempDate = date
@@ -66,7 +66,7 @@ public struct SKDatePickerWATCHOS: View {
         }
     }
     
-    public init(date: Binding<Date>, data: SKDatePicker.Data) {
+    init(date: Binding<Date>, data: SKDatePicker.Data) {
         self._date = date
         self.data = data
     }

@@ -2,6 +2,7 @@
 #if os(tvOS)
 internal import UIKit
 
+@_documentation(visibility: internal)
 struct SKTPickerViewStyle: Equatable {
     var componentSpacing: CGFloat
 
@@ -53,6 +54,7 @@ struct SKTPickerViewStyle: Equatable {
     }
 }
 
+@_documentation(visibility: internal)
 extension SKTPickerViewStyle {
     static let `default` = SKTPickerViewStyle(
         componentSpacing: 0,

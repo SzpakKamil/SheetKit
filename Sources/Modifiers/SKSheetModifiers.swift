@@ -92,11 +92,10 @@ public extension SKSheetView{
             self.environment(\.skSheetStyleDentsSelection, selection).environment(\.skSheetStyleDents, dents)
         }
     }
-    #else
+    #endif
     func skSheetStyle(_ sheetStyle: SKSheetStyle = .default) -> SKSheetView{
         return SKSheetView(pages: self.pages) {
             self.environment(\.skSheetStyle, sheetStyle)
         }
     }
-    #endif
 }

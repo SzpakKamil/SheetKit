@@ -25,7 +25,7 @@ struct SKStepperWATCHOS<S: Strideable>: View, SKComponent {
         }
     }
     
-    public var body: some View {
+    var body: some View {
         Button {
             isUsingStepper = true
             tempValue = value
@@ -71,7 +71,7 @@ struct SKStepperWATCHOS<S: Strideable>: View, SKComponent {
         }
     }
     
-    public init(value: Binding<S>, data: SKStepper<S>.Data) {
+    init(value: Binding<S>, data: SKStepper<S>.Data) {
         self.data = data
         self._value = value
         self.tempValue = value.wrappedValue

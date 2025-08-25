@@ -7,14 +7,14 @@
 
 import SwiftUI
 
-public extension SKPicker{
+extension SKPicker{
     struct Data{
         let title: LocalizedStringKey
         let content: Content
         let headerView: HeaderContent?
         let footerView: FooterContent?
         
-        public init(
+        init(
             _ title: LocalizedStringKey,
             @ViewBuilder content: () -> Content
         )  where HeaderContent == EmptyView, FooterContent == EmptyView{
@@ -24,7 +24,7 @@ public extension SKPicker{
             self.content = content()
         }
         
-        public init(
+        init(
             _ title: LocalizedStringKey,
             @ViewBuilder content: () -> Content,
             @ViewBuilder headerView: () -> HeaderContent
@@ -35,7 +35,7 @@ public extension SKPicker{
             self.content = content()
         }
         
-        public init(
+        init(
             _ title: LocalizedStringKey,
             @ViewBuilder content: () -> Content,
             @ViewBuilder headerView: () -> HeaderContent,
@@ -47,7 +47,7 @@ public extension SKPicker{
             self.content = content()
         }
         
-        public init(
+        init(
             _ title: LocalizedStringKey,
             @ViewBuilder content: () -> Content,
             @ViewBuilder footerView: () -> FooterContent
@@ -107,11 +107,6 @@ public struct SKPicker<SelectionValue: Hashable, Content: View, HeaderContent: V
     ) {
         self._selection = selection
         self.data = .init(title, content: content, headerView: headerView, footerView: footerView)
-    }
-    
-    public init(selection: Binding<SelectionValue>, data: SKPicker<SelectionValue, Content, HeaderContent, FooterContent>.Data) {
-        self._selection = selection
-        self.data = data
     }
     
     public init(

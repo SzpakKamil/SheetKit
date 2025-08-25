@@ -10,7 +10,7 @@ import SwiftUI
 #if os(tvOS)
 internal import UIKit
 
-/// A SwiftUI wrapper for SKTDatePickerView to use it within SwiftUI views.
+@_documentation(visibility: internal)
 struct SKTDatePicker: UIViewRepresentable {
     @Binding var date: Date
     let minDate: Date?
@@ -19,7 +19,6 @@ struct SKTDatePicker: UIViewRepresentable {
     let locale: Locale
     let offLimitYearsDisplayed: Int
     
-    /// Initializes the SKTDatePicker with a binding to the selected date and optional configuration.
     init(
         date: Binding<Date>,
         minDate: Date? = nil,
@@ -82,7 +81,7 @@ struct SKTDatePicker: UIViewRepresentable {
     }
 }
 
-/// Example SwiftUI view demonstrating the usage of SKTDatePicker.
+@_documentation(visibility: internal)
 struct SKTDatePickerExample: View {
     @State private var selectedDate = Date()
     
@@ -113,6 +112,7 @@ struct SKTDatePickerExample: View {
     }
 }
 
+@_documentation(visibility: internal)
 struct SKTDatePickerExample_Previews: PreviewProvider {
     static var previews: some View {
         SKTDatePickerExample()

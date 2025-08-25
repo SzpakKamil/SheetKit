@@ -10,7 +10,7 @@ import SwiftUI
 #if os(tvOS)
 internal import UIKit
 
-/// A SwiftUI wrapper for a hidden UITextField to trigger the tvOS keyboard.
+@_documentation(visibility: internal)
 struct SKTKeyboardTrigger: UIViewRepresentable {
     @Binding var text: String
     @Binding var isKeyboardVisible: Bool
@@ -73,7 +73,7 @@ struct SKTKeyboardTrigger: UIViewRepresentable {
     
 }
 
-/// A SwiftUI wrapper for a hidden UITextField to trigger the tvOS keyboard for Double input.
+@_documentation(visibility: internal)
 struct SKTKeyboardTriggerDouble: UIViewRepresentable {
     @Binding var value: Double
     @Binding var isKeyboardVisible: Bool
@@ -141,7 +141,7 @@ struct SKTKeyboardTriggerDouble: UIViewRepresentable {
     }
 }
 
-/// A SwiftUI wrapper for a hidden UITextField to trigger the tvOS keyboard for Int input.
+@_documentation(visibility: internal)
 struct SKTKeyboardTriggerInt: UIViewRepresentable {
     @Binding var value: Int
     @Binding var isKeyboardVisible: Bool
@@ -209,7 +209,7 @@ struct SKTKeyboardTriggerInt: UIViewRepresentable {
     }
 }
 
-/// Extension to provide default formatters for numeric input.
+@_documentation(visibility: internal)
 extension NumberFormatter {
     static var defaultDecimalFormatter: NumberFormatter {
         let formatter = NumberFormatter()

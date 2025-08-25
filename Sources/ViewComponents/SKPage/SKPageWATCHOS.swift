@@ -49,14 +49,20 @@ struct SKPageWATCHOS: View{
     }
     var body: some View {
         TabView{
-
-            ForEach(highlights.indices, id: \.self){ index in
+            let fields = data.content.filter{ $0.type == .field}
+            if highlights.isEmpty && fields.isEmpty{
                 SKScrollView(backgroundStyle: autoStyle, toolbar: data.toolbar) {
-                    highlights[index].erasedContent()
+                    SKHighlight(titleVerbatim: "", descriptionVerbatim: "", systemName: "")
+                }
+            }else{
+                ForEach(highlights.indices, id: \.self){ index in
+                    SKScrollView(backgroundStyle: autoStyle, toolbar: data.toolbar) {
+                        highlights[index].erasedContent()
+                    }
                 }
             }
             
-            let fields = data.content.filter{ $0.type == .field}
+
             
             if !fields.isEmpty{
                 SKScrollView(backgroundStyle: autoStyle, toolbar: data.toolbar) {

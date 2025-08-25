@@ -3,6 +3,7 @@
 import Foundation
 internal import UIKit
 
+@_documentation(visibility: internal)
 protocol SKTPickerViewDelegate: AnyObject {
     /// Number of columns in the picker view.
     func numberOfComponents(in pickerView: SKTPickerView) -> Int
@@ -29,6 +30,7 @@ protocol SKTPickerViewDelegate: AnyObject {
     func indexOfSelectedRow(inComponent component: Int, ofPickerView pickerView: SKTPickerView) -> Int?
 }
 
+@_documentation(visibility: internal)
 extension SKTPickerViewDelegate {
     func pickerView(_ pickerView: SKTPickerView, widthForComponent component: Int) -> CGFloat {
         let componentsCount = self.numberOfComponents(in: pickerView)

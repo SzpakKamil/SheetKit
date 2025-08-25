@@ -8,6 +8,7 @@
 import SwiftUI
 
 #if canImport(UIKit) && !os(watchOS)
+@_documentation(visibility: internal)
 struct TransparentBlurView: UIViewRepresentable {
     var removeAllFilters: Bool = false
     func makeUIView(context: Context) -> TransparentBlurViewHelper {
@@ -20,6 +21,7 @@ struct TransparentBlurView: UIViewRepresentable {
 }
 
 /// Disabling Trait Changes for Our Transparent Blur View
+@_documentation(visibility: internal)
 class TransparentBlurViewHelper: UIVisualEffectView {
     init(removeAllFilters: Bool) {
         #if os(tvOS)
@@ -54,26 +56,19 @@ class TransparentBlurViewHelper: UIVisualEffectView {
     }
 }
 
-#Preview {
-    ZStack{
-        Text("ddd")
-        TransparentBlurView(removeAllFilters: true)
-            .blur(radius: 2, opaque: false)
-    }
-}
 #endif
-
-public struct Blur: View {
+@_documentation(visibility: internal)
+struct Blur: View {
     @Environment(\.colorScheme) var colorScheme
-    public var radius: CGFloat
-    public var opaque: Bool
+    var radius: CGFloat
+    var opaque: Bool
     
-    public init(radius: CGFloat = 5.0, opaque: Bool = true) {
+    init(radius: CGFloat = 5.0, opaque: Bool = true) {
         self.radius = radius
         self.opaque = opaque
     }
     
-    public var body: some View {
+    var body: some View {
         ZStack{
             #if os(visionOS) || os(macOS)
             Rectangle()

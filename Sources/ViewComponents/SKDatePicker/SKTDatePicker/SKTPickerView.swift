@@ -3,10 +3,7 @@
 import Foundation
 internal import UIKit
 
-/// This component displays one or more components that the user can navigate to select items.
-/// Each component has a list of rows that display a string. Users select items by navigating the
-/// lists to the desired values. You provide the data to display in the picker view and respond to
-/// user selection using a delegate object conforming to `SKTPickerViewDelegate` protocol.
+@_documentation(visibility: internal)
 class SKTPickerView: UIView {
     private var firstReload = true
     private let stack = UIStackView()
@@ -79,7 +76,7 @@ class SKTPickerView: UIView {
     }
 }
 
-// MARK: Public API
+@_documentation(visibility: internal)
 extension SKTPickerView {
     /// Call this method to reload all the data that’s used to construct the picker view.
     func reloadData() {
@@ -121,7 +118,7 @@ extension SKTPickerView {
     }
 }
 
-// MARK: SKTPickerComponentViewDelegate conformance
+@_documentation(visibility: internal)
 extension SKTPickerView: SKTPickerComponentViewDelegate {
     func numberOfItems(inPickerComponentView componentView: SKTPickerComponentView) -> Int {
         guard let component = components.firstIndex(of: componentView),

@@ -13,7 +13,7 @@ struct SKStepperMACOS<S: Strideable>: View, SKComponent {
     @Environment(\.skRowShape) var skRowShape
     @Environment(\.skIsInSection) var skIsInSection
     @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
-    public let type: SKComponentType = .field
+    let type: SKComponentType = .field
     var data: SKStepper<S>.Data
     @Binding var value: S
     var autoBackgroundColor: Color{
@@ -23,7 +23,7 @@ struct SKStepperMACOS<S: Strideable>: View, SKComponent {
             return .clear
         }
     }
-    public var body: some View {
+    var body: some View {
         HStack(spacing: 0){
             Text("\(data.title): \(data.textForValue(value))")
                 .contentTransition(.numericText())
@@ -51,7 +51,7 @@ struct SKStepperMACOS<S: Strideable>: View, SKComponent {
         .contentShape(Rectangle())
     }
     
-    public init(value: Binding<S>, data: SKStepper<S>.Data) {
+    init(value: Binding<S>, data: SKStepper<S>.Data) {
         self._value = value
         self.data = data
     }

@@ -7,16 +7,22 @@
 
 import SwiftUI
 
-public extension SKDescription{
+extension SKDescription{
     struct Data{
-        var title: String
+        var title: LocalizedStringKey
         var weight: Font.Weight
         var font: Font?
             
-        public init(title: String, weight: Font.Weight = .regular, font: Font? = nil) {
-            self.title = title
-            self.weight = weight
-            self.font = font
+        init(titleKey: LocalizedStringKey) {
+            self.title = titleKey
+            self.weight = .regular
+            self.font = nil
+        }
+        
+        init(verbatim: String) {
+            self.title = LocalizedStringKey(stringLiteral: verbatim)
+            self.weight = .regular
+            self.font = nil
         }
     }
 }
@@ -41,14 +47,13 @@ public struct SKDescription: View, SKComponent {
         #endif
     }
     
-    public init(data: SKDescription.Data) {
-        self.data = data
+    public init(_ titleKey: LocalizedStringKey){
+        self.data = .init(titleKey: titleKey)
     }
     
-    public init(_ title: String){
-        self.data = .init(title: title)
+    public init(verbatim: String){
+        self.data = .init(verbatim: verbatim)
     }
-
 }
 
 #if DEBUG
@@ -61,7 +66,7 @@ struct PreviewViewSKDescription: View {
     var body: some View{
         List{
             VStack{
-                SKDescription(text)
+                SKDescription(verbatim: text)
                     .skFontWeight(weight)
                     .skFont(font)
                     .skPrimaryTextColor(color)

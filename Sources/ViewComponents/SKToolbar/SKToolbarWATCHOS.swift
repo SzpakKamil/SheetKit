@@ -27,7 +27,7 @@ struct SKToolbarWATCHOS: View {
                     }
                 }
                 ToolbarItemGroup(placement: .bottomBar) {
-                    if secondaryItems.isEmpty && noteItems.isEmpty{
+                    if secondaryItems.isEmpty{
                         Button(""){
                             
                         }
@@ -37,9 +37,17 @@ struct SKToolbarWATCHOS: View {
                             secondaryItems[index]
                         }
                     }
-                    ForEach(noteItems.indices){ index in
-                        noteItems[index]
+                    if noteItems.isEmpty{
+                        Button(""){
+                            
+                        }
+                        .buttonStyle(.plain)
+                    }else{
+                        ForEach(noteItems.indices){ index in
+                            noteItems[index]
+                        }
                     }
+
                     
                     if primaryItems.isEmpty && !skIsContinueButtonHidden{
                         SKToolbarItem(placement: .primary, actionType: .primary) {
@@ -50,8 +58,15 @@ struct SKToolbarWATCHOS: View {
                             }
                         }
                     }else{
-                        ForEach(primaryItems.indices){ index in
-                            primaryItems[index]
+                        if primaryItems.isEmpty{
+                            Button(""){
+                                
+                            }
+                            .buttonStyle(.plain)
+                        }else{
+                            ForEach(primaryItems.indices){ index in
+                                primaryItems[index]
+                            }
                         }
                     }
                 }

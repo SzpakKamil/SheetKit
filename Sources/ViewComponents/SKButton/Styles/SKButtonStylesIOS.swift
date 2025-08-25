@@ -98,6 +98,7 @@ struct SKNoteButtonStyleIOS: ButtonStyle {
                 .buttonStyle(.plain)
                 .multilineTextAlignment(textAlignment)
         }
+        .padding(.top, 5)
         .foregroundStyle(accentColor)
         .lineLimit(1)
         .opacity(configuration.isPressed ? 0.5 : 1)

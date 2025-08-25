@@ -7,16 +7,23 @@
 
 import SwiftUI
 
-public extension SKTitle{
+extension SKTitle{
     struct Data{
-        var title: String
+        var title: LocalizedStringKey
+        var key: String?
         var weight: Font.Weight
         var font: Font?
             
-        public init(title: String, weight: Font.Weight = .bold, font: Font? = nil) {
-            self.title = title
-            self.weight = weight
-            self.font = font
+        init(titleKey: LocalizedStringKey) {
+            self.title = titleKey
+            self.weight = .bold
+            self.font = nil
+        }
+        
+        init(verbatim: String) {
+            self.title = LocalizedStringKey(stringLiteral: verbatim)
+            self.weight = .bold
+            self.font = nil
         }
     }
 }
@@ -40,13 +47,11 @@ public struct SKTitle: View, SKComponent {
         EmptyView()
         #endif
     }
-    
-    public init(data: SKTitle.Data) {
-        self.data = data
+    public init(_ titleKey: LocalizedStringKey){
+        self.data = .init(titleKey: titleKey)
     }
-    
-    public init(_ title: String){
-        self.data = .init(title: title)
+    public init(verbatim: String){
+        self.data = .init(verbatim: verbatim)
     }
 }
 
@@ -59,7 +64,7 @@ struct PreviewViewSKTitle: View {
     @State private var alignment: HorizontalAlignment? = nil
     var body: some View{
         List{
-            SKTitle(text)
+            SKTitle(verbatim: text)
                 .skFont(font)
                 .skFontWeight(weight)
                 .skAccentColor(color)

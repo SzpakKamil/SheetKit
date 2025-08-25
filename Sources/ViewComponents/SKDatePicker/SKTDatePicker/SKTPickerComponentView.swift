@@ -2,6 +2,7 @@
 #if os(tvOS)
 internal import UIKit
 
+@_documentation(visibility: internal)
 protocol SKTPickerComponentViewDelegate: AnyObject {
     func numberOfItems(inPickerComponentView componentView: SKTPickerComponentView) -> Int
     func rangeOfAllowedRows(inPickerComponentView componentView: SKTPickerComponentView) -> ClosedRange<Int>?
@@ -11,6 +12,7 @@ protocol SKTPickerComponentViewDelegate: AnyObject {
     func indexOfSelectedRow(inPickerComponentView componentView: SKTPickerComponentView) -> Int?
 }
 
+@_documentation(visibility: internal)
 class SKTPickerComponentView: UIView {
     private enum Constants {
         static let cellBackgroundWidthMultiplier: CGFloat = 0.95
@@ -192,6 +194,7 @@ class SKTPickerComponentView: UIView {
 }
 
 // MARK: UITableViewDataSource conformance
+@_documentation(visibility: internal)
 extension SKTPickerComponentView: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         1
@@ -221,6 +224,7 @@ extension SKTPickerComponentView: UITableViewDataSource {
     }
 }
 
+@_documentation(visibility: internal)
 private extension Int {
     func clamped(by range: ClosedRange<Int>?) -> Int {
         guard let range else { return self }
@@ -229,6 +233,7 @@ private extension Int {
 }
 
 // MARK: UITableViewDelegate conformance
+@_documentation(visibility: internal)
 extension SKTPickerComponentView: UITableViewDelegate {
     private func indexPathOfMiddleMostCell() -> IndexPath? {
         let middle = tableView.contentOffset.y + 0.5 * tableView.bounds.height

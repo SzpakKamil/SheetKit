@@ -40,39 +40,30 @@ struct SKScrollViewMACOS<Content: View>: View {
             .if{ content in
                 if #available(macOS 26.0, *){
                     content
+                        #if compiler(>=6.2)
                         .safeAreaBar(edge: .bottom) {
                             toolbar
                                 .padding(.horizontal, 20)
                                 .padding(.bottom, 20)
                         }
+                        #endif
                 }else{
                     content
+                        .safeAreaInset(edge: .bottom) {
+                            VStack(spacing: 0){
+                                toolbar
+                                    .frame(maxWidth: .infinity, alignment: .center)
+                                    .padding(.horizontal, 15)
+                                    .padding(.bottom, 15)
+                            }
+                            .ignoresSafeArea()
+                            .frame(maxWidth: .infinity)
+                            .background(.bar)
+                        }
                 }
             }
 
-            if #unavailable(macOS 26.0, *){
-                ZStack(alignment: .bottom) {
-                    Blur()
-                        .frame(height: toolbarHeight + 30)
-                    
-                    GeometryReader{ proxy in
-                        VStack{
-                            Spacer()
-                            toolbar
-                                .frame(maxWidth: .infinity, alignment: .center)
-                                .padding(.horizontal, 20)
-                                .padding(.bottom, 20)
-                                .onGeometryChange(for: CGSize.self) { proxy in
-                                    proxy.size
-                                } action: {
-                                    self.toolbarHeight = $0.height
-                                }
-                        }
-                    }
-                }
-                .ignoresSafeArea()
-                .frame(maxWidth: .infinity)
-            }
+
         }
     }
 

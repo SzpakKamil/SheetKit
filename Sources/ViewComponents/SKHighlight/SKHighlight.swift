@@ -7,24 +7,23 @@
 
 import SwiftUI
 
-public extension SKHighlight{
+extension SKHighlight{
     struct Data{
-        var title: String
-        var description: String
+        var title: LocalizedStringKey
+        var description: LocalizedStringKey
         var image: Image
         var tintColor: Color?
             
-        public init(title: String, description: String, image: Image, tintColor: Color? = nil) {
+        init(title: LocalizedStringKey, description: LocalizedStringKey, image: Image, tintColor: Color? = nil) {
             self.title = title
             self.description = description
             self.image = image
             self.tintColor = tintColor
         }
-        
-        public init(title: String, description: String, systemName: String, tintColor: Color? = nil) {
-            self.title = title
-            self.description = description
-            self.image = Image(systemName: systemName)
+        init(titleVerbatim: String, descriptionVerbatim: String, image: Image, tintColor: Color? = nil) {
+            self.title = LocalizedStringKey(stringLiteral: titleVerbatim)
+            self.description = LocalizedStringKey(stringLiteral: descriptionVerbatim)
+            self.image = image
             self.tintColor = tintColor
         }
     }
@@ -51,16 +50,20 @@ public struct SKHighlight: View, SKComponent {
         #endif
     }
     
-    public init(data: SKHighlight.Data) {
-        self.data = data
-    }
-    
-    public init(title: String, description: String, image: Image) {
+    public init(title: LocalizedStringKey, description: LocalizedStringKey, image: Image) {
         self.data = .init(title: title, description: description, image: image)
     }
     
-    public init(title: String, description: String, systemName: String) {
-        self.data = .init(title: title, description: description, systemName: systemName)
+    public init(title: LocalizedStringKey, description: LocalizedStringKey, systemName: String) {
+        self.data = .init(title: title, description: description, image: Image(systemName: systemName))
+    }
+    
+    public init(titleVerbatim: String, descriptionVerbatim: String, image: Image) {
+        self.data = .init(titleVerbatim: titleVerbatim, descriptionVerbatim: descriptionVerbatim, image: image)
+    }
+    
+    public init(titleVerbatim: String, descriptionVerbatim: String, systemName: String) {
+        self.data = .init(titleVerbatim: titleVerbatim, descriptionVerbatim: descriptionVerbatim, image: Image(systemName: systemName))
     }
 }
 
@@ -73,7 +76,7 @@ struct PreviewViewSKHighlight: View {
     @State private var textColor = Color.primary
     var body: some View{
         List{
-            SKHighlight(title: title, description: description, systemName: systemName)
+            SKHighlight(titleVerbatim: title, descriptionVerbatim: description, systemName: systemName)
                 .skAlignment(.leading)
                 .skPrimaryTextColor(textColor)
             Section{

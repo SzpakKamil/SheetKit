@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-public struct SKSheetDisplayView: View {
+struct SKSheetDisplayView: View {
     @State private var path: [Int] = []
     @Environment(\.skSheetManager) var sheetManager
     let index: Int
 
-    public var body: some View {
+    var body: some View {
         if let sheet = sheetManager.getOpenedSheet(forIndex: index), sheetManager.isValidOpened(index: index){
             Group{
                 if index == 0 {
@@ -55,7 +55,7 @@ public struct SKSheetDisplayView: View {
         }
     }
 
-    public init(index: Int = 0) {
+    init(index: Int = 0) {
         self.index = index
     }
 }

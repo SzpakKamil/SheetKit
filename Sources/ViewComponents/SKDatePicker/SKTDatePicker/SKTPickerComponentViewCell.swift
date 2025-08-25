@@ -2,6 +2,7 @@
 #if os(tvOS)
 internal import UIKit
 
+@_documentation(visibility: internal)
 class SKTPickerComponentViewCell: UITableViewCell {
     static let reuseIdentifier = "\(SKTPickerComponentViewCell.self)"
 
@@ -131,7 +132,7 @@ class SKTPickerComponentViewCell: UITableViewCell {
     }
 }
 
-// This prevents VoiceOver from reading, e.g. "third of twelve"
+@_documentation(visibility: internal)
 extension SKTPickerComponentViewCell: UIAccessibilityContainerDataTableCell {
     func accessibilityRowRange() -> NSRange {
         .init(location: NSNotFound, length: 0)

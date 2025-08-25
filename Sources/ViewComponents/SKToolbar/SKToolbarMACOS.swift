@@ -25,9 +25,15 @@ struct SKToolbarMACOS: View {
                     noteItems[index]
                 }
                 
+                if #unavailable(macOS 26.0), skSheetStyle != .prominent, (!secondaryItems.isEmpty || !navigationItems.isEmpty || !primaryItems.isEmpty){
+                    Divider()
+                        .padding(.horizontal, -15)
+                        .padding(.bottom, 5)
+                        .padding(.top, 3)
+                }
                 if skSheetStyle == .prominent{
                     VStack(spacing: 10){
-                        if primaryItems.isEmpty{
+                        if primaryItems.isEmpty && !skIsContinueButtonHidden{
                             SKToolbarItem(placement: .primary) {SKButton("Continue") {}}
                         }else{
                             ForEach(primaryItems.indices){ index in
@@ -46,13 +52,28 @@ struct SKToolbarMACOS: View {
                         secondaryItems[index]
                     }
                     Spacer()
-                    if navigationItems.isEmpty && (!isCloseButtonHidden || isShowingBackButton) && skSheetStyle == .default {
-                        SKToolbarItem(placement: .navigation, actionType: .dismiss) {SKButton("Back"){}}
+                    if #available(macOS 26.0, *){
+                        if skSheetStyle == .default{
+                            if navigationItems.isEmpty && (!isCloseButtonHidden || isShowingBackButton) && skSheetStyle == .default {
+                                SKToolbarItem(placement: .navigation, actionType: .dismiss) {SKButton("Back"){}}
+                            }else{
+                                ForEach(navigationItems.indices){ index in
+                                    navigationItems[index]
+                                }
+                            }
+                        }
                     }else{
-                        ForEach(navigationItems.indices){ index in
-                            navigationItems[index]
+                        if skSheetStyle != .prominent{
+                            if navigationItems.isEmpty && (!isCloseButtonHidden || isShowingBackButton) && skSheetStyle == .default {
+                                SKToolbarItem(placement: .navigation, actionType: .dismiss) {SKButton("Back"){}}
+                            }else{
+                                ForEach(navigationItems.indices){ index in
+                                    navigationItems[index]
+                                }
+                            }
                         }
                     }
+
                     if primaryItems.isEmpty && !skIsContinueButtonHidden{
                         SKToolbarItem(placement: .primary) {SKButton("Continue") {}}
                     }else{

@@ -8,7 +8,7 @@
 import SwiftUI
 
 #if os(tvOS)
-public struct SKDatePickerTVOS: View {
+struct SKDatePickerTVOS: View {
     @Binding var date: Date
     @Environment(\.skRowShape) var skRowShape
     @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
@@ -31,7 +31,7 @@ public struct SKDatePickerTVOS: View {
         }
     }
     
-    public var body: some View {
+    var body: some View {
         Button {
             isUsingDatePicker = true
             tempDate = date
@@ -111,7 +111,7 @@ public struct SKDatePickerTVOS: View {
         }
     }
     
-    public init(date: Binding<Date>, data: SKDatePicker.Data) {
+    init(date: Binding<Date>, data: SKDatePicker.Data) {
         self._date = date
         self.data = data
     }

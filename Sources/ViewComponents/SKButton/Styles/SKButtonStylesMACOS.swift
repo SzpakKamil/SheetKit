@@ -137,68 +137,60 @@ struct SKNavigationButtonStyleMACOS: ButtonStyle{
         }
     }
     func makeBody(configuration: Configuration) -> some View {
-        if sheetStyle != .default{
-            configuration.label
-                .labelsHidden()
-                .buttonStyle(.plain)
-                .foregroundStyle(accentColor)
-                .if{ content in
-                    if #available(macOS 26.0, *){
-                        content
-                            .padding(.vertical, 13)
-                            .padding(.horizontal, 13)
-                            #if compiler(>=6.2)
-                            .glassEffect(.regular.interactive(true), in: .circle)
-                            #endif
-                            .opacity(configuration.isPressed ? 0.5 : 1)
-                    }else{
-                        content
-                            .padding(.vertical, 1)
-                            .padding(.horizontal, 4)
-                    }
-                }
-                .contentShape(Rectangle())
-                .opacity(isEnabled ? 1 : 0.5)
+        if #available(macOS 26.0, *){
+            if sheetStyle != .default{
+                configuration.label
+                    .labelsHidden()
+                    .buttonStyle(.plain)
+                    .foregroundStyle(accentColor)
+                    .padding(.vertical, 13)
+                    .padding(.horizontal, 13)
+                    #if compiler(>=6.2)
+                    .glassEffect(.regular.interactive(true), in: .circle)
+                    #endif
+                    .opacity(configuration.isPressed ? 0.5 : 1)
+                    .contentShape(Rectangle())
+                    .opacity(isEnabled ? 1 : 0.5)
+            }else{
+                configuration.label
+                    .foregroundStyle(colorScheme == .dark ? .white : .black)
+                    .buttonStyle(.plain)
+                    .frame(minWidth: 105)
+                    .padding(.vertical, 10)
+                    .padding(.horizontal, 11)
+                    #if compiler(>=6.2)
+                    .glassEffect(.regular.interactive(true))
+                    #endif
+                    .opacity(configuration.isPressed ? 0.5 : 1)
+                    .contentShape(Rectangle())
+                    .opacity(isEnabled ? 1 : 0.5)
+            }
         }else{
             configuration.label
                 .foregroundStyle(colorScheme == .dark ? .white : .black)
                 .buttonStyle(.plain)
+                .frame(minWidth: 50)
+                .padding(.vertical, 6)
+                .padding(.horizontal, 11)
                 .if{ content in
-                    if #available(macOS 26.0, *){
+                    if colorScheme == .dark{
                         content
-                            .frame(minWidth: 105)
-                            .padding(.vertical, 10)
-                            .padding(.horizontal, 11)
-                            #if compiler(>=6.2)
-                            .glassEffect(.regular.interactive(true))
-                            #endif
-                            .opacity(configuration.isPressed ? 0.5 : 1)
+                            .background(LinearGradient(stops: [
+                                .init(color: .white.opacity(0.4), location: 0),
+                                .init(color: .white.opacity(0.3), location: 1)
+                            ], startPoint: .top, endPoint: .bottom) )
                     }else{
                         content
-                            .frame(minWidth: 50)
-                            .padding(.vertical, 6)
-                            .padding(.horizontal, 11)
-                            .if{ content in
-                                if colorScheme == .dark{
-                                    content
-                                        .background(LinearGradient(stops: [
-                                            .init(color: .white.opacity(0.4), location: 0),
-                                            .init(color: .white.opacity(0.3), location: 1)
-                                        ], startPoint: .top, endPoint: .bottom) )
-                                }else{
-                                    content
-                                        .background(.background)
-                                }
-                            }
-                            .clipShape(RoundedRectangle(cornerRadius: 6, style: .circular))
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 6, style: .circular)
-                                    .stroke(.primary.opacity(0.06), lineWidth: 1)
-                            )
-                            .opacity(configuration.isPressed ? 0.5 : 1)
-                            .shadow(color: invertedPrimary.opacity(0.25), radius: 1, y: 0.5)
+                            .background(.background)
                     }
                 }
+                .clipShape(RoundedRectangle(cornerRadius: 6, style: .circular))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 6, style: .circular)
+                        .stroke(.primary.opacity(0.06), lineWidth: 1)
+                )
+                .opacity(configuration.isPressed ? 0.5 : 1)
+                .shadow(color: invertedPrimary.opacity(0.25), radius: 1, y: 0.5)
                 .contentShape(Rectangle())
                 .opacity(isEnabled ? 1 : 0.5)
         }

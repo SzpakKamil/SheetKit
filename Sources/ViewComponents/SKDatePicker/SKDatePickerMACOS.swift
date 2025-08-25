@@ -8,7 +8,7 @@
 import SwiftUI
 
 #if os(macOS)
-public struct SKDatePickerMACOS: View {
+struct SKDatePickerMACOS: View {
     @Binding var date: Date
     @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
     @Environment(\.skIsInSection) var skIsInSection
@@ -24,7 +24,7 @@ public struct SKDatePickerMACOS: View {
         }
     }
     
-    public var body: some View {
+    var body: some View {
         HStack{
             Text(data.title)
             Spacer()
@@ -44,7 +44,7 @@ public struct SKDatePickerMACOS: View {
         .contentShape(Rectangle())
     }
     
-    public init(date: Binding<Date>, data: SKDatePicker.Data) {
+    init(date: Binding<Date>, data: SKDatePicker.Data) {
         self._date = date
         self.data = data
     }

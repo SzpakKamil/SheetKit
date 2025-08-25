@@ -8,8 +8,8 @@
 import SwiftUI
 
 @Observable
-public class SKSheetDisplayWrapper: Identifiable, Hashable, Equatable, Codable {
-    public var id: String
+class SKSheetDisplayWrapper: Identifiable, Hashable, Equatable, Codable {
+    var id: String
     var isPresented: Bool = false
     var shouldBePresented: Bool = false
 
@@ -25,41 +25,41 @@ public class SKSheetDisplayWrapper: Identifiable, Hashable, Equatable, Codable {
             }
         }
     }
-    var customViewSheet: SKCustomViewSheet?
+    var customViewSheet: (any SKCustomViewSheet)?
     var view: AnyView?
-    var sheet: SKSheet?
+    var sheet: (any SKSheet)?
     
-    public static func == (lhs: SKSheetDisplayWrapper, rhs: SKSheetDisplayWrapper) -> Bool {
+    static func == (lhs: SKSheetDisplayWrapper, rhs: SKSheetDisplayWrapper) -> Bool {
         lhs.id == rhs.id
     }
     
-    public func hash(into hasher: inout Hasher) {
+    func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
     
     
-    public enum CodingKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey {
         case id
         case shouldBePresented
     }
     
-    required public init(from decoder: Decoder) throws {
+    required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try values.decode(String.self, forKey: .id)
         self.shouldBePresented = false
         self.shouldBePresented = try values.decode(Bool.self, forKey: .shouldBePresented)
     }
-    public func encode(to encoder: Encoder) throws {
+    func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)
         try container.encode(shouldBePresented, forKey: .shouldBePresented)
     }
     
-    init(sheet: SKSheet) {
+    init(sheet: any SKSheet) {
         self.id = sheet.id
         self.sheet = sheet
     }
-    init(customViewSheet: SKCustomViewSheet){
+    init(customViewSheet: any SKCustomViewSheet){
         self.id = customViewSheet.id
         self.customViewSheet = customViewSheet
     }

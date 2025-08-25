@@ -1,6 +1,6 @@
 import SwiftUI
 
-public extension SKHeaderImage {
+extension SKHeaderImage {
     struct Data {
         // Store systemName for system images to enable hashing and equality
         let image: Image
@@ -10,7 +10,7 @@ public extension SKHeaderImage {
         var weight: Font.Weight
         var verticalPadding: VerticalPadding?
     
-        public init(image: Image, variant: Variant = .none, renderingMode: SKRenderingMode = .monochrome, verticalPadding: VerticalPadding? = nil, weight: Font.Weight = .regular, size: SKHeaderImage.Size? = nil) {
+        init(image: Image, variant: Variant = .none, renderingMode: SKRenderingMode = .monochrome, verticalPadding: VerticalPadding? = nil, weight: Font.Weight = .regular, size: SKHeaderImage.Size? = nil) {
             self.image = image
             self.variant = variant
             self.renderingMode = renderingMode
@@ -20,7 +20,7 @@ public extension SKHeaderImage {
         }
     }
     
-    enum VerticalPadding: Hashable {
+    public enum VerticalPadding: Hashable {
         case none
         case small
         case medium
@@ -47,7 +47,7 @@ public extension SKHeaderImage {
         }
     }
     
-    enum Size: Hashable {
+    public enum Size: Hashable {
         case large
         case medium
         case small
@@ -84,7 +84,7 @@ public extension SKHeaderImage {
         }
     }
     
-    enum Variant: CaseIterable {
+    public enum Variant: CaseIterable {
         case fill
         case circle
         case none
@@ -115,9 +115,9 @@ public extension SKHeaderImage {
 public struct SKHeaderImage: SKComponent {
 
     public let type: SKComponentType = .header
-    public var data: SKHeaderImage.Data
+    var data: SKHeaderImage.Data
     
-    public init(data: SKHeaderImage.Data) {
+    init(data: SKHeaderImage.Data) {
         self.data = data
     }
     

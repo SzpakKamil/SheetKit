@@ -28,7 +28,20 @@ public struct SKButton<TextContent: View, ImageContent: View>: View {
                         if ImageContent.self != EmptyView.self && toolbarPlacement != .note {
                             image
                                 .accessibilityHidden(true)
-                        } else {
+                        } else if toolbarPlacement == .note {
+                            Image(systemName: "info")
+                        }else{
+                            text
+                        }
+                        #elseif os(macOS)
+                        if #available(macOS 26.0, *){
+                            if ImageContent.self != EmptyView.self && sheetStyle == .compact && toolbarPlacement == .navigation {
+                                image
+                                    .accessibilityHidden(true)
+                            } else {
+                                text
+                            }
+                        }else{
                             text
                         }
                         #elseif !os(iOS)
@@ -65,23 +78,28 @@ public struct SKButton<TextContent: View, ImageContent: View>: View {
                     toolbarButtonAction()
                 } label: {
                     Group{
-                        #if os(visionOS)
-                        if ImageContent.self != EmptyView.self && toolbarPlacement == .navigation {
-                            image
-                        } else {
-                            text
-                        }
-                        #elseif os(watchOS)
-                        if toolbarPlacement == .note {
-                            Image(systemName: "info")
-                        } else if ImageContent.self != EmptyView.self {
+                        #if os(watchOS)
+                        if ImageContent.self != EmptyView.self && toolbarPlacement != .note {
                             image
                                 .accessibilityHidden(true)
-                        } else {
+                        } else if toolbarPlacement == .note {
+                            Image(systemName: "info")
+                        }else{
+                            text
+                        }
+                        #elseif os(macOS)
+                        if #available(macOS 26.0, *){
+                            if ImageContent.self != EmptyView.self && sheetStyle == .compact && toolbarPlacement == .navigation {
+                                image
+                                    .accessibilityHidden(true)
+                            } else {
+                                text
+                            }
+                        }else{
                             text
                         }
                         #elseif !os(iOS)
-                        if ImageContent.self != EmptyView.self && sheetStyle != .default && toolbarPlacement == .navigation {
+                        if ImageContent.self != EmptyView.self && sheetStyle == .compact && toolbarPlacement == .navigation {
                             image
                                 .accessibilityHidden(true)
                         } else {
@@ -92,6 +110,7 @@ public struct SKButton<TextContent: View, ImageContent: View>: View {
                             if ImageContent.self != EmptyView.self && toolbarPlacement == .navigation {
                                 if #available(iOS 26.0, *) {
                                     image
+                                        .accessibilityHidden(true)
                                 } else {
                                     HStack {
                                         image

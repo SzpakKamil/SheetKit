@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public extension SKStepper{
+extension SKStepper{
     struct Data{
         var title: String
         var textForValue: (S) -> String
@@ -15,7 +15,7 @@ public extension SKStepper{
         var range: ClosedRange<S>?
         var step: S.Stride
         
-        public init(title: String, range: ClosedRange<S>? = nil, step: S.Stride = 1, textForValue: @escaping (S) -> String) {
+        init(title: String, range: ClosedRange<S>? = nil, step: S.Stride = 1, textForValue: @escaping (S) -> String) {
             self.title = title
             self.textForValue = textForValue
             self.step = step
@@ -42,11 +42,6 @@ public struct SKStepper<S: Strideable>: View, SKComponent {
         #else
         EmptyView()
         #endif
-    }
-    
-    public init(value: Binding<S>, data: SKStepper.Data) {
-        self._value = value
-        self.data = data
     }
     
     public init(title: String, value: Binding<S>, step: S.Stride = 1, range: ClosedRange<S>? = nil, textForValue: @escaping (S) -> String = { s in "\(s)" }) {

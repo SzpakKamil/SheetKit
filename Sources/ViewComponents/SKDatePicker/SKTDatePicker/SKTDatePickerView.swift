@@ -1,7 +1,7 @@
 //  Copyright © 2023 Paramount. All rights reserved.
 #if os(tvOS)
 internal import UIKit
-
+@_documentation(visibility: internal)
 extension SKTPickerViewStyle {
     static let datePicker = SKTPickerViewStyle(
         componentSpacing: 56,
@@ -23,8 +23,7 @@ extension SKTPickerViewStyle {
     )
 }
 
-/// This component displays a `SKTPickerView` restricting its delegate object to be
-/// an instance of `GregorianCalendarDatePickerDelegate` class.
+@_documentation(visibility: internal)
 class SKTDatePickerView: UIView {
     internal let pickerView: SKTPickerView
 

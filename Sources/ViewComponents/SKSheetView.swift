@@ -205,23 +205,43 @@ public struct SKSheetView: View {
 
 #Preview {
     SKSheetView{
-        
+        SKPage{
+            SKTitle("Test")
+            SKTitle("Test")
+            SKTitle("Test")
+            SKTitle("Test")
+            SKTitle("Test")
+            SKTitle("Test")
+            SKTitle("Test")
+            SKTitle("Test")
+            SKTitle("Test")
+            SKTitle("Test")
+            SKTitle("Test")
+            SKTitle("Test")
+            SKTitle("Test")
+            SKTitle("Test")
+        }
     }
 }
 
 
 #if os(iOS)
+
+@_documentation(visibility: internal)
 extension UINavigationController: @retroactive UIGestureRecognizerDelegate {
+    @_documentation(visibility: internal)
     override open func viewDidLoad() {
         super.viewDidLoad()
         interactivePopGestureRecognizer?.delegate = self
     }
 
+    @_documentation(visibility: internal)
     public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         return viewControllers.count > 1
     }
 
     // To make it works also with ScrollView
+    @_documentation(visibility: internal)
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         true
     }

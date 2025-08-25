@@ -12,6 +12,8 @@ public struct SKPrimaryButtonStyle: ButtonStyle {
     let isEnabled: Bool
     let accentColor: Color
     let colorScheme: ColorScheme
+    
+    @_documentation(visibility: internal)
     public func makeBody(configuration: Configuration) -> some View {
         #if os(iOS)
         SKPrimaryButtonStyleIOS(isEnabled: isEnabled, accentColor: accentColor).makeBody(configuration: configuration)
@@ -37,6 +39,8 @@ public struct SKSecondaryButtonStyle: ButtonStyle {
     let sheetStyle: SKSheetStyle?
     let isEnabled: Bool
     let accentColor: Color
+    
+    @_documentation(visibility: internal)
     public func makeBody(configuration: Configuration) -> some View {
         #if os(iOS)
         SKSecondaryButtonStyleIOS(isEnabled: isEnabled, accentColor: accentColor).makeBody(configuration: configuration)
@@ -63,6 +67,8 @@ public struct SKNoteButtonStyle: ButtonStyle {
     let accentColor: Color
     let colorScheme: ColorScheme
     let textAlignment: TextAlignment
+    
+    @_documentation(visibility: internal)
     public func makeBody(configuration: Configuration) -> some View {
         #if os(iOS)
         SKNoteButtonStyleIOS(colorScheme: colorScheme, isEnabled: isEnabled, accentColor: accentColor, textAlignment: textAlignment).makeBody(configuration: configuration)
@@ -89,6 +95,8 @@ public struct SKNavigationButtonStyle: ButtonStyle {
     let sheetStyle: SKSheetStyle?
     let isEnabled: Bool
     let accentColor: Color
+    
+    @_documentation(visibility: internal)
     public func makeBody(configuration: Configuration) -> some View {
         #if os(iOS)
         SKNavigationButtonStyleIOS(sheetStyle: sheetStyle, colorScheme: colorScheme, isEnabled: isEnabled, accentColor: accentColor).makeBody(configuration: configuration)

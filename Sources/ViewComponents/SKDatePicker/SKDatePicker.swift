@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public extension SKDatePicker{
+extension SKDatePicker{
     struct Data{
         let title: LocalizedStringKey
         let range: ClosedRange<Date>?
@@ -16,13 +16,13 @@ public extension SKDatePicker{
         #endif
         
         #if !os(tvOS)
-        public init(title: LocalizedStringKey, range: ClosedRange<Date>? = nil, components: DatePicker.Components = .date) {
+        init(title: LocalizedStringKey, range: ClosedRange<Date>? = nil, components: DatePicker.Components = .date) {
             self.title = title
             self.components = components
             self.range = range
         }
         #else
-        public init(title: LocalizedStringKey, range: ClosedRange<Date>? = nil) {
+        init(title: LocalizedStringKey, range: ClosedRange<Date>? = nil) {
             self.title = title
             self.range = range
         }

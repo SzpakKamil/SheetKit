@@ -11,6 +11,7 @@ import SwiftUI
 struct SKScrollViewIOS<Content: View>: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.skRowSpacing) var skRowSpacing
+    @Environment(\.skIsContinueButtonHidden) var skIsContinueButtonHidden
     let content: () -> Content
     let backgroundStyle: SKPage.BackgroundStyle
     let toolbar: SKToolbar
@@ -41,18 +42,22 @@ struct SKScrollViewIOS<Content: View>: View {
             .if{ content in
                 if #available(iOS 26.0, *){
                     content
+                        #if compiler(>=6.2)
                         .safeAreaBar(edge: .bottom) {
                             toolbar
                                 .padding(.horizontal, 30)
                                 .padding(.bottom, 30)
                         }
+                        #endif
                 }else{
                     content
                         .safeAreaInset(edge: .bottom) {
                             toolbar
                                 .padding(.horizontal, 30)
                                 .padding(.bottom, 30)
+                                .frame(maxWidth: .infinity)
                                 .background(.ultraThinMaterial)
+                                .opacity(toolbar.data.buttons.filter{ $0.placement != .navigation}.isEmpty && skIsContinueButtonHidden ? 0 : 1)
                         }
                 }
             }

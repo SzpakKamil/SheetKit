@@ -14,6 +14,7 @@ public protocol SKComponent: View where Body: View {
     
     
 }
+@_documentation(visibility: internal)
 public extension SKComponent {
     func erasedContent() -> AnyView {
         AnyView(self)
