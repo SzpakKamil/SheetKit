@@ -19,17 +19,17 @@
     @AutomaticArticleSubheading(disabled)
 }
 
-A result builder function that processes multiple arrays of ``SKComponent`` into a flattened array for use in ``SKPage``.
+A result builder function that processes multiple arrays of ``SKComponent`` or SwiftUI views into a flattened array for use in ``SKPage``.
 
 ## Overview
 
-The ``SKPageBuilder/buildBlock(_:)-1g593`` function, specifically for multiple arrays of ``SKComponent``, is a component of the ``SKPageBuilder`` result builder in the `SheetKit` package. It takes a variadic sequence of arrays of components conforming to the ``SKComponent`` protocol (`[any SKComponent]...`) and flattens them into a single array of `[any SKComponent]`. This function works in pair with ``SKPageBuilder/buildExpression(_:)-(SKComponent...)`` to process linear component passages. The `@resultBuilder` attribute ensures that the type of components passed is automatically transformed, so the specific input type does not matter, allowing seamless integration into the ``SKPage`` structure.
+The ``SKPageBuilder/buildBlock(_:)-1g593`` function, specifically for multiple arrays of ``SKComponent`` or SwiftUI views, is a component of the ``SKPageBuilder`` result builder in the `SheetKit` package. It takes a variadic sequence of arrays of components conforming to the ``SKComponent`` protocol (`[any SKComponent]...`) or default SwiftUI views (e.g., `Text`, `Image`) and flattens them into a single array of `[any SKComponent]`. This function works in pair with ``SKPageBuilder/buildExpression(_:)-(SKComponent...)`` to process linear component or view passages. The `@resultBuilder` attribute ensures that the type of components or views passed is automatically transformed, allowing seamless integration into the ``SKPage`` structure.
 
-This function is used internally by the ``SKPageBuilder`` when processing components passed to an ``SKPage`` initializer, such as `@SKPageBuilder components: [any SKComponent]`, to handle cases where components are provided as multiple arrays.
+This function is used internally by the ``SKPageBuilder`` when processing components or SwiftUI views passed to an ``SKPage`` initializer, such as `@SKPageBuilder components: [any SKComponent]`, to handle cases where content is provided as multiple arrays.
 
 ## Example
 
-The following example demonstrates how ``SKPageBuilder`` (including ``SKPageBuilder/buildBlock(_:)-1g593`` for multiple arrays) is used to create a sheet with multiple predefined arrays of components:
+The following example demonstrates how ``SKPageBuilder`` (including ``SKPageBuilder/buildBlock(_:)-1g593`` for multiple arrays) is used to create a sheet with multiple predefined arrays of components and views:
 
 ```swift
 import SwiftUI
@@ -43,10 +43,10 @@ struct ContentView: View {
             sheetManager.show(id: "ExampleSheet") {
                 SKSheetView {
                     SKPage {
-                        // Linear sequence of components processed by buildBlock(_:)
+                        // Linear sequence of components and SwiftUI views processed by buildBlock(_:)
                         SKHeaderImage(systemName: "camera")
                         SKTitle("SKPage Example")
-                        SKDescription("This is a sample description for the page.")
+                        Text("This is a sample SwiftUI text view.")
                     }
                 }
             }
@@ -55,4 +55,4 @@ struct ContentView: View {
 }
 ```
 
-In this example, the ``SKPage`` uses the ``SKPageBuilder`` to compose a sheet containing a header image, a title, and a description specified in a linear sequence. The ``SKPageBuilder/buildExpression(_:)-(SKComponent...)`` function processes the variadic sequence of ``SKComponent``, and the ``SKPageBuilder/buildBlock(_:)-1g593`` function transforms these into a final array of `[any SKComponent]` for rendering within the ``SKSheetView``. The `@resultBuilder` ensures that the component types are automatically handled, so the specific input type does not matter. The ``SKSheetManager/show(id:view:)`` method presents the sheet.
+In this example, the ``SKPage`` uses the ``SKPageBuilder`` to compose a sheet containing a header image, a title, and a SwiftUI `Text` view specified in a linear sequence. The ``SKPageBuilder/buildExpression(_:)-(SKComponent...)`` function processes the variadic sequence of ``SKComponent`` and SwiftUI views, and the ``SKPageBuilder/buildBlock(_:)-1g593`` function transforms these into a final array of `[any SKComponent]` for rendering within the ``SKSheetView``. The `@resultBuilder` ensures that the component and view types are automatically handled. The ``SKSheetManager/show(id:view:)`` method presents the sheet.

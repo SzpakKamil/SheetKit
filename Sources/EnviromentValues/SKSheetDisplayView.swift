@@ -17,9 +17,26 @@ struct SKSheetDisplayView: View {
             Group{
                 if index == 0 {
                     Text("")
+                        #if os(iOS) || os(tvOS)
+                        .if{ content in
+                            if sheet.sheet?.options.first{ $0.id == 13 }?.value1 as? Bool == true {
+                                content
+                                    .fullScreenCover(isPresented: sheet.isPresentedBinding){
+                                        sheetContent()
+                                    }
+                            }else{
+                                content
+                                    .sheet(isPresented: sheet.isPresentedBinding){
+                                        sheetContent()
+                                    }
+                            }
+                        }
+                        #else
                         .sheet(isPresented: sheet.isPresentedBinding){
                             sheetContent()
                         }
+                        #endif
+
                 }else{
                     sheetContent()
                 }
@@ -50,9 +67,25 @@ struct SKSheetDisplayView: View {
                 }
             }
         }
+        #if os(iOS) || os(tvOS)
+        .if{ content in
+            if sheetManager.getOpenedSheet(forIndex: index + 1)?.sheet?.options.first{ $0.id == 13 }?.value1 as? Bool == true {
+                content
+                    .fullScreenCover(isPresented: sheetManager.getOpenedSheet(forIndex: index + 1)?.isPresentedBinding ?? .constant(false)) {
+                        SKSheetDisplayView(index: index + 1)
+                    }
+            }else{
+                content
+                    .sheet(isPresented: sheetManager.getOpenedSheet(forIndex: index + 1)?.isPresentedBinding ?? .constant(false)) {
+                        SKSheetDisplayView(index: index + 1)
+                    }
+            }
+        }
+        #else
         .sheet(isPresented: sheetManager.getOpenedSheet(forIndex: index + 1)?.isPresentedBinding ?? .constant(false)) {
             SKSheetDisplayView(index: index + 1)
         }
+        #endif
     }
 
     init(index: Int = 0) {

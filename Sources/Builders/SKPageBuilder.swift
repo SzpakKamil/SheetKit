@@ -42,4 +42,8 @@ public struct SKPageBuilder {
     public static func buildExpression(_ components: any SKComponent...) -> [any SKComponent] {
         return components
     }
+    
+    public static func buildExpression<V>(_ expression: V) -> [any SKComponent] where V: View {
+        [expression.asComponent]
+    }
 }

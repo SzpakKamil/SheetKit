@@ -11,6 +11,7 @@ import SwiftUI
 struct SKScrollViewWATCHOS<Content: View>: View {
     @Environment(\.colorScheme) var colorScheme
     let content: () -> Content
+    let pageStyle: SKPage.Style
     let backgroundStyle: SKPage.BackgroundStyle
     let toolbar: SKToolbar
 
@@ -28,15 +29,22 @@ struct SKScrollViewWATCHOS<Content: View>: View {
             backgroundColor
                 .ignoresSafeArea()
 
-            ScrollView {
+            if pageStyle == .default{
+                ScrollView {
+                    content()
+                }
+                .scrollBounceBehavior(.basedOnSize)
+            }else{
                 content()
-                    .padding(.horizontal, 15)
+                    .frame(maxHeight: .infinity)
             }
+            
             toolbar
         }
     }
 
-    init(backgroundStyle: SKPage.BackgroundStyle, toolbar: SKToolbar, @ViewBuilder content: @escaping () -> Content) {
+    init(pageStyle: SKPage.Style, backgroundStyle: SKPage.BackgroundStyle, toolbar: SKToolbar, @ViewBuilder content: @escaping () -> Content) {
+        self.pageStyle = pageStyle
         self.content = content
         self.backgroundStyle = backgroundStyle
         self.toolbar = toolbar

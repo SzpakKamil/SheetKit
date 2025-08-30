@@ -7,10 +7,9 @@
 
 import SwiftUI
 
-public
 extension View {
-    public var asComponent: SKComponent {
-        SKCustomView(type: .highlight) {
+    var asComponent: SKComponent {
+        SKCustomView(type: .customView) {
             self
         }
     }

@@ -13,19 +13,19 @@ struct SKToolbarMACOS: View {
     @Environment(\.skIsCloseButtonHidden) var isCloseButtonHidden
     @Environment(\.skIsShowingBackButton) var isShowingBackButton
     @Environment(\.skIsContinueButtonHidden) var skIsContinueButtonHidden
-    let data: SKToolbar.Data
+    let items: [SKToolbarItem]
     var body: some View {
-        let noteItems: [SKToolbarItem] = data.buttons.filter{ $0.placement == .note }
-        let secondaryItems: [SKToolbarItem] = data.buttons.filter{ $0.placement == .secondary }
-        let navigationItems: [SKToolbarItem] = data.buttons.filter{ $0.placement == .navigation }
-        let primaryItems: [SKToolbarItem] = data.buttons.filter{ $0.placement == .primary }
+        let noteItems: [SKToolbarItem] = items.filter{ $0.placement == .note }
+        let secondaryItems: [SKToolbarItem] = items.filter{ $0.placement == .secondary }
+        let navigationItems: [SKToolbarItem] = items.filter{ $0.placement == .navigation }
+        let primaryItems: [SKToolbarItem] = items.filter{ $0.placement == .primary }
         VStack{
             VStack(spacing: 5){
                 ForEach(noteItems.indices){ index in
                     noteItems[index]
                 }
                 
-                if #unavailable(macOS 26.0), skSheetStyle != .prominent, (!secondaryItems.isEmpty || !navigationItems.isEmpty || !primaryItems.isEmpty){
+                if #unavailable(macOS 26.0), skSheetStyle != .prominent, (!secondaryItems.isEmpty || (!navigationItems.isEmpty || !isCloseButtonHidden) || (!primaryItems.isEmpty || !skIsContinueButtonHidden)){
                     Divider()
                         .padding(.horizontal, -15)
                         .padding(.bottom, 5)
@@ -54,7 +54,7 @@ struct SKToolbarMACOS: View {
                     Spacer()
                     if #available(macOS 26.0, *){
                         if skSheetStyle == .default{
-                            if navigationItems.isEmpty && (!isCloseButtonHidden || isShowingBackButton) && skSheetStyle == .default {
+                            if navigationItems.isEmpty && (!isCloseButtonHidden || isShowingBackButton) {
                                 SKToolbarItem(placement: .navigation, actionType: .dismiss) {SKButton("Back"){}}
                             }else{
                                 ForEach(navigationItems.indices){ index in
@@ -63,13 +63,11 @@ struct SKToolbarMACOS: View {
                             }
                         }
                     }else{
-                        if skSheetStyle != .prominent{
-                            if navigationItems.isEmpty && (!isCloseButtonHidden || isShowingBackButton) && skSheetStyle == .default {
-                                SKToolbarItem(placement: .navigation, actionType: .dismiss) {SKButton("Back"){}}
-                            }else{
-                                ForEach(navigationItems.indices){ index in
-                                    navigationItems[index]
-                                }
+                        if navigationItems.isEmpty && (!isCloseButtonHidden || isShowingBackButton) {
+                            SKToolbarItem(placement: .navigation, actionType: .dismiss) {SKButton("Back"){}}
+                        }else{
+                            ForEach(navigationItems.indices){ index in
+                                navigationItems[index]
                             }
                         }
                     }
@@ -86,8 +84,8 @@ struct SKToolbarMACOS: View {
         }
     }
     
-    init(data: SKToolbar.Data) {
-        self.data = data
+    init(items: [SKToolbarItem]) {
+        self.items = items
     }
 }
 

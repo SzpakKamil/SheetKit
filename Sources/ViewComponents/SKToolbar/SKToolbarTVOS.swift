@@ -13,12 +13,12 @@ struct SKToolbarTVOS: View {
     @Environment(\.skIsCloseButtonHidden) var isCloseButtonHidden
     @Environment(\.skIsShowingBackButton) var isShowingBackButton
     @Environment(\.skIsContinueButtonHidden) var skIsContinueButtonHidden
-    let data: SKToolbar.Data
+    let items: [SKToolbarItem]
     var body: some View {
-        let noteItems: [SKToolbarItem] = data.buttons.filter{ $0.placement == .note }
-        let secondaryItems: [SKToolbarItem] = data.buttons.filter{ $0.placement == .secondary }
-        let navigationItems: [SKToolbarItem] = data.buttons.filter{ $0.placement == .navigation }
-        let primaryItems: [SKToolbarItem] = data.buttons.filter{ $0.placement == .primary }
+        let noteItems: [SKToolbarItem] = items.filter{ $0.placement == .note }
+        let secondaryItems: [SKToolbarItem] = items.filter{ $0.placement == .secondary }
+        let navigationItems: [SKToolbarItem] = items.filter{ $0.placement == .navigation }
+        let primaryItems: [SKToolbarItem] = items.filter{ $0.placement == .primary }
         VStack{
             if #available(tvOS 26.0, *){
                 VStack(spacing: 5){
@@ -62,11 +62,9 @@ struct SKToolbarTVOS: View {
         }
     }
     
-    init(data: SKToolbar.Data) {
-        self.data = data
+    init(items: [SKToolbarItem]) {
+        self.items = items
     }
-    
-    
 }
 
 #if DEBUG

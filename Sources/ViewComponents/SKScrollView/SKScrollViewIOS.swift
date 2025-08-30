@@ -13,6 +13,7 @@ struct SKScrollViewIOS<Content: View>: View {
     @Environment(\.skRowSpacing) var skRowSpacing
     @Environment(\.skIsContinueButtonHidden) var skIsContinueButtonHidden
     let content: () -> Content
+    let pageStyle: SKPage.Style
     let backgroundStyle: SKPage.BackgroundStyle
     let toolbar: SKToolbar
     @State private var toolbarHeight: CGFloat = 0
@@ -20,24 +21,29 @@ struct SKScrollViewIOS<Content: View>: View {
     var backgroundColor: Color {
         switch backgroundStyle {
         case .list:
-            return colorScheme == .dark ? .clear : .white
+            return colorScheme == .dark ? Color(red: 0.109375, green: 0.109375, blue: 0.1176470588) : .white
         case .form:
-            return colorScheme == .dark ? .clear : Color(red: 0.949, green: 0.949, blue: 0.969)
+            return colorScheme == .dark ? Color(red: 0.109375, green: 0.109375, blue: 0.1176470588) : Color(red: 0.949, green: 0.949, blue: 0.969)
         case .custom(let light, let dark):
             return colorScheme == .dark ? dark : light
         }
     }
 
     var body: some View {
-        ZStack(alignment: .bottom) {
+        ZStack{
             backgroundColor
                 .ignoresSafeArea()
 
-            ScrollView {
-                VStack(spacing: skRowSpacing){
+            Group{
+                if pageStyle == .default{
+                    ScrollView {
+                        content()
+                    }
+                    .scrollBounceBehavior(.basedOnSize)
+                }else{
                     content()
+                        .frame(maxHeight: .infinity)
                 }
-                .padding(.horizontal, 30)
             }
             .if{ content in
                 if #available(iOS 26.0, *){
@@ -57,7 +63,7 @@ struct SKScrollViewIOS<Content: View>: View {
                                 .padding(.bottom, 30)
                                 .frame(maxWidth: .infinity)
                                 .background(.ultraThinMaterial)
-                                .opacity(toolbar.data.buttons.filter{ $0.placement != .navigation}.isEmpty && skIsContinueButtonHidden ? 0 : 1)
+                                .opacity(toolbar.items.filter{ $0.placement != .navigation}.isEmpty && skIsContinueButtonHidden ? 0 : 1)
                         }
                 }
             }
@@ -65,7 +71,8 @@ struct SKScrollViewIOS<Content: View>: View {
         }
     }
 
-    init(backgroundStyle: SKPage.BackgroundStyle, toolbar: SKToolbar, @ViewBuilder content: @escaping () -> Content) {
+    init(pageStyle: SKPage.Style, backgroundStyle: SKPage.BackgroundStyle, toolbar: SKToolbar, @ViewBuilder content: @escaping () -> Content) {
+        self.pageStyle = pageStyle
         self.content = content
         self.backgroundStyle = backgroundStyle
         self.toolbar = toolbar

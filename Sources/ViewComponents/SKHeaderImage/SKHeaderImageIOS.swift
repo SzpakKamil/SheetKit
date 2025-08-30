@@ -11,6 +11,8 @@ import SwiftUI
 struct SKHeaderImageIOS: View {
     @Environment(\.accessibilityReduceMotion) var accessibilityReduceMotion
     @Environment(\.skAlignment) var skAlignment
+    @Environment(\.skIsUsingFullScreenCover) var skIsUsingFullScreenCover
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @Environment(\.skAccentColor) var skAccentColor
     var data: SKHeaderImage.Data
     
@@ -38,12 +40,16 @@ struct SKHeaderImageIOS: View {
         if let skAlignment{
             return skAlignment
         }else{
-            return .center
+            if skIsUsingFullScreenCover && horizontalSizeClass == .regular{
+                return .leading
+            }else{
+                return .center
+            }
         }
     }
     
     var body: some View {
-        HStack{
+        HStack(spacing: 0){
             if [HorizontalAlignment.center, .trailing].contains(autoAlignment){
                 Spacer()
             }

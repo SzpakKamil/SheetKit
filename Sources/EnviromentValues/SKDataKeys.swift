@@ -34,6 +34,12 @@ public extension View {
         }
         .environment(\.skSheetActivityType, handoffActivityType)
     }
+    func skSheetManager(sheets: any SKSheetable.Type..., handoffActivityType: String? = nil) -> some View {
+        SKSheetManagerView(manager: .init(sheets: sheets)){
+            self
+        }
+        .environment(\.skSheetActivityType, handoffActivityType)
+    }
 }
 
 

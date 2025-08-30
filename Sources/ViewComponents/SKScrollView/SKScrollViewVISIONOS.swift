@@ -11,6 +11,7 @@ import SwiftUI
 struct SKScrollViewVISIONOS<Content: View>: View {
     @Environment(\.colorScheme) var colorScheme
     let content: () -> Content
+    let pageStyle: SKPage.Style
     let backgroundStyle: SKPage.BackgroundStyle
     let toolbar: SKToolbar
     @State private var toolbarHeight: CGFloat = 0
@@ -30,17 +31,21 @@ struct SKScrollViewVISIONOS<Content: View>: View {
         ZStack(alignment: .bottom) {
             backgroundColor
                 .ignoresSafeArea()
-
-            ScrollView {
+            
+            if pageStyle == .default{
+                ScrollView {
+                    content()
+                }
+                .scrollBounceBehavior(.basedOnSize)
+            }else{
                 content()
-                    .padding(.horizontal, 30)
-                    .padding(.bottom, toolbarHeight)
+                    .frame(maxHeight: .infinity)
             }
-
+            
             ZStack(alignment: .bottom) {
                 Blur()
                     .frame(height: toolbarHeight + 30)
-                    
+                
                 GeometryReader{ proxy in
                     VStack{
                         Spacer()
@@ -60,7 +65,8 @@ struct SKScrollViewVISIONOS<Content: View>: View {
         }
     }
 
-    init(backgroundStyle: SKPage.BackgroundStyle, toolbar: SKToolbar, @ViewBuilder content: @escaping () -> Content) {
+    init(pageStyle: SKPage.Style, backgroundStyle: SKPage.BackgroundStyle, toolbar: SKToolbar, @ViewBuilder content: @escaping () -> Content) {
+        self.pageStyle = pageStyle
         self.content = content
         self.backgroundStyle = backgroundStyle
         self.toolbar = toolbar

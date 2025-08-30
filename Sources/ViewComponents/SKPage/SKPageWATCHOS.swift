@@ -10,6 +10,7 @@ import SwiftUI
 #if os(watchOS)
 struct SKPageWATCHOS: View{
     @Environment(\.skAccentColor) var accentColor
+    @Environment(\.skRowSpacing) var skRowSpacing
     @Environment(\.skSheetStyle) var sheetStyle
     @Environment(\.skIsCloseButtonHidden) var isCloseButtonHidden
     @Environment(\.skIsShowingBackButton) var isShowingBackButton
@@ -48,31 +49,53 @@ struct SKPageWATCHOS: View{
         return components
     }
     var body: some View {
-        TabView{
-            let fields = data.content.filter{ $0.type == .field}
-            if highlights.isEmpty && fields.isEmpty{
-                SKScrollView(backgroundStyle: autoStyle, toolbar: data.toolbar) {
-                    SKHighlight(titleVerbatim: "", descriptionVerbatim: "", systemName: "")
-                }
-            }else{
-                ForEach(highlights.indices, id: \.self){ index in
-                    SKScrollView(backgroundStyle: autoStyle, toolbar: data.toolbar) {
-                        highlights[index].erasedContent()
+        Group{
+            if data.pageStyle == .default{
+                TabView{
+                    let fields = data.content.filter{ $0.type == .field}
+                    let customView = data.content.filter{ $0.type == .customView}
+                    if highlights.isEmpty && fields.isEmpty{
+                        SKScrollView(pageStyle: data.pageStyle ?? .default, backgroundStyle: autoStyle, toolbar: data.toolbar) {
+                            SKHighlight(titleVerbatim: "", descriptionVerbatim: "", systemName: "")
+                        }
+                    }else{
+                        ForEach(highlights.indices, id: \.self){ index in
+                            SKScrollView(pageStyle: data.pageStyle ?? .default, backgroundStyle: autoStyle, toolbar: data.toolbar) {
+                                highlights[index].erasedContent()
+                            }
+                        }
+                    }
+                    if !customView.isEmpty{
+                        SKScrollView(pageStyle: data.pageStyle ?? .default, backgroundStyle: autoStyle, toolbar: data.toolbar) {
+                            VStack(spacing: skRowSpacing){
+                                ForEach(customView.indices){ index in
+                                    customView[index].erasedContent()
+                                }
+                            }
+                        }
+                    }
+                    
+                    
+                    if !fields.isEmpty{
+                        SKScrollView(pageStyle: data.pageStyle ?? .default, backgroundStyle: autoStyle, toolbar: data.toolbar) {
+                            VStack(spacing: skRowSpacing){
+                                ForEach(fields.indices){ index in
+                                    fields[index].erasedContent()
+                                }
+                            }
+                        }
+                        .navigationTitle("Enter Fields")
                     }
                 }
-            }
-            
-
-            
-            if !fields.isEmpty{
-                SKScrollView(backgroundStyle: autoStyle, toolbar: data.toolbar) {
-                    VStack{
-                        ForEach(fields.indices){ index in
-                            fields[index].erasedContent()
+            }else{
+                SKScrollView(pageStyle: data.pageStyle ?? .default, backgroundStyle: autoStyle, toolbar: data.toolbar) {
+                    VStack(spacing: skRowSpacing){
+                        ForEach(data.content.indices){ index in
+                            data.content[index].erasedContent()
                         }
                     }
                 }
-                .navigationTitle("Enter Fields")
+
             }
         }
         .toolbar{

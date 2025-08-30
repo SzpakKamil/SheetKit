@@ -7,44 +7,30 @@
 
 import SwiftUI
 
-
-
-// MARK: - Toolbar Data Extension
-public extension SKToolbar {
-    struct Data {
-        let buttons: [SKToolbarItem]
-        
-        public init(@SKToolbarBuilder content: () -> [SKToolbarItem]) {
-            self.buttons = content()
-        }
-    }
-}
-
-
 public struct SKToolbar: View {
-    let data: SKToolbar.Data
+    let items: [SKToolbarItem]
     public var body: some View {
         #if os(iOS)
-        SKToolbarIOS(data: data)
+        SKToolbarIOS(items: items)
         #elseif os(macOS)
-        SKToolbarMACOS(data: data)
+        SKToolbarMACOS(items: items)
         #elseif os(tvOS)
-        SKToolbarTVOS(data: data)
+        SKToolbarTVOS(items: items)
         #elseif os(visionOS)
-        SKToolbarVISIONOS(data: data)
+        SKToolbarVISIONOS(items: items)
         #elseif os(watchOS)
-        SKToolbarWATCHOS(data: data)
+        SKToolbarWATCHOS(items: items)
         #else
         EmptyView()
         #endif
     }
     
-    public init(data: SKToolbar.Data) {
-        self.data = data
+    public init(items: [SKToolbarItem]) {
+        self.items = items
     }
     
-    public init(@SKToolbarBuilder content: () -> [SKToolbarItem]) {
-        self.data = .init(content: content)
+    init(@SKToolbarBuilder items: () -> [SKToolbarItem]) {
+        self.items = items()
     }
     
 }

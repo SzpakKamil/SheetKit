@@ -63,7 +63,7 @@ These features make SheetKit ideal for apps requiring **beautiful, interactive, 
 
 SheetKit includes a wide set of building blocks to compose sheets:
 
-* **Layout & Containers**: ``SKPage``, ``SKPageBuilder``, ``SKScrollView``, ``SKSheetView``, ``SKSheetDisplayView``
+* **Layout & Containers**: ``SKPage``, ``SKSheetView``
 * **Text & Media**: ``SKTitle``, ``SKDescription``, ``SKHeaderImage``, ``SKHighlight``
 * **Form Elements**: ``SKTextField``, ``SKDatePicker``, ``SKStepper``, ``SKPicker``
 * **Buttons & Styles**: ``SKButton``, ``SKPrimaryButtonStyle``, ``SKSecondaryButtonStyle``, ``SKNavigationButtonStyle``, ``SKNoteButtonStyle``
@@ -71,8 +71,8 @@ SheetKit includes a wide set of building blocks to compose sheets:
 
 For advanced configuration, see:
 
-* **Classes**: ``SKSheetManager``, ``SKSheetDisplayWrapper``
-* **Protocols**: ``SKSheet``, ``SKCustomViewSheet``, ``SKComponent``
+* **Class**: ``SKSheetManager``
+* **Protocols**: ``SKSheet``, ``SKSheetable``, ``SKComponent``
 * **Enumerations**: ``SKSheetOptions``, ``SKSheetStyle``, ``SKComponentType``, ``SKRenderingMode``, ``SKToolbarItemActionType``, ``SKToolbarItemPlacement``
 
 ## Example

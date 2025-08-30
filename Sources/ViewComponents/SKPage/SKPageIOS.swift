@@ -10,6 +10,7 @@ import SwiftUI
 #if os(iOS)
 struct SKPageIOS: View{
     @Environment(\.skAccentColor) var accentColor
+    @Environment(\.skRowSpacing) var skRowSpacing
     @Environment(\.skIsCloseButtonHidden) var isCloseButtonHidden
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
@@ -30,26 +31,18 @@ struct SKPageIOS: View{
     }
     
     var body: some View {
-        SKScrollView(backgroundStyle: autoStyle, toolbar: data.toolbar) {
-            ForEach(data.content.indices, id: \.self){index in
-                data.content[index].erasedContent()
-            }
-        }
-        .toolbar {
-            let navigationButtons = data.toolbar.data.buttons.filter{ $0.placement == .navigation}
-            ToolbarItemGroup(placement: .topBarTrailing) {
-                if !isCloseButtonHidden{
-                    SKToolbarItem(placement: .navigation, actionType: .close) {
-                        if #available(iOS 26.0, *){
-                            SKButton("Close", systemImage: "xmark"){}
-                        }else{
-                            SKButton("Close"){}
-                        }
-                        
+        Group{
+            SKScrollView(pageStyle: data.pageStyle ?? .default, backgroundStyle: autoStyle, toolbar: data.toolbar) {
+                VStack(spacing: skRowSpacing){
+                    ForEach(data.content.indices, id: \.self){index in
+                        data.content[index].erasedContent()
                     }
                 }
-                ForEach(navigationButtons.indices) { index in
-                    navigationButtons[index]
+                .if{ content in
+                    if data.pageStyle == .plain{ content }else{
+                        content
+                            .padding(.horizontal, 30)
+                    }
                 }
             }
         }

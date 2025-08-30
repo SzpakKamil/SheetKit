@@ -19,11 +19,11 @@
     @AutomaticArticleSubheading(disabled)
 }
 
-A result builder function that processes a variadic sequence of ``SKPage`` into an array for use in ``SKSheetView``.
+A result builder function that processes a variadic sequence of ``SKPage`` structs into an array for use in ``SKSheetView``.
 
 ## Overview
 
-The ``SKSheetBuilder/buildExpression(_:)`` function, specifically for variadic ``SKPage`` sequences, is a component of the ``SKSheetBuilder`` result builder in the `SheetKit` package. It takes a variadic sequence of `SKPage` components and converts them into an array of `SKPage`. This function is used when pages are provided directly without loops (such as ``SKForEach``) or conditionals, and it works in conjunction with ``SKSheetBuilder/buildBlock(_:)-(SKPage...)`` functions to transform these pages into the final array used by ``SKSheetView``.
+The ``SKSheetBuilder/buildExpression(_:)`` function, specifically for variadic ``SKPage`` sequences, is a component of the ``SKSheetBuilder`` result builder in the `SheetKit` package. It takes a variadic sequence of ``SKPage`` structs and converts them into an array of ``SKPage``. This function is used when pages are provided directly without loops (such as ``SKForEach``) or conditionals, and it works in conjunction with ``SKSheetBuilder/buildBlock(_:)-(SKPage...)`` functions to transform these pages into the final array used by ``SKSheetView``.
 
 This function is used internally by the ``SKSheetBuilder`` when processing pages passed to an ``SKSheetView`` initializer, such as `@SKSheetBuilder pages: [SKPage]`, to handle straightforward page declarations.
 
@@ -45,12 +45,11 @@ struct ContentView: View {
                     SKPage {
                         SKHeaderImage(systemName: "camera")
                         SKTitle("First Page")
-                        SKDescription("This is the first page of the sheet.")
+                        Text("This is the first page of the sheet.")
                     }
                     SKPage {
-                        SKHeaderImage(systemName: "photo")
-                        SKTitle("Second Page")
-                        SKDescription("This is the second page of the sheet.")
+                        Text("Second Page Content")
+                            .font(.title)
                     }
                 }
             }
@@ -59,4 +58,4 @@ struct ContentView: View {
 }
 ```
 
-In this example, the ``SKSheetView`` uses the ``SKSheetBuilder`` to compose a sheet containing two pages, each with a header image, title, and description. The ``SKSheetBuilder/buildExpression(_:)`` function processes the variadic sequence of ``SKPage`` into an array of `SKPage`, which is then passed to ``SKSheetBuilder/buildBlock(_:)-(SKPage...)`` to create the final array for rendering within the ``SKSheetView``. The ``SKSheetManager/show(id:view:)`` method presents the sheet.
+In this example, the ``SKSheetView`` uses the ``SKSheetBuilder`` to compose a sheet containing two ``SKPage`` structs: one with a header image, title, and SwiftUI `Text` view, and another with a custom `Text` view. The ``SKSheetBuilder/buildExpression(_:)`` function processes the variadic sequence of ``SKPage`` into an array of ``SKPage``, which is then passed to ``SKSheetBuilder/buildBlock(_:)-(SKPage...)`` to create the final array for rendering within the ``SKSheetView``. The ``SKSheetManager/show(id:view:)`` method presents the sheet.

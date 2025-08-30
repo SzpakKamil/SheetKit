@@ -7,14 +7,48 @@
 
 import SwiftUI
 
-public extension SKPage{
-    struct Alert{
+extension SKPage{
+    public struct Data{
+        var content: [any SKComponent]
+        var alert: SKPage.Alert?
+        let toolbar: SKToolbar
+        var backgroundStyle: SKPage.BackgroundStyle?
+        var pageStyle: SKPage.Style?
+        
+        public init(backgroundStyle: SKPage.BackgroundStyle? = nil, style: SKPage.Style? = nil, alert: SKPage.Alert? = nil, @SKPageBuilder content: () -> [any SKComponent], @SKToolbarBuilder toolbar: () -> [SKToolbarItem]) {
+            self.content = content()
+            self.backgroundStyle = backgroundStyle
+            self.toolbar = SKToolbar(items: toolbar)
+            self.pageStyle = style
+            self.alert = alert
+        }
+        public init(backgroundStyle: SKPage.BackgroundStyle? = nil, style: SKPage.Style? = nil, alert: SKPage.Alert? = nil, @SKPageBuilder content: () -> [any SKComponent], toolbarItems: [SKToolbarItem]) {
+            self.content = content()
+            self.backgroundStyle = backgroundStyle
+            self.toolbar = SKToolbar(items: toolbarItems)
+            self.pageStyle = style
+            self.alert = alert
+        }
+    }
+    
+    public enum BackgroundStyle{
+        case custom(light: Color, dark: Color)
+        case list
+        case form
+    }
+    
+    public enum Style{
+        case plain
+        case `default`
+    }
+    
+    public struct Alert{
         let title: String
         let description: String
         let content: AnyView
         let type: AlertType?
         var isPresented: Binding<Bool>
-
+        
         public init(isPresented: Binding<Bool>, title: String, description: String, type: AlertType? = nil, @ViewBuilder content: @escaping () -> some View) {
             self.isPresented = isPresented
             self.title = title
@@ -22,33 +56,13 @@ public extension SKPage{
             self.type = type
             self.content = AnyView(content())
         }
-    }
-    struct Data{
-        var content: [any SKComponent]
-        var alert: Alert?
-        let toolbar: SKToolbar
-        var backgroundStyle: BackgroundStyle?
         
-        public init(backgroundStyle: BackgroundStyle? = nil, alert: Alert? = nil, @SKPageBuilder content: () -> [any SKComponent], @SKToolbarBuilder toolbar: () -> [SKToolbarItem]) {
-            self.content = content()
-            self.backgroundStyle = backgroundStyle
-            self.toolbar = SKToolbar(content: toolbar)
-            self.alert = alert
+        public enum AlertType{
+            case confirmation
+            case dismissal
         }
     }
-
-    enum BackgroundStyle{
-        case custom(light: Color, dark: Color)
-        case list
-        case form
-    }
-    
-    enum AlertType{
-        case confirmation
-        case dismissal
-    }
 }
-
 public struct SKPage: View{
     public var data: SKPage.Data
     public var adjustedContent: AnyView?

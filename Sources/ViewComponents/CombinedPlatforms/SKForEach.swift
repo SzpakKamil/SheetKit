@@ -31,11 +31,11 @@ public struct SKForEach<Data, ID>: View where Data: RandomAccessCollection, ID: 
             ForEach(components.indices, id: \.self){index in
                 components[index].erasedContent()
             }
-        }else if pageComponents.isEmpty{
+        }else if !pageComponents.isEmpty{
             ForEach(pageComponents.indices, id: \.self){index in
                 pageComponents[index]
             }
-        }else if toolbarComponents.isEmpty{
+        }else if !toolbarComponents.isEmpty{
             ForEach(toolbarComponents.indices, id: \.self){index in
                 toolbarComponents[index]
             }
@@ -45,6 +45,8 @@ public struct SKForEach<Data, ID>: View where Data: RandomAccessCollection, ID: 
 
     }
     
+    // Prefer pages init over content init when both match by disfavoring this overloads
+    @_disfavoredOverload
     public init(_ data: Data, id: KeyPath<Data.Element, ID>, @SKPageBuilder content: @escaping (Data.Element) -> [any SKComponent]) {
         self.data = data
         self.keyPath = id
@@ -53,6 +55,8 @@ public struct SKForEach<Data, ID>: View where Data: RandomAccessCollection, ID: 
         self.items = nil
     }
     
+    // Prefer pages init over content init when both match by disfavoring this overloads
+    @_disfavoredOverload
     public init<T>(_ data: Data, @SKPageBuilder content: @escaping (Data.Element) -> [any SKComponent])
     where Data.Element == T, T: Identifiable, ID == T.ID {
         self.data = data

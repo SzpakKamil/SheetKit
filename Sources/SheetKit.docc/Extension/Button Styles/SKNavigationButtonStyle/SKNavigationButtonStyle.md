@@ -23,7 +23,7 @@ A custom `ButtonStyle` used for creating navigation action buttons in the `Sheet
 
 ## Overview
 
-The ``SKNavigationButtonStyle`` is a versatile `ButtonStyle` designed to define the appearance and behavior of navigation action buttons within the `SheetKit` framework. It is tailored for actions such as navigating to another screen when a secondary action is provided or implementing a custom close button, but it should not be used for forward navigation, which is reserved for buttons with ``SKToolbarItemPlacement/primary`` placement. This style ensures a consistent and visually distinct appearance across all Apple platforms, emphasizing accessibility and a native feel while maintaining usability. It is highly recommended to pair ``SKNavigationButtonStyle`` with the ``SKButton`` component for seamless integration and proper styling, especially when used within an ``SKToolbarItem`` with the ``SKToolbarItemPlacement/navigation`` placement, which automatically applies this style. On macOS, the appearance and placement (top of the sheet for `compact` and `prominent` styles, or bottom of the view for `default`) are influenced by the ``SKSheetStyle`` value, either passed explicitly via the initializer or derived from the environment (e.g., via the `.skSheetStyle` modifier) when used with ``SKToolbarItem``.
+The ``SKNavigationButtonStyle`` is a versatile `ButtonStyle` designed to define the appearance and behavior of navigation action buttons within the `SheetKit` framework. It is tailored for actions such as navigating to another screen when a secondary action is provided or implementing a custom close button, but it should not be used for forward navigation, which is reserved for buttons with ``SKToolbarItemPlacement/primary`` placement. This style ensures a consistent and visually distinct appearance across all Apple platforms, emphasizing accessibility and a native feel while maintaining usability. It is highly recommended to pair ``SKNavigationButtonStyle`` with the ``SKButton`` component for seamless integration and proper styling, especially when used within an ``SKToolbarItem`` with the ``SKToolbarItemPlacement/navigation`` placement, which automatically applies this style. Alternatively, developers can apply this style directly to an ``SKButton`` using the `.skButtonStyle(.navigation)` modifier, offering a convenient way to style buttons without relying on toolbar placement or manual `.buttonStyle` application. On macOS, the appearance and placement (top of the sheet for `compact` and `prominent` styles, or bottom of the view for `default`) are influenced by the ``SKSheetStyle`` value, either passed explicitly via the initializer or derived from the environment (e.g., via the `.skSheetStyle` modifier) when used with ``SKToolbarItem``.
 
 ### Button Tests Example Code
 
@@ -38,12 +38,10 @@ struct ContentView: View {
         Button("Show Example Sheet") {
             sheetManager.show(id: "ExampleSheet") {
                 SKSheetView {
-                    SKPage {
-                        // Page content
-                    } toolbar: {
+                    SKPage { } toolbar: {
                         SKToolbarItem(placement: .navigation) { action in
-                            SKButton("Back", systemImage: "arrow.left.circle") {
-                                action() // Custom close action
+                            SKButton("Button", systemImage: "pencil") {
+                                action() 
                             }
                         }
                     }
@@ -57,7 +55,7 @@ struct ContentView: View {
 }
 ```
 
-In this example, an ``SKButton`` styled with ``SKNavigationButtonStyle`` is used as a navigation action in the toolbar of an ``SKSheetView``. The button displays a "Back" label with an arrow icon for a custom close action, and its appearance is determined by the ``SKSheetStyle`` set to `.default` via the `.skSheetStyle` modifier, ensuring platform-appropriate styling.
+In this example, an ``SKButton`` styled with ``SKNavigationButtonStyle`` is used in two ways: first, as a navigation action in the toolbar of an ``SKSheetView`` using ``SKToolbarItem`` with `.navigation` placement, and second, directly within the page content using the `.skButtonStyle(.navigation)` modifier. The toolbar button displays a "Back" label with an arrow icon, while the page button displays a "Back" label. The appearance is determined by the ``SKSheetStyle`` set to `.default` via the `.skSheetStyle` modifier, ensuring platform-appropriate styling.
 
 ## Design Images
 
@@ -338,7 +336,7 @@ This section illustrates the visual design of the ``SKNavigationButtonStyle`` wh
 
 ## See Also
 
-- ``SKNavigationButtonStyle/init(sheetStyle:isEnabled:accentColor:)``
+- ``SKNavigationButtonStyle/init(colorScheme:sheetStyle:isEnabled:accentColor:)``
 - ``SKPrimaryButtonStyle``
 - ``SKSecondaryButtonStyle``
 - ``SKNoteButtonStyle``

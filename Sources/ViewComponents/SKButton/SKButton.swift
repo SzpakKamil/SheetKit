@@ -7,18 +7,19 @@
 
 import SwiftUI
 
-public struct SKButton<TextContent: View, ImageContent: View>: View {
+public struct SKButton<TextContent: View, ImageContent: View>: View, SKComponent {
     @Environment(\.skToolbarButtonAction) var toolbarButtonAction
     @Environment(\.skToolbarPlacement) var toolbarPlacement
     @Environment(\.isEnabled) var isEnabled
     @Environment(\.skAccentColor) var accentColor
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.skSheetStyle) var sheetStyle
+    public let type: SKComponentType = .customView
     private let action: () -> Void
     private let text: TextContent
     private let image: ImageContent
     private let destination: URL?
-
+    
     public var body: some View {
         Group {
             if let destination {
@@ -45,7 +46,7 @@ public struct SKButton<TextContent: View, ImageContent: View>: View {
                             text
                         }
                         #elseif !os(iOS)
-                        if ImageContent.self != EmptyView.self && sheetStyle == .compact && toolbarPlacement == .navigation {
+                        if ImageContent.self != EmptyView.self && toolbarPlacement == .navigation {
                             image
                                 .accessibilityHidden(true)
                         } else {
@@ -89,7 +90,7 @@ public struct SKButton<TextContent: View, ImageContent: View>: View {
                         }
                         #elseif os(macOS)
                         if #available(macOS 26.0, *){
-                            if ImageContent.self != EmptyView.self && sheetStyle == .compact && toolbarPlacement == .navigation {
+                            if ImageContent.self != EmptyView.self && sheetStyle != .default && toolbarPlacement == .navigation {
                                 image
                                     .accessibilityHidden(true)
                             } else {
@@ -99,7 +100,7 @@ public struct SKButton<TextContent: View, ImageContent: View>: View {
                             text
                         }
                         #elseif !os(iOS)
-                        if ImageContent.self != EmptyView.self && sheetStyle == .compact && toolbarPlacement == .navigation {
+                        if ImageContent.self != EmptyView.self && toolbarPlacement == .navigation {
                             image
                                 .accessibilityHidden(true)
                         } else {
@@ -235,6 +236,13 @@ extension SKButton {
     }
     public init(image: Image, destination: URL) where TextContent == EmptyView, ImageContent == Image {
         self.init(image: { image }, destination: destination)
+    }
+    
+    public func skButtonStyle(_ style: SKToolbarItemPlacement? = nil) -> SKComponent{
+        SKCustomView(type: .customView) {
+            self.environment(\.skToolbarPlacement, style)
+        }
+
     }
 }
 

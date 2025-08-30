@@ -8,6 +8,28 @@
 import SwiftUI
 
 public extension SKPage{
+    func skAlert(isPresented: Binding<Bool>, title: String, description: String, type: SKPage.Alert.AlertType? = nil, @ViewBuilder content: @escaping () -> some View) -> SKPage{
+        var copy = self
+        copy.data.alert = .init(isPresented: isPresented, title: title, description: description, type: type, content: content)
+        return copy
+    }
+    
+    func skAlert(title: String, description: String, type: SKPage.Alert.AlertType, condition: Bool = true, @ViewBuilder content: @escaping () -> some View) -> SKPage{
+        var copy = self
+        copy.data.alert = .init(isPresented: Binding(get: { condition }, set: { _ in }), title: title, description: description, type: type, content: content)
+        return copy
+    }
+    func skBackgroundStyle(_ style: SKPage.BackgroundStyle? = nil) -> SKPage{
+        var copy = self
+        copy.data.backgroundStyle = style
+        return copy
+    }
+    func skPageStyle(_ style: SKPage.Style = .default) -> SKPage{
+        var copy = self
+        copy.data.pageStyle = style
+        return copy
+    }
+
     func skAccentColor(_ color: Color = .accentColor) -> SKPage{
         return SKPage(data: data) {
             self.environment(\.skAccentColor, color)
@@ -52,23 +74,5 @@ public extension SKPage{
         return SKPage(data: data) {
             self.environment(\.skIsContinueButtonHidden, configuration)
         }
-    }
-
-    
-    func skAlert(isPresented: Binding<Bool>, title: String, description: String, type: AlertType? = nil, @ViewBuilder content: @escaping () -> some View) -> SKPage{
-        var copy = self
-        copy.data.alert = .init(isPresented: isPresented, title: title, description: description, type: type, content: content)
-        return copy
-    }
-    
-    func skAlert(title: String, description: String, type: AlertType, condition: Bool = true, @ViewBuilder content: @escaping () -> some View) -> SKPage{
-        var copy = self
-        copy.data.alert = .init(isPresented: Binding(get: { condition }, set: { _ in }), title: title, description: description, type: type, content: content)
-        return copy
-    }
-    func skStyle(_ style: SKPage.BackgroundStyle? = nil) -> SKPage{
-        var copy = self
-        copy.data.backgroundStyle = style
-        return copy
     }
 }

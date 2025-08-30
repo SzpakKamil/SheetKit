@@ -19,11 +19,11 @@
     @AutomaticArticleSubheading(disabled)
 }
 
-A result builder function that processes an array of ``SKPage`` for the false branch of a conditional statement.
+A result builder function that processes an array of ``SKPage`` structs for the false branch of a conditional statement.
 
 ## Overview
 
-The ``SKSheetBuilder/buildEither(second:)`` function is a component of the ``SKSheetBuilder`` result builder in the `SheetKit` package. It takes an array of `SKPage` components and processes them for inclusion in the `false` branch of a conditional statement. This function returns the provided pages as an array of `SKPage`, ensuring they are included in the ``SKSheetView`` structure when the condition evaluates to `false`.
+The ``SKSheetBuilder/buildEither(second:)`` function is a component of the ``SKSheetBuilder`` result builder in the `SheetKit` package. It takes an array of ``SKPage`` structs and processes them for inclusion in the `false` branch of a conditional statement. This function returns the provided pages as an array of ``SKPage``, ensuring they are included in the ``SKSheetView`` structure when the condition evaluates to `false`.
 
 This function is used internally by the ``SKSheetBuilder`` when processing pages passed to an ``SKSheetView`` initializer, such as `@SKSheetBuilder pages: [SKPage]`, to handle the `false` branch of conditional logic in a declarative, SwiftUI-like syntax.
 
@@ -46,20 +46,19 @@ struct ContentView: View {
                     SKPage {
                         SKHeaderImage(systemName: "camera")
                         SKTitle("SKPage Example")
-                        SKDescription("This is a sample description for the page.")
+                        Text("This is a sample description for the page.")
                     }
                     if isFeatureEnabled {
                         SKPage {
                             SKHeaderImage(systemName: "photo")
                             SKTitle("Feature Page")
-                            SKDescription("This page is shown when the feature is enabled.")
+                            Text("This page is shown when the feature is enabled.")
                         }
                     } else {
                         // Handled by buildEither(second:)
                         SKPage {
-                            SKHeaderImage(systemName: "gear")
-                            SKTitle("Default Page")
-                            SKDescription("This page is shown when the feature is disabled.")
+                            Text("Default Page Content")
+                                .font(.title)
                         }
                     }
                 }
@@ -69,4 +68,4 @@ struct ContentView: View {
 }
 ```
 
-In this example, the ``SKSheetView`` uses the ``SKSheetBuilder`` to compose a sheet containing a primary page and a conditional page included only when `isFeatureEnabled` is `false`. The ``SKSheetBuilder/buildEither(second:)`` function processes the pages in the `false` branch, incorporating them into the final array of `SKPage` for rendering within the ``SKSheetView``. The ``SKSheetManager/show(id:view:)`` method presents the sheet.
+In this example, the ``SKSheetView`` uses the ``SKSheetBuilder`` to compose a sheet containing a primary ``SKPage`` and a conditional ``SKPage`` included only when `isFeatureEnabled` is `false`. The ``SKSheetBuilder/buildEither(second:)`` function processes the pages in the `false` branch, incorporating them into the final array of ``SKPage`` for rendering within the ``SKSheetView``. The ``SKSheetManager/show(id:view:)`` method presents the sheet.

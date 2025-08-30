@@ -19,11 +19,11 @@
     @AutomaticArticleSubheading(disabled)
 }
 
-A result builder function that processes a single array of ``SKPage`` for use in ``SKSheetView``.
+A result builder function that processes a single array of ``SKPage`` structs for use in ``SKSheetView``.
 
 ## Overview
 
-The ``SKSheetBuilder/buildBlock(_:)-([SKPage])`` function, specifically for a single array of ``SKPage``, is a component of the ``SKSheetBuilder`` result builder in the `SheetKit` package. It takes a single array of `SKPage` components and returns it unchanged as an array of `SKPage`. This function works in pair with ``SKSheetBuilder/buildExpression(_:)`` to process linear page passages. The `@resultBuilder` attribute ensures that the type of pages passed is automatically transformed, so the specific input type does not matter, allowing seamless integration into the ``SKSheetView`` structure.
+The ``SKSheetBuilder/buildBlock(_:)-([SKPage])`` function, specifically for a single array of ``SKPage``, is a component of the ``SKSheetBuilder`` result builder in the `SheetKit` package. It takes a single array of ``SKPage`` structs and returns it unchanged as an array of ``SKPage``. This function works in pair with ``SKSheetBuilder/buildExpression(_:)`` to process linear page passages. The `@resultBuilder` attribute ensures that the pages are automatically transformed, allowing seamless integration into the ``SKSheetView`` structure.
 
 This function is used internally by the ``SKSheetBuilder`` when processing pages passed to an ``SKSheetView`` initializer, such as `@SKSheetBuilder pages: [SKPage]`, to handle cases where pages are provided as a single array.
 
@@ -45,7 +45,7 @@ struct ContentView: View {
                     SKPage {
                         SKHeaderImage(systemName: "camera")
                         SKTitle("SKPage Example")
-                        SKDescription("This is a sample description for the page.")
+                        Text("This is a sample description for the page.")
                     }
                 }
             }
@@ -54,4 +54,4 @@ struct ContentView: View {
 }
 ```
 
-In this example, the ``SKSheetView`` uses the ``SKSheetBuilder`` to compose a sheet containing a single page with a header image, title, and description. The ``SKSheetBuilder/buildExpression(_:)`` function processes the variadic sequence of ``SKPage``, and the ``SKSheetBuilder/buildBlock(_:)-([SKPage])`` function transforms these into a final array of `SKPage` for rendering within the ``SKSheetView``. The `@resultBuilder` ensures that the page types are automatically handled. The ``SKSheetManager/show(id:view:)`` method presents the sheet.
+In this example, the ``SKSheetView`` uses the ``SKSheetBuilder`` to compose a sheet containing a single ``SKPage`` with a header image, title, and SwiftUI `Text` view. The ``SKSheetBuilder/buildExpression(_:)`` function processes the variadic sequence of ``SKPage``, and the ``SKSheetBuilder/buildBlock(_:)-([SKPage])`` function transforms these into a final array of ``SKPage`` for rendering within the ``SKSheetView``. The `@resultBuilder` ensures that the page types are automatically handled. The ``SKSheetManager/show(id:view:)`` method presents the sheet.

@@ -78,7 +78,7 @@ Whether you're designing onboarding experiences, interactive forms, or tailored 
 
 ### Protocols
 - ``SKSheet``
-- ``SKCustomViewSheet``
+- ``SKSheetable``
 
 ### Sheet Components
 - ``SKPage``
@@ -110,7 +110,6 @@ Whether you're designing onboarding experiences, interactive forms, or tailored 
 ### Styling
 - ``SKSheetStyle``
 - ``SKRenderingMode``
-- ``SKSheetStyle``
 - ``SKSheetOptions``
 
 ### Environment Values

@@ -35,10 +35,6 @@ public struct SKToolbarBuilder {
     public static func buildLimitedAvailability(_ component: [SKToolbarItem]) -> [SKToolbarItem] {
         component
     }
-    @_documentation(visibility: internal)
-    public static func buildExpression<Data, ID>(_ forEach: SKForEach<Data, ID>) -> [SKToolbarItem] where Data: RandomAccessCollection, ID: Hashable {
-        forEach.toolbarComponents
-    }
     public static func buildExpression(_ components: SKToolbarItem...) -> [SKToolbarItem] {
         return components
     }

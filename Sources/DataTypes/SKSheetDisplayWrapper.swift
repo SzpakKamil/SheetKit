@@ -25,7 +25,7 @@ class SKSheetDisplayWrapper: Identifiable, Hashable, Equatable, Codable {
             }
         }
     }
-    var customViewSheet: (any SKCustomViewSheet)?
+    var customViewSheet: (any SKSheetable)?
     var view: AnyView?
     var sheet: (any SKSheet)?
     
@@ -55,13 +55,13 @@ class SKSheetDisplayWrapper: Identifiable, Hashable, Equatable, Codable {
         try container.encode(shouldBePresented, forKey: .shouldBePresented)
     }
     
-    init(sheet: any SKSheet) {
+    init(sheet: any SKSheetable) {
         self.id = sheet.id
-        self.sheet = sheet
-    }
-    init(customViewSheet: any SKCustomViewSheet){
-        self.id = customViewSheet.id
-        self.customViewSheet = customViewSheet
+        if let sheet = sheet as? SKSheet{
+            self.sheet = sheet
+        }else{
+            self.customViewSheet = sheet
+        }
     }
     
     init(id: String, @ViewBuilder view: @escaping () -> some View){

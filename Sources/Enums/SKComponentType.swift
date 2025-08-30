@@ -10,17 +10,17 @@ import SwiftUI
 public enum SKComponentType: Hashable, Identifiable, Equatable{
     case header
     case highlight
-    case forEach
     case field
+    case customView
     
     public var name: String{
         switch self {
         case .header:
             "Header"
+        case .customView:
+            "CustomView"
         case .highlight:
             "Hilight"
-        case .forEach:
-            "ForEach"
         case .field:
             "Field"
         }

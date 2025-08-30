@@ -19,13 +19,13 @@
     @AutomaticArticleSubheading(disabled)
 }
 
-A result builder for constructing arrays of ``SKPage`` in an ``SKSheetView`` for creating polished, native-looking sheets across all Apple platforms with the same code.
+A result builder for constructing arrays of ``SKPage`` structs in an ``SKSheetView`` for creating polished, native-looking sheets across all Apple platforms with the same code.
 
 ## Overview
 
-The ``SKSheetBuilder`` is a result builder that enables declarative construction of sheet content in the `SheetKit` package. It collects and processes `SKPage` components, returning an array of `SKPage` for use within an ``SKSheetView`` struct. This allows developers to compose complex sheet layouts with pages containing headers, titles, and descriptions in a SwiftUI-like syntax.
+The ``SKSheetBuilder`` is a result builder that enables declarative construction of sheet content in the `SheetKit` package. It collects and processes ``SKPage`` structs, which can contain components like headers, titles, descriptions, or custom SwiftUI views, returning an array of ``SKPage`` for use within an ``SKSheetView`` struct. This allows developers to compose complex sheet layouts with pages in a SwiftUI-like syntax.
 
-To use ``SKSheetBuilder``, you need to define it inside the initializer, like `@SKSheetBuilder pages: [SKPage]`. This allows the builder to process the pages and return an array for usage.
+To use ``SKSheetBuilder``, you define it inside the initializer, like `@SKSheetBuilder pages: [SKPage]`. This allows the builder to process the pages and return an array for rendering.
 
 The builder supports various control flow constructs, such as conditionals, loops, and optional pages, ensuring flexibility in building dynamic sheet content.
 
@@ -33,11 +33,11 @@ The builder supports various control flow constructs, such as conditionals, loop
 
 The ``SKSheetBuilder`` supports the following features for constructing sheet content:
 
-- **Linear Sequences**: Define multiple ``SKPage`` components in a straightforward, sequential manner, processed into a single array.
+- **Linear Sequences**: Define multiple ``SKPage`` structs in a straightforward, sequential manner, processed into a single array.
 - **Empty Initialization**: Handle cases where no pages are provided, returning an empty `[SKPage]` array.
-- **If-Else Statements**: Conditionally include ``SKPage`` components using `if` and `else` branches, supporting dynamic content based on runtime conditions.
-- **Optional Elements**: Process optional ``SKPage`` components, including them only when present, or returning an empty array if `nil`.
-- **For Loops with SKForEach**: Generate multiple ``SKPage`` components dynamically using the ``SKForEach`` component to iterate over a data collection.
+- **If-Else Statements**: Conditionally include ``SKPage`` structs using `if` and `else` branches, supporting dynamic content based on runtime conditions.
+- **Optional Elements**: Process optional ``SKPage`` structs, including them only when present, or returning an empty array if `nil`.
+- **For Loops with SKForEach**: Generate multiple ``SKPage`` structs dynamically using the ``SKForEach`` component to iterate over a data collection.
 
 ## Example
 
@@ -57,12 +57,11 @@ struct ContentView: View {
                     SKPage {
                         SKHeaderImage(systemName: "camera")
                         SKTitle("First Page")
-                        SKDescription("This is the first page of the sheet.")
+                        Text("This is the first page of the sheet.")
                     }
                     SKPage {
-                        SKHeaderImage(systemName: "photo")
-                        SKTitle("Second Page")
-                        SKDescription("This is the second page of the sheet.")
+                        Text("Second Page Content")
+                            .font(.title)
                     }
                 }
             }
@@ -71,4 +70,4 @@ struct ContentView: View {
 }
 ```
 
-In this example, the ``SKSheetView`` uses the ``SKSheetBuilder`` to compose a sheet containing two pages, each with a header image, title, and description. The ``SKSheetManager/show(id:view:)`` method presents the sheet, and the ``SKSheetBuilder`` processes the provided pages into an array of `SKPage` for rendering.
+In this example, the ``SKSheetView`` uses the ``SKSheetBuilder`` to compose a sheet containing two ``SKPage`` structs: one with a header image, title, and SwiftUI `Text` view, and another with a custom `Text` view. The ``SKSheetManager/show(id:view:)`` method presents the sheet, and the ``SKSheetBuilder`` processes the provided ``SKPage`` structs into an array for rendering.

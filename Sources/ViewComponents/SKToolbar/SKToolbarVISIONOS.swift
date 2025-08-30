@@ -11,12 +11,13 @@ import SwiftUI
 struct SKToolbarVISIONOS: View {
     @Environment(\.skSheetStyle) var sheetStyle
     @Environment(\.skIsContinueButtonHidden) var skIsContinueButtonHidden
-    let data: SKToolbar.Data
+    @Environment(\.skIsCloseButtonHidden) var skIsCloseButtonHidden
+    let items: [SKToolbarItem]
     var body: some View {
-        let noteItems: [SKToolbarItem] = data.buttons.filter{ $0.placement == .note }
-        let secondaryItems: [SKToolbarItem] = data.buttons.filter{ $0.placement == .secondary }
-        let navigationItems: [SKToolbarItem] = data.buttons.filter{ $0.placement == .navigation }
-        let primaryItems: [SKToolbarItem] = data.buttons.filter{ $0.placement == .primary }
+        let noteItems: [SKToolbarItem] = items.filter{ $0.placement == .note }
+        let secondaryItems: [SKToolbarItem] = items.filter{ $0.placement == .secondary }
+        let navigationItems: [SKToolbarItem] = items.filter{ $0.placement == .navigation }
+        let primaryItems: [SKToolbarItem] = items.filter{ $0.placement == .primary }
         VStack{
             VStack{
                 ForEach(noteItems.indices){ index in
@@ -37,10 +38,22 @@ struct SKToolbarVISIONOS: View {
                 secondaryItems[index]
             }
         }
+        .toolbar {
+            ToolbarItemGroup(placement: .topBarTrailing) {
+                if !skIsCloseButtonHidden{
+                    SKToolbarItem(placement: .navigation, actionType: .close) {
+                        SKButton("Close", systemImage: "xmark"){}
+                    }
+                }
+                ForEach(navigationItems.indices) { index in
+                    navigationItems[index]
+                }
+            }
+        }
     }
     
-    init(data: SKToolbar.Data) {
-        self.data = data
+    init(items: [SKToolbarItem]) {
+        self.items = items
     }
 }
 

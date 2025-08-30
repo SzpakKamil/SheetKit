@@ -13,7 +13,7 @@ public enum SKSheetOptions: Identifiable, Hashable{
     case interactiveDismissDisabled(Bool = true)
     case style(SKSheetStyle = .default)
     case presentationDents(dents: Set<PresentationDetent>, selection: Binding<PresentationDetent>? = nil)
-    case accentColor(color: Color = .accentColor)
+    case accentColor(Color = .accentColor)
     case alignment(HorizontalAlignment? = nil)
     case rowBackground(Color? = nil)
     case rowShape(cornerRadius: CGFloat? = nil)
@@ -21,7 +21,9 @@ public enum SKSheetOptions: Identifiable, Hashable{
     case primaryTextColor(color: Color? = nil)
     case secondaryTextColor(color: Color? = nil)
     case hideContinueButton(Bool = true)
+    case isFullScreenCover(Bool = true)
     
+    @_documentation(visibility: internal)
     public var id: Int{
         switch self {
         case .isHandoffEnabled:
@@ -50,6 +52,8 @@ public enum SKSheetOptions: Identifiable, Hashable{
             11
         case .hideContinueButton:
             12
+        case .isFullScreenCover:
+            13
         }
     }
     
@@ -80,6 +84,8 @@ public enum SKSheetOptions: Identifiable, Hashable{
         case .secondaryTextColor(let color):
             color
         case .hideContinueButton(let bool):
+            bool
+        case .isFullScreenCover(let bool):
             bool
         }
     }
@@ -112,14 +118,18 @@ public enum SKSheetOptions: Identifiable, Hashable{
             nil
         case .hideContinueButton(let bool):
             nil
+        case .isFullScreenCover(let bool):
+            nil
         }
     }
     
     
+    @_documentation(visibility: internal)
     public func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
     
+    @_documentation(visibility: internal)
     public static func == (lhs: SKSheetOptions, rhs: SKSheetOptions) -> Bool {
         lhs.id == rhs.id
     }

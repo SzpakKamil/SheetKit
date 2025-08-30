@@ -23,9 +23,9 @@ A result builder function that returns an empty array when no pages are provided
 
 ## Overview
 
-The ``SKSheetBuilder/buildBlock()`` function is a component of the ``SKSheetBuilder`` result builder in the `SheetKit` package. It returns an empty array of `SKPage` when no pages are provided to the ``SKSheetBuilder``. This function ensures that the ``SKSheetView`` can handle cases where no content is specified, maintaining a valid array structure for rendering in a declarative, SwiftUI-like syntax.
+The ``SKSheetBuilder/buildBlock()`` function is a component of the ``SKSheetBuilder`` result builder in the `SheetKit` package. It returns an empty array of ``SKPage`` when no pages are provided to the ``SKSheetBuilder``. This function ensures that the ``SKSheetView`` can handle cases where no content is specified, maintaining a valid array structure for rendering in a declarative, SwiftUI-like syntax.
 
-This function is used internally by the ``SKSheetBuilder`` when processing pages passed to an ``SKSheetView`` initializer, such as `@SKSheetBuilder pages: [SKPage]`, to handle scenarios where no pages are included.
+This function is used internally by the ``SKSheetBuilder`` when processing pages passed to an ``SKSheetView`` initializer, such as `@SKSheetBuilder pages: [SKPage]`, to handle scenarios where no ``SKPage`` structs are included.
 
 ## Example
 
@@ -50,4 +50,4 @@ struct ContentView: View {
 }
 ```
 
-In this example, the ``SKSheetView`` uses the ``SKSheetBuilder`` to compose a sheet with no pages specified. The ``SKSheetBuilder/buildBlock()`` function within ``SKSheetBuilder`` returns an empty array of `SKPage`, ensuring the ``SKSheetView`` can still render the sheet without errors. The ``SKSheetManager/show(id:view:)`` method presents the sheet.
+In this example, the ``SKSheetView`` uses the ``SKSheetBuilder`` to compose a sheet with no pages specified. The ``SKSheetBuilder/buildBlock()`` function within ``SKSheetBuilder`` returns an empty array of ``SKPage``, ensuring the ``SKSheetView`` can still render the sheet without errors. The ``SKSheetManager/show(id:view:)`` method presents the sheet.

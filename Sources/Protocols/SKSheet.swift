@@ -7,23 +7,17 @@
 
 import SwiftUI
 
-public protocol SKSheet: View{
+public protocol SKSheet: View, SKSheetable{
     var options: Set<SKSheetOptions> { get }
 
     var id: String { get }
     @SKSheetBuilder var pages: [SKPage] { get }
-    
-    func sentData() -> [AnyHashable: Any]
-    func loadData(sentData: [AnyHashable: Any])
 }
 
 public extension SKSheet{
     @ViewBuilder @MainActor @preconcurrency var body: some View{
         SKSheetProtocolView(sheet: self)
     }
-    
-    func sentData() -> [AnyHashable: Any]{ [:]}
-    func loadData(sentData: [AnyHashable: Any]){}
 }
 
 
@@ -62,6 +56,7 @@ struct SKSheetProtocolView<Sheet: SKSheet>: View{
             .environment(\.skPrimaryColor, sheet.options.first{ $0.id == 10}?.value1 as? Color)
             .environment(\.skSecondaryColor, sheet.options.first{ $0.id == 11}?.value1 as? Color)
             .environment(\.skIsContinueButtonHidden, sheet.options.first{ $0.id == 12}?.value1 as? Bool ?? false)
+            .environment(\.skIsUsingFullScreenCover, sheet.options.first{ $0.id == 13}?.value1 as? Bool ?? false)
 
     }
     

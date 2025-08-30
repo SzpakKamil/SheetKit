@@ -17,33 +17,30 @@ public class SKSheetManager{
     var openedSheets: [SKSheetDisplayWrapper]{
         return sheets.filter{ $0.shouldBePresented }
     }
-    
-    
     var handoffableSheets: [SKSheetDisplayWrapper]{
         return sheets.filter{ $0.sheet?.options.first{ $0.id == 0}?.value1 as? Bool == true && $0.shouldBePresented }
     }
-    
-    
-    public var allSheetsCount: Int{
+
+    var allSheetsCount: Int{
         sheets.count
     }
     
     
     var changesCount: Int = 0
     
-    public var openedSheetsCount: Int{
+    var openedSheetsCount: Int{
         openedSheets.count
     }
     
     
-     public func getPathBinding(forID id: String) -> Binding<[Int]>{
+    func getPathBinding(forID id: String) -> Binding<[Int]>{
         if let pathValue = paths[id]{
             return Binding {
                 pathValue
             } set: { newValue in
                 self.paths[id] = newValue
             }
-
+            
         }else{
             paths[id] = []
             return Binding {
@@ -54,25 +51,16 @@ public class SKSheetManager{
         }
     }
     
-     public func add(sheet: any SKSheet){
-        if let index = sheets.firstIndex(where: { $0.id == sheet.id }) {
+    public func add(sheet: any SKSheetable.Type){
+        if let index = sheets.firstIndex(where: { $0.id == sheet.init().id }) {
             sheets.remove(at: index)
         }
-        let wrapped = SKSheetDisplayWrapper(sheet: sheet)
+        let wrapped = SKSheetDisplayWrapper(sheet: sheet.init())
         changesCount += 1
         sheets.append(wrapped)
     }
     
-     public func add(sheet: any SKCustomViewSheet){
-        if let index = sheets.firstIndex(where: { $0.id == sheet.id }) {
-            sheets.remove(at: index)
-        }
-        let wrapped = SKSheetDisplayWrapper(customViewSheet: sheet)
-        changesCount += 1
-        sheets.append(wrapped)
-    }
-    
-     public func add(id: String, @ViewBuilder view: @escaping () -> some View){
+    public func add(id: String, @ViewBuilder view: @escaping () -> some View){
         if let index = sheets.firstIndex(where: { $0.id == id }) {
             sheets.remove(at: index)
         }
@@ -81,7 +69,7 @@ public class SKSheetManager{
         sheets.append(wrapped)
     }
     
-     public func show(sheet: any SKSheet){
+    public func show(sheet: any SKSheetable){
         if let index = sheets.firstIndex(where: { $0.id == sheet.id }) {
             sheets.remove(at: index)
         }
@@ -90,17 +78,17 @@ public class SKSheetManager{
         wrapped.shouldBePresented = true
         sheets.append(wrapped)
     }
-     public func show(sheet: any SKCustomViewSheet){
-        if let index = sheets.firstIndex(where: { $0.id == sheet.id }) {
+    public func show(sheet: any SKSheetable.Type){
+        if let index = sheets.firstIndex(where: { $0.id == sheet.init().id }) {
             sheets.remove(at: index)
         }
-        var wrapped = SKSheetDisplayWrapper(customViewSheet: sheet)
+        var wrapped = SKSheetDisplayWrapper(sheet: sheet.init())
         changesCount += 1
         wrapped.shouldBePresented = true
         sheets.append(wrapped)
     }
     
-     public func show(id: String, @ViewBuilder view: @escaping () -> some View){
+    public func show(id: String, @ViewBuilder view: @escaping () -> some View){
         if let index = sheets.firstIndex(where: { $0.id == id }) {
             sheets.remove(at: index)
         }
@@ -110,7 +98,7 @@ public class SKSheetManager{
         sheets.append(wrapped)
     }
     
-     func handleContinuingHandoff(activity: NSUserActivity){
+    func handleContinuingHandoff(activity: NSUserActivity){
         if let decodedOpenedSheetsIDs = activity.userInfo?["OpenedSheetsIDs"] as? [String],
            let paths = activity.userInfo?["SheetPaths"] as? [String: [Int]],
            let additionalData = activity.userInfo?["SheetsData"] as? [String: [AnyHashable: Any]] {
@@ -123,12 +111,12 @@ public class SKSheetManager{
             }
         }
     }
-     func startUserActivity(activity: NSUserActivity){
+    func startUserActivity(activity: NSUserActivity){
         activity.title = "Continue Sheet"
         activity.isEligibleForHandoff = true
         activity.isEligibleForSearch = true
         activity.targetContentIdentifier = "SKSheet\(handoffableSheets.last?.id ?? "ID")ContinuationActivity"
-
+        
         do {
             let sheetsHandoffableIDs: [String] = handoffableSheets.map{ $0.id }
             let sheetsData: [String: [AnyHashable: Any]] = handoffableSheets.reduce(into: [:]) { dict, wrapper in
@@ -146,21 +134,21 @@ public class SKSheetManager{
         }
     }
     
-     public func show(id: String){
+    public func show(id: String){
         if let index = sheets.firstIndex(where: { $0.id == id }) {
             sheets[index].shouldBePresented = true
             changesCount += 1
         }
     }
     
-     public func showAllSheets(){
+    public func showAllSheets(){
         sheets.indices.forEach{ index in
             sheets[index].shouldBePresented = true
         }
         changesCount += 1
     }
     
-     public func hideAllSheets(dismissAction: (() -> Void)? = nil){
+    public func hideAllSheets(dismissAction: (() -> Void)? = nil){
         sheets.indices.forEach{ index in
             sheets[index].isPresented = false
         }
@@ -168,7 +156,7 @@ public class SKSheetManager{
         dismissAction?()
     }
     
-     public func removeAllSheets(dismissAction: (() -> Void)? = nil){
+    public func removeAllSheets(dismissAction: (() -> Void)? = nil){
         sheets.indices.forEach{ index in
             sheets[index].isPresented = false
         }
@@ -178,7 +166,7 @@ public class SKSheetManager{
             dismissAction?()
         }
     }
-     public func hide(id: String, removeAfter: Bool = false, dismissAction: (() -> Void)? = nil){
+    public func hide(id: String, removeAfter: Bool = false, dismissAction: (() -> Void)? = nil){
         if let index = sheets.firstIndex(where: { $0.id == id }) {
             sheets[index].isPresented = false
             if removeAfter{
@@ -191,10 +179,10 @@ public class SKSheetManager{
             }
             changesCount += 1
         }
-
+        
     }
     
-     public func hide(sheet: any SKSheet, removeAfter: Bool = false, dismissAction: (() -> Void)? = nil){
+    public func hide(sheet: any SKSheetable, removeAfter: Bool = false, dismissAction: (() -> Void)? = nil){
         if let index = sheets.firstIndex(where: { $0.id == sheet.id }) {
             sheets[index].isPresented = false
             if removeAfter{
@@ -207,11 +195,9 @@ public class SKSheetManager{
             }
             changesCount += 1
         }
-
     }
-    
-     public func hide(sheet: any SKCustomViewSheet, removeAfter: Bool = false, dismissAction: (() -> Void)? = nil){
-        if let index = sheets.firstIndex(where: { $0.id == sheet.id }) {
+    public func hide(sheet: any SKSheetable.Type, removeAfter: Bool = false, dismissAction: (() -> Void)? = nil){
+        if let index = sheets.firstIndex(where: { $0.id == sheet.init().id }) {
             sheets[index].isPresented = false
             if removeAfter{
                 DispatchQueue.main.asyncAfter(deadline: .now()){
@@ -223,41 +209,47 @@ public class SKSheetManager{
             }
             changesCount += 1
         }
-
     }
     
-     public func isValid(index: Int) -> Bool{
+    public func isValid(index: Int) -> Bool{
         index >= 0 && index < allSheetsCount
     }
     
-     func getSheet(forIndex index: Int) -> SKSheetDisplayWrapper?{
+    func getSheet(forIndex index: Int) -> SKSheetDisplayWrapper?{
         guard isValid(index: index) else { return nil }
         return sheets[index]
     }
-     func getSheet(forId id: String) -> SKSheetDisplayWrapper?{
+    func getSheet(forId id: String) -> SKSheetDisplayWrapper?{
         guard isValid(id: id) else { return nil }
         return sheets.first{ $0.id == id }
     }
-     func getOpenedSheet(forIndex index: Int) -> SKSheetDisplayWrapper?{
+    func getOpenedSheet(forIndex index: Int) -> SKSheetDisplayWrapper?{
         guard isValidOpened(index: index) else { return nil }
         return openedSheets[index]
     }
-     func getOpenedSheet(forID id: String) -> SKSheetDisplayWrapper?{
+    func getOpenedSheet(forID id: String) -> SKSheetDisplayWrapper?{
         guard isValid(id: id) else { return nil }
         return openedSheets.first{ $0.id == id }
     }
     
-     public func isValidOpened(index: Int) -> Bool{
+    public func isValidOpened(index: Int) -> Bool{
         index >= 0 && index < openedSheetsCount
     }
     
-     public func isValid(id: String) -> Bool{
+    public func isValid(id: String) -> Bool{
         sheets.contains(where: { $0.id == id })
     }
     
-     public func isValidOpened(id: String) -> Bool{
+    public func isValidOpened(id: String) -> Bool{
         openedSheets.contains(where: { $0.id == id })
     }
+    
     public init(){}
+    
+    public init(sheets: any SKSheetable.Type...) {
+        self.sheets = sheets.map{ $0.init()}.map{ SKSheetDisplayWrapper(sheet: $0)}
+    }
+    public init(sheets: [any SKSheetable.Type]) {
+        self.sheets = sheets.map{ $0.init()}.map{ SKSheetDisplayWrapper(sheet: $0)}
+    }
 }
-

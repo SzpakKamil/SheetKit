@@ -10,12 +10,13 @@ import SwiftUI
 #if os(iOS)
 struct SKToolbarIOS: View {
     @Environment(\.skIsContinueButtonHidden) var skIsContinueButtonHidden
-    let data: SKToolbar.Data
+    @Environment(\.skIsCloseButtonHidden) var skIsCloseButtonHidden
+    let items: [SKToolbarItem]
     var body: some View {
-        let noteItems: [SKToolbarItem] = data.buttons.filter{ $0.placement == .note }
-        let secondaryItems: [SKToolbarItem] = data.buttons.filter{ $0.placement == .secondary }
-        let navigationItems: [SKToolbarItem] = data.buttons.filter{ $0.placement == .navigation }
-        let primaryItems: [SKToolbarItem] = data.buttons.filter{ $0.placement == .primary }
+        let noteItems: [SKToolbarItem] = items.filter{ $0.placement == .note }
+        let secondaryItems: [SKToolbarItem] = items.filter{ $0.placement == .secondary }
+        let navigationItems: [SKToolbarItem] = items.filter{ $0.placement == .navigation }
+        let primaryItems: [SKToolbarItem] = items.filter{ $0.placement == .primary }
         VStack{
             VStack{
                 ForEach(noteItems.indices){ index in
@@ -36,10 +37,27 @@ struct SKToolbarIOS: View {
                 secondaryItems[index]
             }
         }
+        .toolbar {
+            ToolbarItemGroup(placement: .topBarTrailing) {
+                if !skIsCloseButtonHidden{
+                    SKToolbarItem(placement: .navigation, actionType: .close) {
+                        if #available(iOS 26.0, *){
+                            SKButton("Close", systemImage: "xmark"){}
+                        }else{
+                            SKButton("Close"){}
+                        }
+                        
+                    }
+                }
+                ForEach(navigationItems.indices) { index in
+                    navigationItems[index]
+                }
+            }
+        }
     }
     
-    init(data: SKToolbar.Data) {
-        self.data = data
+    init(items: [SKToolbarItem]) {
+        self.items = items
     }
 }
 

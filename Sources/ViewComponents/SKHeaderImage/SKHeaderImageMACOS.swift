@@ -62,7 +62,7 @@ struct SKHeaderImageMACOS: View {
     }
     
     var body: some View {
-        HStack{
+        HStack(spacing: 0){
             if [HorizontalAlignment.center, .trailing].contains(autoAlignment){
                 Spacer()
             }

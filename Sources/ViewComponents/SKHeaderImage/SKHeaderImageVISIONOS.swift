@@ -34,16 +34,12 @@ struct SKHeaderImageVISIONOS: View {
         if let skAlignment{
             return skAlignment
         }else{
-            if #available(visionOS 26.0, *){
-                return .leading
-            }else{
-                return .center
-            }
+            return .center
         }
     }
     
     var body: some View {
-        HStack{
+        HStack(spacing: 0){
             if [HorizontalAlignment.center, .trailing].contains(autoAlignment){
                 Spacer()
             }

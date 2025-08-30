@@ -11,26 +11,28 @@ struct SKScrollView<Content: View>: View {
     @Environment(\.colorScheme) var colorScheme
     let content: () -> Content
     let backgroundStyle: SKPage.BackgroundStyle
+    let pageStyle: SKPage.Style
     let toolbar: SKToolbar
 
 
     var body: some View {
         #if os(iOS)
-        SKScrollViewIOS(backgroundStyle: backgroundStyle, toolbar: toolbar, content: content)
+        SKScrollViewIOS(pageStyle: pageStyle, backgroundStyle: backgroundStyle, toolbar: toolbar, content: content)
         #elseif os(macOS)
-        SKScrollViewMACOS(backgroundStyle: backgroundStyle, toolbar: toolbar, content: content)
+        SKScrollViewMACOS(pageStyle: pageStyle, backgroundStyle: backgroundStyle, toolbar: toolbar, content: content)
         #elseif os(tvOS)
-        SKScrollViewTVOS(backgroundStyle: backgroundStyle, toolbar: toolbar, content: content)
+        SKScrollViewTVOS(pageStyle: pageStyle, backgroundStyle: backgroundStyle, toolbar: toolbar, content: content)
         #elseif os(visionOS)
-        SKScrollViewVISIONOS(backgroundStyle: backgroundStyle, toolbar: toolbar, content: content)
+        SKScrollViewVISIONOS(pageStyle: pageStyle, backgroundStyle: backgroundStyle, toolbar: toolbar, content: content)
         #elseif os(watchOS)
-        SKScrollViewWATCHOS(backgroundStyle: backgroundStyle, toolbar: toolbar, content: content)
+        SKScrollViewWATCHOS(pageStyle: pageStyle, backgroundStyle: backgroundStyle, toolbar: toolbar, content: content)
         #else
         EmptyView()
         #endif
     }
 
-    init(backgroundStyle: SKPage.BackgroundStyle, toolbar: SKToolbar, @ViewBuilder content: @escaping () -> Content) {
+    init(pageStyle: SKPage.Style, backgroundStyle: SKPage.BackgroundStyle, toolbar: SKToolbar, @ViewBuilder content: @escaping () -> Content) {
+        self.pageStyle = pageStyle
         self.content = content
         self.backgroundStyle = backgroundStyle
         self.toolbar = toolbar

@@ -23,6 +23,9 @@ private struct SKRowSpacingKey: EnvironmentKey {
 private struct SKIsInSection: EnvironmentKey {
     static let defaultValue: Bool = false
 }
+private struct SKIsUsingFullScreenCover: EnvironmentKey {
+    static let defaultValue: Bool = false
+}
 private struct SKAccentColorKey: EnvironmentKey {
     #if os(tvOS)
     static let defaultValue: Color = .blue
@@ -56,6 +59,10 @@ public extension EnvironmentValues {
     var skRowBackgroundColor: Color? {
         get { self[SKRowBackgroundColorKey.self] }
         set { self[SKRowBackgroundColorKey.self] = newValue }
+    }
+    var skIsUsingFullScreenCover: Bool {
+        get { self[SKIsUsingFullScreenCover.self] }
+        set { self[SKIsUsingFullScreenCover.self] = newValue }
     }
     var skIsInSection: Bool {
         get { self[SKIsInSection.self] }

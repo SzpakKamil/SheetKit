@@ -23,7 +23,7 @@ A custom `ButtonStyle` used for creating note action buttons in the `SheetKit` f
 
 ## Overview
 
-The ``SKNoteButtonStyle`` is a specialized `ButtonStyle` designed to define the appearance and behavior of note action buttons within the `SheetKit` framework. It is tailored for informational actions, such as linking to privacy notes or "know more" content, providing a consistent and visually subtle appearance across supported Apple platforms. This style emphasizes accessibility and a native feel, making it ideal for secondary informational actions that guide users to additional details. It is highly recommended to pair ``SKNoteButtonStyle`` with the ``SKButton`` component for seamless integration and proper styling, especially when used within an ``SKToolbarItem`` with the ``SKToolbarItemPlacement/note`` placement, which automatically applies this style. On macOS, the appearance and placement (top of the sheet for `compact` and `prominent` styles, or bottom of the view for `default`) are influenced by the ``SKSheetStyle`` value, either passed explicitly via the initializer or derived from the environment (e.g., via the `.skSheetStyle` modifier) when used with ``SKToolbarItem``. On watchOS, the button is uniquely positioned in the middle of the bottom bar and requires a specific 'i' icon for rendering, with text skipped.
+The ``SKNoteButtonStyle`` is a specialized `ButtonStyle` designed to define the appearance and behavior of note action buttons within the `SheetKit` framework. It is tailored for informational actions, such as linking to privacy notes or "know more" content, providing a consistent and visually distinct appearance across supported Apple platforms, mirroring the design of ``SKNavigationButtonStyle``. This style emphasizes accessibility and a native feel, making it ideal for secondary informational actions that guide users to additional details. It is highly recommended to pair ``SKNoteButtonStyle`` with the ``SKButton`` component for seamless integration and proper styling, especially when used within an ``SKToolbarItem`` with the ``SKToolbarItemPlacement/note`` placement, which automatically applies this style. Alternatively, developers can apply this style directly to an ``SKButton`` using the `.skButtonStyle(.note)` modifier. On macOS, the appearance and placement (top of the sheet for `compact` and `prominent` styles, or bottom of the view for `default`) are influenced by the ``SKSheetStyle`` value, either passed explicitly via the initializer or derived from the environment (e.g., via the `.skSheetStyle` modifier) when used with ``SKToolbarItem``. On watchOS, the button is uniquely positioned in the middle of the bottom bar and requires a specific 'i' icon for rendering, with text skipped.
 
 ### Button Tests Example Code
 
@@ -38,12 +38,10 @@ struct ContentView: View {
         Button("Show Example Sheet") {
             sheetManager.show(id: "ExampleSheet") {
                 SKSheetView {
-                    SKPage {
-                        // Page content
-                    } toolbar: {
+                    SKPage { } toolbar: {
                         SKToolbarItem(placement: .note) { action in
-                            SKButton("Learn More", systemImage: "pencil") {
-                                action() // Navigate to informational content
+                            SKButton("Button", systemImage: "pencil") {
+                                action() 
                             }
                         }
                     }
@@ -338,7 +336,7 @@ This section illustrates the visual design of the ``SKNoteButtonStyle`` when use
 
 ## See Also
 
-- ``SKNoteButtonStyle/init(sheetStyle:isEnabled:accentColor:)``
+- ``SKNoteButtonStyle/init(isEnabled:accentColor:colorScheme:textAlignment:)``
 - ``SKPrimaryButtonStyle``
 - ``SKSecondaryButtonStyle``
 - ``SKNavigationButtonStyle``

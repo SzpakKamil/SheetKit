@@ -11,6 +11,7 @@ import SwiftUI
 struct SKPageTVOS: View{
     @Environment(\.skAccentColor) var accentColor
     @Environment(\.skSheetStyle) var sheetStyle
+    @Environment(\.skRowSpacing) var skRowSpacing
     @Environment(\.skIsCloseButtonHidden) var isCloseButtonHidden
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
@@ -31,10 +32,24 @@ struct SKPageTVOS: View{
     }
     
     var body: some View {
-        SKScrollView(backgroundStyle: autoStyle, toolbar: data.toolbar) {
-            ForEach(data.content.indices, id: \.self){index in
-                data.content[index].erasedContent()
+        SKScrollView(pageStyle: data.pageStyle ?? .default, backgroundStyle: autoStyle, toolbar: data.toolbar) {
+            VStack(spacing: skRowSpacing){
+                ForEach(data.content.indices, id: \.self){index in
+                    data.content[index].erasedContent()
+                }
             }
+            .padding(.bottom, toolbarHeight + 10)
+            .if{ content in
+                if data.pageStyle == .plain{
+                    content
+                }else{
+                    content
+                        .padding(.horizontal, 30)
+                        .padding(.top, 55)
+                        .padding(.bottom, toolbarHeight + 10)
+                }
+            }
+
         }
     }
     

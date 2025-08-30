@@ -13,6 +13,7 @@ struct SKScrollViewMACOS<Content: View>: View {
     @Environment(\.skSheetStyle) var sheetStyle
     @Environment(\.skRowSpacing) var skRowSpacing
     let content: () -> Content
+    let pageStyle: SKPage.Style
     let backgroundStyle: SKPage.BackgroundStyle
     let toolbar: SKToolbar
     @State private var toolbarHeight: CGFloat = 0
@@ -27,15 +28,20 @@ struct SKScrollViewMACOS<Content: View>: View {
     }
 
     var body: some View {
-        ZStack(alignment: .bottom) {
+        ZStack {
             backgroundColor
                 .ignoresSafeArea()
 
-            ScrollView {
-                VStack(spacing: skRowSpacing){
+            Group{
+                if pageStyle == .default{
+                    ScrollView {
+                        content()
+                    }
+                    .scrollBounceBehavior(.basedOnSize)
+                }else{
                     content()
+                        .frame(maxHeight: .infinity)
                 }
-                .padding(.top, 55)
             }
             .if{ content in
                 if #available(macOS 26.0, *){
@@ -55,6 +61,7 @@ struct SKScrollViewMACOS<Content: View>: View {
                                     .frame(maxWidth: .infinity, alignment: .center)
                                     .padding(.horizontal, 15)
                                     .padding(.bottom, 15)
+                                    .padding(.top, 10)
                             }
                             .ignoresSafeArea()
                             .frame(maxWidth: .infinity)
@@ -67,7 +74,8 @@ struct SKScrollViewMACOS<Content: View>: View {
         }
     }
 
-    init(backgroundStyle: SKPage.BackgroundStyle, toolbar: SKToolbar, @ViewBuilder content: @escaping () -> Content) {
+    init(pageStyle: SKPage.Style, backgroundStyle: SKPage.BackgroundStyle, toolbar: SKToolbar, @ViewBuilder content: @escaping () -> Content) {
+        self.pageStyle = pageStyle
         self.content = content
         self.backgroundStyle = backgroundStyle
         self.toolbar = toolbar

@@ -19,17 +19,17 @@
     @AutomaticArticleSubheading(disabled)
 }
 
-A result builder function that processes an array of ``SKComponent`` for the false branch of a conditional statement.
+A result builder function that processes an array of ``SKComponent`` or SwiftUI views for the false branch of a conditional statement.
 
 ## Overview
 
-The ``SKPageBuilder/buildEither(second:)`` function is a component of the ``SKPageBuilder`` result builder in the `SheetKit` package. It takes an array of components conforming to the ``SKComponent`` protocol (`[any SKComponent]`) and processes them for inclusion in the `false` branch of a conditional statement. This function returns the provided components as an array of `[any SKComponent]`, ensuring they are included in the ``SKPage`` structure when the condition evaluates to `false`.
+The ``SKPageBuilder/buildEither(second:)`` function is a component of the ``SKPageBuilder`` result builder in the `SheetKit` package. It takes an array of components conforming to the ``SKComponent`` protocol (`[any SKComponent]`) or default SwiftUI views (e.g., `Text`, `Image`) and processes them for inclusion in the `false` branch of a conditional statement. This function returns the provided components or views as an array of `[any SKComponent]`, ensuring they are included in the ``SKPage`` structure when the condition evaluates to `false`.
 
-This function is used internally by the ``SKPageBuilder`` when processing components passed to an ``SKPage`` initializer, such as `@SKPageBuilder components: [any SKComponent]`, to handle the `false` branch of conditional logic in a declarative, SwiftUI-like syntax.
+This function is used internally by the ``SKPageBuilder`` when processing components or SwiftUI views passed to an ``SKPage`` initializer, such as `@SKPageBuilder components: [any SKComponent]`, to handle the `false` branch of conditional logic in a declarative, SwiftUI-like syntax.
 
 ## Example
 
-The following example demonstrates how ``SKPageBuilder`` (including ``SKPageBuilder/buildEither(second:)``) is used to create a sheet with components conditionally included in the `false` branch:
+The following example demonstrates how ``SKPageBuilder`` (including ``SKPageBuilder/buildEither(second:)``) is used to create a sheet with components or views conditionally included in the `false` branch:
 
 ```swift
 import SwiftUI
@@ -46,12 +46,12 @@ struct ContentView: View {
                     SKPage {
                         SKHeaderImage(systemName: "camera")
                         SKTitle("SKPage Example")
-                        SKDescription("This is a sample description for the page.")
+                        Text("This is a sample description.")
                         if isFeatureEnabled {
-                            SKDescription("Feature is enabled.")
+                            Text("Feature is enabled.")
                         } else {
                             // Handled by buildEither(second:)
-                            SKDescription("Feature is disabled.")
+                            Text("Feature is disabled.")
                         }
                     }
                 }
@@ -61,4 +61,4 @@ struct ContentView: View {
 }
 ```
 
-In this example, the ``SKPage`` uses the ``SKPageBuilder`` to compose a sheet containing a header image, a title, a description, and a conditional description included only when `isFeatureEnabled` is `false`. The ``SKPageBuilder/buildEither(second:)`` function processes the components in the `false` branch, incorporating them into the final array of `[any SKComponent]` for rendering within the ``SKSheetView``. The ``SKSheetManager/show(id:view:)`` method presents the sheet.
+In this example, the ``SKPage`` uses the ``SKPageBuilder`` to compose a sheet containing a header image, a title, a `Text` view, and a conditional `Text` view included only when `isFeatureEnabled` is `false`. The ``SKPageBuilder/buildEither(second:)`` function processes the components or views in the `false` branch, incorporating them into the final array of `[any SKComponent]` for rendering within the ``SKSheetView``. The ``SKSheetManager/show(id:view:)`` method presents the sheet.

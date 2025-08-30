@@ -23,14 +23,14 @@ Learn about the modifiers available for customizing **SheetKit** components in S
 
 ## Overview
 
-SheetKit provides a rich set of modifiers to control the appearance and behavior of sheets, pages, and individual components.  
-These modifiers integrate seamlessly with SwiftUI’s environment system and dot-syntax, letting you configure colors, alignment, spacing, shapes, sheet styles, and more with minimal code.  
+SheetKit provides a rich set of modifiers to control the appearance and behavior of sheets, pages, and individual components. These modifiers integrate seamlessly with SwiftUI’s environment system and dot-syntax, letting you configure colors, alignment, spacing, shapes, sheet styles, and more with minimal code. For buttons, the `.skButtonStyle(_:)` modifier allows developers to apply specific styles (e.g., `.primary`, `.secondary`, `.navigation`, or `.note`) directly to an `SKButton`, offering a convenient way to style buttons without relying on `SKToolbarItem` placement or manual `.buttonStyle` application. This ensures consistent styling across platforms, aligning with the native design language and enhancing usability.
 
 Modifiers are available on:  
 - ``SKComponent`` – fine-grained control over fields, titles, and highlights.  
 - ``SKPage`` – page-level customization such as colors, alerts, and navigation buttons.  
+- ``SKCustomView`` – additional customisation for custom view page  
 - ``SKSheetView`` – sheet-level configuration including style, detents, and dismissal behavior.  
-- Specialized components (``SKTitle``, ``SKHeaderImage``, ``SKDescription``) – additional font, weight, and layout controls.  
+- Specialized components (``SKTitle``, ``SKHeaderImage``, ``SKDescription``, ``SKButton``) – additional font, style, weight, and layout controls.  
 
 ## Modifiers
 
@@ -57,6 +57,7 @@ Modifiers are available on:
 - ``SKPage/skRowSpacing(_:)``  
 - ``SKPage/skPrimaryTextColor(_:)``  
 - ``SKPage/skSecondaryTextColor(_:)``  
+- ``SKPage/skIgnoreSafeArea(_:)``  
 - ``SKPage/skHideCloseButton(_:)`` – Hides or shows the close button.  
 - ``SKPage/skHideContinueButton(_:)`` – Hides or shows the continue button.  
 - ``SKPage/skAlert(isPresented:title:description:type:content:)`` – Presents an alert bound to a condition.  
@@ -73,9 +74,8 @@ Modifiers are available on:
 - ``SKSheetView/skHideCloseButton(_:)``  
 - ``SKSheetView/skHideContinueButton(_:)``  
 - ``SKSheetView/skInteractiveDismissDisabled(_:)`` – Disables swipe-to-dismiss.  
-- ``SKSheetView/skSheetStyle(_:)`` – Configures sheet style:  
-  - On iOS, iPadOS, tvOS, watchOS, visionOS: set detents and drag indicator.  
-  - On macOS: configure ``SKSheetStyle``.  
+- ``SKSheetView/skSheetStyle(_:)-(SKSheetStyle)`` – Configures sheet style
+- ``SKSheetView/skSheetStyle(_:)-(Set<PresentationDetent>)`` – Configures sheet dents and binding assigned to them
 
 ### Specialized Modifiers
 
@@ -94,9 +94,12 @@ Modifiers are available on:
 - ``SKDescription/skFontWeight(_:)`` – Sets the font weight.  
 - ``SKDescription/skFont(_:)`` – Applies a custom SwiftUI font.  
 
+### SKButton
+- ``SKButton/skButtonStyle(_:)`` – Applies a specific button style (`.primary`, `.secondary`, `.navigation`, or `.note`) to an ``SKButton``, ensuring consistent appearance across platforms.
+
 ## Example
 
-Here’s an example applying modifiers at different levels:
+Here’s an example applying modifiers at different levels, including the `.skButtonStyle(_:)` modifier:
 
 ```swift
 import SwiftUI
@@ -119,6 +122,11 @@ struct ExampleSheet: View {
                     .skFont(.callout)
                     .skFontWeight(.regular)
                     .skPrimaryTextColor(.secondary)
+
+                SKButton("Example Button") {
+                    // Perform action
+                }
+                .skButtonStyle(.primary)
             }
             .skAccentColor(.green)
             .skHideContinueButton()

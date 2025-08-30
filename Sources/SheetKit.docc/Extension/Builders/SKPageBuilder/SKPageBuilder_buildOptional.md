@@ -19,17 +19,17 @@
     @AutomaticArticleSubheading(disabled)
 }
 
-A result builder function that processes an optional array of ``SKComponent`` for use in ``SKPage``.
+A result builder function that processes an optional array of ``SKComponent`` or SwiftUI views for use in ``SKPage``.
 
 ## Overview
 
-The ``SKPageBuilder/buildOptional(_:)`` function is a component of the ``SKPageBuilder`` result builder in the `SheetKit` package. It takes an optional array of components conforming to the ``SKComponent`` protocol (`[any SKComponent]?`) and returns either the provided components or an empty array if the input is `nil`. This function is used to handle optional component declarations, ensuring that the ``SKPage`` structure can process cases where components may or may not be provided. The `@resultBuilder` attribute ensures that the components are automatically transformed into an array of `[any SKComponent]`, making the specific input type irrelevant for seamless integration.
+The ``SKPageBuilder/buildOptional(_:)`` function is a component of the ``SKPageBuilder`` result builder in the `SheetKit` package. It takes an optional array of components conforming to the ``SKComponent`` protocol (`[any SKComponent]?`) or default SwiftUI views (e.g., `Text`, `Image`) and returns either the provided components or views or an empty array if the input is `nil`. This function is used to handle optional component or view declarations, ensuring that the ``SKPage`` structure can process cases where content may or may not be provided. The `@resultBuilder` attribute ensures that the components or views are automatically transformed into an array of `[any SKComponent]`, making the specific input type irrelevant for seamless integration.
 
-This function is used internally by the ``SKPageBuilder`` when processing components passed to an ``SKPage`` initializer, such as `@SKPageBuilder components: [any SKComponent]`, to handle optional component groups.
+This function is used internally by the ``SKPageBuilder`` when processing components or SwiftUI views passed to an ``SKPage`` initializer, such as `@SKPageBuilder components: [any SKComponent]`, to handle optional content groups.
 
 ## Example
 
-The following example demonstrates how ``SKPageBuilder`` (including ``SKPageBuilder/buildOptional(_:)``) is used to create a sheet with an optional set of components:
+The following example demonstrates how ``SKPageBuilder`` (including ``SKPageBuilder/buildOptional(_:)``) is used to create a sheet with an optional set of components or views:
 
 ```swift
 import SwiftUI
@@ -46,10 +46,10 @@ struct ContentView: View {
                     SKPage {
                         SKHeaderImage(systemName: "camera")
                         SKTitle("SKPage Example")
-                        SKDescription("This is a sample description for the page.")
+                        Text("This is a sample description.")
                         if showExtraContent {
-                            // Optional components processed by buildOptional(_:)
-                            SKDescription("This is an optional description.")
+                            // Optional components or views processed by buildOptional(_:)
+                            Text("This is an optional description.")
                         }
                     }
                 }
@@ -59,4 +59,4 @@ struct ContentView: View {
 }
 ```
 
-In this example, the ``SKPage`` uses the ``SKPageBuilder`` to compose a sheet containing a header image, a title, a description, and an optional description that is included only when `showExtraContent` is `true`. The ``SKPageBuilder/buildOptional(_:)`` function processes the optional components, returning them as an array of `[any SKComponent]` if present, or an empty array if `nil`. This array is then processed by ``SKPageBuilder/buildBlock(_:)-(SKComponent...)`` or other relevant ``SKPageBuilder/buildBlock()`` functions to create the final array for rendering within the ``SKSheetView``. The `@resultBuilder` ensures that the component types are automatically handled. The ``SKSheetManager/show(id:view:)`` method presents the sheet.
+In this example, the ``SKPage`` uses the ``SKPageBuilder`` to compose a sheet containing a header image, a title, a `Text` view, and an optional `Text` view that is included only when `showExtraContent` is `true`. The ``SKPageBuilder/buildOptional(_:)`` function processes the optional components or views, returning them as an array of `[any SKComponent]` if present, or an empty array if `nil`. This array is then processed by ``SKPageBuilder/buildBlock(_:)-(SKComponent...)`` or other relevant ``SKPageBuilder/buildBlock()`` functions to create the final array for rendering within the ``SKSheetView``. The `@resultBuilder` ensures that the component and view types are automatically handled. The ``SKSheetManager/show(id:view:)`` method presents the sheet.

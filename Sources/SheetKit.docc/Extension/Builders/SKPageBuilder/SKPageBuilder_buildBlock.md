@@ -19,17 +19,17 @@
     @AutomaticArticleSubheading(disabled)
 }
 
-A result builder function that returns an empty array when no components are provided for use in ``SKPage``.
+A result builder function that returns an empty array when no components or views are provided for use in ``SKPage``.
 
 ## Overview
 
-The ``SKPageBuilder/buildBlock()`` function is a component of the ``SKPageBuilder`` result builder in the `SheetKit` package. It returns an empty array of `[any SKComponent]` when no components are provided to the ``SKPageBuilder``. This function ensures that the ``SKPage`` can handle cases where no content is specified, maintaining a valid array structure for rendering in a declarative, SwiftUI-like syntax.
+The ``SKPageBuilder/buildBlock()`` function is a component of the ``SKPageBuilder`` result builder in the `SheetKit` package. It returns an empty array of `[any SKComponent]` when no components or SwiftUI views are provided to the ``SKPageBuilder``. This function ensures that the ``SKPage`` can handle cases where no content is specified, maintaining a valid array structure for rendering in a declarative, SwiftUI-like syntax.
 
-This function is used internally by the ``SKPageBuilder`` when processing components passed to an ``SKPage`` initializer, such as `@SKPageBuilder components: [any SKComponent]`, to handle scenarios where no components are included.
+This function is used internally by the ``SKPageBuilder`` when processing components or SwiftUI views passed to an ``SKPage`` initializer, such as `@SKPageBuilder components: [any SKComponent]`, to handle scenarios where no content is included.
 
 ## Example
 
-The following example demonstrates how ``SKPageBuilder`` (including ``SKPageBuilder/buildBlock()``) is used to create a sheet with no components:
+The following example demonstrates how ``SKPageBuilder`` (including ``SKPageBuilder/buildBlock()``) is used to create a sheet with no components or views:
 
 ```swift
 import SwiftUI
@@ -43,7 +43,7 @@ struct ContentView: View {
             sheetManager.show(id: "ExampleSheet") {
                 SKSheetView {
                     SKPage {
-                        // No components provided, handled by buildBlock()
+                        // No components or views provided, handled by buildBlock()
                     }
                 }
             }
@@ -52,4 +52,4 @@ struct ContentView: View {
 }
 ```
 
-In this example, the ``SKPage`` uses the ``SKPageBuilder`` to compose a sheet with no components specified. The ``SKPageBuilder/buildBlock()`` function within ``SKPageBuilder`` returns an empty array of `[any SKComponent]`, ensuring the ``SKSheetView`` can still render the sheet without errors. The ``SKSheetManager/show(id:view:)`` method presents the sheet.
+In this example, the ``SKPage`` uses the ``SKPageBuilder`` to compose a sheet with no components or views specified. The ``SKPageBuilder/buildBlock()`` function within ``SKPageBuilder`` returns an empty array of `[any SKComponent]`, ensuring the ``SKSheetView`` can still render the sheet without errors. The ``SKSheetManager/show(id:view:)`` method presents the sheet.

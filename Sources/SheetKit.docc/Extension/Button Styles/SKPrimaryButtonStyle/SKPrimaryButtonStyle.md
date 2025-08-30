@@ -23,7 +23,7 @@ A custom `ButtonStyle` used for creating primary buttons in the `SheetKit` frame
 
 ## Overview
 
-The ``SKPrimaryButtonStyle`` is a versatile `ButtonStyle` designed to define the appearance and behavior of primary action buttons within the `SheetKit` framework. It is tailored for key interactions, such as confirming a choice, submitting a form, or advancing to the next step in a workflow, providing a consistent and visually prominent style across all Apple platforms. This style is highly recommended for use with the ``SKButton`` component to ensure seamless integration, especially when used within an ``SKToolbarItem`` with the ``SKToolbarItemPlacement/primary`` placement, which automatically applies this style. The appearance adapts to platform-specific aesthetics and is influenced by the ``SKSheetStyle`` value, either passed explicitly via the initializer or derived from the environment (e.g., via the ``SKSheetView/skSheetStyle(_:)-(SKSheetStyle)`` modifier) when used with ``SKToolbarItem``. This ensures accessibility, a native feel, and a focus on usability.
+The ``SKPrimaryButtonStyle`` is a versatile `ButtonStyle` designed to define the appearance and behavior of primary action buttons within the `SheetKit` framework. It is tailored for key interactions, such as confirming a choice, submitting a form, or advancing to the next step in a workflow, providing a consistent and visually prominent style across all Apple platforms. This style is highly recommended for use with the ``SKButton`` component to ensure seamless integration, especially when used within an ``SKToolbarItem`` with the ``SKToolbarItemPlacement/primary`` placement, which automatically applies this style. Alternatively, developers can apply this style directly to an ``SKButton`` using the `.skButtonStyle(.primary)` modifier, offering a convenient way to style buttons without relying on toolbar placement or manual `.buttonStyle` application. The appearance adapts to platform-specific aesthetics and is influenced by the ``SKSheetStyle`` value, either passed explicitly via the initializer or derived from the environment (e.g., via the ``SKSheetView/skSheetStyle(_:)-(SKSheetStyle)`` modifier) when used with ``SKToolbarItem``. This ensures accessibility, a native feel, and a focus on usability.
 
 ### Button Tests Example Code
 
@@ -38,11 +38,10 @@ struct ContentView: View {
         Button("Show Example Sheet") {
             sheetManager.show(id: "ExampleSheet") {
                 SKSheetView {
-                    SKPage {
-                    } toolbar: {
+                    SKPage { } toolbar: {
                         SKToolbarItem(placement: .primary) { action in
                             SKButton("Button", systemImage: "pencil") {
-                                action()
+                                action() 
                             }
                         }
                     }
@@ -56,7 +55,7 @@ struct ContentView: View {
 }
 ```
 
-In this example, an ``SKButton`` styled with ``SKPrimaryButtonStyle`` is used as a primary action in the toolbar of an ``SKSheetView``. The button’s appearance is determined by the ``SKSheetStyle`` set to `.default` via the ``SKSheetView/skSheetStyle(_:)-(SKSheetStyle)`` modifier, ensuring platform-appropriate styling on macOS.
+In this example, an ``SKButton`` styled with ``SKPrimaryButtonStyle`` is used in two ways: first, as a primary action in the toolbar of an ``SKSheetView`` using ``SKToolbarItem`` with `.primary` placement, and second, directly within the page content using the `.skButtonStyle(.primary)` modifier. The toolbar button displays a "Button" label with a pencil icon, while the page button displays a "Confirm" label. The appearance is determined by the ``SKSheetStyle`` set to `.default` via the ``SKSheetView/skSheetStyle(_:)-(SKSheetStyle)`` modifier, ensuring platform-appropriate styling on macOS.
 
 ## Design Images
 

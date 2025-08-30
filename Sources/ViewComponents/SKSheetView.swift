@@ -48,6 +48,9 @@ public struct SKSheetView: View {
                     content
                 }
             }
+            .onDisappear{
+                pathBinding?.wrappedValue = []
+            }
             .interactiveDismissDisabled(skSheetInteractiveDismissDisabled)
         }
     }
@@ -59,6 +62,7 @@ public struct SKSheetView: View {
                 let page = pages[currentIndex]
                 let isPresented: Binding<Bool> = Binding {
                     if let alert = page.data.alert{
+                        alert
                         if alert.type == nil{
                             return alert.isPresented.wrappedValue
                         }else{
