@@ -60,8 +60,14 @@ struct SKSheetDisplayView: View {
             if let sheet = sheetManager.getOpenedSheet(forIndex: index){
                 if let sheet = sheet.sheet{
                     AnyView(sheet)
+                        .onDisappear{
+                            sheet.dissapearAction()
+                        }
                 }else if let customViewSheet = sheet.customViewSheet{
                     AnyView(customViewSheet)
+                        .onDisappear{
+                            customViewSheet.dissapearAction()
+                        }
                 }else{
                     sheet.view
                 }

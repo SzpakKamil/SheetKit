@@ -43,9 +43,6 @@ struct SKSheetProtocolView<Sheet: SKSheet>: View{
             .onChange(of: binding.wrappedValue) { _, newValue in
                 skSheetManager.changesCount += 1
             }
-            .onDisappear{
-                sheet.dissapearAction()
-            }
             .environment(\.skIsCloseButtonHidden,sheet.options.first{ $0.id == 1}?.value1 as? Bool ?? false)
             .environment(\.skSheetInteractiveDismissDisabled, sheet.options.first{ $0.id == 2}?.value1 as? Bool ?? false)
             .environment(\.skSheetStyle, sheet.options.first{ $0.id == 3}?.value1 as? SKSheetStyle ?? .default)
