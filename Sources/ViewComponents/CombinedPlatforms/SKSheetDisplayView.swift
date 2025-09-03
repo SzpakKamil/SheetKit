@@ -61,7 +61,7 @@ struct SKSheetDisplayView: View {
                 if let sheet = sheet.sheet{
                     AnyView(sheet)
                 }else if let customViewSheet = sheet.customViewSheet{
-                    AnyView(customViewSheet.adjustedContent())
+                    AnyView(customViewSheet)
                 }else{
                     sheet.view
                 }

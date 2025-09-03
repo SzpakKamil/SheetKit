@@ -7,18 +7,20 @@
 
 import SwiftUI
 
-@MainActor
 public protocol SKSheet: View, SKSheetable{
     var options: Set<SKSheetOptions> { get }
 
     var id: String { get }
     @SKSheetBuilder var pages: [SKPage] { get }
+    
+    func disapearAction()
 }
 
-@MainActor
 public extension SKSheet{
+    func disapearAction(){}
     @ViewBuilder @MainActor @preconcurrency var body: some View{
         SKSheetProtocolView(sheet: self)
+            .onDisappear(perform: self.disapearAction)
     }
 }
 
@@ -42,9 +44,6 @@ struct SKSheetProtocolView<Sheet: SKSheet>: View{
         let binding = skSheetManager.getPathBinding(forID: sheet.id)
         SKSheetView(pages: sheet.pages)
             .skSheetPathBinding(binding)
-            .onDisappear{
-                sheet.disapearAction()
-            }
             .onChange(of: binding.wrappedValue) { _, newValue in
                 skSheetManager.changesCount += 1
             }

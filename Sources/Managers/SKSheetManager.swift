@@ -8,7 +8,6 @@
 import SwiftUI
 
 @Observable
-@MainActor
 public class SKSheetManager{
     
     var sheets: [SKSheetDisplayWrapper] = []
@@ -26,13 +25,11 @@ public class SKSheetManager{
         sheets.count
     }
     
-    
     var changesCount: Int = 0
     
     var openedSheetsCount: Int{
         openedSheets.count
     }
-    
     
     func getPathBinding(forID id: String) -> Binding<[Int]>{
         if let pathValue = paths[id]{
