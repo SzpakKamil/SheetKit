@@ -13,12 +13,19 @@ public protocol SKSheetable: View{
     
     func sentData() -> [AnyHashable: Any]
     func loadData(sentData: [AnyHashable: Any])
-    func dissapearAction()
+    func disapearAction()
     init()
 }
 
 public extension SKSheetable{
     func sentData() -> [AnyHashable: Any]{ [:]}
     func loadData(sentData: [AnyHashable: Any]){}
-    func dissapearAction(){}
+    func disapearAction(){}
 }
+
+extension SKSheetable{
+    func adjustedContent() -> some View{
+        self.onDisappear{disapearAction()}
+    }
+}
+

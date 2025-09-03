@@ -40,6 +40,9 @@ struct SKSheetProtocolView<Sheet: SKSheet>: View{
         let binding = skSheetManager.getPathBinding(forID: sheet.id)
         SKSheetView(pages: sheet.pages)
             .skSheetPathBinding(binding)
+            .onDisappear{
+                sheet.disapearAction()
+            }
             .onChange(of: binding.wrappedValue) { _, newValue in
                 skSheetManager.changesCount += 1
             }
