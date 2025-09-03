@@ -8,6 +8,7 @@
 import SwiftUI
 import Foundation
 
+@MainActor
 private struct SKSheetManagerKey: EnvironmentKey {
     static let defaultValue: SKSheetManager = .init()
 }

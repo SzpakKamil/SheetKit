@@ -8,6 +8,7 @@
 import SwiftUI
 
 @Observable
+@MainActor
 class SKSheetDisplayWrapper: Identifiable, Hashable, Equatable, Codable {
     var id: String
     var isPresented: Bool = false

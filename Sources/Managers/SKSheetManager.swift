@@ -8,6 +8,7 @@
 import SwiftUI
 
 @Observable
+@MainActor
 public class SKSheetManager{
     
     var sheets: [SKSheetDisplayWrapper] = []

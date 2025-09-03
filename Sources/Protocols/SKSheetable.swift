@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@MainActor
 public protocol SKSheetable: View{
     var id: String { get }
     var options: Set<SKSheetOptions> { get }

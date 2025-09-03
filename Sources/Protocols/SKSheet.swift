@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@MainActor
 public protocol SKSheet: View, SKSheetable{
     var options: Set<SKSheetOptions> { get }
 
@@ -14,6 +15,7 @@ public protocol SKSheet: View, SKSheetable{
     @SKSheetBuilder var pages: [SKPage] { get }
 }
 
+@MainActor
 public extension SKSheet{
     @ViewBuilder @MainActor @preconcurrency var body: some View{
         SKSheetProtocolView(sheet: self)
