@@ -11,8 +11,6 @@ import SwiftUI
 struct SKHighlightWATCHOS: View {
     var data: SKHighlight.Data
 
-    
-    
     var body: some View {
         VStack{
             SKHeaderImage(image: data.image)

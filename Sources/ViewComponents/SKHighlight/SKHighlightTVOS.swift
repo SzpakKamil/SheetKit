@@ -112,7 +112,7 @@ struct SKHighlightTVOS: View {
                 .scaledToFit()
                 .fontWeight(.light)
                 .frame(width: 50, height: 50)
-                .padding(autoAlignment == .leading ? .trailing : .leading, -50)
+                .padding(autoAlignment == .leading || autoAlignment == .center ? .trailing : .leading, -50)
                 .frame(width: 50)
                 .foregroundStyle(skAccentColor)
                 .accessibilityHidden(true)

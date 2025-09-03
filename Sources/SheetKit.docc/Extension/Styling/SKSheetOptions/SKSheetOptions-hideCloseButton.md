@@ -25,6 +25,8 @@ The ``SKSheetOptions/hideCloseButton(_:)`` option in the `SheetKit` framework de
 
 The close button is distinct from the back button, which is always present across all platforms (iOS, iPadOS, macOS, watchOS, tvOS, visionOS) to navigate between pages within a sheet. On macOS and tvOS, when `hideCloseButton(true)` is set, the back button is absent on the first page but appears in the navigations button’s position on subsequent pages, styled with ``SKNavigationButtonStyle``. On iOS, iPadOS, watchOS, and visionOS, the close button and back button are separate, with the back button appearing on all pages except the first for multi-page sheets, unaffected by the `hideCloseButton` setting.
 
+>Important: It is recommended to use this option with ``SKSheetOptions/interactiveDismissDisabled(_:)`` to maintain a consistent user experience when disabling all dismisall options.
+
 ## Example
 
 The following example demonstrates two sheets: one with the close button visible and one with it hidden, each with single pages to illustrate the option behavior:
@@ -80,7 +82,7 @@ struct SheetKitExampleApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .skSheetManager(sheets: VisibleCloseButtonSheet.self, HiddenCloseButtonSheet.self, handoffActivityType: "SKSheetManagerHandoffActivity")
+                .skSheetManager(sheets: VisibleCloseButtonSheet.self, HiddenCloseButtonSheet.self)
         }
     }
 }
@@ -380,6 +382,6 @@ This section illustrates the visual design of sheets using the ``SKSheetOptions/
 - ``SKSheetOptions``
 - ``SKSheetable``
 - ``SKSheet``
-- ``SKSheetView``
 - ``SKPage``
+- ``SKPage/skHideCloseButton(_:)``
 - ``SKNavigationButtonStyle``

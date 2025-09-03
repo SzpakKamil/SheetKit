@@ -23,8 +23,6 @@ An option to control the visibility of the default continue button in a sheet.
 
 The ``SKSheetOptions/hideContinueButton(_:)`` option in the `SheetKit` framework determines whether the default continue button, styled with ``SKPrimaryButtonStyle``, is visible in a sheet conforming to the ``SKSheetable`` protocol, such as ``SKSheetView`` or custom ``SKSheet`` implementations. When set to `true`, the continue button is hidden, requiring a manual toolbar primary button (e.g., via ``SKToolbarItem`` with ``SKToolbarItemPlacement/primary``) for forward navigation. When set to `false`, the continue button is visible, allowing users to navigate to the next page in a multi-page sheet. The default value is `true`, meaning the continue button is hidden unless explicitly enabled.
 
-The continue button is distinct from the back button and close button, which are unaffected by `hideContinueButton`. The back button, styled with ``SKNavigationButtonStyle``, is always present across all platforms to navigate to previous pages in multi-page sheets, and the close button is controlled separately by ``SKSheetOptions/hideCloseButton(_:)``. The continue button, when visible, typically appears in the bottom toolbar, with the back button and close button separate, appearing as needed for multi-page sheets.
-
 ## Example
 
 The following example demonstrates two sheets: one with the continue button visible and one with it hidden, each with a single page to illustrate the continue button behavior:
@@ -80,7 +78,7 @@ struct SheetKitExampleApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .skSheetManager(sheets: VisibleContinueButtonSheet.self, HiddenContinueButtonSheet.self, handoffActivityType: "SKSheetManagerHandoffActivity")
+                .skSheetManager(sheets: VisibleContinueButtonSheet.self, HiddenContinueButtonSheet.self)
         }
     }
 }
@@ -380,8 +378,8 @@ This section illustrates the visual design of sheets using the ``SKSheetOptions/
 - ``SKSheetOptions``
 - ``SKSheetable``
 - ``SKSheet``
-- ``SKSheetView``
 - ``SKPage``
+- ``SKPage/skHideCloseButton(_:)``
 - ``SKPrimaryButtonStyle``
 - ``SKToolbarItem``
 - ``SKToolbarItemPlacement/primary``

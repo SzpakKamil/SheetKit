@@ -32,6 +32,7 @@ struct SKScrollViewWATCHOS<Content: View>: View {
             if pageStyle == .default{
                 ScrollView {
                     content()
+                        .padding(.horizontal, 10)
                 }
                 .scrollBounceBehavior(.basedOnSize)
             }else{

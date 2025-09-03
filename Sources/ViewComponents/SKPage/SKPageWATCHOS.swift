@@ -50,7 +50,7 @@ struct SKPageWATCHOS: View{
     }
     var body: some View {
         Group{
-            if data.pageStyle == .default{
+            if data.pageStyle != .plain{
                 TabView{
                     let fields = data.content.filter{ $0.type == .field}
                     let customView = data.content.filter{ $0.type == .customView}
