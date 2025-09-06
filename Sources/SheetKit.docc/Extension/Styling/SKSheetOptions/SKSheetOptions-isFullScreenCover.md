@@ -208,3 +208,9 @@ In these examples, `FullScreenCoverEnabledSheet` uses `.isFullScreenCover(true)`
         }
     }
 }
+
+## See Also
+
+- ``SKSheetOptions``
+- ``SKSheetable``
+- ``SKPage``
