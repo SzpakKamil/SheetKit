@@ -40,7 +40,7 @@ struct SKHeaderImageIOS: View {
         if let skAlignment{
             return skAlignment
         }else{
-            if skIsUsingFullScreenCover && horizontalSizeClass == .regular{
+            if #available(iOS 26.0, *), skIsUsingFullScreenCover && horizontalSizeClass == .regular{
                 return .leading
             }else{
                 return .center

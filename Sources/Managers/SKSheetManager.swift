@@ -74,6 +74,7 @@ public class SKSheetManager{
         var wrapped = SKSheetDisplayWrapper(sheet: sheet)
         changesCount += 1
         wrapped.shouldBePresented = true
+        wrapped.isPresented = false
         sheets.append(wrapped)
     }
     public func show(sheet: any SKSheetable.Type){
@@ -83,7 +84,15 @@ public class SKSheetManager{
         var wrapped = SKSheetDisplayWrapper(sheet: sheet.init())
         changesCount += 1
         wrapped.shouldBePresented = true
+        wrapped.isPresented = false
         sheets.append(wrapped)
+    }
+    
+    public func isOpened(id: String) -> Bool {
+        openedSheets.contains(where: { $0.id == id })
+    }
+    public func isOpened(sheet: any SKSheetable.Type) -> Bool {
+        openedSheets.contains(where: { $0.id == sheet.init().id })
     }
     
     public func show(id: String, @ViewBuilder view: @escaping () -> some View){
@@ -93,6 +102,7 @@ public class SKSheetManager{
         var wrapped = SKSheetDisplayWrapper(id: id, view: view)
         changesCount += 1
         wrapped.shouldBePresented = true
+        wrapped.isPresented = false
         sheets.append(wrapped)
     }
     
