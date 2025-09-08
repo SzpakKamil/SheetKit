@@ -57,11 +57,10 @@ Modifiers are available on:
 - ``SKPage/skRowSpacing(_:)``  
 - ``SKPage/skPrimaryTextColor(_:)``  
 - ``SKPage/skSecondaryTextColor(_:)``  
-- ``SKPage/skIgnoreSafeArea(_:)``  
 - ``SKPage/skHideCloseButton(_:)`` – Hides or shows the close button.  
 - ``SKPage/skHideContinueButton(_:)`` – Hides or shows the continue button.  
 - ``SKPage/skAlert(isPresented:title:description:type:content:)`` – Presents an alert bound to a condition.  
-- ``SKPage/skStyle(_:)`` – Configures the background style of the page.  
+- ``SKPage/skPageStyle(_:)`` – Configures the background style of the page.  
 
 ### SKSheetView Modifiers
 - ``SKSheetView/skAccentColor(_:)``  

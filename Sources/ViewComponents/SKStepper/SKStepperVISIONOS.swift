@@ -15,17 +15,15 @@ struct SKStepperVISIONOS<S: Strideable>: View, SKComponent {
     let type: SKComponentType = .field
     @Binding var value: S
     var data: SKStepper<S>.Data
+    
     var autoBackgroundColor: Color{
         if let skRowBackgroundColor{
             return skRowBackgroundColor
         }else{
-            if colorScheme == .dark{
-                return Color(red: 0.1647058824, green: 0.1647058824, blue: 0.1764705882)
-            }else{
-                return .white
-            }
+            return .black.opacity(0.4)
         }
     }
+    
     var body: some View {
         HStack(spacing: 0){
             Text("\(data.title): \(data.textForValue(value))")
@@ -74,8 +72,8 @@ struct SKStepperVISIONOS<S: Strideable>: View, SKComponent {
         .padding(.vertical, -1)
         .background(LinearGradient(
             colors: [
-                .black.opacity(0.4),
-                .black.opacity(0.3)
+                autoBackgroundColor,
+                autoBackgroundColor.opacity(0.75)
             ],
             startPoint: .top,
             endPoint: .bottom
@@ -85,7 +83,7 @@ struct SKStepperVISIONOS<S: Strideable>: View, SKComponent {
             RoundedRectangle(cornerRadius: skRowShape ?? 12, style: .continuous)
                 .stroke(LinearGradient(
                     colors: [
-                        .black.opacity(0.4),
+                        autoBackgroundColor,
                         .white.opacity(0.3)
                     ],
                     startPoint: .top,

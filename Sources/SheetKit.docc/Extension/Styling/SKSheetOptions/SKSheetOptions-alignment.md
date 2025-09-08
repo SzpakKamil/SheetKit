@@ -17,24 +17,30 @@
     @AutomaticSeeAlso(disabled)
 }
 
-An option to control the alignment of a sheet's components.
+Controls the alignment of a sheet’s components, such as `SKHeaderImage`, `SKTitle`, `SKDescription`, and `SKHighlight`.
 
 ## Overview
 
-The ``SKSheetOptions/alignment(_:)`` option in the `SheetKit` framework allows precise control over the alignment applied to all components within a sheet conforming to the ``SKSheetable`` protocol, such as ``SKSheet`` or custom implementations. This option influences the spatial arrangement of key elements, including ``SKHeaderImage``, ``SKTitle``, ``SKDescription``, and ``SKHighlight``, enabling developers to tailor the visual layout to suit diverse design requirements. The option accepts an alignment value—`.leading`, `.center`, `.trailing`, or `nil` (for default behavior)—where `.leading` aligns content to the left, `.center` positions it centrally, `.trailing` shifts it to the right, and `nil` reverts to the system's default alignment strategy for each component. The default behavior allows individual components to adopt their intrinsic alignments, such as centered images or leading text, unless overridden by a specific alignment setting.
+The `SKSheetOptions/alignment(_:)` option in the `SheetKit` framework provides precise control over the horizontal alignment of all components within a sheet conforming to the `SKSheetable` protocol, such as `SKSheet` or custom implementations. It accepts an alignment value—`.leading`, `.center`, `.trailing`, or `nil`—where `.leading` aligns content to the left, `.center` positions it centrally, `.trailing` shifts it to the right, and `nil` (the default) allows components to adopt their intrinsic alignments (e.g., centered images, leading text). This option affects the layout of `SKHeaderImage`, `SKTitle`, `SKDescription`, and `SKHighlight`, enabling developers to tailor the visual presentation to specific design or cultural needs, such as right-to-left layouts for certain languages.
 
-This alignment mechanism is particularly impactful for enhancing user experience by ensuring content is presented in a manner that aligns with the intended design aesthetic or cultural preferences, such as right-to-left layouts for certain languages. The ``SKTitle`` and ``SKDescription`` components are affected by changes in text alignment, adjusting the horizontal positioning of their content to match the specified option. Similarly, ``SKHeaderImage`` modifies its horizontal alignment, repositioning the image within the sheet's layout. Additionally, the ``SKHighlight`` component follows a unique behavior: for `.leading` and `.center` alignments, the image appears before the text and description in a leading configuration, while for `.trailing`, the text precedes the image, offering a consistent yet flexible approach to highlight presentation across different alignments. This versatility makes the `alignment(_:)` option a powerful tool for creating visually cohesive and contextually appropriate sheet designs.
+For `SKTitle` and `SKDescription`, the option adjusts text alignment, ensuring consistent positioning. For `SKHeaderImage`, it repositions the image horizontally within the sheet. For `SKHighlight`, the alignment influences the order of elements: `.leading` and `.center` place the image before the text and description, while `.trailing` places the text first, followed by the image. This flexibility makes `alignment(_:)` ideal for creating visually cohesive sheets, enhancing readability and user experience across diverse use cases, such as onboarding, forms, or localized interfaces. It integrates seamlessly with other `SheetKit` options, like `SKSheetOptions/style(_:)` and `SKSheetOptions/isFullScreenCover(_:)`, for comprehensive design control.
+
+### Platform-Specific Behavior
+
+- **iOS/iPadOS/tvOS/watchOS/visionOS**: Aligns components (text, images, highlights) to `.leading`, `.center`, `.trailing`, or default (`nil`).
+- **macOS**: Aligns components based on style (`default`, `compact`, `prominent`), with placement varying by version.
+- **All platforms**: `SKHighlight` image precedes text for `.leading`/`.center`, follows text for `.trailing`.
 
 ## Example
 
-The following examples demonstrate sheets with different alignment options, showcasing how the ``SKSheetOptions/alignment(_:)`` option influences the layout and presentation of sheet components across various configurations. Each example includes a single-page sheet to illustrate the alignment behavior, with additional context provided to highlight the practical application of these settings in real-world scenarios. The examples cover the primary alignment settings—`.leading`, `.center`, `.trailing`, and the default (`nil`)—along with a `ContentView` to facilitate interactive testing within a SwiftUI application.
+The following examples demonstrate sheets with different alignment options (`.leading`, `.center`, `.trailing`, and `nil`) to illustrate their impact on component layout. Each sheet contains a single page with `SKHeaderImage`, `SKTitle`, `SKDescription`, and `SKHighlight`. A `ContentView` enables interactive testing within a SwiftUI application.
 
 ```swift
 import SwiftUI
 import SheetKit
 
-struct LeadingAllignmentSheet: SKSheet {
-    var id: String = "LeadingAllignmentSheet"
+struct LeadingAlignmentSheet: SKSheet {
+    var id: String = "LeadingAlignmentSheet"
     var options: Set<SKSheetOptions> = [.alignment(.leading), .style(.default)]
     
     var pages: [SKPage] {
@@ -47,8 +53,8 @@ struct LeadingAllignmentSheet: SKSheet {
     }
 }
 
-struct CenterAllignmentSheet: SKSheet {
-    var id: String = "CenterAllignmentSheet"
+struct CenterAlignmentSheet: SKSheet {
+    var id: String = "CenterAlignmentSheet"
     var options: Set<SKSheetOptions> = [.alignment(.center), .style(.default)]
     
     var pages: [SKPage] {
@@ -61,8 +67,8 @@ struct CenterAllignmentSheet: SKSheet {
     }
 }
 
-struct TrailingAllignmentSheet: SKSheet {
-    var id: String = "TrailingAllignmentSheet"
+struct TrailingAlignmentSheet: SKSheet {
+    var id: String = "TrailingAlignmentSheet"
     var options: Set<SKSheetOptions> = [.alignment(.trailing), .style(.default)]
     
     var pages: [SKPage] {
@@ -75,8 +81,8 @@ struct TrailingAllignmentSheet: SKSheet {
     }
 }
 
-struct DefaultAllignmentSheet: SKSheet {
-    var id: String = "DefaultAllignmentSheet"
+struct DefaultAlignmentSheet: SKSheet {
+    var id: String = "DefaultAlignmentSheet"
     var options: Set<SKSheetOptions> = [.alignment(nil), .style(.default)]
     
     var pages: [SKPage] {
@@ -95,16 +101,16 @@ struct ContentView: View {
     var body: some View {
         VStack(spacing: 20) {
             Button("Show Leading Alignment Sheet") {
-                sheetManager.show(sheet: LeadingAllignmentSheet.self)
+                sheetManager.show(sheet: LeadingAlignmentSheet.self)
             }
             Button("Show Center Alignment Sheet") {
-                sheetManager.show(sheet: CenterAllignmentSheet.self)
+                sheetManager.show(sheet: CenterAlignmentSheet.self)
             }
             Button("Show Trailing Alignment Sheet") {
-                sheetManager.show(sheet: TrailingAllignmentSheet.self)
+                sheetManager.show(sheet: TrailingAlignmentSheet.self)
             }
             Button("Show Default Alignment Sheet") {
-                sheetManager.show(sheet: DefaultAllignmentSheet.self)
+                sheetManager.show(sheet: DefaultAlignmentSheet.self)
             }
         }
         .padding()
@@ -122,20 +128,16 @@ struct ExampleAlignmentApp: App {
 }
 ```
 
-In these examples, `LeadingAllignmentSheet` uses `.alignment(.leading)` to align all content to the left, with the ``SKHighlight`` displaying the image before the text to demonstrate the leading behavior. `CenterAllignmentSheet` applies `.alignment(.center)` for a centered layout, maintaining the image-before-text order in ``SKHighlight``. `TrailingAllignmentSheet` employs `.alignment(.trailing)` to shift content to the right, with ``SKHighlight`` showing text before the image to reflect trailing alignment. Finally, `DefaultAllignmentSheet` relies on `.alignment(nil)` to revert to default component alignments, with ``SKHighlight`` following the default image-leading pattern. The `ContentView` provides an interactive interface to test each sheet, making it easy to observe the alignment effects in a live environment.
+In these examples, `LeadingAlignmentSheet` aligns content to the left with `.alignment(.leading)`, placing the `SKHighlight` image before text. `CenterAlignmentSheet` centers content with `.alignment(.center)`, maintaining the image-before-text order for `SKHighlight`. `TrailingAlignmentSheet` aligns content to the right with `.alignment(.trailing)`, with `SKHighlight` text preceding the image. `DefaultAlignmentSheet` uses `.alignment(nil)` for default component alignments. The `ContentView` enables interactive testing of each alignment.
 
 ## Design Images
 
-This section illustrates the visual design of sheets using the ``SKSheetOptions/alignment(_:)`` option across various Apple platforms, with a 2x2 grid of images representing Default, Center, Leading, and Trailing alignments for each OS tab.
-
 @TabNavigator {
     @Tab("iOS") {
-        On iOS, alignment affects component positioning.
-        
-        Alignment on iOS adapts to screen size and orientation, ensuring readability and accessibility across different devices. The default alignment prioritizes a natural reading flow, while custom alignments enhance visual hierarchy.
+        On iOS, the `alignment(_:)` option controls the horizontal positioning of sheet components, optimizing layouts for touch-driven interfaces. It ensures readability across various iPhone screen sizes, supporting diverse use cases like onboarding or forms. Custom alignments enhance visual hierarchy, particularly for localized or presentation-focused designs, while the default alignment balances natural component positioning for general use.
         @TabNavigator {
-            @Tab("iOS 26 and newer") {
-                Recommended is leading alignment for text due to bigger screens, ensuring a precise content flow.
+            @Tab("iOS 26 and Newer") {
+                For iOS 26 and newer, leading alignment is recommended for text-heavy sheets due to larger screens, ensuring a clear left-to-right flow. Center alignment suits visual presentations, while trailing alignment supports right-to-left languages. Default alignment adapts to component-specific positioning for flexibility.
                 @Row(numberOfColumns: 2) {
                     @Column(size: 1) {
                         @Image(source: "Documentation-Styling-SKSheetOptions-Alignment-Default-iOS26", alt: "Default Alignment") {
@@ -159,8 +161,8 @@ This section illustrates the visual design of sheets using the ``SKSheetOptions/
                     }
                 }
             }
-            @Tab("iOS 18 and older") {
-                Recommended is center alignment with the old design, providing a balanced layout suitable for legacy interfaces.
+            @Tab("iOS 18 and Older") {
+                For iOS 18 and earlier, center alignment is recommended for balanced layouts in legacy designs. Leading alignment supports structured forms, while trailing alignment aids right-to-left interfaces. Default alignment provides a natural flow, aligning with older iOS aesthetics.
                 @Row(numberOfColumns: 2) {
                     @Column(size: 1) {
                         @Image(source: "Documentation-Styling-SKSheetOptions-Alignment-Default-iOS18", alt: "Default Alignment") {
@@ -187,12 +189,10 @@ This section illustrates the visual design of sheets using the ``SKSheetOptions/
         }
     }
     @Tab("iPadOS") {
-        On iPadOS, alignment optimizes component layout.
-        
-        Alignment on iPadOS takes advantage of the larger screen real estate, allowing for more complex layouts. Custom alignments can improve usability in multitasking scenarios or when paired with a keyboard.
+        On iPadOS, the `alignment(_:)` option optimizes component layout for larger screens, enhancing usability in multitasking scenarios like Split View or Slide Over. Custom alignments improve readability for complex layouts, while default alignment ensures a natural flow, making it ideal for forms, tutorials, or presentations on iPads.
         @TabNavigator {
-            @Tab("iPadOS 26 and newer") {
-                All components are aligned to the leading edge for a more precise content flow, with trailing alignment not recommended due to readability challenges.
+            @Tab("iPadOS 26 and Newer") {
+                For iPadOS 26 and newer, leading alignment is recommended for text-heavy sheets to ensure a clear content flow, especially in multitasking environments. Center alignment suits visual-centric designs, while trailing alignment supports localized interfaces but is less common due to readability concerns.
                 @Row(numberOfColumns: 2) {
                     @Column(size: 1) {
                         @Image(source: "Documentation-Styling-SKSheetOptions-Alignment-Default-iPadOS26", alt: "Default Alignment") {
@@ -216,8 +216,8 @@ This section illustrates the visual design of sheets using the ``SKSheetOptions/
                     }
                 }
             }
-            @Tab("iPadOS 18 and older") {
-                Recommended is center alignment due to the old Apple design, providing a balanced layout suitable for legacy interfaces.
+            @Tab("iPadOS 18 and Older") {
+                For iPadOS 18 and earlier, center alignment is recommended for balanced layouts in legacy designs, aligning with older iPad aesthetics. Leading alignment supports structured content, while trailing alignment aids right-to-left layouts. Default alignment ensures component-specific positioning.
                 @Row(numberOfColumns: 2) {
                     @Column(size: 1) {
                         @Image(source: "Documentation-Styling-SKSheetOptions-Alignment-Default-iPadOS18", alt: "Default Alignment") {
@@ -244,14 +244,13 @@ This section illustrates the visual design of sheets using the ``SKSheetOptions/
         }
     }
     @Tab("macOS") {
-        On macOS, alignment varies by style and version.
-        
-        Alignment on macOS supports different window styles, with custom alignments enhancing the desktop experience, especially in multi-monitor setups or when using full-screen applications.
+        On macOS, the `alignment(_:)` option varies by sheet style (`default`, `compact`, `prominent`), enhancing layouts for desktop workflows. Custom alignments support multi-monitor setups or full-screen applications, ensuring content clarity and accessibility in window-based interfaces.
         @TabNavigator {
-            @Tab("macOS 26 and newer") {
+            @Tab("macOS 26 and Newer") {
+                For macOS 26 and newer, alignment adapts to sheet style, with leading alignment recommended for consistent content flow across platforms. Center alignment is ideal for prominent designs, while trailing alignment supports localized layouts. Default alignment balances component-specific positioning.
                 @TabNavigator {
                     @Tab("Default") {
-                        Recommended is leading alignment to match other platforms, ensuring a precise content flow.
+                        Leading alignment is recommended for structured layouts, ensuring a clear left-to-right flow for forms or documentation. Center and trailing alignments offer flexibility for unique designs.
                         @Row(numberOfColumns: 2) {
                             @Column(size: 1) {
                                 @Image(source: "Documentation-Styling-SKSheetOptions-Alignment-Default-Default-macOS26", alt: "Default Alignment") {
@@ -276,7 +275,7 @@ This section illustrates the visual design of sheets using the ``SKSheetOptions/
                         }
                     }
                     @Tab("Compact") {
-                        Recommended is leading alignment to match other platforms, ensuring a precise content flow.
+                        Leading alignment is recommended for streamlined layouts, optimizing space in compact sheets. Center and trailing alignments provide flexibility for specific use cases.
                         @Row(numberOfColumns: 2) {
                             @Column(size: 1) {
                                 @Image(source: "Documentation-Styling-SKSheetOptions-Alignment-Default-Compact-macOS26", alt: "Default Alignment") {
@@ -301,7 +300,7 @@ This section illustrates the visual design of sheets using the ``SKSheetOptions/
                         }
                     }
                     @Tab("Prominent") {
-                        Recommended is center alignment because it makes content more bold and is used for 'What's New' screens.
+                        Center alignment is recommended for bold, attention-grabbing layouts, ideal for "What's New" screens or key announcements. Leading and trailing alignments support structured or localized designs.
                         @Row(numberOfColumns: 2) {
                             @Column(size: 1) {
                                 @Image(source: "Documentation-Styling-SKSheetOptions-Alignment-Default-Prominent-macOS26", alt: "Default Alignment") {
@@ -327,10 +326,11 @@ This section illustrates the visual design of sheets using the ``SKSheetOptions/
                     }
                 }
             }
-            @Tab("macOS 15 and older") {
+            @Tab("macOS 15 and Older") {
+                For macOS 15 and earlier, center alignment is recommended for balanced layouts in legacy window-based designs. Leading alignment supports structured content, while trailing alignment aids right-to-left interfaces. Default alignment ensures component-specific positioning.
                 @TabNavigator {
                     @Tab("Default") {
-                        Recommended is center alignment with the old design, providing a balanced layout suitable for legacy interfaces.
+                        Center alignment is recommended for balanced, legacy layouts. Leading and trailing alignments offer flexibility for structured or localized content.
                         @Row(numberOfColumns: 2) {
                             @Column(size: 1) {
                                 @Image(source: "Documentation-Styling-SKSheetOptions-Alignment-Default-Default-macOS15", alt: "Default Alignment") {
@@ -355,7 +355,7 @@ This section illustrates the visual design of sheets using the ``SKSheetOptions/
                         }
                     }
                     @Tab("Compact") {
-                        Recommended is center alignment with the old design, providing a balanced layout suitable for legacy interfaces.
+                        Center alignment is recommended for streamlined legacy layouts. Leading and trailing alignments support specific design needs.
                         @Row(numberOfColumns: 2) {
                             @Column(size: 1) {
                                 @Image(source: "Documentation-Styling-SKSheetOptions-Alignment-Default-Compact-macOS15", alt: "Default Alignment") {
@@ -380,7 +380,7 @@ This section illustrates the visual design of sheets using the ``SKSheetOptions/
                         }
                     }
                     @Tab("Prominent") {
-                        Recommended is center alignment with the old design, providing a balanced layout suitable for legacy interfaces.
+                        Center alignment is recommended for bold legacy layouts, ideal for key announcements. Leading and trailing alignments support structured or localized designs.
                         @Row(numberOfColumns: 2) {
                             @Column(size: 1) {
                                 @Image(source: "Documentation-Styling-SKSheetOptions-Alignment-Default-Prominent-macOS15", alt: "Default Alignment") {
@@ -409,12 +409,10 @@ This section illustrates the visual design of sheets using the ``SKSheetOptions/
         }
     }
     @Tab("visionOS") {
-        On visionOS, alignment adapts to spatial interfaces.
-        
-        Alignment on visionOS is designed to work with 3D spatial environments, where custom alignments can enhance immersion by aligning content with the user's field of view or spatial context.
+        On visionOS, the `alignment(_:)` option adapts to spatial interfaces, aligning content with the user’s field of view in 3D environments. Leading alignment is preferred for consistent content flow, while center and trailing alignments enhance immersion for specific use cases, such as interactive or localized designs.
         @TabNavigator {
-            @Tab("visionOS 26 and newer") {
-                All alignments are leading as it is the first to adapt Apple's new strategy, ensuring a precise content flow.
+            @Tab("visionOS 26 and Newer") {
+                For visionOS 26 and newer, leading alignment is standard, aligning with Apple’s spatial design strategy for clear content presentation. Center alignment suits immersive presentations, while trailing alignment supports right-to-left layouts in 3D spaces.
                 @Row(numberOfColumns: 2) {
                     @Column(size: 1) {
                         @Image(source: "Documentation-Styling-SKSheetOptions-Alignment-Default-visionOS26", alt: "Default Alignment") {
@@ -438,8 +436,8 @@ This section illustrates the visual design of sheets using the ``SKSheetOptions/
                     }
                 }
             }
-            @Tab("visionOS 2 and older") {
-                All alignments are leading as it is the first to adapt Apple's new strategy, ensuring a precise content flow.
+            @Tab("visionOS 2 and Older") {
+                For visionOS 2 and earlier, leading alignment is standard, ensuring clear content flow in early mixed reality designs. Center and trailing alignments support specific spatial or localized use cases, with default alignment balancing component positioning.
                 @Row(numberOfColumns: 2) {
                     @Column(size: 1) {
                         @Image(source: "Documentation-Styling-SKSheetOptions-Alignment-Default-visionOS2", alt: "Default Alignment") {
@@ -466,12 +464,10 @@ This section illustrates the visual design of sheets using the ``SKSheetOptions/
         }
     }
     @Tab("watchOS") {
-        On watchOS, alignment is consistent across components.
-        
-        Alignment on watchOS ensures content remains legible on small screens, with custom alignments offering flexibility for different watch face orientations or complications.
+        On watchOS, the `alignment(_:)` option ensures legibility on small screens, with consistent component alignment across compact interfaces. Center alignment is preferred for balanced readability, while leading and trailing alignments support specific design or localization needs, enhancing usability for watch face orientations.
         @TabNavigator {
-            @Tab("watchOS 26 and newer") {
-                Recommended is center alignment due to small screens, providing a balanced layout for optimal readability.
+            @Tab("watchOS 26 and Newer") {
+                For watchOS 26 and newer, center alignment is recommended for optimal readability on small screens. Leading alignment supports structured layouts, while trailing alignment aids right-to-left interfaces. Default alignment ensures natural component positioning.
                 @Row(numberOfColumns: 2) {
                     @Column(size: 1) {
                         @Image(source: "Documentation-Styling-SKSheetOptions-Alignment-Default-watchOS26", alt: "Default Alignment") {
@@ -495,8 +491,8 @@ This section illustrates the visual design of sheets using the ``SKSheetOptions/
                     }
                 }
             }
-            @Tab("watchOS 11 and older") {
-                Recommended is center alignment due to small screens, providing a balanced layout for optimal readability.
+            @Tab("watchOS 11 and Older") {
+                For watchOS 11 and earlier, center alignment is recommended for balanced layouts on small screens. Leading and trailing alignments support specific design or localization needs, with default alignment ensuring natural component positioning.
                 @Row(numberOfColumns: 2) {
                     @Column(size: 1) {
                         @Image(source: "Documentation-Styling-SKSheetOptions-Alignment-Default-watchOS11", alt: "Default Alignment") {
@@ -523,12 +519,10 @@ This section illustrates the visual design of sheets using the ``SKSheetOptions/
         }
     }
     @Tab("tvOS") {
-        On tvOS, alignment enhances content layout.
-        
-        Alignment on tvOS is optimized for large-screen viewing, where custom alignments can improve focus on key content areas, such as titles or interactive elements, during media playback.
+        On tvOS, the `alignment(_:)` option enhances content layout for large-screen viewing, optimizing focus on titles, descriptions, or interactive elements during media playback. Leading alignment is preferred for modal sheets, ensuring a clear flow, while center and trailing alignments support specific design or localization needs.
         @TabNavigator {
-            @Tab("tvOS 26 and newer") {
-                Recommended is leading alignment to match new OS systems, with sheets as modals ensuring a precise content flow.
+            @Tab("tvOS 26 and Newer") {
+                For tvOS 26 and newer, leading alignment is recommended for modal sheets, aligning with modern OS designs for clear content flow. Center alignment suits visual presentations, while trailing alignment supports right-to-left interfaces, with default alignment balancing component positioning.
                 @Row(numberOfColumns: 2) {
                     @Column(size: 1) {
                         @Image(source: "Documentation-Styling-SKSheetOptions-Alignment-Default-tvOS26", alt: "Default Alignment") {
@@ -552,8 +546,8 @@ This section illustrates the visual design of sheets using the ``SKSheetOptions/
                     }
                 }
             }
-            @Tab("tvOS 18 and older") {
-                Recommended is leading alignment because sheets are full-screen, guiding viewers easily to content.
+            @Tab("tvOS 18 and Older") {
+                For tvOS 18 and earlier, leading alignment is recommended for full-screen sheets, guiding viewers through content. Center alignment suits balanced layouts, while trailing alignment supports right-to-left interfaces. Default alignment ensures natural component positioning.
                 @Row(numberOfColumns: 2) {
                     @Column(size: 1) {
                         @Image(source: "Documentation-Styling-SKSheetOptions-Alignment-Default-tvOS18", alt: "Default Alignment") {

@@ -21,7 +21,7 @@ struct SKTextFieldViewVISIONOS: View {
         if let skRowBackgroundColor{
             return skRowBackgroundColor
         }else{
-            return .clear
+            return .black.opacity(0.4)
         }
     }
 
@@ -38,8 +38,8 @@ struct SKTextFieldViewVISIONOS: View {
             .padding(.vertical, 10)
             .background(LinearGradient(
                 colors: [
-                    .black.opacity(0.4),
-                    .black.opacity(0.3)
+                    autoBackgroundColor,
+                    autoBackgroundColor.opacity(0.75)
                 ],
                 startPoint: .top,
                 endPoint: .bottom
@@ -49,7 +49,7 @@ struct SKTextFieldViewVISIONOS: View {
                 RoundedRectangle(cornerRadius: skRowShape ?? 12, style: .continuous)
                     .stroke(LinearGradient(
                         colors: [
-                            .black.opacity(0.4),
+                            autoBackgroundColor,
                             .white.opacity(0.3)
                         ],
                         startPoint: .top,
@@ -83,7 +83,7 @@ struct SKDecimalFieldViewVISIONOS<F: ParseableFormatStyle>: View where F.FormatO
         if let skRowBackgroundColor{
             return skRowBackgroundColor
         }else{
-            return .clear
+            return .black.opacity(0.4)
         }
     }
     
@@ -103,8 +103,8 @@ struct SKDecimalFieldViewVISIONOS<F: ParseableFormatStyle>: View where F.FormatO
                 .padding(.vertical, 10)
                 .background(LinearGradient(
                     colors: [
-                        .black.opacity(0.4),
-                        .black.opacity(0.3)
+                        autoBackgroundColor,
+                        autoBackgroundColor.opacity(0.75)
                     ],
                     startPoint: .top,
                     endPoint: .bottom
@@ -114,7 +114,7 @@ struct SKDecimalFieldViewVISIONOS<F: ParseableFormatStyle>: View where F.FormatO
                     RoundedRectangle(cornerRadius: skRowShape ?? 12, style: .continuous)
                         .stroke(LinearGradient(
                             colors: [
-                                .black.opacity(0.4),
+                                autoBackgroundColor,
                                 .white.opacity(0.3)
                             ],
                             startPoint: .top,
@@ -137,8 +137,8 @@ struct SKDecimalFieldViewVISIONOS<F: ParseableFormatStyle>: View where F.FormatO
                 .padding(.vertical, 10)
                 .background(LinearGradient(
                     colors: [
-                        .black.opacity(0.4),
-                        .black.opacity(0.3)
+                        autoBackgroundColor,
+                        autoBackgroundColor.opacity(0.75)
                     ],
                     startPoint: .top,
                     endPoint: .bottom
@@ -148,7 +148,7 @@ struct SKDecimalFieldViewVISIONOS<F: ParseableFormatStyle>: View where F.FormatO
                     RoundedRectangle(cornerRadius: skRowShape ?? 12, style: .continuous)
                         .stroke(LinearGradient(
                             colors: [
-                                .black.opacity(0.4),
+                                autoBackgroundColor,
                                 .white.opacity(0.3)
                             ],
                             startPoint: .top,
@@ -182,10 +182,10 @@ struct SKIntFieldViewVISIONOS<F: ParseableFormatStyle>: View where F.FormatOutpu
         if let skRowBackgroundColor{
             return skRowBackgroundColor
         }else{
-            return .clear
+            return .black.opacity(0.4)
         }
     }
-    
+
     init(value: Binding<Int>, defaultValue: Int = 0, format: F, prompt: Text? = nil, data: SKTextFieldData) {
         self._value = value
         self.defaultValue = defaultValue
@@ -202,8 +202,8 @@ struct SKIntFieldViewVISIONOS<F: ParseableFormatStyle>: View where F.FormatOutpu
                 .padding(.vertical, 10)
                 .background(LinearGradient(
                     colors: [
-                        .black.opacity(0.4),
-                        .black.opacity(0.3)
+                        autoBackgroundColor,
+                        autoBackgroundColor.opacity(0.75)
                     ],
                     startPoint: .top,
                     endPoint: .bottom
@@ -213,7 +213,7 @@ struct SKIntFieldViewVISIONOS<F: ParseableFormatStyle>: View where F.FormatOutpu
                     RoundedRectangle(cornerRadius: skRowShape ?? 12, style: .continuous)
                         .stroke(LinearGradient(
                             colors: [
-                                .black.opacity(0.4),
+                                autoBackgroundColor,
                                 .white.opacity(0.3)
                             ],
                             startPoint: .top,
@@ -236,8 +236,8 @@ struct SKIntFieldViewVISIONOS<F: ParseableFormatStyle>: View where F.FormatOutpu
                 .padding(.vertical, 10)
                 .background(LinearGradient(
                     colors: [
-                        .black.opacity(0.4),
-                        .black.opacity(0.3)
+                        autoBackgroundColor,
+                        autoBackgroundColor.opacity(0.75)
                     ],
                     startPoint: .top,
                     endPoint: .bottom
@@ -247,7 +247,7 @@ struct SKIntFieldViewVISIONOS<F: ParseableFormatStyle>: View where F.FormatOutpu
                     RoundedRectangle(cornerRadius: skRowShape ?? 12, style: .continuous)
                         .stroke(LinearGradient(
                             colors: [
-                                .black.opacity(0.4),
+                                autoBackgroundColor,
                                 .white.opacity(0.3)
                             ],
                             startPoint: .top,

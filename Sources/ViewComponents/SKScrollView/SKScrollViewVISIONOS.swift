@@ -22,6 +22,8 @@ struct SKScrollViewVISIONOS<Content: View>: View {
             return colorScheme == .dark ? .clear : .white
         case .form:
             return colorScheme == .dark ? .clear : Color(red: 0.949, green: 0.949, blue: 0.969)
+        case .plain:
+            return .clear
         case .custom(let light, let dark):
             return colorScheme == .dark ? dark : light
         }

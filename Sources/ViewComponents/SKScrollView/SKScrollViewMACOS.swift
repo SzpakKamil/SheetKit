@@ -22,6 +22,8 @@ struct SKScrollViewMACOS<Content: View>: View {
         switch backgroundStyle {
         case .custom(let light, let dark):
             return colorScheme == .dark ? dark : light
+        case .plain:
+            return .clear
         default:
             return .clear
         }

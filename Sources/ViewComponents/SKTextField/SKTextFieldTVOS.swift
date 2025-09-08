@@ -29,7 +29,11 @@ struct SKTextFieldViewTVOS: View {
             }
         }
     }
-
+    
+    var textColor: Color{
+        return colorScheme == .dark ? .white : .black
+    }
+    
     init(text: Binding<String>, prompt: Text? = nil, data: SKTextFieldData) {
         self._text = text
         self.data = data
@@ -46,14 +50,40 @@ struct SKTextFieldViewTVOS: View {
                     if text.isEmpty{
                         if let prompt{
                             prompt
-                                .foregroundStyle((colorScheme == .dark ? Color.white : .black).secondary)
+                                .if{ content in
+                                    if #available(tvOS 26.0, *){
+                                        content
+                                            .foregroundStyle(.secondary)
+                                            .tint(.primary)
+                                    }else{
+                                        content
+                                            .foregroundStyle(textColor.secondary)
+                                    }
+                                }
                         }else{
                             Text(data.title)
-                                .foregroundStyle((colorScheme == .dark ? Color.white : .black).secondary)
+                                .if{ content in
+                                    if #available(tvOS 26.0, *){
+                                        content
+                                            .foregroundStyle(.secondary)
+                                            .tint(.primary)
+                                    }else{
+                                        content
+                                            .foregroundStyle(textColor.secondary)
+                                    }
+                                }
                         }
                     }else{
                         Text(text)
-                            .foregroundStyle(colorScheme == .dark ? .white : .black)
+                            .if{ content in
+                                if #available(tvOS 26.0, *){
+                                    content
+                                        .tint(.primary)
+                                }else{
+                                    content
+                                        .foregroundStyle(textColor)
+                                }
+                            }
                     }
                     
                     Spacer()
@@ -99,6 +129,10 @@ struct SKDecimalFieldViewTVOS<F: ParseableFormatStyle>: View where F.FormatOutpu
         }
     }
     
+    var textColor: Color{
+        return colorScheme == .dark ? .white : .black
+    }
+    
     init(value: Binding<Double>, defaultValue: Double = 0, format: F, prompt: Text? = nil, data: SKTextFieldData) {
         self.data = data
         self._value = value
@@ -115,10 +149,42 @@ struct SKDecimalFieldViewTVOS<F: ParseableFormatStyle>: View where F.FormatOutpu
             }label:{
                 HStack{
                     if value.isZero{
-                        Text(data.title)
-                            .foregroundStyle(.secondary)
+                        if let prompt{
+                            prompt
+                                .if{ content in
+                                    if #available(tvOS 26.0, *){
+                                        content
+                                            .foregroundStyle(.secondary)
+                                            .tint(.primary)
+                                    }else{
+                                        content
+                                            .foregroundStyle(textColor.secondary)
+                                    }
+                                }
+                        }else{
+                            Text(data.title)
+                                .if{ content in
+                                    if #available(tvOS 26.0, *){
+                                        content
+                                            .foregroundStyle(.secondary)
+                                            .tint(.primary)
+                                    }else{
+                                        content
+                                            .foregroundStyle(textColor.secondary)
+                                    }
+                                }
+                        }
                     }else{
                         Text(value, format: format)
+                            .if{ content in
+                                if #available(tvOS 26.0, *){
+                                    content
+                                        .tint(.primary)
+                                }else{
+                                    content
+                                        .foregroundStyle(textColor)
+                                }
+                            }
                     }
 
                     Spacer()
@@ -157,6 +223,10 @@ struct SKIntFieldViewTVOS<F: ParseableFormatStyle>: View where F.FormatOutput ==
         }
     }
     
+    var textColor: Color{
+        return colorScheme == .dark ? .white : .black
+    }
+    
     init(value: Binding<Int>, defaultValue: Int = 0, format: F, prompt: Text? = nil, data: SKTextFieldData) {
         self._value = value
         self.defaultValue = defaultValue
@@ -173,10 +243,42 @@ struct SKIntFieldViewTVOS<F: ParseableFormatStyle>: View where F.FormatOutput ==
             }label:{
                 HStack{
                     if value == 0{
-                        Text(data.title)
-                            .foregroundStyle(.secondary)
+                        if let prompt{
+                            prompt
+                                .if{ content in
+                                    if #available(tvOS 26.0, *){
+                                        content
+                                            .foregroundStyle(.secondary)
+                                            .tint(.primary)
+                                    }else{
+                                        content
+                                            .foregroundStyle(textColor.secondary)
+                                    }
+                                }
+                        }else{
+                            Text(data.title)
+                                .if{ content in
+                                    if #available(tvOS 26.0, *){
+                                        content
+                                            .foregroundStyle(.secondary)
+                                            .tint(.primary)
+                                    }else{
+                                        content
+                                            .foregroundStyle(textColor.secondary)
+                                    }
+                                }
+                        }
                     }else{
                         Text(value, format: format)
+                            .if{ content in
+                                if #available(tvOS 26.0, *){
+                                    content
+                                        .tint(.primary)
+                                }else{
+                                    content
+                                        .foregroundStyle(textColor)
+                                }
+                            }
                     }
 
                     Spacer()

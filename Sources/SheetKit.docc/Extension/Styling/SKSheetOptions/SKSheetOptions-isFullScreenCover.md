@@ -17,27 +17,23 @@
     @AutomaticSeeAlso(disabled)
 }
 
-Option which changes the display on iOS, iPadOS, and tvOS from a card-based sheet to a full-screen sheet, and is designed for hiding content like welcome sheets so no background is shown.
+Changes the sheet presentation to a full-screen cover on iOS, iPadOS, and tvOS, ideal for immersive content like welcome screens, hiding the background.
 
 ## Overview
 
-The ``SKSheetOptions/isFullScreenCover(_:)`` option allows developers to transform a sheet from its default card-like presentation into a full-screen cover on iOS, iPadOS, and tvOS. This option is particularly useful for scenarios where a sheet needs to dominate the screen, such as welcome screens, onboarding flows, or critical alerts, effectively hiding the underlying content or background. The option accepts a Boolean value (`true` to enable full-screen cover, `false` to revert to the standard card presentation), providing flexibility in presentation style.
+The `SKSheetOptions/isFullScreenCover(_:)` option transforms a sheet’s default card-like presentation into a full-screen cover on iOS, iPadOS, and tvOS, making it ideal for scenarios requiring complete user focus, such as welcome screens, onboarding flows, or critical alerts. By setting this option to `true`, the sheet occupies the entire screen, eliminating the card overlay effect and obscuring the background content. When set to `false` (the default), the sheet retains its standard card-based presentation, allowing the background to remain partially visible.
 
-By setting ``isFullScreenCover(_:)`` to `true`, the sheet expands to occupy the entire screen, removing the card overlay effect and ensuring the user's focus remains on the sheet's content. This is ideal for immersive experiences or when the background context is irrelevant. On platforms like macOS, watchOS, and visionOS, this option has no effect, as their sheet presentations are window-based rather than card or full-screen covers. The default value is `false`, maintaining the traditional card-based sheet behavior.
-
-This option integrates with other `SheetKit` features, such as ``SKSheetOptions/alignment(_:)`` and ``SKSheetOptions/style(_:)``, to create a seamless and customizable full-screen experience. On iPadOS 26, enabling full-screen cover also adjusts the design to use full leading alignment for all content, enhancing readability and consistency across the larger screen.
+This option is particularly useful for creating immersive experiences where the underlying content is irrelevant, ensuring the user’s attention remains on the sheet’s content. On macOS, watchOS, and visionOS, this option has no effect due to their window-based or compact presentation models. The option integrates seamlessly with other `SheetKit` features, such as `SKSheetOptions/alignment(_:)` and `SKSheetOptions/style(_:)`, enabling a cohesive and customizable full-screen design. On iPadOS 26 and newer, enabling full-screen cover enforces leading alignment for all content, enhancing readability on larger screens.
 
 ### Platform-Specific Behavior
 
-- **iOS and iPadOS**: Changes the sheet from a card overlay to a full-screen cover, hiding the background. On iPadOS 26, full-screen cover enforces leading alignment for all content.
-- **tvOS**: Transforms the sheet into a full-screen cover, though on tvOS 18, there is no difference as sheets are already full-screen by default.
-- **macOS**: Has no effect, as macOS uses window-based sheets.
-- **watchOS**: Has no effect, as watchOS sheets are designed for compact displays and do not support full-screen transitions.
-- **visionOS**: Has no effect, as visionOS uses window-based sheets.
+- **iOS/iPadOS**: Transforms sheet to full-screen cover, hiding background. iPadOS 26+ enforces leading alignment.
+- **tvOS**: Applies full-screen cover; no effect on tvOS 18 as sheets are full-screen by default.
+- **macOS/watchOS/visionOS**: Ignored due to platform-specific presentation models.
 
 ## Example
 
-The following examples demonstrate the use of ``SKSheetOptions/isFullScreenCover(_:)`` with sheets containing only `SKHeaderImage`, `SKTitle`, and `SKDescription`. One example enables full-screen cover, while the other disables it, showing the difference in presentation. A `ContentView` is provided to test the sheets interactively within a SwiftUI application.
+The following examples demonstrate `SKSheetOptions/isFullScreenCover(_:)` with sheets containing `SKHeaderImage`, `SKTitle`, and `SKDescription`. One example enables full-screen cover, while the other uses the standard card presentation, illustrating the difference on iOS, iPadOS, and tvOS. A `ContentView` enables interactive testing.
 
 ```swift
 import SwiftUI
@@ -65,7 +61,7 @@ struct FullScreenCoverDisabledSheet: SKSheet {
         SKPage {
             SKHeaderImage(systemName: "apps.iphone")
             SKTitle("Regular Sheet")
-            SKDescription("This sheet is displayed as a standard sheet, not full screen.")
+            SKDescription("This sheet is displayed as a standard card-based sheet.")
         }
     }
 }
@@ -97,16 +93,16 @@ struct FullScreenCoverApp: App {
 }
 ```
 
-In these examples, `FullScreenCoverEnabledSheet` uses `.isFullScreenCover(true)` to display the sheet as a full-screen cover on iOS, iPadOS, and tvOS, with an iPhone icon indicating the full-screen mode. `FullScreenCoverDisabledSheet` uses `.isFullScreenCover(false)` to display the sheet as a standard card-based sheet, maintaining the same icon for consistency. The `ContentView` enables testing of both sheet types, highlighting the transition from card to full-screen presentation.
+In these examples, `FullScreenCoverEnabledSheet` uses `.isFullScreenCover(true)` to display as a full-screen cover on iOS, iPadOS, and tvOS, with an iPhone icon emphasizing the mode. `FullScreenCoverDisabledSheet` uses `.isFullScreenCover(false)` for a standard card-based sheet. The `ContentView` facilitates testing both presentations, highlighting the transition from card to full-screen.
 
 ## Design Images
 
 @TabNavigator {
     @Tab("iOS") {
-        On iOS, `isFullScreenCover(true)` changes the sheet from a card to a full-screen cover.
+        On iOS, the `isFullScreenCover` option transforms sheets into full-screen covers, creating an immersive experience that hides the background and focuses user attention on the sheet’s content. This is ideal for scenarios like onboarding or alerts, where the underlying app context is irrelevant. When set to `true`, the sheet occupies the entire iPhone screen, removing the card overlay effect. On iOS 26 and newer, full-screen covers align content to enhance readability, ensuring a polished and distraction-free presentation.
         @TabNavigator {
             @Tab("iOS 26 and newer") {
-                The sheet transitions from a card to a full-screen cover, with leading alignment recommended for larger screens.
+                For iOS 26 and newer, enabling `isFullScreenCover(true)` presents the sheet as a full-screen cover with recommended leading alignment, optimizing content layout for clarity and consistency. This modern design ensures that elements like `SKTitle` and `SKDescription` are visually cohesive, making it ideal for immersive experiences such as welcome screens or detailed forms on iPhones.
                 @Row(numberOfColumns: 2) {
                     @Column(size: 1) {
                         @Image(source: "Documentation-Styling-SKSheetOptions-isFullScreenCover-False-iOS26", alt: "Card Layout (False)") {
@@ -121,7 +117,7 @@ In these examples, `FullScreenCoverEnabledSheet` uses `.isFullScreenCover(true)`
                 }
             }
             @Tab("iOS 18 and older") {
-                The sheet changes from a card to a full-screen cover, maintaining the old design's balance.
+                On iOS 18 and earlier, `isFullScreenCover(true)` transforms the sheet into a full-screen cover, maintaining a balanced design consistent with older iOS aesthetics. While lacking the leading alignment enforcement of newer versions, it still provides a distraction-free experience, ideal for critical alerts or onboarding flows where the background must be hidden.
                 @Row(numberOfColumns: 2) {
                     @Column(size: 1) {
                         @Image(source: "Documentation-Styling-SKSheetOptions-isFullScreenCover-False-iOS18", alt: "Card Layout (False)") {
@@ -138,10 +134,10 @@ In these examples, `FullScreenCoverEnabledSheet` uses `.isFullScreenCover(true)`
         }
     }
     @Tab("iPadOS") {
-        On iPadOS, `isFullScreenCover(true)` transforms the sheet into a full-screen cover.
+        On iPadOS, `isFullScreenCover` enables sheets to transition from card-based to full-screen covers, leveraging the larger screen real estate for immersive presentations. This is particularly effective for onboarding sequences, tutorials, or modal dialogs that require complete user focus. When enabled, the sheet fills the iPad screen, hiding the background and ensuring content like `SKTitle` and `SKDescription` stands out, with iPadOS 26+ enforcing leading alignment for optimal readability.
         @TabNavigator {
             @Tab("iPadOS 26 and newer") {
-                The sheet becomes a full-screen cover with all content aligned to the leading edge for improved readability.
+                For iPadOS 26 and newer, `isFullScreenCover(true)` presents the sheet as a full-screen cover with all content aligned to the leading edge, enhancing readability on larger displays. This design choice ensures that text-heavy sheets, such as instructional or welcome screens, are presented clearly, making it easier for users to engage with content in a distraction-free environment.
                 @Row(numberOfColumns: 2) {
                     @Column(size: 1) {
                         @Image(source: "Documentation-Styling-SKSheetOptions-isFullScreenCover-False-iPadOS26", alt: "Card Layout (False)") {
@@ -156,7 +152,7 @@ In these examples, `FullScreenCoverEnabledSheet` uses `.isFullScreenCover(true)`
                 }
             }
             @Tab("iPadOS 18 and older") {
-                The sheet transitions from a card to a full-screen cover, preserving the old design.
+                On iPadOS 18 and earlier, `isFullScreenCover(true)` transforms the sheet into a full-screen cover, preserving the older design aesthetic. While it lacks the leading alignment enforcement of newer versions, it still ensures a focused, immersive experience, ideal for scenarios where the background content must be completely hidden, such as in onboarding or alert scenarios.
                 @Row(numberOfColumns: 2) {
                     @Column(size: 1) {
                         @Image(source: "Documentation-Styling-SKSheetOptions-isFullScreenCover-False-iPadOS18", alt: "Card Layout (False)") {
@@ -173,10 +169,10 @@ In these examples, `FullScreenCoverEnabledSheet` uses `.isFullScreenCover(true)`
         }
     }
     @Tab("tvOS") {
-        On tvOS, `isFullScreenCover(true)` ensures a full-screen presentation.
+        On tvOS, `isFullScreenCover` ensures sheets are presented as full-screen covers, aligning with the platform’s large-screen, remote-based navigation model. This option is particularly useful for creating focused, distraction-free interfaces for content like setup guides or alerts, ensuring users can engage with the sheet without background interference. On older tvOS versions, the effect may be minimal due to the default full-screen presentation.
         @TabNavigator {
             @Tab("tvOS 26 and newer") {
-                The sheet changes from a card to a full-screen cover, enhancing focus on content.
+                For tvOS 26 and newer, `isFullScreenCover(true)` ensures a full-screen presentation, enhancing focus on content like instructional text or media-rich sheets. This aligns with tvOS’s design for living room experiences, where clear, full-screen interfaces are critical for usability with remote navigation, ensuring content is prominent and accessible.
                 @Row(numberOfColumns: 2) {
                     @Column(size: 1) {
                         @Image(source: "Documentation-Styling-SKSheetOptions-isFullScreenCover-False-tvOS26", alt: "Card Layout (False)") {
@@ -191,7 +187,7 @@ In these examples, `FullScreenCoverEnabledSheet` uses `.isFullScreenCover(true)`
                 }
             }
             @Tab("tvOS 18 and older") {
-                No difference, as sheets are already full-screen by default.
+                On tvOS 18 and earlier, `isFullScreenCover(true)` has minimal impact as sheets are already presented full-screen by default. However, enabling this option ensures consistency with newer versions, maintaining a distraction-free experience for users interacting via remote, ideal for alerts or setup screens on older tvOS systems.
                 @Row(numberOfColumns: 2) {
                     @Column(size: 1) {
                         @Image(source: "Documentation-Styling-SKSheetOptions-isFullScreenCover-False-tvOS18", alt: "Full Screen (False)") {
@@ -214,3 +210,4 @@ In these examples, `FullScreenCoverEnabledSheet` uses `.isFullScreenCover(true)`
 - ``SKSheetOptions``
 - ``SKSheetable``
 - ``SKPage``
+- ``SwiftUICore/EnvironmentValues/skIsUsingFullScreenCover``

@@ -17,22 +17,29 @@
     @AutomaticSeeAlso(disabled)
 }
 
-An option to enable handoff functionality for a sheet, allowing it to trigger actions and be transferred to another device.
+Enables handoff functionality for a sheet, allowing its state and actions to be transferred to another Apple device.
 
 ## Overview
 
-The ``SKSheetOptions/isHandoffEnabled(_:)`` option enables handoff support for a sheet in the `SheetKit` framework, facilitating the transfer of the sheet's state and actions to another compatible Apple device (e.g., from iOS to macOS) when the user switches devices. This option is part of the ``SKSheetOptions`` set used within the ``SKSheetable`` protocol and is applied to sheets conforming to it. When set to `true`, it allows the sheet to participate in the Handoff ecosystem, ensuring a seamless user experience across all platforms. The default value is `false`, meaning handoff is disabled unless explicitly enabled.
+The `SKSheetOptions/isHandoffEnabled(_:)` option enables handoff support within the `SheetKit` framework, allowing a sheet’s state and actions to be seamlessly transferred across compatible Apple devices (e.g., from an iPhone to a Mac) via Apple’s Continuity feature. This option, part of the `SKSheetOptions` set, is applied to sheets conforming to the `SKSheetable` protocol. When set to `true`, it integrates the sheet into the Handoff ecosystem, ensuring a fluid user experience across platforms. By default, handoff is disabled (`false`), requiring explicit activation to enable this functionality.
+
+This option is particularly valuable for apps aiming to provide a consistent experience across Apple’s ecosystem, allowing users to start an action on one device and continue it on another. It integrates with other `SheetKit` features, such as `SKSheetOptions/alignment(_:)` and `SKSheetOptions/style(_:)`, to maintain a cohesive design while supporting cross-device continuity.
+
+### Platform-Specific Behavior
+
+- **iOS/iPadOS/macOS/watchOS/visionOS**: Supports handoff when enabled, requiring `NSUserActivityTypes` in `Info.plist` and proper `Scene` configuration.
+- **tvOS**: Supports handoff, but practical use is limited due to full-screen presentation and remote-based navigation.
 
 ## Example
 
-The following example demonstrates how to enable handoff for a sheet using the ``SKSheetOptions/isHandoffEnabled(_:)`` option within a custom `SKSheet` implementation:
+The following example demonstrates how to enable handoff for a sheet using the `SKSheetOptions/isHandoffEnabled(_:)` option within a custom `SKSheet` implementation:
 
 ```swift
 import SwiftUI
 import SheetKit
 
 struct ExampleSheet: SKSheet {
-    var id: String = "Example Sheet"
+    var id: String = "ExampleSheet"
     var options: Set<SKSheetOptions> = [.isHandoffEnabled(true)]
     
     var pages: [SKPage] {
@@ -43,13 +50,13 @@ struct ExampleSheet: SKSheet {
         }
     }
     
-    func sentData() -> [AnyHashable : Any] {
-        // To Do
+    func sentData() -> [AnyHashable: Any] {
+        // To Do: Implement data to send during handoff
         return [:]
     }
     
-    func loadData(sentData: [AnyHashable : Any]) {
-        // To Do
+    func loadData(sentData: [AnyHashable: Any]) {
+        // To Do: Implement data loading for handoff
     }
 }
 
@@ -64,13 +71,13 @@ struct ContentView: View {
 }
 ```
 
-In this example, the `ExampleSheet` struct conforms to `SKSheet` and sets `.isHandoffEnabled(true)` in its `options` property, enabling the sheet to be transferred to another device. The `pages` property defines a single `SKPage` with a header image, title, and description. The ``SKSheetable/sentData()`` and ``SKSheetable/loadData(sentData:)`` methods are included to handle data transfer during handoff (to be implemented). The `ContentView` uses ``SKSheetManager/show(sheet:)-3u5l1`` to display the sheet, leveraging the `id` defined in `ExampleSheet`. When the user initiates a handoff (e.g., via the Continuity feature), the sheet's state is preserved and resumed on the target device.
+In this example, the `ExampleSheet` struct conforms to `SKSheet` and enables handoff with `.isHandoffEnabled(true)` in its `options` property. The `pages` property defines a single `SKPage` with a header image, title, and description. The `sentData()` and `loadData(sentData:)` methods are placeholders for handling data transfer during handoff. The `ContentView` uses `SKSheetManager/show(sheet:)` to display the sheet, leveraging the `id` defined in `ExampleSheet`. When handoff is initiated (e.g., via Continuity), the sheet’s state is preserved and resumed on the target device.
 
 ## Additional Required Configuration
 
->Warning: Failure to add the `NSUserActivityTypes` entry with the correct ``handoffActivityType`` string in `Info.plist` and configurate `Scene` properly  will prevent handoff functionality from working properly.
+> Warning: Handoff functionality requires the `NSUserActivityTypes` entry with the correct `handoffActivityType` string in `Info.plist` and proper `Scene` configuration, or it will not work.
 
-The `ExampleSheet` must be specified in the ``SwiftUICore/View/skSheetManager(sheets:handoffActivityType:)`` modifier within the app's `Scene` configuration, and a `handoffActivityType` must be provided. For example:
+The `ExampleSheet` must be specified in the `SwiftUICore/View/skSheetManager(sheets:handoffActivityType:)` modifier within the app’s `Scene` configuration, with a `handoffActivityType` provided. For example:
 
 ```swift
 @main
@@ -84,9 +91,7 @@ struct AboutSheetKitApp: App {
 }
 ```
 
-
-
-Add `Info.plist` file includes the following key to enable handoff:
+The `Info.plist` file must include the following key to enable handoff:
 
 ```xml
 <key>NSUserActivityTypes</key>
@@ -95,8 +100,32 @@ Add `Info.plist` file includes the following key to enable handoff:
 </array>
 ```
 
+## Design Images
+
+@TabNavigator {
+    @Tab("iOS") {
+        On iOS, the `isHandoffEnabled` option integrates sheets into Apple’s Handoff ecosystem, allowing users to seamlessly transfer a sheet’s state from an iPhone to another compatible device, such as an iPad or Mac. This functionality is particularly useful for apps with interactive or data-driven sheets, enabling users to continue tasks like form editing or content viewing without interruption. Proper configuration, including `Info.plist` entries and `Scene` setup, is critical to ensure a smooth handoff experience tailored to iOS’s touch-driven interface.
+    }
+    @Tab("iPadOS") {
+        On iPadOS, `isHandoffEnabled` enables sheets to be transferred to other Apple devices, leveraging the larger screen real estate to maintain a consistent user experience. This is ideal for productivity apps where users might start a task on an iPad and continue on a Mac or iPhone. The option ensures that sheet content, such as forms or informational displays, remains accessible across devices, with proper configuration ensuring reliable state transfer in iPadOS’s multitasking environment.
+    }
+    @Tab("macOS") {
+        On macOS, `isHandoffEnabled` allows sheets to participate in the Handoff ecosystem, enabling users to transfer sheet interactions from a Mac to an iPhone, iPad, or other compatible device. This is particularly effective for desktop workflows involving detailed sheet content, such as settings panels or data entry forms, ensuring continuity across Apple’s ecosystem. Proper setup of `NSUserActivityTypes` and `Scene` configuration is essential for seamless operation on macOS’s window-based interface.
+    }
+    @Tab("watchOS") {
+        On watchOS, `isHandoffEnabled` supports transferring sheet states to other Apple devices, despite the compact nature of watchOS interfaces. This allows users to initiate quick interactions on an Apple Watch, such as viewing a notification or starting a form, and continue on a larger device like an iPhone or iPad. The option is optimized for watchOS’s glanceable displays, requiring careful configuration to ensure efficient data transfer within the constrained environment.
+    }
+    @Tab("visionOS") {
+        On visionOS, `isHandoffEnabled` enables sheets to be transferred across Apple devices, supporting continuity in immersive mixed reality environments. This allows users to start interacting with a sheet in a 3D space and seamlessly continue on an iPhone, iPad, or Mac. The option ensures that sheet content remains consistent across platforms, with proper configuration critical for maintaining state in visionOS’s unique spatial interface.
+    }
+    @Tab("tvOS") {
+        On tvOS, `isHandoffEnabled` supports handoff functionality, though its practical use is limited due to the full-screen, remote-based nature of tvOS interfaces. This option allows sheets to transfer their state to other devices, such as an iPhone or iPad, enabling users to continue tasks started on a television. Configuration of `NSUserActivityTypes` and `Scene` is necessary to ensure compatibility, despite the less frequent use case on tvOS.
+    }
+}
+
 ## See Also
 
 - ``SKSheetOptions``
 - ``SKSheetable``
 - ``SKSheet``
+- ``SwiftUICore/View/skSheetManager(sheets:handoffActivityType:)``

@@ -58,8 +58,6 @@ struct SKHighlightTVOS: View {
     var autoSecondaryTextColor: Color{
         if let skSecondaryColor{
             return skSecondaryColor
-        }else if let skPrimaryColor{
-            return skPrimaryColor.opacity(0.6)
         }else{
             if #available(iOS 17.0, *){
                 return .secondary

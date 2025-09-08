@@ -35,6 +35,7 @@ extension SKPage{
         case custom(light: Color, dark: Color)
         case list
         case form
+        case plain
     }
     
     public enum Style{

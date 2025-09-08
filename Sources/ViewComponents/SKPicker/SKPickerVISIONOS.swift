@@ -20,11 +20,7 @@ struct SKPickerVISIONOS<SelectionValue: Hashable, Content: View, HeaderContent: 
         if let skRowBackgroundColor{
             return skRowBackgroundColor
         }else{
-            if colorScheme == .dark{
-                return Color(red: 0.1647058824, green: 0.1647058824, blue: 0.1764705882)
-            }else{
-                return .white
-            }
+            return .black.opacity(0.4)
         }
     }
     
@@ -59,8 +55,8 @@ struct SKPickerVISIONOS<SelectionValue: Hashable, Content: View, HeaderContent: 
         .padding(.vertical, -1)
         .background(LinearGradient(
             colors: [
-                .black.opacity(0.4),
-                .black.opacity(0.3)
+                autoBackgroundColor,
+                autoBackgroundColor.opacity(0.75)
             ],
             startPoint: .top,
             endPoint: .bottom
@@ -70,7 +66,7 @@ struct SKPickerVISIONOS<SelectionValue: Hashable, Content: View, HeaderContent: 
             RoundedRectangle(cornerRadius: skRowShape ?? 12, style: .continuous)
                 .stroke(LinearGradient(
                     colors: [
-                        .black.opacity(0.4),
+                        autoBackgroundColor,
                         .white.opacity(0.3)
                     ],
                     startPoint: .top,

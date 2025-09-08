@@ -19,7 +19,7 @@ struct SKDatePickerVISIONOS: View {
         if let skRowBackgroundColor{
             return skRowBackgroundColor
         }else{
-            return .clear
+            return .black.opacity(0.4)
         }
     }
     
@@ -37,8 +37,8 @@ struct SKDatePickerVISIONOS: View {
         .padding(.vertical, -1)
         .background(LinearGradient(
             colors: [
-                .black.opacity(0.4),
-                .black.opacity(0.3)
+                autoBackgroundColor,
+                autoBackgroundColor.opacity(0.75)
             ],
             startPoint: .top,
             endPoint: .bottom
@@ -48,7 +48,7 @@ struct SKDatePickerVISIONOS: View {
             RoundedRectangle(cornerRadius: skRowShape ?? 12, style: .continuous)
                 .stroke(LinearGradient(
                     colors: [
-                        .black.opacity(0.4),
+                        autoBackgroundColor,
                         .white.opacity(0.3)
                     ],
                     startPoint: .top,
