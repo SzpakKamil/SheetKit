@@ -14,6 +14,7 @@ public enum SKSheetOptions: Identifiable, Hashable{
     case style(SKSheetStyle = .default)
     case presentationDents(dents: Set<PresentationDetent>, selection: Binding<PresentationDetent>? = nil)
     case accentColor(Color = .accentColor)
+    case dragIndicatorVisibility(Visibility = .hidden)
     case alignment(HorizontalAlignment? = nil)
     case rowBackground(Color? = nil)
     case rowShape(cornerRadius: CGFloat? = nil)
@@ -54,6 +55,8 @@ public enum SKSheetOptions: Identifiable, Hashable{
             12
         case .isFullScreenCover:
             13
+        case .dragIndicatorVisibility:
+            14
         }
     }
     
@@ -87,6 +90,8 @@ public enum SKSheetOptions: Identifiable, Hashable{
             bool
         case .isFullScreenCover(let bool):
             bool
+        case .dragIndicatorVisibility(let visibility):
+            visibility
         }
     }
     
@@ -119,6 +124,8 @@ public enum SKSheetOptions: Identifiable, Hashable{
         case .hideContinueButton(let bool):
             nil
         case .isFullScreenCover(let bool):
+            nil
+        case .dragIndicatorVisibility(let visibility):
             nil
         }
     }

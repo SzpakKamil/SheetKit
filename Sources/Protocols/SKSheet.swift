@@ -61,6 +61,7 @@ struct SKSheetProtocolView<Sheet: SKSheet>: View{
             .environment(\.skSecondaryColor, sheet.options.first{ $0.id == 11}?.value1 as? Color)
             .environment(\.skIsContinueButtonHidden, sheet.options.first{ $0.id == 12}?.value1 as? Bool ?? false)
             .environment(\.skIsUsingFullScreenCover, sheet.options.first{ $0.id == 13}?.value1 as? Bool ?? false)
+            .presentationDragIndicator(sheet.options.first{ $0.id == 14}?.value1 as? Visibility ?? .hidden)
 
     }
     
