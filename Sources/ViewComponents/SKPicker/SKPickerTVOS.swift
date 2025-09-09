@@ -12,6 +12,7 @@ struct SKPickerTVOS<SelectionValue: Hashable, Content: View, HeaderContent: View
     let type: SKComponentType = .field
     @Binding var selection: SelectionValue
     @Environment(\.skRowShape) var skRowShape
+    @Environment(\.skIsInSection) var skIsInSection
     @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
     @Environment(\.colorScheme) var colorScheme
     var data: SKPicker<SelectionValue, Content, HeaderContent, FooterContent>.Data
@@ -57,10 +58,10 @@ struct SKPickerTVOS<SelectionValue: Hashable, Content: View, HeaderContent: View
                 .if{ content in
                     if #available(tvOS 26.0, *){
                         content
-                            .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 50))
+                            .clipShape(RoundedRectangle(cornerRadius: skIsInSection ? 0 : skRowShape ?? 50))
                     }else{
                         content
-                            .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 12))
+                            .clipShape(RoundedRectangle(cornerRadius: skIsInSection ? 0 : skRowShape ?? 12))
                     }
                 }
             }
@@ -81,10 +82,10 @@ struct SKPickerTVOS<SelectionValue: Hashable, Content: View, HeaderContent: View
         .if{ content in
             if #available(tvOS 26.0, *){
                 content
-                    .buttonBorderShape(.roundedRectangle(radius: skRowShape ?? 50))
+                    .buttonBorderShape(.roundedRectangle(radius: skIsInSection ? 0 : skRowShape ?? 50))
             }else{
                 content
-                    .buttonBorderShape(.roundedRectangle(radius: skRowShape ?? 12))
+                    .buttonBorderShape(.roundedRectangle(radius: skIsInSection ? 0 : skRowShape ?? 12))
             }
         }
         .tint(autoBackgroundColor)

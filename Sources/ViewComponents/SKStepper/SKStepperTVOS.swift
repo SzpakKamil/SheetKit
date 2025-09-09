@@ -13,6 +13,7 @@ struct SKStepperTVOS<S: Strideable>: View, SKComponent {
     @Environment(\.colorScheme) var colorScheme
     let type: SKComponentType = .field
     @Environment(\.skRowShape) var skRowShape
+    @Environment(\.skIsInSection) var skIsInSection
     @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
     @Binding var value: S
     var data: SKStepper<S>.Data
@@ -64,10 +65,10 @@ struct SKStepperTVOS<S: Strideable>: View, SKComponent {
                 .if{ content in
                     if #available(tvOS 26.0, *){
                         content
-                            .buttonBorderShape(.roundedRectangle(radius: skRowShape ?? 50))
+                            .buttonBorderShape(.roundedRectangle(radius: skIsInSection ? 0 : skRowShape ?? 50))
                     }else{
                         content
-                            .buttonBorderShape(.roundedRectangle(radius: skRowShape ?? 12))
+                            .buttonBorderShape(.roundedRectangle(radius: skIsInSection ? 0 : skRowShape ?? 12))
                     }
                 }
                 .accessibilityLabel("Increment \(data.title)")
@@ -92,10 +93,10 @@ struct SKStepperTVOS<S: Strideable>: View, SKComponent {
                 .if{ content in
                     if #available(tvOS 26.0, *){
                         content
-                            .buttonBorderShape(.roundedRectangle(radius: skRowShape ?? 50))
+                            .buttonBorderShape(.roundedRectangle(radius: skIsInSection ? 0 : skRowShape ?? 50))
                     }else{
                         content
-                            .buttonBorderShape(.roundedRectangle(radius: skRowShape ?? 12))
+                            .buttonBorderShape(.roundedRectangle(radius: skIsInSection ? 0 : skRowShape ?? 12))
                     }
                 }
                 .accessibilityLabel("Decrement \(data.title)")
@@ -103,18 +104,17 @@ struct SKStepperTVOS<S: Strideable>: View, SKComponent {
             .scaleEffect(0.9)
         }
 
-        .padding(.trailing, 4)
         .if{ content in
             if #available(tvOS 26.0, *){
                 content
                     .padding(.leading, 22)
-                    .background(autoBackgroundColor, in: RoundedRectangle(cornerRadius: skRowShape ?? 50, style: .continuous))
+                    .background(autoBackgroundColor, in: RoundedRectangle(cornerRadius: skIsInSection ? 0 : skRowShape ?? 50, style: .continuous))
             }else{
                 content
                     .padding(.vertical, 22)
                     .padding(.leading, 32)
                     .padding(.trailing, -10)
-                    .background(autoBackgroundColor, in: RoundedRectangle(cornerRadius: skRowShape ?? 10, style: .continuous))
+                    .background(autoBackgroundColor, in: RoundedRectangle(cornerRadius: skIsInSection ? 0 : skRowShape ?? 10, style: .continuous))
             }
         }
     }

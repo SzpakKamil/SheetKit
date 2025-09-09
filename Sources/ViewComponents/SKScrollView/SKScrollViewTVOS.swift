@@ -42,6 +42,7 @@ struct SKScrollViewTVOS<Content: View>: View {
                 if pageStyle == .default{
                     ScrollView {
                         content()
+                            .padding(.bottom, toolbarHeight + 30)
                     }
                     .scrollBounceBehavior(.basedOnSize)
                 }else{

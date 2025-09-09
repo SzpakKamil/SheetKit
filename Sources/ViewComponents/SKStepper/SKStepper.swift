@@ -44,7 +44,7 @@ public struct SKStepper<S: Strideable>: View, SKComponent {
         #endif
     }
     
-    public init(title: String, value: Binding<S>, step: S.Stride = 1, range: ClosedRange<S>? = nil, textForValue: @escaping (S) -> String = { s in "\(s)" }) {
+    public init(_ title: String, value: Binding<S>, step: S.Stride = 1, range: ClosedRange<S>? = nil, textForValue: @escaping (S) -> String = { s in "\(s)" }) {
         self._value = value
         self.data = .init(title: title, range: range, step: step, textForValue: textForValue)
     }
@@ -55,7 +55,7 @@ public struct SKStepper<S: Strideable>: View, SKComponent {
 struct PreviewViewSKStepper: View {
     @State private var value = 0
     var body: some View{
-        SKStepper(title: "Test", value: $value, range: 0...100){ value in
+        SKStepper("Test", value: $value, range: 0...100){ value in
             if value == 0{
                 return "Zero"
             }else{
