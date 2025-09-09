@@ -21,11 +21,9 @@ Controls the visibility of the default close button in a sheet, styled with `SKN
 
 ## Overview
 
-The `SKSheetOptions/hideCloseButton(_:)` option in the `SheetKit` framework determines whether the default close button, styled with `SKNavigationButtonStyle`, is visible in a sheet conforming to the `SKSheetable` protocol, such as `SKSheetView` or custom `SKSheet` implementations. When set to `true`, the close button is hidden, requiring programmatic dismissal via `SKSheetManager`. When set to `false` (the default), the close button is visible, allowing users to dismiss the sheet manually.
+The `hideCloseButton(_:)` option in the `SheetKit` framework determines whether the default close button, styled with ``SKNavigationButtonStyle``, is visible in a sheet conforming to the `SKSheetable` protocol, such as ``SKSheetView`` or custom ``SKSheet`` implementations. When set to `true`, the close button is hidden, requiring programmatic dismissal via ``SKSheetManager``. When set to `false` (the default), the close button is visible, allowing users to dismiss the sheet manually.
 
 The close button is distinct from the back button, which navigates between pages in multi-page sheets and is always present across all platforms (iOS, iPadOS, macOS, watchOS, tvOS, visionOS). On macOS and tvOS, when `hideCloseButton(true)` is set, the back button is absent on the first page but appears in the close button’s position on subsequent pages, styled with `SKNavigationButtonStyle`. On iOS, iPadOS, watchOS, and visionOS, the close and back buttons are separate, with the back button appearing on all pages except the first for multi-page sheets, unaffected by this option.
-
-This option is ideal for scenarios requiring controlled dismissal, such as mandatory forms or tutorials, and is recommended to be used with `SKSheetOptions/interactiveDismissDisabled(_:)` for a consistent experience. It integrates with other `SheetKit` features, like `SKSheetOptions/alignment(_:)` and `SKSheetOptions/style(_:)`, for a cohesive design.
 
 ### Platform-Specific Behavior
 
@@ -33,7 +31,7 @@ This option is ideal for scenarios requiring controlled dismissal, such as manda
 - **macOS/tvOS**: Shows/hides the close button; when hidden, the back button replaces it on subsequent pages.
 - **All platforms**: Back button is always present for multi-page sheets, except on the first page.
 
-> Important: Use with `SKSheetOptions/interactiveDismissDisabled(_:)` to ensure a consistent dismissal experience.
+> Important: Use with ``SKSheetOptions/interactiveDismissDisabled(_:)`` to ensure a consistent dismissal experience.
 
 ## Example
 
@@ -96,7 +94,7 @@ struct SheetKitExampleApp:-java
 }
 ```
 
-In these examples, `VisibleCloseButtonSheet` uses `.hideCloseButton(false)` to display the close button, styled with `SKNavigationButtonStyle`. `HiddenCloseButtonSheet` uses `.hideCloseButton(true)`, requiring programmatic dismissal. The `ContentView` facilitates testing both configurations.
+In these examples, `VisibleCloseButtonSheet` uses `.hideCloseButton(false)` to display the close button, styled with ``SKNavigationButtonStyle``. `HiddenCloseButtonSheet` uses `.hideCloseButton(true)`, requiring programmatic dismissal. The `ContentView` facilitates testing both configurations.
 
 ## Design Images
 
@@ -137,7 +135,7 @@ In these examples, `VisibleCloseButtonSheet` uses `.hideCloseButton(false)` to d
         }
     }
     @Tab("iPadOS") {
-        On iPadOS, the `hideCloseButton` option manages the close button’s visibility in the top-right corner, styled with `SKNavigationButtonStyle`. This is crucial for larger screens, where clear dismissal options enhance usability in multitasking environments. Hiding the button ensures user engagement for critical content, such as tutorials or settings panels.
+        On iPadOS, the `hideCloseButton` option manages the close button’s visibility in the top-right corner, styled with ``SKNavigationButtonStyle``. This is crucial for larger screens, where clear dismissal options enhance usability in multitasking environments. Hiding the button ensures user engagement for critical content, such as tutorials or settings panels.
         @TabNavigator {
             @Tab("iPadOS 26 and Newer") {
                 For iPadOS 26 and newer, the close button is a clear liquid glass button with an `xmark` icon in the accent color, optimized for touch interactions. Setting `.hideCloseButton(true)` supports mandatory workflows, ensuring focus in modern iPadOS designs.
@@ -172,10 +170,10 @@ In these examples, `VisibleCloseButtonSheet` uses `.hideCloseButton(false)` to d
         }
     }
     @Tab("macOS") {
-        On macOS, the `hideCloseButton` option controls the close button’s visibility, styled with `SKNavigationButtonStyle`, affecting the back button on multi-page sheets when hidden. The back button is absent on the first page but replaces the close button on subsequent pages, with placement varying by `SKSheetStyle` (bottom for `default`, top for `compact`/`prominent`). This ensures controlled dismissal in window-based interfaces.
+        On macOS, the `hideCloseButton` option controls the close button’s visibility, styled with ``SKNavigationButtonStyle``, affecting the back button on multi-page sheets when hidden. The back button is absent on the first page but replaces the close button on subsequent pages, with placement varying by `SKSheetStyle` (bottom for `default`, top for `compact`/`prominent`). This ensures controlled dismissal in window-based interfaces.
         @TabNavigator {
             @Tab("macOS 26 and Newer") {
-                For macOS 26 and newer, the close button is a clear liquid glass capsule with primary color text (`default`, bottom) or a circular button with an accent color `xmark` icon (`compact`/`prominent`, top). Setting `.hideCloseButton(true)` removes it, with the back button appearing on subsequent pages for multi-page sheets.
+                For macOS 26 and newer, the close button is a clear liquid glass capsule with primary color text (`default`, bottom) or a circular button with an accent color `xmark` icon (``SKSheetStyle/compact``/``SKSheetStyle/prominent``, top). Setting `.hideCloseButton(true)` removes it, with the back button appearing on subsequent pages for multi-page sheets.
                 @TabNavigator {
                     @Tab("Default") {
                         The close/back button is a capsule with primary color text, minimum width of 100, placed at the bottom. Hiding it supports programmatic dismissal for critical tasks.

@@ -21,13 +21,13 @@ Controls the visibility of the default continue button in a sheet, styled with `
 
 ## Overview
 
-The `SKSheetOptions/hideContinueButton(_:)` option in the `SheetKit` framework determines whether the default continue button, styled with `SKPrimaryButtonStyle`, is displayed in a sheet conforming to the `SKSheetable` protocol, such as `SKSheetView` or custom `SKSheet` implementations. When set to `true` (the default), the continue button is hidden, requiring a manual toolbar primary button (e.g., via `SKToolbarItem` with `SKToolbarItemPlacement/primary`) for forward navigation in multi-page sheets. When set to `false`, the continue button is visible, enabling users to navigate to the next page seamlessly.
+The `hideContinueButton(_:)` option in the ``SheetKit`` framework determines whether the default continue button, styled with ``SKPrimaryButtonStyle``, is displayed in a sheet conforming to the `SKSheetable` protocol, such as ``SKSheetView`` or custom ``SKSheet`` implementations. When set to `true` (the default), the continue button is hidden, requiring a manual toolbar primary button (e.g., via ``SKToolbarItem`` with ``SKToolbarItemPlacement/primary``) for forward navigation in multi-page sheets. When set to `false`, the continue button is visible, enabling users to navigate to the next page seamlessly.
 
-This option is ideal for customizing navigation flows, allowing developers to either rely on the default continue button for simple progression or implement custom navigation controls for complex workflows. It integrates with other `SheetKit` features, such as `SKSheetOptions/alignment(_:)` and `SKSheetOptions/style(_:)`, to create a cohesive user experience. The button’s appearance varies by platform and OS version, adapting to platform-specific design guidelines for consistency.
+This option is ideal for customizing navigation flows, allowing developers to either rely on the default continue button for simple progression or implement custom navigation controls for complex workflows. It integrates with other ``SheetKit`` features, such as ``SKSheetOptions/alignment(_:)`` and ``SKSheetOptions/style(_:)``, to create a cohesive user experience. The button’s appearance varies by platform and OS version, adapting to platform-specific design guidelines for consistency.
 
 ### Platform-Specific Behavior
 
-- **iOS/iPadOS/tvOS**: Shows/hides the continue button in the toolbar, styled with `SKPrimaryButtonStyle`.
+- **iOS/iPadOS/tvOS**: Shows/hides a button with text at the bottom.
 - **macOS**: Shows/hides the continue button at the bottom right (default/compact) or bottom (prominent).
 - **watchOS**: Shows/hides a circular button with a system image at the bottom right.
 - **visionOS**: Shows/hides a capsule button with text at the bottom.
@@ -93,7 +93,7 @@ struct SheetKitExampleApp: App {
 }
 ```
 
-In these examples, `VisibleContinueButtonSheet` uses `.hideContinueButton(false)` to display the continue button, styled with `SKPrimaryButtonStyle`, for forward navigation. `HiddenContinueButtonSheet` uses `.hideContinueButton(true)`, requiring a manual toolbar button for navigation (not implemented here). The `ContentView` facilitates testing both configurations.
+In these examples, `VisibleContinueButtonSheet` uses `.hideContinueButton(false)` to display the continue button, styled with ``SKPrimaryButtonStyle``, for forward navigation. `HiddenContinueButtonSheet` uses `.hideContinueButton(true)`, requiring a manual toolbar button for navigation (not implemented here). The `ContentView` facilitates testing both configurations.
 
 ## Design Images
 
@@ -169,10 +169,10 @@ In these examples, `VisibleContinueButtonSheet` uses `.hideContinueButton(false)
         }
     }
     @Tab("macOS") {
-        On macOS, the `hideContinueButton` option controls the continue button’s visibility, placed at the bottom right (default/compact) or bottom (prominent) of the sheet, styled with `SKPrimaryButtonStyle`. This is key for desktop workflows, where clear navigation enhances user experience in window-based interfaces. Hiding the button supports custom navigation for complex tasks.
+        On macOS, the `hideContinueButton` option controls the continue button’s visibility, placed at the bottom right (``SKSheetStyle/default``/``SKSheetStyle/compact``) or bottom (``SKSheetStyle/prominent``) of the sheet, styled with ``SKPrimaryButtonStyle``. This is key for desktop workflows, where clear navigation enhances user experience in window-based interfaces. Hiding the button supports custom navigation for complex tasks.
         @TabNavigator {
             @Tab("macOS 26 and Newer") {
-                For macOS 26 and newer, the continue button is a capsule with white text, an accent color liquid glass background, and placement varying by style (bottom for `default`, top for `compact`/`prominent`). Setting `.hideContinueButton(true)` allows custom toolbar buttons, ideal for tailored navigation in settings or forms.
+                For macOS 26 and newer, the continue button is a capsule with white text, an accent color liquid glass background, and placement varying by style (bottom for `default`, top for ``SKSheetStyle/compact``/``SKSheetStyle/prominent``). Setting `.hideContinueButton(true)` allows custom toolbar buttons, ideal for tailored navigation in settings or forms.
                 @TabNavigator {
                     @Tab("Default") {
                         The continue button is a capsule with white text, minimum width of 100, placed at the bottom, enhancing navigation clarity. Hiding it supports custom controls for specific workflows.

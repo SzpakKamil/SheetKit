@@ -21,13 +21,13 @@ Controls the accent color of a sheet’s components, such as buttons, headers, a
 
 ## Overview
 
-The `SKSheetOptions/accentColor(_:)` option in the `SheetKit` framework customizes the accent color applied to components within a sheet conforming to the `SKSheetable` protocol, such as `SKSheet` or custom implementations. It accepts a `Color` value, where `.accentColor` applies the system’s default accent color, and custom values (e.g., `.red`, `.blue`) override it for thematic consistency. The default behavior uses the system accent color unless a custom color is specified.
+The `accentColor(_:)` option in the ``SheetKit`` framework customizes the accent color applied to components within a sheet conforming to the ``SKSheetable`` protocol, such as ``SKSheet`` or custom implementations. It accepts a `Color` value, where `.accentColor` applies the system’s default accent color, and custom values (e.g., `.red`, `.blue`) override it for thematic consistency. The default behavior uses the system accent color unless a custom color is specified.
 
-This option influences the visual styling of interactive elements like buttons (styled with `SKPrimaryButtonStyle` or `SKNavigationButtonStyle`), `SKHeaderImage`, `SKHighlight`, and other components, ensuring a cohesive look across the sheet. It is particularly useful for branding, accessibility (e.g., high-contrast colors), or aligning with platform aesthetics. The option integrates with other `SheetKit` features, such as `SKSheetOptions/alignment(_:)` and `SKSheetOptions/style(_:)`, to create visually unified designs.
+This option influences the visual styling of interactive elements like buttons, ``SKHeaderImage``, ``SKHighlight``, and other components, ensuring a cohesive look across the sheet. It is particularly useful for branding, accessibility (e.g., high-contrast colors), or aligning with platform aesthetics. The option integrates with other `SheetKit` features, such as ``alignment(_:)`` and ``style(_:)``, to create visually unified designs.
 
 ### Platform-Specific Behavior
 
-- **iOS/iPadOS/tvOS/watchOS/visionOS/macOS**: Applies the specified accent color to buttons, `SKHeaderImage`, `SKHighlight`, and other styled components.
+- **iOS/iPadOS/tvOS/watchOS/visionOS/macOS**: Applies the specified accent color to buttons, ``SKHeaderImage``, ``SKHighlight``, and other styled components.
 - **Default**: Uses the system accent color (`.accentColor`) unless overridden.
 - **Custom Colors**: Overrides system accent color for all styled components.
 
@@ -94,7 +94,7 @@ struct SheetKitExampleApp: App {
 }
 ```
 
-In these examples, `DefaultAccentColorSheet` uses `.accentColor(.accentColor)` to apply the system’s default accent color to components like buttons, `SKHeaderImage`, and `SKHighlight`. `CustomAccentColorSheet` uses `.accentColor(.red)` to apply a custom red accent color, creating a distinct visual theme. The `ContentView` facilitates testing both configurations.
+In these examples, `DefaultAccentColorSheet` uses `.accentColor(.accentColor)` to apply the system’s default accent color to components like buttons, ``SKHeaderImage``, and ``SKHighlight``. `CustomAccentColorSheet` uses `.accentColor(.red)` to apply a custom red accent color, creating a distinct visual theme. The `ContentView` facilitates testing both configurations.
 
 ## Design Images
 

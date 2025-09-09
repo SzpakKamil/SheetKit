@@ -51,7 +51,6 @@ struct SKSheetProtocolView<Sheet: SKSheet>: View{
             .environment(\.skSheetInteractiveDismissDisabled, sheet.options.first{ $0.id == 2}?.value1 as? Bool ?? false)
             .environment(\.skSheetStyle, sheet.options.first{ $0.id == 3}?.value1 as? SKSheetStyle ?? .default)
             .environment(\.skSheetStyleDents, sheet.options.first{ $0.id == 4}?.value1 as? Set<PresentationDetent>)
-            .environment(\.skSheetStyleDentsSelection, sheet.options.first{ $0.id == 4}?.value2 as? Binding<PresentationDetent>)
             .environment(\.skAccentColor, sheet.options.first{ $0.id == 5}?.value1 as? Color ?? color)
             .environment(\.skAlignment, sheet.options.first{ $0.id == 6}?.value1 as? HorizontalAlignment)
             .environment(\.skRowBackgroundColor, sheet.options.first{ $0.id == 7}?.value1 as? Color)

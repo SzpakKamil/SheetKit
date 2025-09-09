@@ -21,9 +21,9 @@ Enables handoff functionality for a sheet, allowing its state and actions to be 
 
 ## Overview
 
-The `SKSheetOptions/isHandoffEnabled(_:)` option enables handoff support within the `SheetKit` framework, allowing a sheet’s state and actions to be seamlessly transferred across compatible Apple devices (e.g., from an iPhone to a Mac) via Apple’s Continuity feature. This option, part of the `SKSheetOptions` set, is applied to sheets conforming to the `SKSheetable` protocol. When set to `true`, it integrates the sheet into the Handoff ecosystem, ensuring a fluid user experience across platforms. By default, handoff is disabled (`false`), requiring explicit activation to enable this functionality.
+The `isHandoffEnabled(_:)` option enables handoff support within the ``SheetKit`` framework, allowing a sheet’s state and actions to be seamlessly transferred across compatible Apple devices (e.g., from an iPhone to a Mac) via Apple’s Continuity feature. This option, part of the ``SKSheetOptions`` set, is applied to sheets conforming to the ``SKSheetable`` protocol. When set to `true`, it integrates the sheet into the Handoff ecosystem, ensuring a fluid user experience across platforms. By default, handoff is disabled (`false`), requiring explicit activation to enable this functionality.
 
-This option is particularly valuable for apps aiming to provide a consistent experience across Apple’s ecosystem, allowing users to start an action on one device and continue it on another. It integrates with other `SheetKit` features, such as `SKSheetOptions/alignment(_:)` and `SKSheetOptions/style(_:)`, to maintain a cohesive design while supporting cross-device continuity.
+This option is particularly valuable for apps aiming to provide a consistent experience across Apple’s ecosystem, allowing users to start an action on one device and continue it on another. It integrates with other `SheetKit` features, such as ``alignment(_:)`` and ``style(_:)``, to maintain a cohesive design while supporting cross-device continuity.
 
 ### Platform-Specific Behavior
 
@@ -32,7 +32,7 @@ This option is particularly valuable for apps aiming to provide a consistent exp
 
 ## Example
 
-The following example demonstrates how to enable handoff for a sheet using the `SKSheetOptions/isHandoffEnabled(_:)` option within a custom `SKSheet` implementation:
+The following example demonstrates how to enable handoff for a sheet using the `isHandoffEnabled(_:)` option within a custom ``SKSheet`` implementation:
 
 ```swift
 import SwiftUI
@@ -71,13 +71,13 @@ struct ContentView: View {
 }
 ```
 
-In this example, the `ExampleSheet` struct conforms to `SKSheet` and enables handoff with `.isHandoffEnabled(true)` in its `options` property. The `pages` property defines a single `SKPage` with a header image, title, and description. The `sentData()` and `loadData(sentData:)` methods are placeholders for handling data transfer during handoff. The `ContentView` uses `SKSheetManager/show(sheet:)` to display the sheet, leveraging the `id` defined in `ExampleSheet`. When handoff is initiated (e.g., via Continuity), the sheet’s state is preserved and resumed on the target device.
+In this example, the `ExampleSheet` struct conforms to `SKSheet` and enables handoff with `.isHandoffEnabled(true)` in its `options` property. The `pages` property defines a single ``SKPage`` with a header image, title, and description. The ``SKSheetable/sentData()`` and ``SKSheetable/loadData(sentData:)`` methods are placeholders for handling data transfer during handoff. The `ContentView` uses ``SKSheetManager/show(sheet:)`` to display the sheet, leveraging the `id` defined in `ExampleSheet`. When handoff is initiated (e.g., via Continuity), the sheet’s state is preserved and resumed on the target device.
 
 ## Additional Required Configuration
 
 > Warning: Handoff functionality requires the `NSUserActivityTypes` entry with the correct `handoffActivityType` string in `Info.plist` and proper `Scene` configuration, or it will not work.
 
-The `ExampleSheet` must be specified in the `SwiftUICore/View/skSheetManager(sheets:handoffActivityType:)` modifier within the app’s `Scene` configuration, with a `handoffActivityType` provided. For example:
+The `ExampleSheet` must be specified in the ``SwiftUICore/View/skSheetManager(sheets:handoffActivityType:)`` modifier within the app’s `Scene` configuration, with a `handoffActivityType` provided. For example:
 
 ```swift
 @main

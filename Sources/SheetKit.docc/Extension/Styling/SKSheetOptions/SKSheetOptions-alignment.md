@@ -17,23 +17,17 @@
     @AutomaticSeeAlso(disabled)
 }
 
-Controls the alignment of a sheet’s components, such as `SKHeaderImage`, `SKTitle`, `SKDescription`, and `SKHighlight`.
+Controls the alignment of a sheet’s components.
 
 ## Overview
 
-The `SKSheetOptions/alignment(_:)` option in the `SheetKit` framework provides precise control over the horizontal alignment of all components within a sheet conforming to the `SKSheetable` protocol, such as `SKSheet` or custom implementations. It accepts an alignment value—`.leading`, `.center`, `.trailing`, or `nil`—where `.leading` aligns content to the left, `.center` positions it centrally, `.trailing` shifts it to the right, and `nil` (the default) allows components to adopt their intrinsic alignments (e.g., centered images, leading text). This option affects the layout of `SKHeaderImage`, `SKTitle`, `SKDescription`, and `SKHighlight`, enabling developers to tailor the visual presentation to specific design or cultural needs, such as right-to-left layouts for certain languages.
+The ``alignment(_:)`` option in the ``SheetKit`` framework provides precise control over the horizontal alignment of all components within a sheet conforming to the ``SKSheetable`` protocol, such as ``SKSheet`` or custom implementations. It accepts an alignment value `.leading`, `.center`, `.trailing`, or `nil` `.leading` aligns content to the left, `.center` positions it centrally, `.trailing` shifts it to the right, and `nil` (the default) allows components to adopt their intrinsic alignments (e.g., centered images, leading text). This option affects the layout of ``SKHeaderImage``, ``SKTitle``, ``SKDescription``, and ``SKHighlight``, enabling developers to tailor the visual presentation to specific design or cultural needs, such as right-to-left layouts for certain languages.
 
-For `SKTitle` and `SKDescription`, the option adjusts text alignment, ensuring consistent positioning. For `SKHeaderImage`, it repositions the image horizontally within the sheet. For `SKHighlight`, the alignment influences the order of elements: `.leading` and `.center` place the image before the text and description, while `.trailing` places the text first, followed by the image. This flexibility makes `alignment(_:)` ideal for creating visually cohesive sheets, enhancing readability and user experience across diverse use cases, such as onboarding, forms, or localized interfaces. It integrates seamlessly with other `SheetKit` options, like `SKSheetOptions/style(_:)` and `SKSheetOptions/isFullScreenCover(_:)`, for comprehensive design control.
-
-### Platform-Specific Behavior
-
-- **iOS/iPadOS/tvOS/watchOS/visionOS**: Aligns components (text, images, highlights) to `.leading`, `.center`, `.trailing`, or default (`nil`).
-- **macOS**: Aligns components based on style (`default`, `compact`, `prominent`), with placement varying by version.
-- **All platforms**: `SKHighlight` image precedes text for `.leading`/`.center`, follows text for `.trailing`.
+For ``SKTitle`` and ``SKDescription``, the option adjusts text alignment, ensuring consistent positioning. For ``SKHeaderImage``, it repositions the image horizontally within the sheet. For ``SKHighlight``, the alignment influences the order of elements: `.leading` and `.center` place the image before the text and description, while `.trailing` places the text first, followed by the image. This flexibility makes ``alignment(_:)`` ideal for creating visually cohesive sheets, enhancing readability and user experience across diverse use cases, such as onboarding, forms, or localized interfaces. 
 
 ## Example
 
-The following examples demonstrate sheets with different alignment options (`.leading`, `.center`, `.trailing`, and `nil`) to illustrate their impact on component layout. Each sheet contains a single page with `SKHeaderImage`, `SKTitle`, `SKDescription`, and `SKHighlight`. A `ContentView` enables interactive testing within a SwiftUI application.
+The following examples demonstrate sheets with different alignment options to illustrate their impact on component layout. Each sheet contains a single page with ``SKHeaderImage``, ``SKTitle``, ``SKDescription``, and ``SKHighlight``. A `ContentView` enables interactive testing within a SwiftUI application.
 
 ```swift
 import SwiftUI
@@ -128,7 +122,7 @@ struct ExampleAlignmentApp: App {
 }
 ```
 
-In these examples, `LeadingAlignmentSheet` aligns content to the left with `.alignment(.leading)`, placing the `SKHighlight` image before text. `CenterAlignmentSheet` centers content with `.alignment(.center)`, maintaining the image-before-text order for `SKHighlight`. `TrailingAlignmentSheet` aligns content to the right with `.alignment(.trailing)`, with `SKHighlight` text preceding the image. `DefaultAlignmentSheet` uses `.alignment(nil)` for default component alignments. The `ContentView` enables interactive testing of each alignment.
+In these examples, `LeadingAlignmentSheet` aligns content to the left with `.alignment(.leading)`, placing the `SKHighlight` image before text. `CenterAlignmentSheet` centers content with `.alignment(.center)`, maintaining the image-before-text order for ``SKHighlight``. `TrailingAlignmentSheet` aligns content to the right with `.alignment(.trailing)`, with ``SKHighlight`` text preceding the image. `DefaultAlignmentSheet` uses `.alignment(nil)` for default component alignments. The `ContentView` enables interactive testing of each alignment.
 
 ## Design Images
 
@@ -244,7 +238,7 @@ In these examples, `LeadingAlignmentSheet` aligns content to the left with `.ali
         }
     }
     @Tab("macOS") {
-        On macOS, the `alignment(_:)` option varies by sheet style (`default`, `compact`, `prominent`), enhancing layouts for desktop workflows. Custom alignments support multi-monitor setups or full-screen applications, ensuring content clarity and accessibility in window-based interfaces.
+        On macOS, the `alignment(_:)` option varies by sheet style (``SKSheetStyle/default``, ``SKSheetStyle/compact``, ``SKSheetStyle/prominent``), enhancing layouts for desktop workflows. Custom alignments support multi-monitor setups or full-screen applications, ensuring content clarity and accessibility in window-based interfaces.
         @TabNavigator {
             @Tab("macOS 26 and Newer") {
                 For macOS 26 and newer, alignment adapts to sheet style, with leading alignment recommended for consistent content flow across platforms. Center alignment is ideal for prominent designs, while trailing alignment supports localized layouts. Default alignment balances component-specific positioning.

@@ -1,4 +1,4 @@
-# ``SheetKit/SKSheetOptions/isFullScreenCover(_:)``
+# ``SheetKit/isFullScreenCover(_:)``
 
 @Metadata {
     @SupportedLanguage(swift)
@@ -21,9 +21,9 @@ Changes the sheet presentation to a full-screen cover on iOS, iPadOS, and tvOS, 
 
 ## Overview
 
-The `SKSheetOptions/isFullScreenCover(_:)` option transforms a sheet’s default card-like presentation into a full-screen cover on iOS, iPadOS, and tvOS, making it ideal for scenarios requiring complete user focus, such as welcome screens, onboarding flows, or critical alerts. By setting this option to `true`, the sheet occupies the entire screen, eliminating the card overlay effect and obscuring the background content. When set to `false` (the default), the sheet retains its standard card-based presentation, allowing the background to remain partially visible.
+The `isFullScreenCover(_:)` option transforms a sheet’s default card-like presentation into a full-screen cover on iOS, iPadOS, and tvOS, making it ideal for scenarios requiring complete user focus, such as welcome screens, onboarding flows, or critical alerts. By setting this option to `true`, the sheet occupies the entire screen, eliminating the card overlay effect and obscuring the background content. When set to `false` (the default), the sheet retains its standard card-based presentation, allowing the background to remain partially visible.
 
-This option is particularly useful for creating immersive experiences where the underlying content is irrelevant, ensuring the user’s attention remains on the sheet’s content. On macOS, watchOS, and visionOS, this option has no effect due to their window-based or compact presentation models. The option integrates seamlessly with other `SheetKit` features, such as `SKSheetOptions/alignment(_:)` and `SKSheetOptions/style(_:)`, enabling a cohesive and customizable full-screen design. On iPadOS 26 and newer, enabling full-screen cover enforces leading alignment for all content, enhancing readability on larger screens.
+This option is particularly useful for creating immersive experiences where the underlying content is irrelevant, ensuring the user’s attention remains on the sheet’s content. On macOS, watchOS, and visionOS, this option has no effect due to their window-based or compact presentation models. On iPadOS 26 and newer, enabling full-screen cover enforces leading alignment for all content, enhancing readability on larger screens.
 
 ### Platform-Specific Behavior
 
@@ -33,7 +33,7 @@ This option is particularly useful for creating immersive experiences where the 
 
 ## Example
 
-The following examples demonstrate `SKSheetOptions/isFullScreenCover(_:)` with sheets containing `SKHeaderImage`, `SKTitle`, and `SKDescription`. One example enables full-screen cover, while the other uses the standard card presentation, illustrating the difference on iOS, iPadOS, and tvOS. A `ContentView` enables interactive testing.
+The following examples demonstrate `isFullScreenCover(_:)` with sheets containing `SKHeaderImage`, `SKTitle`, and `SKDescription`. One example enables full-screen cover, while the other uses the standard card presentation, illustrating the difference on iOS, iPadOS, and tvOS. A `ContentView` enables interactive testing.
 
 ```swift
 import SwiftUI

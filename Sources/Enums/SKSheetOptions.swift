@@ -12,9 +12,9 @@ public enum SKSheetOptions: Identifiable, Hashable{
     case hideCloseButton(Bool = true)
     case interactiveDismissDisabled(Bool = true)
     case style(SKSheetStyle = .default)
-    case presentationDents(dents: Set<PresentationDetent>, selection: Binding<PresentationDetent>? = nil)
+    case presentationDents(_ dents: Set<PresentationDetent>)
     case accentColor(Color = .accentColor)
-    case dragIndicatorVisibility(Visibility = .hidden)
+    case presentationDragIndicator(Visibility = .hidden)
     case alignment(HorizontalAlignment? = nil)
     case rowBackground(Color? = nil)
     case rowShape(cornerRadius: CGFloat? = nil)
@@ -55,7 +55,7 @@ public enum SKSheetOptions: Identifiable, Hashable{
             12
         case .isFullScreenCover:
             13
-        case .dragIndicatorVisibility:
+        case .presentationDragIndicator:
             14
         }
     }
@@ -70,7 +70,7 @@ public enum SKSheetOptions: Identifiable, Hashable{
             bool
         case .style(let sKSheetStyle):
             sKSheetStyle
-        case .presentationDents(let dents, let selection):
+        case .presentationDents(let dents):
             dents
         case .accentColor(let color):
             color
@@ -90,46 +90,10 @@ public enum SKSheetOptions: Identifiable, Hashable{
             bool
         case .isFullScreenCover(let bool):
             bool
-        case .dragIndicatorVisibility(let visibility):
+        case .presentationDragIndicator(let visibility):
             visibility
         }
     }
-    
-    var value2: Any? {
-        switch self {
-        case .isHandoffEnabled(let bool):
-            nil
-        case .hideCloseButton(let bool):
-            nil
-        case .interactiveDismissDisabled(let bool):
-            nil
-        case .style(let sKSheetStyle):
-            nil
-        case .presentationDents(let dents, let selection):
-            selection
-        case .accentColor(let color):
-            nil
-        case .alignment(let horizontalAlignment):
-            nil
-        case .rowBackground(let color):
-            nil
-        case .rowShape(let cornerRadius):
-            nil
-        case .rowSpacing(let spacing):
-            nil
-        case .primaryTextColor(let color):
-            nil
-        case .secondaryTextColor(let color):
-            nil
-        case .hideContinueButton(let bool):
-            nil
-        case .isFullScreenCover(let bool):
-            nil
-        case .dragIndicatorVisibility(let visibility):
-            nil
-        }
-    }
-    
     
     @_documentation(visibility: internal)
     public func hash(into hasher: inout Hasher) {

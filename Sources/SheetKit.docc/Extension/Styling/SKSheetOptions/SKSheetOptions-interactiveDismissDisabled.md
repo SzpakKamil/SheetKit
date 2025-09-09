@@ -21,9 +21,9 @@ Disables interactive dismissal gestures or actions for sheets, ensuring controll
 
 ## Overview
 
-The `SKSheetOptions/interactiveDismissDisabled(_:)` option enables developers to prevent users from dismissing a sheet through interactive gestures or standard keyboard shortcuts, enhancing control over user interactions for sheets conforming to the `SKSheetable` protocol. When set to `true`, this option disables platform-specific dismissal mechanisms, such as swipe-down gestures on iOS and iPadOS or the escape key on macOS, ensuring the sheet remains on-screen until an explicit action (e.g., a button tap) is taken. When set to `false` (the default), interactive dismissal is enabled, allowing natural dismissal behaviors.
+The `interactiveDismissDisabled(_:)` option enables developers to prevent users from dismissing a sheet through interactive gestures or standard keyboard shortcuts, enhancing control over user interactions for sheets conforming to the `SKSheetable` protocol. When set to `true`, this option disables platform-specific dismissal mechanisms, such as swipe-down gestures on iOS and iPadOS or the escape key on macOS, ensuring the sheet remains on-screen until an explicit action (e.g., a button tap) is taken. When set to `false` (the default), interactive dismissal is enabled, allowing natural dismissal behaviors.
 
-This option is ideal for scenarios requiring user engagement, such as critical alerts, mandatory forms, or sequential tutorials, where accidental dismissal could disrupt the intended flow. On platforms like tvOS, watchOS, and visionOS, where interactive dismissal is not typically applicable, this option has no effect unless future updates introduce new dismissal behaviors. It integrates seamlessly with other `SheetKit` features, like `SKSheetOptions/alignment(_:)` and `SKSheetOptions/style(_:)`, and is recommended to be used with `SKSheetOptions/hideCloseButton(_:)` for a consistent experience.
+This option is ideal for scenarios requiring user engagement, such as critical alerts, mandatory forms, or sequential tutorials, where accidental dismissal could disrupt the intended flow. On platforms like tvOS, watchOS, and visionOS, where interactive dismissal is not typically applicable, this option has no effect unless future updates introduce new dismissal behaviors.
 
 ### Platform-Specific Behavior
 
@@ -31,7 +31,7 @@ This option is ideal for scenarios requiring user engagement, such as critical a
 - **macOS**: Disables escape key dismissal.
 - **tvOS/watchOS/visionOS**: No effect, as interactive dismissal is not applicable.
 
-> Important: Use with `SKSheetOptions/hideCloseButton(_:)` for a consistent user experience when disabling interactive dismissal.
+> Important: Use with ``SKSheetOptions/hideCloseButton(_:)`` for a consistent user experience when disabling interactive dismissal.
 
 ## Example
 

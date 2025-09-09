@@ -21,11 +21,11 @@ Customizes the background color of rows containing interactive components.
 
 ## Overview
 
-The `SKSheetOptions/rowBackground(_:)` option in the `SheetKit` framework allows developers to set the background color for rows containing interactive components (``SKTextField``, ``SKPicker``, ``SKStepper``, ``SKDatePicker``) within sheets conforming to the ``SKSheetable`` protocol, such as `SKSheet` or custom implementations. It accepts an optional `Color` parameter: `nil` or `.rowBackground()` applies the system’s default background color, while a custom color (e.g., `.red.opacity(0.8)`) enhances visibility, branding, or visual hierarchy. This option is ideal for highlighting interactive elements, improving accessibility, or aligning with app aesthetics.
+The `rowBackground(_:)` option in the ``SheetKit`` framework allows developers to set the background color for rows containing interactive components (``SKTextField``, ``SKPicker``, ``SKStepper``, ``SKDatePicker``) within sheets conforming to the ``SKSheetable`` protocol, such as ``SKSheet`` or custom implementations. It accepts an optional `Color` parameter: `nil` or `.rowBackground()` applies the system’s default background color, while a custom color (e.g., `.red.opacity(0.8)`) enhances visibility, branding, or visual hierarchy. This option is ideal for highlighting interactive elements, improving accessibility, or aligning with app aesthetics.
 
 ### Platform-Specific Behavior
 
-- **iOS/iPadOS/tvOS/watchOS/visionOS/macOS**: Applies the specified or default background color to rows containing `SKTextField`, `SKPicker`, `SKStepper`, and `SKDatePicker`.
+- **iOS/iPadOS/tvOS/watchOS/visionOS/macOS**: Applies the specified or default background color to rows containing ``SKTextField``, ``SKPicker``, ``SKStepper``, and ``SKDatePicker``.
 - **Default**: Uses the system’s default row background color (`.rowBackground()`).
 - **Custom Colors**: Overrides the default with a specified color, with optional opacity for visual effects.
 
