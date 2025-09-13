@@ -71,7 +71,10 @@ struct SKStepperTVOS<S: Strideable>: View, SKComponent {
                             .buttonBorderShape(.roundedRectangle(radius: skIsInSection ? 0 : skRowShape ?? 12))
                     }
                 }
-                .accessibilityLabel("Increment \(data.title)")
+                .accessibilityElement(children: .combine)
+                .accessibilityLabel(SKTranslation.SKStepper.increment.value)
+                .accessibilityValue(data.textForValue(value))
+                .accessibilityAddTraits(.isButton)
                 
                 Button{
                     let newValue = value.advanced(by: -data.step)
@@ -80,7 +83,6 @@ struct SKStepperTVOS<S: Strideable>: View, SKComponent {
                     }else{
                         value = newValue
                     }
-
                 }label:{
                     Image(systemName: "minus")
                         .frame(width: 20, height: 20)
@@ -99,11 +101,14 @@ struct SKStepperTVOS<S: Strideable>: View, SKComponent {
                             .buttonBorderShape(.roundedRectangle(radius: skIsInSection ? 0 : skRowShape ?? 12))
                     }
                 }
-                .accessibilityLabel("Decrement \(data.title)")
+                .accessibilityElement(children: .combine)
+                .accessibilityLabel(SKTranslation.SKStepper.decrement.value)
+                .accessibilityValue(data.textForValue(value))
+                .accessibilityAddTraits(.isButton)
+            
             }
             .scaleEffect(0.9)
         }
-
         .if{ content in
             if #available(tvOS 26.0, *){
                 content
@@ -125,9 +130,4 @@ struct SKStepperTVOS<S: Strideable>: View, SKComponent {
     }
 }
 
-#if DEBUG
-#Preview {
-    PreviewViewSKStepper()
-}
-#endif
 #endif

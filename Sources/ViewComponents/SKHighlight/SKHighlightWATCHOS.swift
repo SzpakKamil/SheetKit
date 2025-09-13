@@ -17,6 +17,7 @@ struct SKHighlightWATCHOS: View {
             SKTitle(data.title)
             SKDescription(data.description)
         }
+        .accessibilityElement(children: .combine)
     }
     
     init(data: SKHighlight.Data) {
@@ -24,11 +25,4 @@ struct SKHighlightWATCHOS: View {
     }
 }
 
-#endif
-
-
-#if DEBUG
-#Preview {
-    PreviewViewSKHighlight()
-}
 #endif

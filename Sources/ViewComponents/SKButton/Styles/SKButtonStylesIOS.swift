@@ -134,9 +134,4 @@ struct SKNavigationButtonStyleIOS: ButtonStyle {
     }
 }
 
-#if DEBUG
-#Preview{
-    PreviewViewSKButton()
-}
-#endif
 #endif

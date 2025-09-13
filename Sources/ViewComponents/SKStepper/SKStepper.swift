@@ -49,26 +49,3 @@ public struct SKStepper<S: Strideable>: View, SKComponent {
         self.data = .init(title: title, range: range, step: step, textForValue: textForValue)
     }
 }
-
-
-#if DEBUG
-struct PreviewViewSKStepper: View {
-    @State private var value = 0
-    var body: some View{
-        SKStepper("Test", value: $value, range: 0...100){ value in
-            if value == 0{
-                return "Zero"
-            }else{
-                return "\(value)"
-            }
-        }
-        #if os(iOS)
-        .skRowBackground(.red)
-        #endif
-    }
-}
-
-#Preview {
-    PreviewViewSKStepper()
-}
-#endif

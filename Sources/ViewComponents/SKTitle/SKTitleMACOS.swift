@@ -82,9 +82,3 @@ struct SKTitleMACOS: View {
     }
 }
 #endif
-
-#if DEBUG
-#Preview {
-    PreviewViewSKTitle()
-}
-#endif

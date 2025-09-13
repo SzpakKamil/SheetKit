@@ -160,9 +160,4 @@ struct SKNavigationButtonStyleTVOS: ButtonStyle {
     }
 }
 
-#if DEBUG
-#Preview{
-    PreviewViewSKButton()
-}
-#endif
 #endif

@@ -30,11 +30,15 @@ struct SKStepperMACOS<S: Strideable>: View, SKComponent {
                 .animation(.smooth, value: value)
             Spacer()
             if let range = data.range{
-                Stepper("", value: $value, in: range, step: data.step)
+                Stepper(value: $value, step: data.step){
+                    Text(verbatim: "")
+                }
                     .labelsHidden()
                     .scaleEffect(0.75)
             }else{
-                Stepper("", value: $value, step: data.step)
+                Stepper(value: $value, step: data.step){
+                    Text(verbatim: "")
+                }
                     .labelsHidden()
                     .scaleEffect(0.75)
             }
@@ -48,6 +52,9 @@ struct SKStepperMACOS<S: Strideable>: View, SKComponent {
             RoundedRectangle(cornerRadius: skRowShape ?? 6, style: .continuous)
                 .stroke(.primary.opacity(0.06), lineWidth: skIsInSection ? 0 : 1)
         )
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(data.title)
+        .accessibilityValue(data.textForValue(value))
         .contentShape(Rectangle())
     }
     
@@ -57,9 +64,4 @@ struct SKStepperMACOS<S: Strideable>: View, SKComponent {
     }
 }
 
-#if DEBUG
-#Preview {
-    PreviewViewSKStepper()
-}
-#endif
 #endif

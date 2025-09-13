@@ -14,6 +14,7 @@ struct SKPickerIOS<SelectionValue: Hashable, Content: View, HeaderContent: View,
     @Environment(\.skRowShape) var skRowShape
     @Environment(\.skRowBackgroundColor) var skRowBackgroundColor
     @Environment(\.colorScheme) var colorScheme
+    var isUsingPicker: String = ""
     var data: SKPicker<SelectionValue, Content, HeaderContent, FooterContent>.Data
     
     var autoBackgroundColor: Color{
@@ -68,6 +69,10 @@ struct SKPickerIOS<SelectionValue: Hashable, Content: View, HeaderContent: View,
             }
         }
         .contentShape(Rectangle())
+        .accessibilityElement(children: .combine)
+        .accessibilityValue(Text(verbatim: String(describing: selection)))
+        .accessibilityRemoveTraits(.isButton)
+        
     }
     
     init(selection: Binding<SelectionValue>, data: SKPicker<SelectionValue, Content, HeaderContent, FooterContent>.Data) {
@@ -76,9 +81,4 @@ struct SKPickerIOS<SelectionValue: Hashable, Content: View, HeaderContent: View,
     }
 }
 
-#if DEBUG
-#Preview {
-    PreviewViewSKPicker()
-}
-#endif
 #endif

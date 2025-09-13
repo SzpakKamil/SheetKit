@@ -34,7 +34,7 @@ struct SKToolbarMACOS: View {
                 if skSheetStyle == .prominent{
                     VStack(spacing: 10){
                         if primaryItems.isEmpty && !skIsContinueButtonHidden{
-                            SKToolbarItem(placement: .primary) {SKButton("Continue") {}}
+                            SKToolbarItem(placement: .primary) {SKButton(verbatim: SKTranslation.SKButton.continue.value) {}}
                         }else{
                             ForEach(primaryItems.indices){ index in
                                 primaryItems[index]
@@ -55,7 +55,7 @@ struct SKToolbarMACOS: View {
                     if #available(macOS 26.0, *){
                         if skSheetStyle == .default{
                             if navigationItems.isEmpty && (!isCloseButtonHidden || isShowingBackButton) {
-                                SKToolbarItem(placement: .navigation, actionType: .dismiss) {SKButton("Back"){}}
+                                SKToolbarItem(placement: .navigation, actionType: .dismiss) {SKButton(verbatim: SKTranslation.SKButton.back.value){}}
                             }else{
                                 ForEach(navigationItems.indices){ index in
                                     navigationItems[index]
@@ -64,7 +64,7 @@ struct SKToolbarMACOS: View {
                         }
                     }else{
                         if navigationItems.isEmpty && (!isCloseButtonHidden || isShowingBackButton) {
-                            SKToolbarItem(placement: .navigation, actionType: .dismiss) {SKButton("Back"){}}
+                            SKToolbarItem(placement: .navigation, actionType: .dismiss) {SKButton(verbatim: SKTranslation.SKButton.back.value){}}
                         }else{
                             ForEach(navigationItems.indices){ index in
                                 navigationItems[index]
@@ -73,7 +73,7 @@ struct SKToolbarMACOS: View {
                     }
 
                     if primaryItems.isEmpty && !skIsContinueButtonHidden{
-                        SKToolbarItem(placement: .primary) {SKButton("Continue") {}}
+                        SKToolbarItem(placement: .primary) {SKButton(verbatim: SKTranslation.SKButton.continue.value) {}}
                     }else{
                         ForEach(primaryItems.indices){ index in
                             primaryItems[index]
@@ -89,9 +89,4 @@ struct SKToolbarMACOS: View {
     }
 }
 
-#if DEBUG
-#Preview {
-    PreviewViewSKToolbar()
-}
-#endif
 #endif

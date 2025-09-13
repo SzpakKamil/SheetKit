@@ -53,9 +53,4 @@ struct SKPageIOS: View{
     }
 }
 
-#if DEBUG
-#Preview {
-    PreviewSKPageContent()
-}
-#endif
 #endif

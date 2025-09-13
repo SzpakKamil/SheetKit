@@ -34,9 +34,13 @@ struct SKStepperIOS<S: Strideable>: View, SKComponent {
                 .animation(.smooth, value: value)
             Spacer()
             if let range = data.range{
-                Stepper("", value: $value, in: range, step: data.step)
+                Stepper(value: $value, in: range, step: data.step){
+                    Text(verbatim: "")
+                }
             }else{
-                Stepper("", value: $value, step: data.step)
+                Stepper(value: $value, step: data.step){
+                    Text(verbatim: "")
+                }
             }
         }
         .padding(.leading, 16)
@@ -52,6 +56,24 @@ struct SKStepperIOS<S: Strideable>: View, SKComponent {
                     .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 13, style: .continuous))
             }
         }
+        .accessibilityElement()
+        .accessibilityLabel(data.title)
+        .accessibilityValue(data.textForValue(value))
+        .accessibilityAdjustableAction { direction in
+            switch direction {
+            case .increment:
+                if let range = data.range, value.distance(to: range.upperBound) != 0{
+                    value = value.advanced(by: 1)
+                }
+            case .decrement:
+                if let range = data.range, value.distance(to: range.lowerBound) != 0{
+                    value = value.advanced(by: -1)
+                }
+            default:
+                print("Not handled.")
+            }
+        }
+        .accessibilityAddTraits(.isButton)
         .contentShape(Rectangle())
     }
     
@@ -61,9 +83,4 @@ struct SKStepperIOS<S: Strideable>: View, SKComponent {
     }
 }
 
-#if DEBUG
-#Preview {
-    PreviewViewSKStepper()
-}
-#endif
 #endif

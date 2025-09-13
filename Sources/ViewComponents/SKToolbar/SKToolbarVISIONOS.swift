@@ -27,7 +27,7 @@ struct SKToolbarVISIONOS: View {
             .padding(.bottom, 8)
             if primaryItems.isEmpty && !skIsContinueButtonHidden{
                 SKToolbarItem(placement: .primary) {
-                    SKButton("Continue") {}
+                    SKButton(verbatim: SKTranslation.SKButton.continue.value) {}
                 }
             }else{
                 ForEach(primaryItems.indices){ index in
@@ -42,7 +42,7 @@ struct SKToolbarVISIONOS: View {
             ToolbarItemGroup(placement: .topBarTrailing) {
                 if !skIsCloseButtonHidden{
                     SKToolbarItem(placement: .navigation, actionType: .close) {
-                        SKButton("Close", systemImage: "xmark"){}
+                        SKButton(verbatim: SKTranslation.SKButton.close.value, systemImage: "xmark"){}
                     }
                 }
                 ForEach(navigationItems.indices) { index in
@@ -57,9 +57,4 @@ struct SKToolbarVISIONOS: View {
     }
 }
 
-#if DEBUG
-#Preview(windowStyle: .automatic){
-    PreviewViewSKToolbar()
-}
-#endif
 #endif

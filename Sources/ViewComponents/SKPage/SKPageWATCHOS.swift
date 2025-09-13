@@ -42,6 +42,7 @@ struct SKPageWATCHOS: View{
                             header[index].erasedContent()
                         }
                     }
+                    .accessibilityElement(children: .combine)
                 }
             )
         }
@@ -84,7 +85,7 @@ struct SKPageWATCHOS: View{
                                 }
                             }
                         }
-                        .navigationTitle("Enter Fields")
+                        .navigationTitle(SKTranslation.SKPicker.title.value)
                     }
                 }
             }else{
@@ -102,13 +103,13 @@ struct SKPageWATCHOS: View{
             if isShowingBackButton{
                 ToolbarItem(placement: .cancellationAction) {
                     SKToolbarItem(placement: .navigation, actionType: .dismiss) {
-                        SKButton("Back", systemImage: "chevron.backward") {}
+                        SKButton(verbatim: SKTranslation.SKButton.back.value, systemImage: "chevron.backward") {}
                     }
                 }
             }else{
                 ToolbarItem(placement: .cancellationAction) {
                     SKToolbarItem(placement: .navigation, actionType: .close) {
-                        SKButton("Close", systemImage: "xmark") {}
+                        SKButton(verbatim: SKTranslation.SKButton.close.value, systemImage: "xmark") {}
                     }
                     .opacity(isCloseButtonHidden ? 0 : 1)
                 }
@@ -121,10 +122,4 @@ struct SKPageWATCHOS: View{
         self.data = data
     }
 }
-
-#if DEBUG
-#Preview {
-    PreviewSKPageContent()
-}
-#endif
 #endif

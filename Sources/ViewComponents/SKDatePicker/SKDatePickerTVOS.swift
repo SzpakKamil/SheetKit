@@ -104,6 +104,10 @@ struct SKDatePickerTVOS: View {
         }
         .padding(.vertical, -13)
         .tint(autoBackgroundColor)
+        .accessibilityElement()
+        .accessibilityLabel(data.title)
+        .accessibilityValue(Text(date, format: .dateTime.day().month().year()))
+        .accessibilityAddTraits(.isButton)
         .fullScreenCover(isPresented: $isUsingDatePicker) {
             NavigationStack{
                 GeometryReader{ geo in
@@ -115,18 +119,18 @@ struct SKDatePickerTVOS: View {
                             SKTDatePicker(date: $tempDate, minDate: data.range?.lowerBound ?? .distantPast, maxDate: data.range?.upperBound ?? .distantFuture)
                                 .frame(width: geo.size.width * 0.75, height: geo.size.height * 0.5)
                             VStack{
-                                Button("Submit", role: .cancel) {
+                                Button(SKTranslation.SKDatePicker.submit.value, role: .cancel) {
                                     isUsingDatePicker = false
                                     date = tempDate
                                 }
-                                Button("Reset", role: .destructive) {
+                                Button(SKTranslation.SKDatePicker.reset.value, role: .destructive) {
                                     tempDate = date
                                 }
                             }
                         }
                     }
                 }
-                .navigationTitle("Select a Date")
+                .navigationTitle(SKTranslation.SKDatePicker.title.value)
             }
         }
     }
@@ -136,10 +140,4 @@ struct SKDatePickerTVOS: View {
         self.data = data
     }
 }
-
-#if DEBUG
-#Preview {
-    PreviewViewSKDatePicker()
-}
-#endif
 #endif

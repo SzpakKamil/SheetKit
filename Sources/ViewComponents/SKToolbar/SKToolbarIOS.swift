@@ -26,7 +26,7 @@ struct SKToolbarIOS: View {
             .padding(.bottom, 8)
             if primaryItems.isEmpty && !skIsContinueButtonHidden{
                 SKToolbarItem(placement: .primary) {
-                    SKButton("Continue") {}
+                    SKButton(verbatim: SKTranslation.SKButton.continue.value) {}
                 }
             }else{
                 ForEach(primaryItems.indices){ index in
@@ -42,9 +42,9 @@ struct SKToolbarIOS: View {
                 if !skIsCloseButtonHidden{
                     SKToolbarItem(placement: .navigation, actionType: .close) {
                         if #available(iOS 26.0, *){
-                            SKButton("Close", systemImage: "xmark"){}
+                            SKButton(verbatim: SKTranslation.SKButton.close.value, systemImage: "xmark"){}
                         }else{
-                            SKButton("Close"){}
+                            SKButton(verbatim: SKTranslation.SKButton.close.value){}
                         }
                         
                     }
@@ -61,9 +61,4 @@ struct SKToolbarIOS: View {
     }
 }
 
-#if DEBUG
-#Preview {
-    PreviewViewSKToolbar()
-}
-#endif
 #endif

@@ -63,17 +63,11 @@ struct SKDescriptionWATCHOS: View {
         }
         .accessibilityElement()
         .accessibilityLabel(data.title)
-        .accessibilityAddTraits([.isHeader, .isStaticText])
+        .accessibilityAddTraits([.isStaticText])
     }
     
     init(data: SKDescription.Data) {
         self.data = data
     }
 }
-
-#if DEBUG
-#Preview {
-    PreviewViewSKDescription()
-}
-#endif
 #endif

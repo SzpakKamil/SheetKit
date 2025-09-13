@@ -19,7 +19,7 @@ struct SKToolbarWATCHOS: View {
         let secondaryItems: [SKToolbarItem] = items.filter{ $0.placement == .secondary }
         let navigationItems: [SKToolbarItem] = items.filter{ $0.placement == .navigation }
         let primaryItems: [SKToolbarItem] = items.filter{ $0.placement == .primary }
-        Text("")
+        Text(verbatim: "")
             .toolbar {
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     ForEach(navigationItems.indices){ index in
@@ -28,20 +28,26 @@ struct SKToolbarWATCHOS: View {
                 }
                 ToolbarItemGroup(placement: .bottomBar) {
                     if secondaryItems.isEmpty{
-                        Button(""){
+                        Button{
                             
+                        }label:{
+                            Text(verbatim: "")
                         }
                         .buttonStyle(.plain)
+                        .accessibilityHidden(true)
                     }else{
                         ForEach(secondaryItems.indices){ index in
                             secondaryItems[index]
                         }
                     }
                     if noteItems.isEmpty{
-                        Button(""){
+                        Button{
                             
+                        }label:{
+                            Text(verbatim: "")
                         }
                         .buttonStyle(.plain)
+                        .accessibilityHidden(true)
                     }else{
                         ForEach(noteItems.indices){ index in
                             noteItems[index]
@@ -52,17 +58,20 @@ struct SKToolbarWATCHOS: View {
                     if primaryItems.isEmpty && !skIsContinueButtonHidden{
                         SKToolbarItem(placement: .primary, actionType: .primary) {
                             if IsFinalPage{
-                                SKButton("Continue", systemImage: "checkmark"){}
+                                SKButton(verbatim: SKTranslation.SKButton.continue.value, systemImage: "checkmark"){}
                             }else{
-                                SKButton("Continue", systemImage: "chevron.forward"){}
+                                SKButton(verbatim: SKTranslation.SKButton.continue.value, systemImage: "chevron.forward"){}
                             }
                         }
                     }else{
                         if primaryItems.isEmpty{
-                            Button(""){
+                            Button{
                                 
+                            }label:{
+                                Text(verbatim: "")
                             }
                             .buttonStyle(.plain)
+                            .accessibilityHidden(true)
                         }else{
                             ForEach(primaryItems.indices){ index in
                                 primaryItems[index]
@@ -78,9 +87,4 @@ struct SKToolbarWATCHOS: View {
     }
 }
 
-#if DEBUG
-#Preview {
-    PreviewViewSKToolbar()
-}
-#endif
 #endif

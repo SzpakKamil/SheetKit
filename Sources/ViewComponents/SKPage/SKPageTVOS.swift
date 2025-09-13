@@ -58,9 +58,4 @@ struct SKPageTVOS: View{
     }
 }
 
-#if DEBUG
-#Preview {
-    PreviewSKPageContent()
-}
-#endif
 #endif

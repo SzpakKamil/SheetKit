@@ -34,36 +34,3 @@ public struct SKToolbar: View {
     }
     
 }
-
-
-#if DEBUG
-struct PreviewViewSKToolbar: View {
-    var body: some View{
-        SKToolbar {
-            SKToolbarItem(placement: .secondary) { _ in
-                Button("Secondary"){
-                    
-                }
-            }
-            SKToolbarItem(placement: .navigation) { _ in
-                Button("Navigation"){
-                    
-                }
-            }
-            SKToolbarItem(placement: .note) { _ in
-                Button("Test Note"){
-                    
-                }
-            }
-            SKToolbarItem(placement: .primary) { _ in
-                Button("Primary"){
-                }
-            }
-        }
-    }
-}
-    
-#Preview {
-    PreviewViewSKToolbar()
-}
-#endif

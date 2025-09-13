@@ -31,7 +31,7 @@ public struct SKSheetView: View {
                     .navigationBarTitleDisplayMode(.inline)
                     .navigationBarBackButtonHidden()
                     #elseif !os(macOS) && !os(tvOS)
-                    .navigationTitle("‎ ")
+                    .navigationTitle(Text(verbatim: "‎ "))
                     .navigationBarTitleDisplayMode(.inline)
                     .navigationBarBackButtonHidden()
                     #endif
@@ -97,7 +97,7 @@ public struct SKSheetView: View {
             if !(pathBinding?.wrappedValue ?? path).isEmpty{
                 ToolbarItem(placement: .navigation) {
                     SKToolbarItem(placement: .navigation) { _ in
-                        SKButton("Back", systemImage: "chevron.backward") {
+                        SKButton(verbatim: SKTranslation.SKButton.back.value, systemImage: "chevron.backward") {
                             dismissalAction(currentIndex: currentIndex)
                         }
                     }

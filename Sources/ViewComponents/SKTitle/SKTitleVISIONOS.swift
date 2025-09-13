@@ -73,9 +73,3 @@ struct SKTitleVISIONOS: View {
     }
 }
 #endif
-
-#if DEBUG
-#Preview {
-    PreviewViewSKTitle()
-}
-#endif

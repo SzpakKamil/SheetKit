@@ -13,6 +13,11 @@ let package = Package(
         .library(name: "SheetKit", targets: ["SheetKit"])
     ],
     targets: [
-        .target(name: "SheetKit")
+        .target(
+            name: "SheetKit",
+            resources: [
+                .process("Resources/Localizable.xcstrings")
+            ]
+        )
     ]
 )

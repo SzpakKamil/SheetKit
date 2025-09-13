@@ -53,9 +53,9 @@ struct SKPageMACOS: View{
                     if (!isCloseButtonHidden || isShowingBackButton) {
                         SKToolbarItem(placement: .navigation, actionType: .dismiss) {
                             if isShowingBackButton{
-                                SKButton("Back", systemImage: "chevron.backward") {}
+                                SKButton(verbatim: SKTranslation.SKButton.back.value, systemImage: "chevron.backward") {}
                             }else{
-                                SKButton("Close", systemImage: "xmark") {}
+                                SKButton(verbatim: SKTranslation.SKButton.close.value, systemImage: "xmark") {}
                             }
                         }
                     }
@@ -75,9 +75,9 @@ struct SKPageMACOS: View{
                     if (!isCloseButtonHidden || isShowingBackButton) {
                         SKToolbarItem(placement: .navigation, actionType: .dismiss) {
                             if isShowingBackButton{
-                                SKButton("Back", systemImage: "chevron.backward") {}
+                                SKButton(verbatim: SKTranslation.SKButton.back.value, systemImage: "chevron.backward") {}
                             }else{
-                                SKButton("Close", systemImage: "xmark") {}
+                                SKButton(verbatim: SKTranslation.SKButton.close.value, systemImage: "xmark") {}
                             }
                         }
                     }
@@ -100,9 +100,4 @@ struct SKPageMACOS: View{
     }
 }
 
-#if DEBUG
-#Preview {
-    PreviewSKPageContent()
-}
-#endif
 #endif

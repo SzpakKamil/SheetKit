@@ -45,6 +45,10 @@ struct SKPickerWATCHOS<SelectionValue: Hashable, Content: View, HeaderContent: V
             .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 100, style: .continuous))
         }
         .buttonStyle(.plain)
+        .accessibilityElement()
+        .accessibilityLabel(data.title)
+        .accessibilityValue(Text(verbatim: String(describing: selection)))
+        .accessibilityAddTraits(.isButton)
         .fullScreenCover(isPresented: $isUsingPicker) {
             NavigationStack{
                 List{
@@ -60,7 +64,7 @@ struct SKPickerWATCHOS<SelectionValue: Hashable, Content: View, HeaderContent: V
                             .simultaneousGesture(TapGesture().onEnded{isUsingPicker.toggle()})
                     }
                 }
-                .navigationTitle("Select Value")
+                .navigationTitle(SKTranslation.SKPicker.title.value)
             }
         }
     }
@@ -71,9 +75,4 @@ struct SKPickerWATCHOS<SelectionValue: Hashable, Content: View, HeaderContent: V
     }
 }
 
-#if DEBUG
-#Preview {
-    PreviewViewSKPicker()
-}
-#endif
 #endif

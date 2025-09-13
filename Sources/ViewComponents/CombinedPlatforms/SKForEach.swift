@@ -100,16 +100,3 @@ public struct SKForEach<Data, ID>: View where Data: RandomAccessCollection, ID: 
         self.items = toolbarItems
     }
 }
-
-
-#Preview {
-    SKSheetView{
-        SKForEach<Range<Int>, Int>(0..<10, id: \.self){ item in
-            SKPage{
-                SKForEach<Range<Int>, Int>(0..<10, id: \.self){ item in
-                    SKTitle("Banana")
-                }
-            }
-        }
-    }
-}

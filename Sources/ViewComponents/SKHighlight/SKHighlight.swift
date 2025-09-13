@@ -66,36 +66,3 @@ public struct SKHighlight: View, SKComponent {
         self.data = .init(titleVerbatim: titleVerbatim, descriptionVerbatim: descriptionVerbatim, image: Image(systemName: systemName))
     }
 }
-
-#if DEBUG
-struct PreviewViewSKHighlight: View {
-    @State private var title = "Hello World"
-    @State private var description = "Hello World wjfhawh fhewdhne whfdwe hdwhe"
-    @State private var systemName = "siri"
-    @State private var tintColor = Color.accentColor
-    @State private var textColor = Color.primary
-    var body: some View{
-        List{
-            SKHighlight(titleVerbatim: title, descriptionVerbatim: description, systemName: systemName)
-                .skAlignment(.leading)
-                .skPrimaryTextColor(textColor)
-            Section{
-                TextField("Title", text: $title)
-                TextField("Description", text: $description)
-                Picker("SystemName", selection: $systemName) {
-                    ForEach(["siri", "wifi", "airpods.max", "music.note", "signature"], id: \.self){ name in
-                        Text(name.capitalized)
-                    }
-                }
-
-            }
-        }
-        #if os(macOS)
-        .listStyle(.sidebar)
-        #endif
-    }
-}
-#Preview {
-    PreviewViewSKHighlight()
-}
-#endif

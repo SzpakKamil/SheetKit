@@ -98,7 +98,7 @@ struct SKTDatePickerExample: View {
             .frame(height: 300) // Adjust height as needed
             .padding()
             
-            Text("Selected Date: \(selectedDate, formatter: dateFormatter)")
+            Text(SKTranslation.SKDatePicker.title.value)
                 .foregroundColor(.white)
                 .padding()
         }

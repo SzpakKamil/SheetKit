@@ -63,20 +63,3 @@ public struct SKDatePicker: View, SKComponent {
     #endif
 
 }
-
-#if DEBUG
-struct PreviewViewSKDatePicker: View {
-    @State private var selection = "John"
-    
-    var body: some View {
-        VStack{
-            SKDatePicker("Test", selection: .constant(.now))
-        }
-        .padding(.horizontal)
-        .navigationTitle("Custom Picker")
-    }
-}
-#Preview {
-    PreviewViewSKDatePicker()
-}
-#endif

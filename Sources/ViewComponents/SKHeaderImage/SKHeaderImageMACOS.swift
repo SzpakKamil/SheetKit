@@ -84,24 +84,18 @@ struct SKHeaderImageMACOS: View {
                 .frame(width: autoSize.rawValue, height: autoSize.rawValue)
                 .padding(.leading, autoLeadingPadding)
                 .padding(.top, autoTopPadding)
-                .accessibilityHidden(true)
             
             if [HorizontalAlignment.center, .leading].contains(autoAlignment){
                 Spacer()
             }
         }
         .padding(.vertical, (autoVerticalPadding).rawValue)
+        .accessibilityHidden(true)
     }
     
     init(data: SKHeaderImage.Data) {
         self.data = data
     }
 
-}
-#endif
-
-#if os(DEBUG)
-#Preview {
-    PreviewViewSKHeaderImage()
 }
 #endif

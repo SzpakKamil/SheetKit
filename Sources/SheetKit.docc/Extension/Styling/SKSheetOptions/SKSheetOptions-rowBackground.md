@@ -108,7 +108,7 @@ struct RowBackgroundColorApp: App {
 }
 ```
 
-In these examples, `DefaultRowBackgroundSheet` uses `.rowBackground()` to apply the system’s default background color to rows with ``SKTextField``, ``SKPicker``, ``SKStepper``, and ``SKDatePicker``. `CustomRowBackgroundSheet` uses `.rowBackground(.red.opacity(0.8))` for a semi-transparent red background, enhancing visual distinction. The `ContentView` facilitates interactive testing.
+In these examples, `DefaultRowBackgroundSheet` uses `.rowBackground()` to apply the system’s default background color to rows with ``SKTextField``, ``SKPicker``, ``SKStepper``, ``SKToggle`` and ``SKDatePicker``. `CustomRowBackgroundSheet` uses `.rowBackground(.red.opacity(0.8))` for a semi-transparent red background, enhancing visual distinction. The `ContentView` facilitates interactive testing.
 
 ## Design Images
 
@@ -335,5 +335,6 @@ In these examples, `DefaultRowBackgroundSheet` uses `.rowBackground()` to apply 
 - ``SKTextField``
 - ``SKPicker``
 - ``SKStepper``
+- ``SKToggle``
 - ``SKDatePicker``
 - ``SwiftUICore/EnvironmentValues/skRowBackgroundColor``

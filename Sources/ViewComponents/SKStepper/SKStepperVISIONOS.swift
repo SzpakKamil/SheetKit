@@ -46,7 +46,10 @@ struct SKStepperVISIONOS<S: Strideable>: View, SKComponent {
                 .opacity(isIncrementDisabled ? 0.5 : 1)
                 .foregroundStyle(.primary)
                 .buttonBorderShape(.circle)
-                .accessibilityLabel("Increment \(data.title)")
+                .accessibilityElement(children: .combine)
+                .accessibilityLabel(SKTranslation.SKStepper.increment.value)
+                .accessibilityValue(data.textForValue(value))
+                .accessibilityAddTraits(.isButton)
                 
                 Button{
                     let newValue = value.advanced(by: -data.step)
@@ -63,7 +66,10 @@ struct SKStepperVISIONOS<S: Strideable>: View, SKComponent {
                 .opacity(isDecrementDisabled ? 0.5 : 1)
                 .foregroundStyle(.primary)
                 .buttonBorderShape(.circle)
-                .accessibilityLabel("Decrement \(data.title)")
+                .accessibilityElement(children: .combine)
+                .accessibilityLabel(SKTranslation.SKStepper.decrement.value)
+                .accessibilityValue(data.textForValue(value))
+                .accessibilityAddTraits(.isButton)
             }
             .scaleEffect(0.70)
         }
@@ -98,11 +104,6 @@ struct SKStepperVISIONOS<S: Strideable>: View, SKComponent {
     init(value: Binding<S>, data: SKStepper<S>.Data) {
         self._value = value
         self.data = data
-    }}
-
-#if DEBUG
-#Preview {
-    PreviewViewSKStepper()
+    }
 }
-#endif
 #endif

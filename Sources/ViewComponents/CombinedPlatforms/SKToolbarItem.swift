@@ -57,13 +57,3 @@ public struct SKToolbarItem: View {
         self.content = { _ in AnyView(content()) }
     }
 }
-
-#if DEBUG
-#Preview {
-    SKToolbarItem(placement: .primary){ action in
-        SKButton("Test") {
-            action()
-        }
-    }
-}
-#endif

@@ -76,6 +76,8 @@ struct SKPickerVISIONOS<SelectionValue: Hashable, Content: View, HeaderContent: 
         .contentShape(Rectangle())
         .hoverEffect()
         .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 12, style: .continuous))
+        .accessibilityElement(children: .combine)
+        .accessibilityValue(Text(verbatim: String(describing: selection)))
     }
     
     init(selection: Binding<SelectionValue>, data: SKPicker<SelectionValue, Content, HeaderContent, FooterContent>.Data) {
@@ -84,9 +86,4 @@ struct SKPickerVISIONOS<SelectionValue: Hashable, Content: View, HeaderContent: 
     }
 }
 
-#if DEBUG
-#Preview(windowStyle: .automatic){
-    PreviewViewSKPicker()
-}
-#endif
 #endif

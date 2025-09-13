@@ -57,6 +57,18 @@ struct SKDatePickerIOS: View {
             }
         }
         .contentShape(Rectangle())
+        .accessibilityElement()
+        .accessibilityLabel(data.title)
+        .if{ content in
+            if data.components == .date{
+                content
+                    .accessibilityValue(Text(date, format: .dateTime.day().month().year()))
+            }else{
+                content
+                    .accessibilityValue(Text(date, format: .dateTime.hour().minute()))
+            }
+        }
+        .accessibilityAddTraits(.isButton)
     }
     
     init(date: Binding<Date>, data: SKDatePicker.Data) {
@@ -65,9 +77,4 @@ struct SKDatePickerIOS: View {
     }
 }
 
-#if DEBUG
-#Preview {
-    PreviewViewSKDatePicker()
-}
-#endif
 #endif

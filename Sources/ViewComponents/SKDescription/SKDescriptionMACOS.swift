@@ -70,7 +70,7 @@ struct SKDescriptionMACOS: View {
         }
         .accessibilityElement()
         .accessibilityLabel(data.title)
-        .accessibilityAddTraits([.isHeader, .isStaticText])
+        .accessibilityAddTraits([.isStaticText])
     }
     
     init(data: SKDescription.Data) {
@@ -78,9 +78,4 @@ struct SKDescriptionMACOS: View {
     }
 }
 
-#if DEBUG
-#Preview {
-    PreviewViewSKDescription()
-}
-#endif
 #endif

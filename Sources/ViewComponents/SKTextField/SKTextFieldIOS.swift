@@ -51,8 +51,7 @@ struct SKTextFieldViewIOS: View {
             }
             .contentShape(Rectangle())
             .accessibilityElement()
-            .accessibilityLabel(data.title + " Field")
-            .accessibilityHint("Tap to input text.")
+            .accessibilityLabel(data.title)
             .accessibilityValue(text)
             .accessibilityAddTraits(.isButton)
     }
@@ -114,8 +113,8 @@ struct SKDecimalFieldViewIOS<F: ParseableFormatStyle>: View where F.FormatOutput
                 .focused($isFocused)
                 .opacity(isFocused ? 1 : value != defaultValue ? 1 : 0.05)
                 .allowsHitTesting(true)
-                .accessibilityLabel(data.title + " Field")
-                .accessibilityHint("Tap to input a value.")
+                .accessibilityElement()
+                .accessibilityLabel(data.title)
                 .accessibilityValue(value.formatted(format))
                 .accessibilityAddTraits(.isButton)
             TextField(data.title, text: .constant(""), prompt: prompt)
@@ -138,8 +137,8 @@ struct SKDecimalFieldViewIOS<F: ParseableFormatStyle>: View where F.FormatOutput
                 .contentShape(Rectangle())
                 .allowsHitTesting(false)
                 .opacity(isFocused ? 0 : value == defaultValue ? 1 : 0)
-                .accessibilityLabel(data.title + " Field")
-                .accessibilityHint("Tap to input a value.")
+                .accessibilityElement()
+                .accessibilityLabel(data.title)
                 .accessibilityValue(value.formatted(format))
                 .accessibilityAddTraits(.isButton)
         }
@@ -147,7 +146,7 @@ struct SKDecimalFieldViewIOS<F: ParseableFormatStyle>: View where F.FormatOutput
             if isFocused{
                 ToolbarItem(placement: .primaryAction) {
                     if #available(iOS 26.0, *){
-                        Button("Submit", systemImage: "checkmark"){
+                        Button(SKTranslation.SKTextField.submit.value, systemImage: "checkmark"){
                             isFocused = false
                         }
                         #if compiler(>=6.2)
@@ -156,7 +155,7 @@ struct SKDecimalFieldViewIOS<F: ParseableFormatStyle>: View where F.FormatOutput
                         .tint(skAccentColor)
                         .contentShape(Rectangle())
                     }else{
-                        Button("Submit"){
+                        Button(SKTranslation.SKTextField.submit.value){
                             isFocused = false
                         }
                         .tint(skAccentColor)
@@ -223,8 +222,8 @@ struct SKIntFieldViewIOS<F: ParseableFormatStyle>: View where F.FormatOutput == 
                 .focused($isFocused)
                 .opacity(isFocused ? 1 : value != defaultValue ? 1 : 0.05)
                 .allowsHitTesting(true)
-                .accessibilityLabel(data.title + " Field")
-                .accessibilityHint("Tap to input a value.")
+                .accessibilityElement()
+                .accessibilityLabel(data.title)
                 .accessibilityValue(value.formatted(format))
                 .accessibilityAddTraits(.isButton)
             TextField(data.title, text: .constant(""), prompt: prompt)
@@ -247,8 +246,8 @@ struct SKIntFieldViewIOS<F: ParseableFormatStyle>: View where F.FormatOutput == 
                 .contentShape(Rectangle())
                 .allowsHitTesting(false)
                 .opacity(isFocused ? 0 : value == defaultValue ? 1 : 0)
-                .accessibilityLabel(data.title + " Field")
-                .accessibilityHint("Tap to input a value.")
+                .accessibilityElement()
+                .accessibilityLabel(data.title)
                 .accessibilityValue(value.formatted(format))
                 .accessibilityAddTraits(.isButton)
         }
@@ -256,7 +255,7 @@ struct SKIntFieldViewIOS<F: ParseableFormatStyle>: View where F.FormatOutput == 
             if isFocused{
                 ToolbarItem(placement: .primaryAction) {
                     if #available(iOS 26.0, *){
-                        Button("Submit", systemImage: "checkmark"){
+                        Button(SKTranslation.SKTextField.submit.value, systemImage: "checkmark"){
                             isFocused = false
                         }
                         #if compiler(>=6.2)
@@ -265,7 +264,7 @@ struct SKIntFieldViewIOS<F: ParseableFormatStyle>: View where F.FormatOutput == 
                         .tint(skAccentColor)
                         .contentShape(Rectangle())
                     }else{
-                        Button("Submit"){
+                        Button(SKTranslation.SKTextField.submit.value){
                             isFocused = false
                         }
                         .tint(skAccentColor)
@@ -274,13 +273,5 @@ struct SKIntFieldViewIOS<F: ParseableFormatStyle>: View where F.FormatOutput == 
             }
         }
     }
-}
-
-#Preview{
-    VStack{
-        TextField("Text", text: .constant(""))
-        SKTextField("Text", text: .constant(""), prompt: Text("Banana"))
-    }
-    .frame(width: 200, height: 200, alignment: .center)
 }
 #endif

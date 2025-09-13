@@ -58,13 +58,13 @@ struct SKHeaderImageTVOS: View {
                 .fontWeight(data.weight)
                 .contentTransition(.symbolEffect(.replace))
                 .frame(width: autoSize.rawValue, height: autoSize.rawValue)
-                .accessibilityHidden(true)
             
             if [HorizontalAlignment.center, .leading].contains(autoAlignment){
                 Spacer()
             }
         }
         .padding(.vertical, (autoVerticalPadding).rawValue)
+        .accessibilityHidden(true)
     }
     
     init(data: SKHeaderImage.Data) {
@@ -73,10 +73,4 @@ struct SKHeaderImageTVOS: View {
 
 }
 
-#endif
-
-#if os(DEBUG)
-#Preview {
-    PreviewViewSKHeaderImage()
-}
 #endif

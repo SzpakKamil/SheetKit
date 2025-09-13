@@ -42,6 +42,18 @@ struct SKDatePickerMACOS: View {
                 .stroke(.primary.opacity(0.06), lineWidth: skIsInSection ? 0 : 1)
         )
         .contentShape(Rectangle())
+        .accessibilityElement()
+        .accessibilityLabel(data.title)
+        .if{ content in
+            if data.components == .date{
+                content
+                    .accessibilityValue(Text(date, format: .dateTime.day().month().year()))
+            }else{
+                content
+                    .accessibilityValue(Text(date, format: .dateTime.hour().minute()))
+            }
+        }
+        .accessibilityAddTraits(.isButton)
     }
     
     init(date: Binding<Date>, data: SKDatePicker.Data) {
@@ -50,9 +62,4 @@ struct SKDatePickerMACOS: View {
     }
 }
 
-#if DEBUG
-#Preview {
-    PreviewViewSKDatePicker()
-}
-#endif
 #endif

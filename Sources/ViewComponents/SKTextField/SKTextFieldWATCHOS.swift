@@ -59,8 +59,7 @@ struct SKTextFieldViewWATCHOS: View {
         .buttonStyle(.plain)
         .contentShape(Rectangle())
         .accessibilityElement()
-        .accessibilityLabel(data.title + " Field")
-        .accessibilityHint("Tap to input text.")
+        .accessibilityLabel(data.title)
         .accessibilityValue(text)
         .accessibilityAddTraits(.isButton)
     }
@@ -124,9 +123,8 @@ struct SKDecimalFieldViewWATCHOS<F: ParseableFormatStyle>: View where F.FormatOu
         .buttonStyle(.plain)
         .contentShape(Rectangle())
         .accessibilityElement()
-        .accessibilityLabel(data.title + " Field")
-        .accessibilityHint("Tap to input text.")
-        .accessibilityValue(String(value))
+        .accessibilityLabel(data.title)
+        .accessibilityValue(value.formatted(format))
         .accessibilityAddTraits(.isButton)
     }
 }
@@ -189,18 +187,10 @@ struct SKIntFieldViewWATCHOS<F: ParseableFormatStyle>: View where F.FormatOutput
         .buttonStyle(.plain)
         .contentShape(Rectangle())
         .accessibilityElement()
-        .accessibilityLabel(data.title + " Field")
-        .accessibilityHint("Tap to input text.")
-        .accessibilityValue(String(value))
+        .accessibilityLabel(data.title)
+        .accessibilityValue(value.formatted(format))
         .accessibilityAddTraits(.isButton)
     }
 }
 
-#Preview{
-//    VStack{
-//        TextField("Text", text: .constant(""))
-        SKTextField("Text", text: .constant(""), prompt: Text("Banana"))
-//    }
-//    .frame(width: 200, height: 200, alignment: .center)
-}
 #endif

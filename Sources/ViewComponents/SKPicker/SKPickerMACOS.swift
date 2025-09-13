@@ -61,6 +61,8 @@ struct SKPickerMACOS<SelectionValue: Hashable, Content: View, HeaderContent: Vie
                 .stroke(.primary.opacity(0.06), lineWidth: skIsInSection ? 0 : 1)
         )
         .contentShape(Rectangle())
+        .accessibilityElement(children: .combine)
+        .accessibilityValue(Text(verbatim: String(describing: selection)))
     }
     
     init(selection: Binding<SelectionValue>, data: SKPicker<SelectionValue, Content, HeaderContent, FooterContent>.Data) {
@@ -69,9 +71,4 @@ struct SKPickerMACOS<SelectionValue: Hashable, Content: View, HeaderContent: Vie
     }
 }
 
-#if DEBUG
-#Preview {
-    PreviewViewSKPicker()
-}
-#endif
 #endif

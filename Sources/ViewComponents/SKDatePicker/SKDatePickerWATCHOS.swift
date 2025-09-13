@@ -47,21 +47,33 @@ struct SKDatePickerWATCHOS: View {
             .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 100, style: .continuous))
         }
         .buttonStyle(.plain)
+        .accessibilityElement()
+        .accessibilityLabel(data.title)
+        .if{ content in
+            if data.components == .date{
+                content
+                    .accessibilityValue(Text(date, format: .dateTime.day().month().year()))
+            }else{
+                content
+                    .accessibilityValue(Text(date, format: .dateTime.hour().minute()))
+            }
+        }
+        .accessibilityAddTraits(.isButton)
         .fullScreenCover(isPresented: $isUsingDatePicker) {
             NavigationStack{
                 VStack{
                     DatePicker(data.title, selection: $date, in: data.range ?? Date.distantPast...Date.distantFuture, displayedComponents: data.components)
                     HStack{
-                        Button("Submit", role: .cancel) {
+                        Button(SKTranslation.SKDatePicker.submit.value, role: .cancel) {
                             isUsingDatePicker = false
                             date = tempDate
                         }
-                        Button("Reset", role: .destructive) {
+                        Button(SKTranslation.SKDatePicker.submit.value, role: .destructive) {
                             tempDate = date
                         }
                     }
                 }
-                .navigationTitle("Select a Date")
+                .navigationTitle(SKTranslation.SKDatePicker.title.value)
             }
         }
     }
@@ -71,10 +83,4 @@ struct SKDatePickerWATCHOS: View {
         self.data = data
     }
 }
-
-#if DEBUG
-#Preview {
-    PreviewViewSKDatePicker()
-}
-#endif
 #endif

@@ -118,9 +118,3 @@ public struct SKNavigationButtonStyle: ButtonStyle {
         self.accentColor = accentColor
     }
 }
-
-#if DEBUG
-#Preview {
-    PreviewViewSKButton()
-}
-#endif

@@ -44,8 +44,7 @@ struct SKTextFieldViewMACOS: View {
             )
             .contentShape(Rectangle())
             .accessibilityElement()
-            .accessibilityLabel(data.title + " Field")
-            .accessibilityHint("Tap to input text.")
+            .accessibilityLabel(data.title)
             .accessibilityValue(text)
             .accessibilityAddTraits(.isButton)
     }
@@ -96,8 +95,8 @@ struct SKDecimalFieldViewMACOS<F: ParseableFormatStyle>: View where F.FormatOutp
                 .focused($isFocused)
                 .opacity(isFocused ? 1 : value != defaultValue ? 1 : 0.05)
                 .allowsHitTesting(true)
-                .accessibilityLabel(data.title + " Field")
-                .accessibilityHint("Tap to input a value.")
+                .accessibilityElement()
+                .accessibilityLabel(data.title)
                 .accessibilityValue(value.formatted(format))
                 .accessibilityAddTraits(.isButton)
             TextField(data.title, text: .constant(""), prompt: prompt)
@@ -113,8 +112,8 @@ struct SKDecimalFieldViewMACOS<F: ParseableFormatStyle>: View where F.FormatOutp
                 .contentShape(Rectangle())
                 .allowsHitTesting(false)
                 .opacity(isFocused ? 0 : value == defaultValue ? 1 : 0)
-                .accessibilityLabel(data.title + " Field")
-                .accessibilityHint("Tap to input a value.")
+                .accessibilityElement()
+                .accessibilityLabel(data.title)
                 .accessibilityValue(value.formatted(format))
                 .accessibilityAddTraits(.isButton)
         }
@@ -166,8 +165,8 @@ struct SKIntFieldViewMACOS<F: ParseableFormatStyle>: View where F.FormatOutput =
                 .focused($isFocused)
                 .opacity(isFocused ? 1 : value != defaultValue ? 1 : 0.05)
                 .allowsHitTesting(true)
-                .accessibilityLabel(data.title + " Field")
-                .accessibilityHint("Tap to input a value.")
+                .accessibilityElement()
+                .accessibilityLabel(data.title)
                 .accessibilityValue(value.formatted(format))
                 .accessibilityAddTraits(.isButton)
             TextField(data.title, text: .constant(""), prompt: prompt)
@@ -183,19 +182,11 @@ struct SKIntFieldViewMACOS<F: ParseableFormatStyle>: View where F.FormatOutput =
                 .contentShape(Rectangle())
                 .allowsHitTesting(false)
                 .opacity(isFocused ? 0 : value == defaultValue ? 1 : 0)
-                .accessibilityLabel(data.title + " Field")
-                .accessibilityHint("Tap to input a value.")
+                .accessibilityElement()
+                .accessibilityLabel(data.title)
                 .accessibilityValue(value.formatted(format))
                 .accessibilityAddTraits(.isButton)
         }
     }
-}
-
-#Preview{
-    VStack{
-        TextField("Text", text: .constant(""))
-        SKTextField("Text", text: .constant(""), prompt: Text("Banana"))
-    }
-    .frame(width: 200, height: 200, alignment: .center)
 }
 #endif

@@ -76,9 +76,4 @@ struct SKDescriptionTVOS: View {
     }
 }
 
-#if DEBUG
-#Preview {
-    PreviewViewSKDescription()
-}
-#endif
 #endif

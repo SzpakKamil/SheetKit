@@ -16,7 +16,7 @@ struct SKSheetDisplayView: View {
         if let sheet = sheetManager.getOpenedSheet(forIndex: index), sheetManager.isValidOpened(index: index){
             Group{
                 if index == 0 {
-                    Text("")
+                    Text(verbatim: "")
                         #if os(iOS) || os(tvOS)
                         .if{ content in
                             if sheet.sheet?.options.first{ $0.id == 13 }?.value1 as? Bool == true {

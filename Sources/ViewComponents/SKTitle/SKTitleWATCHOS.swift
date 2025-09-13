@@ -67,9 +67,3 @@ struct SKTitleWATCHOS: View {
     }
 }
 #endif
-
-#if DEBUG
-#Preview {
-    PreviewViewSKTitle()
-}
-#endif

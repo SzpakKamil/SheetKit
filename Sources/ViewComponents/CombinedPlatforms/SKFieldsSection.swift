@@ -82,18 +82,4 @@ public struct SKFieldsSection: SKComponent {
         self.data = .init(content: content)
     }
 }
-
-#Preview {
-    SKSheetView{
-        SKPage{
-            SKFieldsSection{
-                SKTextField("Test", text: .constant(""))
-                SKTextField("Test", text: .constant(""))
-                SKTextField("Test", text: .constant(""))
-                SKTextField("Test", text: .constant(""))
-            }
-            .skRowSpacing(20)
-        }
-    }
-}
 #endif

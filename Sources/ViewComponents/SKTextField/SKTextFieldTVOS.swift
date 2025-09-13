@@ -96,8 +96,7 @@ struct SKTextFieldViewTVOS: View {
             .buttonBorderShape(skIsInSection ? .roundedRectangle(radius: 0) : skRowShape == nil ? .automatic : .roundedRectangle(radius: skRowShape!))
             .tint(autoBackgroundColor)
             .accessibilityElement()
-            .accessibilityLabel(data.title + " Field")
-            .accessibilityHint("Tap to input text.")
+            .accessibilityLabel(data.title)
             .accessibilityValue(text)
             .accessibilityAddTraits(.isButton)
             .if{ content in
@@ -207,9 +206,8 @@ struct SKDecimalFieldViewTVOS<F: ParseableFormatStyle>: View where F.FormatOutpu
             .buttonBorderShape(skIsInSection ? .roundedRectangle(radius: 0) : skRowShape == nil ? .automatic : .roundedRectangle(radius: skRowShape!))
             .tint(autoBackgroundColor)
             .accessibilityElement()
-            .accessibilityLabel(data.title + " Field")
-            .accessibilityHint("Tap to input text.")
-            .accessibilityValue("\(value)")
+            .accessibilityLabel(data.title)
+            .accessibilityValue(value.formatted(format))
             .accessibilityAddTraits(.isButton)
 
         }
@@ -312,19 +310,11 @@ struct SKIntFieldViewTVOS<F: ParseableFormatStyle>: View where F.FormatOutput ==
             .buttonBorderShape(skIsInSection ? .roundedRectangle(radius: 0) : skRowShape == nil ? .automatic : .roundedRectangle(radius: skRowShape!))
             .tint(autoBackgroundColor)
             .accessibilityElement()
-            .accessibilityLabel(data.title + " Field")
-            .accessibilityHint("Tap to input text.")
-            .accessibilityValue("\(value)")
+            .accessibilityLabel(data.title)
+            .accessibilityValue(value.formatted(format))
             .accessibilityAddTraits(.isButton)
         }
     }
 }
 
-#Preview{
-    VStack{
-        TextField("Text", text: .constant(""))
-        SKTextField("Text", text: .constant(""), prompt: Text("Banana"))
-    }
-    .frame(width: 200, height: 200, alignment: .center)
-}
 #endif

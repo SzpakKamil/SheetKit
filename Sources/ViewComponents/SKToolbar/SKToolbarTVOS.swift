@@ -45,14 +45,14 @@ struct SKToolbarTVOS: View {
                 }
                 
                 if navigationItems.isEmpty && (!isCloseButtonHidden || isShowingBackButton){
-                    SKToolbarItem(placement: .navigation, actionType: .dismiss) {SKButton("Back"){}}
+                    SKToolbarItem(placement: .navigation, actionType: .dismiss) {SKButton(verbatim: SKTranslation.SKButton.back.value){}}
                 }else{
                     ForEach(navigationItems.indices){ index in
                         navigationItems[index]
                     }
                 }
                 if primaryItems.isEmpty && !skIsContinueButtonHidden{
-                    SKToolbarItem(placement: .primary) {SKButton("Continue") {}}
+                    SKToolbarItem(placement: .primary) {SKButton(verbatim: SKTranslation.SKButton.continue.value) {}}
                 }else{
                     ForEach(primaryItems.indices){ index in
                         primaryItems[index]
@@ -67,9 +67,4 @@ struct SKToolbarTVOS: View {
     }
 }
 
-#if DEBUG
-#Preview {
-    PreviewViewSKToolbar()
-}
-#endif
 #endif

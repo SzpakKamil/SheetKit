@@ -90,6 +90,8 @@ struct SKPickerTVOS<SelectionValue: Hashable, Content: View, HeaderContent: View
         }
         .tint(autoBackgroundColor)
         .padding(.vertical, -5)
+        .accessibilityLabel(data.title)
+        .accessibilityValue(Text(verbatim: String(describing: selection)))
     }
     
     init(selection: Binding<SelectionValue>, data: SKPicker<SelectionValue, Content, HeaderContent, FooterContent>.Data) {
@@ -98,9 +100,4 @@ struct SKPickerTVOS<SelectionValue: Hashable, Content: View, HeaderContent: View
     }
 }
 
-#if DEBUG
-#Preview {
-    PreviewViewSKPicker()
-}
-#endif
 #endif

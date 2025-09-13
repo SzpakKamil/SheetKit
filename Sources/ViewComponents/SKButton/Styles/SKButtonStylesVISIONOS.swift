@@ -127,11 +127,4 @@ struct SKNavigationButtonStyleVISIONOS: ButtonStyle {
         self.accentColor = accentColor
     }
 }
-
-#if DEBUG
-#Preview(windowStyle: .automatic){
-    PreviewViewSKButton()
-}
-#endif
-
 #endif

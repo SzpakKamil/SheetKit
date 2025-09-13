@@ -47,6 +47,24 @@ struct SKStepperWATCHOS<S: Strideable>: View, SKComponent {
             .clipShape(RoundedRectangle(cornerRadius: skRowShape ?? 100, style: .continuous))
         }
         .buttonStyle(.plain)
+        .accessibilityElement()
+        .accessibilityLabel(data.title)
+        .accessibilityValue(data.textForValue(value))
+        .accessibilityAdjustableAction { direction in
+            switch direction {
+            case .increment:
+                if let range = data.range, value.distance(to: range.upperBound) != 0{
+                    value = value.advanced(by: 1)
+                }
+            case .decrement:
+                if let range = data.range, value.distance(to: range.lowerBound) != 0{
+                    value = value.advanced(by: -1)
+                }
+            default:
+                print("Not handled.")
+            }
+        }
+        .accessibilityAddTraits(.isButton)
         .fullScreenCover(isPresented: $isUsingStepper) {
             NavigationStack{
                 VStack{
@@ -57,18 +75,19 @@ struct SKStepperWATCHOS<S: Strideable>: View, SKComponent {
                     }
                     
                     HStack{
-                        Button("Submit", role: .cancel) {
+                        Button(SKTranslation.SKStepper.submit.value, role: .cancel) {
                             isUsingStepper = false
                             value = tempValue
                         }
-                        Button("Reset", role: .destructive) {
+                        Button(SKTranslation.SKStepper.reset.value, role: .destructive) {
                             tempValue = value
                         }
                     }
                 }
-                .navigationTitle("Adjust Value")
+                .navigationTitle(SKTranslation.SKStepper.title.value)
             }
         }
+        
     }
     
     init(value: Binding<S>, data: SKStepper<S>.Data) {
@@ -77,10 +96,4 @@ struct SKStepperWATCHOS<S: Strideable>: View, SKComponent {
         self.tempValue = value.wrappedValue
     }
 }
-
-#if DEBUG
-#Preview {
-    PreviewViewSKStepper()
-}
-#endif
 #endif

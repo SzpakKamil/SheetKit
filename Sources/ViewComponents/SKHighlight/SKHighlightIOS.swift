@@ -90,6 +90,7 @@ struct SKHighlightIOS: View {
             }
         }
         .padding(.bottom, 14)
+        .accessibilityElement(children: .combine)
     }
     
     private func imageView() -> some View {
@@ -108,10 +109,5 @@ struct SKHighlightIOS: View {
     init(data: SKHighlight.Data) {
         self.data = data
     }
-}
-#endif
-#if DEBUG
-#Preview {
-    PreviewViewSKHighlight()
 }
 #endif
