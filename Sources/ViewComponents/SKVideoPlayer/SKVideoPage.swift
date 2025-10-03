@@ -76,7 +76,7 @@ public struct SKVideoPage: SKPageable, View {
                     }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Skip") {
+                    Button(SKTranslation.SKButton.skip.value) {
                         skPrimaryButtonAction()
                     }
                 }
