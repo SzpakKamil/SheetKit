@@ -11,6 +11,7 @@ enum SKTranslation{
     enum SKButton{
         case close
         case back
+        case skip
         case `continue`
         case noDescription
         
@@ -26,6 +27,12 @@ enum SKTranslation{
                 String(
                     localized: "SKTranslation.SKButton.Back",
                     defaultValue: "Back",
+                    bundle: Bundle.module
+                )
+            case .skip:
+                String(
+                    localized: "SKTranslation.SKButton.Skip",
+                    defaultValue: "Skip",
                     bundle: Bundle.module
                 )
             case .noDescription:
