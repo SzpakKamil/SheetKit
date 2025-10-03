@@ -19,7 +19,7 @@ struct SKSheetDisplayView: View {
                     Text(verbatim: "")
                         #if os(iOS) || os(tvOS)
                         .if{ content in
-                            if sheet.sheet?.options.first{ $0.id == 13 }?.value1 as? Bool == true {
+                            if sheet.sheet?.options.first(where: { $0.id == 13 })?.value1 as? Bool == true {
                                 content
                                     .fullScreenCover(isPresented: sheet.isPresentedBinding){
                                         sheetContent()

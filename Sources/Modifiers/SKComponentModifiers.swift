@@ -9,7 +9,7 @@ import SwiftUI
 import Combine
 
 public extension SKComponent{
-    func skAccentColor(_ color: Color = .accentColor) -> SKCustomView<some View>{
+    func skAccentColor(_ color: Color? = .accentColor) -> SKCustomView<some View>{
         return SKCustomView(type: self.type) {
             self.environment(\.skAccentColor, color)
         }

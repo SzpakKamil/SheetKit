@@ -10,7 +10,7 @@ import SwiftUI
 
 struct SKPrimaryButtonStyleIOS: ButtonStyle {
     let isEnabled: Bool
-    let accentColor: Color
+    let accentColor: Color?
     func makeBody(configuration: Configuration) -> some View {
         HStack{
             Spacer()
@@ -40,7 +40,7 @@ struct SKPrimaryButtonStyleIOS: ButtonStyle {
         .contentShape(Rectangle())
     }
     
-    init(isEnabled: Bool, accentColor: Color) {
+    init(isEnabled: Bool, accentColor: Color?) {
         self.isEnabled = isEnabled
         self.accentColor = accentColor
     }
@@ -48,7 +48,7 @@ struct SKPrimaryButtonStyleIOS: ButtonStyle {
 
 struct SKSecondaryButtonStyleIOS: ButtonStyle {
     let isEnabled: Bool
-    let accentColor: Color
+    let accentColor: Color?
     func makeBody(configuration: Configuration) -> some View {
         HStack{
             Spacer()
@@ -56,7 +56,7 @@ struct SKSecondaryButtonStyleIOS: ButtonStyle {
                 .buttonStyle(.plain)
             Spacer()
         }
-        .foregroundStyle(accentColor)
+        .foregroundStyle(accentColor ?? .accentColor)
         .if{ content in
             if #available(iOS 26.0, *){
                 content
@@ -78,7 +78,7 @@ struct SKSecondaryButtonStyleIOS: ButtonStyle {
         .contentShape(Rectangle())
     }
     
-    init(isEnabled: Bool, accentColor: Color) {
+    init(isEnabled: Bool, accentColor: Color?) {
         self.isEnabled = isEnabled
         self.accentColor = accentColor
     }
@@ -87,7 +87,7 @@ struct SKSecondaryButtonStyleIOS: ButtonStyle {
 struct SKNoteButtonStyleIOS: ButtonStyle {
     let colorScheme: ColorScheme
     let isEnabled: Bool
-    let accentColor: Color
+    let accentColor: Color?
     var textAlignment: TextAlignment
     func makeBody(configuration: Configuration) -> some View {
         HStack(spacing: 3.5){
@@ -99,14 +99,14 @@ struct SKNoteButtonStyleIOS: ButtonStyle {
                 .multilineTextAlignment(textAlignment)
         }
         .padding(.top, 5)
-        .foregroundStyle(accentColor)
+        .foregroundStyle(accentColor ?? .accentColor)
         .lineLimit(1)
         .opacity(configuration.isPressed ? 0.5 : 1)
         .contentShape(Rectangle())
         .opacity(isEnabled ? 1 : 0.5)
     }
     
-    init(colorScheme: ColorScheme, isEnabled: Bool, accentColor: Color, textAlignment: TextAlignment = .leading) {
+    init(colorScheme: ColorScheme, isEnabled: Bool, accentColor: Color?, textAlignment: TextAlignment = .leading) {
         self.colorScheme = colorScheme
         self.isEnabled = isEnabled
         self.accentColor = accentColor
@@ -118,15 +118,22 @@ struct SKNavigationButtonStyleIOS: ButtonStyle {
     let sheetStyle: SKSheetStyle?
     let colorScheme: ColorScheme
     let isEnabled: Bool
-    let accentColor: Color
+    let accentColor: Color?
     func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .labelsHidden()
-            .buttonStyle(.plain)
-            .foregroundStyle(accentColor)
-            .contentShape(Rectangle())
+        if let accentColor{
+            configuration.label
+                .labelsHidden()
+                .buttonStyle(.plain)
+                .foregroundStyle(accentColor)
+                .contentShape(Rectangle())
+        }else{
+            configuration.label
+                .labelsHidden()
+                .buttonStyle(.plain)
+                .contentShape(Rectangle())
+        }
     }
-    init(sheetStyle: SKSheetStyle?, colorScheme: ColorScheme, isEnabled: Bool, accentColor: Color) {
+    init(sheetStyle: SKSheetStyle?, colorScheme: ColorScheme, isEnabled: Bool, accentColor: Color?) {
         self.sheetStyle = sheetStyle
         self.colorScheme = colorScheme
         self.isEnabled = isEnabled

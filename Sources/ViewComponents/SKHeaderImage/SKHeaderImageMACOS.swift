@@ -71,7 +71,7 @@ struct SKHeaderImageMACOS: View {
                 .scaledToFit()
                 .symbolVariant(data.variant.getSymbolVariant())
                 .symbolRenderingMode(data.renderingMode.getSymbolRenderingMode())
-                .foregroundStyle(skAccentColor.gradient)
+                .foregroundStyle((skAccentColor ?? .accentColor).gradient)
                 .fontWeight(data.weight)
                 .if{content in
                     if #available(macOS 14.0, *), !accessibilityReduceMotion{

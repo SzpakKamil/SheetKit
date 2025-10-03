@@ -11,7 +11,7 @@ import SwiftUI
 struct SKPrimaryButtonStyleTVOS: ButtonStyle {
     let colorScheme: ColorScheme
     let isEnabled: Bool
-    let accentColor: Color
+    let accentColor: Color?
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .buttonStyle(.plain)
@@ -24,7 +24,7 @@ struct SKPrimaryButtonStyleTVOS: ButtonStyle {
                         .padding(.vertical, 10)
                         .padding(.horizontal, 11)
                         #if compiler(>=6.2)
-                        .glassEffect(.regular.tint(accentColor).interactive(true), in: .buttonBorder)
+                        .glassEffect(.regular.tint(accentColor ?? .accentColor).interactive(true), in: .buttonBorder)
                         #endif
                         .opacity(configuration.isPressed ? 0.5 : 1)
                         .hoverEffect(.highlight)
@@ -34,7 +34,7 @@ struct SKPrimaryButtonStyleTVOS: ButtonStyle {
                         .foregroundStyle(colorScheme == .dark ? .white : .black)
                         .padding(.vertical, 10)
                         .padding(.horizontal, 11)
-                        .background(accentColor)
+                        .background(accentColor ?? .accentColor)
                         .opacity(configuration.isPressed ? 0.5 : 1)
                         .hoverEffect(.highlight)
                         .if{content in
@@ -52,7 +52,7 @@ struct SKPrimaryButtonStyleTVOS: ButtonStyle {
             .contentShape(Rectangle())
     }
     
-    init(isEnabled: Bool, accentColor: Color, colorSheme: ColorScheme) {
+    init(isEnabled: Bool, accentColor: Color?, colorSheme: ColorScheme) {
         self.isEnabled = isEnabled
         self.colorScheme = colorSheme
         self.accentColor = accentColor
@@ -61,7 +61,7 @@ struct SKPrimaryButtonStyleTVOS: ButtonStyle {
 
 struct SKSecondaryButtonStyleTVOS: ButtonStyle {
     let isEnabled: Bool
-    let accentColor: Color
+    let accentColor: Color?
     
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
@@ -101,7 +101,7 @@ struct SKSecondaryButtonStyleTVOS: ButtonStyle {
             .contentShape(Rectangle())
     }
     
-    init(isEnabled: Bool, accentColor: Color) {
+    init(isEnabled: Bool, accentColor: Color?) {
         self.isEnabled = isEnabled
         self.accentColor = accentColor
     }
@@ -109,7 +109,7 @@ struct SKSecondaryButtonStyleTVOS: ButtonStyle {
 
 struct SKNoteButtonStyleTVOS: ButtonStyle {
     let isEnabled: Bool
-    let accentColor: Color
+    let accentColor: Color?
     let colorScheme: ColorScheme
     var textAlignment: TextAlignment
     func makeBody(configuration: Configuration) -> some View {
@@ -122,7 +122,7 @@ struct SKNoteButtonStyleTVOS: ButtonStyle {
                 .multilineTextAlignment(textAlignment)
                 .font(.footnote)
         }
-        .foregroundStyle(accentColor)
+        .foregroundStyle(accentColor ?? .accentColor)
         .lineLimit(1)
         .opacity(configuration.isPressed ? 0.5 : 1)
         .contentShape(Rectangle())
@@ -130,7 +130,7 @@ struct SKNoteButtonStyleTVOS: ButtonStyle {
         .hoverEffect(.automatic)
     }
     
-    init(isEnabled: Bool, accentColor: Color, colorScheme: ColorScheme, textAlignment: TextAlignment = .leading) {
+    init(isEnabled: Bool, accentColor: Color?, colorScheme: ColorScheme, textAlignment: TextAlignment = .leading) {
         self.isEnabled = isEnabled
         self.accentColor = accentColor
         self.colorScheme = colorScheme
@@ -140,7 +140,7 @@ struct SKNoteButtonStyleTVOS: ButtonStyle {
 struct SKNavigationButtonStyleTVOS: ButtonStyle {
     let sheetStyle: SKSheetStyle?
     let isEnabled: Bool
-    let accentColor: Color
+    let accentColor: Color?
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .buttonStyle(.plain)
@@ -178,7 +178,7 @@ struct SKNavigationButtonStyleTVOS: ButtonStyle {
             .opacity(isEnabled ? 1 : 0.5)
     }
     
-    init(sheetStyle: SKSheetStyle?, isEnabled: Bool, accentColor: Color) {
+    init(sheetStyle: SKSheetStyle?, isEnabled: Bool, accentColor: Color?) {
         self.sheetStyle = sheetStyle
         self.isEnabled = isEnabled
         self.accentColor = accentColor

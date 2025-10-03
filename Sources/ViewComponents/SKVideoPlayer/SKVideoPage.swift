@@ -4,7 +4,7 @@
 //
 //  Created by Kamil Szpak on 02/10/2025.
 //
-#if os(iOS)
+#if os(iOS) || os(tvOS) || os(visionOS)
 import SwiftUI
 import AVKit
 import TabKit
@@ -18,7 +18,7 @@ public struct SKVideoPage: SKPageable, View {
     @State private var showingTransitionBG = false
     @State private var player: AVPlayer
     @State private var isLoaded: Bool = false
-    @State private var isLoadedCompletly: Bool = false
+    @State private var isDuringTransiton: Bool = false
     let highlights: [SKVideoHighlight]
     
     public var body: some View {
@@ -32,7 +32,7 @@ public struct SKVideoPage: SKPageable, View {
             }
             .if{ content in
                 Group{
-                    if #available(iOS 26.0, *){
+                    if #available(iOS 26.0, visionOS 26.0, tvOS 26.0, *){
                         content
 #if compiler(>=6.2)
                             .safeAreaBar(edge: .bottom) {
@@ -73,6 +73,7 @@ public struct SKVideoPage: SKPageable, View {
                 ToolbarItem(placement: .cancellationAction) {
                     SKToolbarItem(placement: .navigation, actionType: .dismiss) {
                         SKButton(verbatim: SKTranslation.SKButton.back.value, systemImage: "chevron.backward"){}
+                            .skAccentColor(nil)
                     }
                 }
                 ToolbarItem(placement: .confirmationAction) {
@@ -198,7 +199,7 @@ public struct SKVideoPage: SKPageable, View {
                 }
             }
         }()
-        if shouldShowTransition {
+        if shouldShowTransition && !isDuringTransiton{
             withAnimation(.smooth(duration: 0.5)){
                 showingTransitionBG = true
             }
@@ -209,10 +210,11 @@ public struct SKVideoPage: SKPageable, View {
         }
         
         
-        if shouldShowTransition {
+        if shouldShowTransition && !isDuringTransiton{
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
                 player.play()
             }
+            
             Task{ @MainActor in
                 try? await Task.sleep(nanoseconds: 700_000_000)
                 withAnimation(.smooth(duration: 0.5)){
@@ -304,7 +306,7 @@ public struct SKVideoPage: SKPageable, View {
     }
     
     public init( @SKVideoPageBuilder highlights: () -> [SKVideoHighlight], @SKToolbarBuilder toolbar: () -> [SKToolbarItem]) {
-        guard let url = highlights().flatMap{ $0.resource }.first else{ fatalError("No page have resource")}
+        guard let url = highlights().compactMap({ $0.resource }).first else{ fatalError("No page have resource")}
         self.player = AVPlayer(url: url)
         self.highlights = highlights()
         self.data = .init(content: highlights, toolbar: toolbar)
@@ -323,7 +325,7 @@ public struct SKVideoPage: SKPageable, View {
     }
     
     public func skSelectedHighlightIndex(_ binding: Binding<Int>) -> Self {
-        var copy = self
+        let copy = self
         return copy
     }
 }

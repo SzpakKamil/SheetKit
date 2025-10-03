@@ -54,7 +54,7 @@ struct SKHeaderImageTVOS: View {
                 .scaledToFit()
                 .symbolVariant(data.variant.getSymbolVariant())
                 .symbolRenderingMode(data.renderingMode.getSymbolRenderingMode())
-                .foregroundStyle(skAccentColor.gradient)
+                .foregroundStyle((skAccentColor ?? .accentColor).gradient)
                 .fontWeight(data.weight)
                 .contentTransition(.symbolEffect(.replace))
                 .frame(width: autoSize.rawValue, height: autoSize.rawValue)

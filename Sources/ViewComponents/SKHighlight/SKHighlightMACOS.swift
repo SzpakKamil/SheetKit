@@ -125,7 +125,7 @@ struct SKHighlightMACOS: View {
                     }
                 }
                 .frame(width: 50)
-                .foregroundStyle(skAccentColor)
+                .foregroundStyle(skAccentColor ?? .accentColor)
                 .accessibilityHidden(true)
             
         }

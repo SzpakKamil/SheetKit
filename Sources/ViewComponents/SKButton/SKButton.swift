@@ -525,11 +525,8 @@ extension SKButton {
         self.init(image: { image }, accessibilityLabel: Text(accessibilityLabel), destination: destination)
     }
     
-    public func skButtonStyle(_ style: SKToolbarItemPlacement? = nil) -> SKComponent{
-        SKCustomView(type: .customView) {
-            self.environment(\.skToolbarPlacement, style)
-        }
-
+    public func skButtonStyle(_ style: SKToolbarItemPlacement? = nil) -> some View{
+        self.environment(\.skToolbarPlacement, style)
     }
 }
 

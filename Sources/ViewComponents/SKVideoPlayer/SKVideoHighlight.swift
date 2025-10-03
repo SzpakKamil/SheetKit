@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-#if os(iOS)
+#if os(iOS) || os(tvOS) || os(visionOS)
 import AVKit
 import TabKit
 

@@ -10,7 +10,7 @@ import SwiftUI
 public struct SKPrimaryButtonStyle: ButtonStyle {
     let sheetStyle: SKSheetStyle?
     let isEnabled: Bool
-    let accentColor: Color
+    let accentColor: Color?
     let colorScheme: ColorScheme
     
     @_documentation(visibility: internal)
@@ -28,7 +28,7 @@ public struct SKPrimaryButtonStyle: ButtonStyle {
         #endif
     }
     
-    public init(isEnabled: Bool, accentColor: Color, sheetStyle: SKSheetStyle?, colorScheme: ColorScheme) {
+    public init(isEnabled: Bool, accentColor: Color?, sheetStyle: SKSheetStyle?, colorScheme: ColorScheme) {
         self.isEnabled = isEnabled
         self.sheetStyle = sheetStyle
         self.accentColor = accentColor
@@ -38,7 +38,7 @@ public struct SKPrimaryButtonStyle: ButtonStyle {
 public struct SKSecondaryButtonStyle: ButtonStyle {
     let sheetStyle: SKSheetStyle?
     let isEnabled: Bool
-    let accentColor: Color
+    let accentColor: Color?
     
     @_documentation(visibility: internal)
     public func makeBody(configuration: Configuration) -> some View {
@@ -55,7 +55,7 @@ public struct SKSecondaryButtonStyle: ButtonStyle {
         #endif
     }
     
-    public init(sheetStyle: SKSheetStyle?, isEnabled: Bool, accentColor: Color) {
+    public init(sheetStyle: SKSheetStyle?, isEnabled: Bool, accentColor: Color?) {
         self.sheetStyle = sheetStyle
         self.isEnabled = isEnabled
         self.accentColor = accentColor
@@ -64,7 +64,7 @@ public struct SKSecondaryButtonStyle: ButtonStyle {
 
 public struct SKNoteButtonStyle: ButtonStyle {
     let isEnabled: Bool
-    let accentColor: Color
+    let accentColor: Color?
     let colorScheme: ColorScheme
     let textAlignment: TextAlignment
     
@@ -82,7 +82,7 @@ public struct SKNoteButtonStyle: ButtonStyle {
         EmptyView()
         #endif
     }
-    public init(isEnabled: Bool, accentColor: Color, colorScheme: ColorScheme, textAlignment: TextAlignment = .leading) {
+    public init(isEnabled: Bool, accentColor: Color?, colorScheme: ColorScheme, textAlignment: TextAlignment = .leading) {
         self.isEnabled = isEnabled
         self.accentColor = accentColor
         self.colorScheme = colorScheme
@@ -94,7 +94,7 @@ public struct SKNavigationButtonStyle: ButtonStyle {
     let colorScheme: ColorScheme
     let sheetStyle: SKSheetStyle?
     let isEnabled: Bool
-    let accentColor: Color
+    let accentColor: Color?
     
     @_documentation(visibility: internal)
     public func makeBody(configuration: Configuration) -> some View {
@@ -111,7 +111,7 @@ public struct SKNavigationButtonStyle: ButtonStyle {
         #endif
     }
     
-    public init(colorScheme: ColorScheme, sheetStyle: SKSheetStyle?, isEnabled: Bool, accentColor: Color) {
+    public init(colorScheme: ColorScheme, sheetStyle: SKSheetStyle?, isEnabled: Bool, accentColor: Color?) {
         self.colorScheme = colorScheme
         self.sheetStyle = sheetStyle
         self.isEnabled = isEnabled

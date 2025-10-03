@@ -183,7 +183,7 @@ struct SKPickerOption<Content: View, Value: Hashable>: View {
                     
                     if isSelected {
                         Image(systemName: "checkmark")
-                            .foregroundStyle(accentColor)
+                            .foregroundStyle(accentColor ?? .accentColor)
                             .font(.body.weight(.semibold))
                             .accessibilityHidden(true)
                     }

@@ -22,18 +22,18 @@ struct SKToolbarTVOS: View {
         VStack{
             if #available(tvOS 26.0, *){
                 VStack(spacing: 5){
-                    ForEach(noteItems.indices){ index in
+                    ForEach(noteItems.indices, id: \.self){ index in
                         noteItems[index]
                     }
                 }
             }
             HStack(spacing: 10){
-                ForEach(secondaryItems.indices){ index in
+                ForEach(secondaryItems.indices, id: \.self){ index in
                     secondaryItems[index]
                 }
                 if #unavailable(tvOS 26.0){
                     VStack(spacing: 5){
-                        ForEach(noteItems.indices){ index in
+                        ForEach(noteItems.indices, id: \.self){ index in
                             noteItems[index]
                         }
                     }
@@ -47,14 +47,14 @@ struct SKToolbarTVOS: View {
                 if navigationItems.isEmpty && (!isCloseButtonHidden || isShowingBackButton){
                     SKToolbarItem(placement: .navigation, actionType: .dismiss) {SKButton(verbatim: SKTranslation.SKButton.back.value){}}
                 }else{
-                    ForEach(navigationItems.indices){ index in
+                    ForEach(navigationItems.indices, id: \.self){ index in
                         navigationItems[index]
                     }
                 }
                 if primaryItems.isEmpty && !skIsContinueButtonHidden{
                     SKToolbarItem(placement: .primary) {SKButton(verbatim: SKTranslation.SKButton.continue.value) {}}
                 }else{
-                    ForEach(primaryItems.indices){ index in
+                    ForEach(primaryItems.indices, id: \.self){ index in
                         primaryItems[index]
                     }
                 }

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-#if os(iOS)
+#if os(iOS) || os(tvOS) || os(visionOS)
 @resultBuilder
 public struct SKVideoPageBuilder {
     public static func buildBlock() -> [SKVideoHighlight] {

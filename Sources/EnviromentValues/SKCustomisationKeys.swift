@@ -28,9 +28,9 @@ private struct SKIsUsingFullScreenCover: EnvironmentKey {
 }
 private struct SKAccentColorKey: EnvironmentKey {
     #if os(tvOS)
-    static let defaultValue: Color = .blue
+    static let defaultValue: Color? = .blue
     #else
-    static let defaultValue: Color = .accentColor
+    static let defaultValue: Color? = .accentColor
     #endif
 }
 private struct SKPrimaryColorKey: EnvironmentKey {
@@ -80,7 +80,7 @@ public extension EnvironmentValues {
         get { self[SKRowSpacingKey.self] }
         set { self[SKRowSpacingKey.self] = newValue }
     }
-    var skAccentColor: Color {
+    var skAccentColor: Color? {
         get { self[SKAccentColorKey.self] }
         set { self[SKAccentColorKey.self] = newValue }
     }

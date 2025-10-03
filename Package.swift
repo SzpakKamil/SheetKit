@@ -22,7 +22,7 @@ let package = Package(
               .product(
                 name: "TabKit",
                 package: "TabKit",
-                condition: .when(platforms: [.iOS])
+                condition: .when(platforms: [.iOS, .tvOS, .visionOS])
               ),
             ],
             resources: [

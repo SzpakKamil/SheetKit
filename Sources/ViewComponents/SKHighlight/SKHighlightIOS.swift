@@ -100,7 +100,7 @@ struct SKHighlightIOS: View {
                 .scaledToFit()
                 .frame(width: 35, height: 35)
                 .frame(width: 50)
-                .foregroundStyle(skAccentColor)
+                .foregroundStyle(skAccentColor ?? .accentColor)
                 .accessibilityHidden(true)
             
         }

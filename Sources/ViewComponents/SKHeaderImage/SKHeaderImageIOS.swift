@@ -58,7 +58,7 @@ struct SKHeaderImageIOS: View {
                 .scaledToFit()
                 .symbolVariant(data.variant.getSymbolVariant())
                 .symbolRenderingMode(data.renderingMode.getSymbolRenderingMode())
-                .foregroundStyle(skAccentColor)
+                .foregroundStyle(skAccentColor ?? .accentColor)
                 .fontWeight(data.weight)
                 .if{content in
                     if #available(iOS 17.0, *), !accessibilityReduceMotion{
