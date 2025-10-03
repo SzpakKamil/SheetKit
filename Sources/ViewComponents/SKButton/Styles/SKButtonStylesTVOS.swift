@@ -24,7 +24,7 @@ struct SKPrimaryButtonStyleTVOS: ButtonStyle {
                         .padding(.vertical, 10)
                         .padding(.horizontal, 11)
                         #if compiler(>=6.2)
-                        .glassEffect(.regular.tint(accentColor).interactive(true), in: .rect)
+                        .glassEffect(.regular.tint(accentColor).interactive(true), in: .buttonBorder)
                         #endif
                         .opacity(configuration.isPressed ? 0.5 : 1)
                         .hoverEffect(.highlight)
@@ -37,6 +37,15 @@ struct SKPrimaryButtonStyleTVOS: ButtonStyle {
                         .background(accentColor)
                         .opacity(configuration.isPressed ? 0.5 : 1)
                         .hoverEffect(.highlight)
+                        .if{content in
+                            if isEnabled{
+                                content
+                            }else{
+                                content
+                                    .clipShape(.buttonBorder)
+                            }
+                        }
+                       
                 }
             }
             .opacity(isEnabled ? 1 : 0.5)
@@ -65,7 +74,7 @@ struct SKSecondaryButtonStyleTVOS: ButtonStyle {
                         .padding(.vertical, 10)
                         .padding(.horizontal, 11)
                         #if compiler(>=6.2)
-                        .glassEffect(.regular.interactive(true))
+                        .glassEffect(.regular.interactive(true), in: .buttonBorder)
                         #endif
                         .opacity(configuration.isPressed ? 0.5 : 1)
                         .hoverEffect(.highlight)
@@ -78,6 +87,14 @@ struct SKSecondaryButtonStyleTVOS: ButtonStyle {
                         .background(.primary.opacity(0.1))
                         .opacity(configuration.isPressed ? 0.5 : 1)
                         .hoverEffect(.highlight)
+                        .if{content in
+                            if isEnabled{
+                                content
+                            }else{
+                                content
+                                    .clipShape(.buttonBorder)
+                            }
+                        }
                 }
             }
             .opacity(isEnabled ? 1 : 0.5)
@@ -134,7 +151,7 @@ struct SKNavigationButtonStyleTVOS: ButtonStyle {
                         .padding(.vertical, 10)
                         .padding(.horizontal, 11)
 #if compiler(>=6.2)
-                        .glassEffect(.regular.interactive(true))
+                        .glassEffect(.regular.interactive(true), in: .buttonBorder)
 #endif
                         .opacity(configuration.isPressed ? 0.5 : 1)
                         .hoverEffect(.highlight)
@@ -147,6 +164,14 @@ struct SKNavigationButtonStyleTVOS: ButtonStyle {
                         .background(.primary.opacity(0.1))
                         .opacity(configuration.isPressed ? 0.5 : 1)
                         .hoverEffect(.highlight)
+                        .if{content in
+                            if isEnabled{
+                                content
+                            }else{
+                                content
+                                    .clipShape(.buttonBorder)
+                            }
+                        }
                 }
             }
             .contentShape(Rectangle())

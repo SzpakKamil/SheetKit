@@ -53,6 +53,7 @@ struct SKScrollViewTVOS<Content: View>: View {
             ZStack(alignment: .bottom) {
                 Blur()
                     .frame(height: toolbarHeight + 30)
+                    .opacity(0.6)
                     
                 GeometryReader{ proxy in
                     VStack{

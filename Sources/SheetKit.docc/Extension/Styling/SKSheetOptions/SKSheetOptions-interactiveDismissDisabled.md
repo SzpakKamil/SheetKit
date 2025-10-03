@@ -45,7 +45,7 @@ struct InteractiveDismissEnabledSheet: SKSheet {
     var id: String = "InteractiveDismissEnabledSheet"
     var options: Set<SKSheetOptions> = []
     
-    var pages: [SKPage] {
+    var pages: [any SKPageable] {
         SKPage {
             SKHeaderImage(systemName: "lock.open.fill")
             SKTitle("Dismissible Sheet")
@@ -58,7 +58,7 @@ struct InteractiveDismissDisabledSheet: SKSheet {
     var id: String = "InteractiveDismissDisabledSheet"
     var options: Set<SKSheetOptions> = [.interactiveDismissDisabled(true)]
     
-    var pages: [SKPage] {
+    var pages: [any SKPageable] {
         SKPage {
             SKHeaderImage(systemName: "lock.fill")
             SKTitle("Non-Dismissible Sheet")

@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "tabkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SzpakKamil/TabKit",
+      "state" : {
+        "branch" : "main",
+        "revision" : "f34bd9f9c4102982a0a003497558f769387d63ee"
+      }
+    }
+  ],
+  "version" : 2
+}

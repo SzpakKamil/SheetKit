@@ -46,7 +46,7 @@ struct DefaultRowBackgroundSheet: SKSheet {
     @State private var date: Date = Date()
     let options: [String] = ["Option 1", "Option 2", "Option 3"]
     
-    var pages: [SKPage] {
+    var pages: [any SKPageable] {
         SKPage {
             SKHeaderImage(systemName: "list.clipboard.fill")
             SKTitle("Default Row Background")
@@ -68,7 +68,7 @@ struct CustomRowBackgroundSheet: SKSheet {
     @State private var date: Date = Date()
     let options: [String] = ["Option 1", "Option 2", "Option 3"]
     
-    var pages: [SKPage] {
+    var pages: [any SKPageable] {
         SKPage {
             SKHeaderImage(systemName: "list.clipboard.fill")
             SKTitle("Custom Row Background")

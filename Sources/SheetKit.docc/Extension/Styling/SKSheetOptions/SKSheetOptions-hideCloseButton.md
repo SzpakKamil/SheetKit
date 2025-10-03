@@ -45,7 +45,7 @@ struct VisibleCloseButtonSheet: SKSheet {
     var id: String = "VisibleCloseButtonSheet"
     var options: Set<SKSheetOptions> = [.hideCloseButton(false), .style(.default)]
     
-    var pages: [SKPage] {
+    var pages: [any SKPageable] {
         SKPage {
             SKHeaderImage(systemName: "xmark.circle")
             SKTitle("Close Button Visible")
@@ -58,7 +58,7 @@ struct HiddenCloseButtonSheet: SKSheet {
     var id: String = "HiddenCloseButtonSheet"
     var options: Set<SKSheetOptions> = [.hideCloseButton(true), .style(.default)]
     
-    var pages: [SKPage] {
+    var pages: [any SKPageable] {
         SKPage {
             SKHeaderImage(systemName: "xmark.circle")
             SKTitle("Close Button Hidden")

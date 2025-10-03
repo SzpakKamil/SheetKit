@@ -64,7 +64,8 @@ extension SKPage{
         }
     }
 }
-public struct SKPage: View{
+
+public struct SKPage: View, SKPageable{
     public var data: SKPage.Data
     public var adjustedContent: AnyView?
     public var body: some View {

@@ -11,7 +11,7 @@ public protocol SKSheet: View, SKSheetable{
     var options: Set<SKSheetOptions> { get }
 
     var id: String { get }
-    @SKSheetBuilder var pages: [SKPage] { get }
+    @SKSheetBuilder var pages: [any SKPageable] { get }
     
     func disapearAction()
 }

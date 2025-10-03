@@ -43,7 +43,7 @@ import SheetKit
 struct VisibleDragIndicator: SKSheet {
     var id: String = "VisibleDragIndicator"
     var options: Set<SKSheetOptions> = [.presentationDragIndicator(.visible)]
-    var pages: [SKPage] {
+    var pages: [any SKPageable] {
         SKPage {
             SKHeaderImage(systemName: "list.clipboard.fill")
             SKTitle("Visible Drag Indicator")
@@ -55,7 +55,7 @@ struct VisibleDragIndicator: SKSheet {
 struct HiddenDragIndicator: SKSheet {
     var id: String = "HiddenDragIndicator"
     var options: Set<SKSheetOptions> = [.presentationDragIndicator(.hidden)]
-    var pages: [SKPage] {
+    var pages: [any SKPageable] {
         SKPage {
             SKHeaderImage(systemName: "list.clipboard.fill")
             SKTitle("Hidden Drag Indicator")

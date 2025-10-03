@@ -43,7 +43,7 @@ struct DefaultAccentColorSheet: SKSheet {
     var id: String = "DefaultAccentColorSheet"
     var options: Set<SKSheetOptions> = [.accentColor(.accentColor)]
     
-    var pages: [SKPage] {
+    var pages: [any SKPageable] {
         SKPage {
             SKHeaderImage(systemName: "paintbrush.pointed.fill")
             SKTitle("Default Accent Color")
@@ -57,7 +57,7 @@ struct CustomAccentColorSheet: SKSheet {
     var id: String = "CustomAccentColorSheet"
     var options: Set<SKSheetOptions> = [.accentColor(.red)]
     
-    var pages: [SKPage] {
+    var pages: [any SKPageable] {
         SKPage {
             SKHeaderImage(systemName: "paintbrush.pointed.fill")
             SKTitle("Custom Accent Color")

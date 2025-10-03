@@ -13,6 +13,7 @@ struct SKPrimaryButtonStyleMACOS: ButtonStyle {
     let accentColor: Color
     let colorScheme: ColorScheme
     func makeBody(configuration: Configuration) -> some View {
+        let accentColor: Color = (isEnabled ? accentColor : .gray)
         configuration.label
             .buttonStyle(.plain)
             .if{ content in

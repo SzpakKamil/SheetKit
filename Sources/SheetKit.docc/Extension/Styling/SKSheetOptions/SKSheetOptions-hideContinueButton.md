@@ -44,7 +44,7 @@ struct VisibleContinueButtonSheet: SKSheet {
     var id: String = "VisibleContinueButtonSheet"
     var options: Set<SKSheetOptions> = [.hideContinueButton(false), .style(.prominent)]
     
-    var pages: [SKPage] {
+    var pages: [any SKPageable] {
         SKPage {
             SKHeaderImage(systemName: "chevron.forward.circle")
             SKTitle("Continue Button Visible")
@@ -57,7 +57,7 @@ struct HiddenContinueButtonSheet: SKSheet {
     var id: String = "HiddenContinueButtonSheet"
     var options: Set<SKSheetOptions> = [.hideContinueButton(true), .style(.prominent)]
     
-    var pages: [SKPage] {
+    var pages: [any SKPageable] {
         SKPage {
             SKHeaderImage(systemName: "chevron.forward.circle")
             SKTitle("Continue Button Hidden")

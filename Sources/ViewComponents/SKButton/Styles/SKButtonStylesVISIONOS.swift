@@ -12,6 +12,7 @@ struct SKPrimaryButtonStyleVISIONOS: ButtonStyle {
     let isEnabled: Bool
     let accentColor: Color
     func makeBody(configuration: Configuration) -> some View {
+        let accentColor: Color = (isEnabled ? accentColor : .gray)
         HStack{
             Spacer()
             configuration.label

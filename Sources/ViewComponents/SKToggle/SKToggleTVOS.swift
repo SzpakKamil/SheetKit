@@ -41,6 +41,8 @@ struct SKToggleTVOS: View {
                 Text(data.title)
                     .foregroundStyle(textColor)
             }
+            .padding(.vertical, 10)
+            .padding(.horizontal, -7)
         }
         .buttonStyle(.borderedProminent)
         .buttonBorderShape(skIsInSection ? .roundedRectangle(radius: 0) : skRowShape == nil ? .automatic : .roundedRectangle(radius: skRowShape!))

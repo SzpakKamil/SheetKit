@@ -44,7 +44,7 @@ struct FullScreenCoverEnabledSheet: SKSheet {
     var options: Set<SKSheetOptions> = [.isFullScreenCover(true)]
     @AppStorage("Test") var value: Bool = false
     
-    var pages: [SKPage] {
+    var pages: [any SKPageable] {
         SKPage {
             SKHeaderImage(systemName: "apps.iphone")
             SKTitle("Full Screen Sheet")
@@ -57,7 +57,7 @@ struct FullScreenCoverDisabledSheet: SKSheet {
     var id: String = "FullScreenCoverDisabledSheet"
     var options: Set<SKSheetOptions> = [.isFullScreenCover(false)]
     
-    var pages: [SKPage] {
+    var pages: [any SKPageable] {
         SKPage {
             SKHeaderImage(systemName: "apps.iphone")
             SKTitle("Regular Sheet")

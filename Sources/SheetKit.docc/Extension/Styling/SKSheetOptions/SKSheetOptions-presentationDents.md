@@ -43,7 +43,7 @@ import SheetKit
 struct PresentationDentsMedium: SKSheet {
     var id: String = "PresentationDentsMedium"
     var options: Set<SKSheetOptions> = [.presentationDents(dents: [.medium])]
-    var pages: [SKPage] {
+    var pages: [any SKPageable] {
         SKPage {
             SKHeaderImage(systemName: "rectangle.fill.on.rectangle.fill")
             SKTitle("Medium Dents Presentation")
@@ -55,7 +55,7 @@ struct PresentationDentsMedium: SKSheet {
 struct PresentationDentsLarge: SKSheet {
     var id: String = "PresentationDentsLarge"
     var options: Set<SKSheetOptions> = [.presentationDents(dents: [.large])]
-    var pages: [SKPage] {
+    var pages: [any SKPageable] {
         SKPage {
             SKHeaderImage(systemName: "rectangle.portrait.on.rectangle.portrait.fill")
             SKTitle("Large Dents Presentation")

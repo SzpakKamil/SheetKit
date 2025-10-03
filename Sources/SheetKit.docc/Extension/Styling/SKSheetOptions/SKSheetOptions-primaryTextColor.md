@@ -38,7 +38,7 @@ import SheetKit
 struct DefaultPrimaryTextColor: SKSheet {
     var id: String = "DefaultPrimaryTextColor"
     var options: Set<SKSheetOptions> = [.primaryTextColor()]
-    var pages: [SKPage] {
+    var pages: [any SKPageable] {
         SKPage {
             SKHeaderImage(systemName: "textformat")
             SKTitle("Default Text Color")
@@ -51,7 +51,7 @@ struct DefaultPrimaryTextColor: SKSheet {
 struct CustomPrimaryTextColor: SKSheet {
     var id: String = "CustomPrimaryTextColor"
     var options: Set<SKSheetOptions> = [.primaryTextColor(color: .red)]
-    var pages: [SKPage] {
+    var pages: [any SKPageable] {
         SKPage {
             SKHeaderImage(systemName: "textformat")
             SKTitle("Custom Text Color")

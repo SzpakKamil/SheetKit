@@ -42,7 +42,7 @@ struct ExampleSheet: SKSheet {
     var id: String = "ExampleSheet"
     var options: Set<SKSheetOptions> = [.isHandoffEnabled(true)]
     
-    var pages: [SKPage] {
+    var pages: [any SKPageable] {
         SKPage {
             SKHeaderImage(systemName: "arrow.up.right.square")
             SKTitle("Handoff Example")

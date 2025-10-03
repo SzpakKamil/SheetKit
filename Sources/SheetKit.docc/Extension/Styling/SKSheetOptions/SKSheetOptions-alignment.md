@@ -37,7 +37,7 @@ struct LeadingAlignmentSheet: SKSheet {
     var id: String = "LeadingAlignmentSheet"
     var options: Set<SKSheetOptions> = [.alignment(.leading), .style(.default)]
     
-    var pages: [SKPage] {
+    var pages: [any SKPageable] {
         SKPage {
             SKHeaderImage(systemName: "align.horizontal.left.fill")
             SKTitle("Leading Alignment Display")
@@ -51,7 +51,7 @@ struct CenterAlignmentSheet: SKSheet {
     var id: String = "CenterAlignmentSheet"
     var options: Set<SKSheetOptions> = [.alignment(.center), .style(.default)]
     
-    var pages: [SKPage] {
+    var pages: [any SKPageable] {
         SKPage {
             SKHeaderImage(systemName: "align.horizontal.center.fill")
             SKTitle("Centered Alignment View")
@@ -65,7 +65,7 @@ struct TrailingAlignmentSheet: SKSheet {
     var id: String = "TrailingAlignmentSheet"
     var options: Set<SKSheetOptions> = [.alignment(.trailing), .style(.default)]
     
-    var pages: [SKPage] {
+    var pages: [any SKPageable] {
         SKPage {
             SKHeaderImage(systemName: "align.horizontal.right.fill")
             SKTitle("Trailing Alignment Layout")
@@ -79,7 +79,7 @@ struct DefaultAlignmentSheet: SKSheet {
     var id: String = "DefaultAlignmentSheet"
     var options: Set<SKSheetOptions> = [.alignment(nil), .style(.default)]
     
-    var pages: [SKPage] {
+    var pages: [any SKPageable] {
         SKPage {
             SKHeaderImage(systemName: "align.horizontal.center.fill")
             SKTitle("Default Alignment Setup")

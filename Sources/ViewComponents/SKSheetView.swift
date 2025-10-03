@@ -16,7 +16,7 @@ public struct SKSheetView: View {
     var pathBinding: Binding<[Int]>?
     @State private var path: [Int] = []
     @State private var shouldPresentAlert: Bool = false
-    var pages: [SKPage]
+    var pages: [any SKPageable]
     let adjustedContent: AnyView?
     public var body: some View {
         if let adjustedContent{
@@ -81,7 +81,7 @@ public struct SKSheetView: View {
                     }
                 }
 
-                page
+                page.erasedContent()
                     .alert(page.data.alert?.title ?? "", isPresented: isPresented) {
                         page.data.alert?.content
                     } message: {
@@ -185,17 +185,17 @@ public struct SKSheetView: View {
     }
 
     
-    public init(@SKSheetBuilder pages: () -> [SKPage]) {
+    public init(@SKSheetBuilder pages: () -> [any SKPageable]) {
         self.pages = pages()
         self.adjustedContent = nil
     }
     
-    public init(pages: [SKPage]) {
+    public init(pages: [any SKPageable]) {
         self.pages = pages
         self.adjustedContent = nil
     }
     
-    public init(pages: [SKPage], @ViewBuilder content: @escaping () -> some View) {
+    public init(pages: [any SKPageable], @ViewBuilder content: @escaping () -> some View) {
         self.pages = pages
         self.adjustedContent = AnyView(content())
     }

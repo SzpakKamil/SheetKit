@@ -43,7 +43,7 @@ struct DefaultRowShape: SKSheet {
     var id: String = "DefaultRowShape"
     var options: Set<SKSheetOptions> = [.rowShape(cornerRadius: nil)]
     @State private var text: String = ""
-    var pages: [SKPage] {
+    var pages: [any SKPageable] {
         SKPage {
             SKHeaderImage(systemName: "list.clipboard.fill")
             SKTitle("Default Row Shape")
@@ -57,7 +57,7 @@ struct CustomRowShape: SKSheet {
     var id: String = "CustomRowShape"
     var options: Set<SKSheetOptions> = [.rowShape(cornerRadius: 0)]
     @State private var text: String = ""
-    var pages: [SKPage] {
+    var pages: [any SKPageable] {
         SKPage {
             SKHeaderImage(systemName: "list.clipboard.fill")
             SKTitle("Custom Row Shape")
