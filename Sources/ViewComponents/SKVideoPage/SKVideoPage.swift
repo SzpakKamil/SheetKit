@@ -16,8 +16,10 @@ public struct SKVideoPage: SKPageable, View {
     @Environment(\.skSheetStyle) var sheetStyle
     @Environment(\.skIsUsingFullScreenCover) var skIsUsingFullScreenCover
     @Environment(\.skDismissButtonAction) var skDismissButtonAction
+    @Environment(\.skIsSkipButtonHidden) var skIsSkipButtonHidden
+    @Environment(\.skIsBackButtonHidden) var skIsBackButtonHidden
     @Environment(\.skPrimaryButtonAction) var skPrimaryButtonAction
-    public var data: SKPage.Data
+    public var data: SKPageableData
     public var adjustedContent: AnyView?
     @State private var defaultSelectedHighlightIndex: Int = 0
     @State private var showingTransitionBG = false
@@ -28,7 +30,7 @@ public struct SKVideoPage: SKPageable, View {
     let pageBackground: AnyView
     let highlights: [SKVideoHighlight]
     
-    var pageStyle: SKPage.BackgroundStyle {
+    var pageStyle: SKPageBackgroundStyle {
         data.backgroundStyle ?? .init{
             #if os(tvOS)
             ZStack{
@@ -137,8 +139,12 @@ public struct SKVideoPage: SKPageable, View {
         }
         #endif
         var newItems = data.toolbar.items
-        newItems.append(navigationItem)
-        newItems.append(secondaryItem)
+        if !skIsBackButtonHidden{
+            newItems.append(navigationItem)
+        }
+        if !skIsSkipButtonHidden{
+            newItems.append(secondaryItem)
+        }
         return .init(items: newItems)
     }
     
@@ -147,14 +153,12 @@ public struct SKVideoPage: SKPageable, View {
             videoContent()
         }
         .onAppear {
-            
-            let firstStartTime = highlights.first?.startTime?.seconds ?? 0
-            if firstStartTime <= 0 {
-                isLoaded = true
-            } else {
-                DispatchQueue.main.asyncAfter(deadline: .now() + firstStartTime) {
+            if let firstStartTime = highlights.first?.startTime?.seconds, firstStartTime > 0 {
+                DispatchQueue.main.asyncAfter(deadline: .now() + firstStartTime + 1) {
                     isLoaded = true
                 }
+            }else{
+                isLoaded = true
             }
         }
         .environment(\.skIsCloseButtonHidden, true)
@@ -172,6 +176,7 @@ public struct SKVideoPage: SKPageable, View {
                 defaultSelectedHighlightIndex -= 1
             }
         }
+        .environment(\.skIsBackDefaultButtonHidden, true)
         #if os(macOS)
         .frame(width: sheetStyle.windowWidth, height: sheetStyle.height)
         #endif
@@ -289,7 +294,7 @@ public struct SKVideoPage: SKPageable, View {
             }
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + (shouldShowTransition ? 0.4 : 0)){
+        DispatchQueue.main.asyncAfter(deadline: .now() + (shouldShowTransition ? 0.5 : 0)){
             configuratePlayerLayer(previousItem: previousItem, currentItem: currentItem, isManual: isManual)
         }
         
@@ -311,8 +316,13 @@ public struct SKVideoPage: SKPageable, View {
     }
     
     private func configuratePlayerLayer(previousItem: SKVideoHighlight, currentItem: SKVideoHighlight, isManual: Bool) {
-        if previousItem.resource == currentItem.resource {
-            if isLoaded{
+        if let resource = currentItem.resource, highlights.last == previousItem && highlights.first == currentItem {
+            player.pause()
+            player = AVPlayer(url: resource)
+            player.seek(to: (currentItem.startTime ?? .zero))
+            player.play()
+        }else if previousItem.resource == currentItem.resource {
+            if isManual{
                 player.seek(to: isLoaded ? currentItem.startTime ?? .zero : .zero)
             }
             player.play()
@@ -327,7 +337,11 @@ public struct SKVideoPage: SKPageable, View {
     private func calculateDuration(previousItem: SKVideoHighlight, currentItem: SKVideoHighlight, nextItem: SKVideoHighlight?) -> Double? {
         let highlight = currentItem
         guard !highlight.runIndefinitly else { return nil }
-        let transitionTime = highlight.transitionAutoDirection != .none ? -0.5 : 0
+        #if os(macOS)
+        let transitionTime: Double = highlight.transitionAutoDirection != .none ? 0 : 0
+        #else
+        let transitionTime: Double = highlight.transitionAutoDirection != .none ? -0.5 : 0
+        #endif
         let assetURL = highlight.resource ?? previousItem.resource
         guard let url = assetURL else { return nil }
         let asset = AVAsset(url: url)

@@ -49,6 +49,11 @@ public extension SKSheetView{
             self.environment(\.skIsCloseButtonHidden, configuration)
         }
     }
+    func skHideBackButton(_ configuration: Bool = true) -> SKSheetView{
+        return SKSheetView(pages: self.pages) {
+            self.environment(\.skIsBackButtonHidden, configuration)
+        }
+    }
     func skHideContinueButton(_ configuration: Bool = true) -> SKSheetView{
         return SKSheetView(pages: self.pages) {
             self.environment(\.skIsContinueButtonHidden, configuration)

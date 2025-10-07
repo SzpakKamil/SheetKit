@@ -14,8 +14,8 @@ struct SKPageMACOS: View{
     @Environment(\.skRowSpacing) var skRowSpacing
     @Environment(\.skIsCloseButtonHidden) var isCloseButtonHidden
     @Environment(\.skIsShowingBackButton) var isShowingBackButton
-    var data: SKPage.Data
-    var autoStyle: SKPage.BackgroundStyle{
+    var data: SKPageableData
+    var autoStyle: SKPageBackgroundStyle{
         if let backgroundStyle = data.backgroundStyle{
             return backgroundStyle
         }else{
@@ -95,7 +95,7 @@ struct SKPageMACOS: View{
             
     }
     
-    init(data: SKPage.Data) {
+    init(data: SKPageableData) {
         self.data = data
     }
 }

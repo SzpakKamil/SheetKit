@@ -92,19 +92,6 @@ public struct SKSheetView: View {
             }
         }
         .navigationBarBackButtonHidden()
-        #if !os(macOS) && !os(tvOS) && !os(watchOS)
-        .toolbar{
-            if !(pathBinding?.wrappedValue ?? path).isEmpty{
-                ToolbarItem(placement: .navigation) {
-                    SKToolbarItem(placement: .navigation) { _ in
-                        SKButton(verbatim: SKTranslation.SKButton.back.value, systemImage: "chevron.backward") {
-                            dismissalAction(currentIndex: currentIndex)
-                        }
-                    }
-                }
-            }
-        }
-        #endif
         .environment(\.skPrimaryButtonAction) {
             confirmationAction(currentIndex: currentIndex)
         }

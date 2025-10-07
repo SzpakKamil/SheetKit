@@ -140,9 +140,9 @@ public struct SKButton<TextContent: View, ImageContent: View>: View, SKComponent
 #endif
                         }
                         .lineLimit(1)
-                        .contentShape(Rectangle())
                     }
                 }
+                .contentShape(Rectangle())
                 .buttonBorderShape(borderShape)
             } else {
                 Button {
@@ -270,10 +270,10 @@ public struct SKButton<TextContent: View, ImageContent: View>: View, SKComponent
 #endif
                         }
                         .lineLimit(1)
-                        .contentShape(Rectangle())
                     }
 
                 }
+                .contentShape(Rectangle())
                 .buttonBorderShape(borderShape)
             }
         }

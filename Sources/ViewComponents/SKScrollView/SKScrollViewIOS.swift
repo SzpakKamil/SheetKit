@@ -13,8 +13,8 @@ struct SKScrollViewIOS<Content: View>: View {
     @Environment(\.skRowSpacing) var skRowSpacing
     @Environment(\.skIsContinueButtonHidden) var skIsContinueButtonHidden
     let content: () -> Content
-    let pageStyle: SKPage.Style
-    let backgroundStyle: SKPage.BackgroundStyle
+    let pageStyle: SKPageStyle
+    let backgroundStyle: SKPageBackgroundStyle
     let toolbar: SKToolbar
     let showBlur: Bool?
     var opacity: CGFloat?
@@ -83,7 +83,7 @@ struct SKScrollViewIOS<Content: View>: View {
         }
     }
 
-    init(pageStyle: SKPage.Style, backgroundStyle: SKPage.BackgroundStyle, showBlur: Bool? = nil, toolbar: SKToolbar, opacity: CGFloat? = nil, toolbarAnimations: Animation?, animationValue: Bool?, @ViewBuilder content: @escaping () -> Content) {
+    init(pageStyle: SKPageStyle, backgroundStyle: SKPageBackgroundStyle, showBlur: Bool? = nil, toolbar: SKToolbar, opacity: CGFloat? = nil, toolbarAnimations: Animation?, animationValue: Bool?, @ViewBuilder content: @escaping () -> Content) {
         self.pageStyle = pageStyle
         self.content = content
         self.backgroundStyle = backgroundStyle

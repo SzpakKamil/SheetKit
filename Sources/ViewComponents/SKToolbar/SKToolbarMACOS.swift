@@ -12,6 +12,8 @@ struct SKToolbarMACOS: View {
     @Environment(\.skSheetStyle) var skSheetStyle
     @Environment(\.skIsCloseButtonHidden) var isCloseButtonHidden
     @Environment(\.skIsShowingBackButton) var isShowingBackButton
+    @Environment(\.skIsBackDefaultButtonHidden) var skIsBackDefaultButtonHidden
+    @Environment(\.skIsBackButtonHidden) var skIsBackButtonHidden
     @Environment(\.skIsContinueButtonHidden) var skIsContinueButtonHidden
     let items: [SKToolbarItem]
     var body: some View {
@@ -54,7 +56,7 @@ struct SKToolbarMACOS: View {
                     Spacer()
                     if #available(macOS 26.0, *){
                         if skSheetStyle == .default{
-                            if navigationItems.isEmpty && (!isCloseButtonHidden || isShowingBackButton) {
+                            if navigationItems.isEmpty && (!isCloseButtonHidden || isShowingBackButton || (skIsBackButtonHidden && skIsBackDefaultButtonHidden)) {
                                 SKToolbarItem(placement: .navigation, actionType: .dismiss) {SKButton(verbatim: SKTranslation.SKButton.back.value){}}
                             }else{
                                 ForEach(navigationItems.indices){ index in
@@ -63,7 +65,7 @@ struct SKToolbarMACOS: View {
                             }
                         }
                     }else{
-                        if navigationItems.isEmpty && (!isCloseButtonHidden || isShowingBackButton) {
+                        if navigationItems.isEmpty && (!isCloseButtonHidden || isShowingBackButton || (skIsBackButtonHidden && skIsBackDefaultButtonHidden)) {
                             SKToolbarItem(placement: .navigation, actionType: .dismiss) {SKButton(verbatim: SKTranslation.SKButton.back.value){}}
                         }else{
                             ForEach(navigationItems.indices){ index in

@@ -17,8 +17,8 @@ struct SKPageIOS: View{
     @State private var presentAlert: Bool = false
     @State private var toolbarFactor: CGFloat = 0
     @State private var toolbarHeight: CGFloat = 0
-    var data: SKPage.Data
-    var autoStyle: SKPage.BackgroundStyle{
+    var data: SKPageableData
+    var autoStyle: SKPageBackgroundStyle{
         if let backgroundStyle = data.backgroundStyle{
             return backgroundStyle
         }else{
@@ -48,7 +48,7 @@ struct SKPageIOS: View{
         }
     }
     
-    init(data: SKPage.Data) {
+    init(data: SKPageableData) {
         self.data = data
     }
 }

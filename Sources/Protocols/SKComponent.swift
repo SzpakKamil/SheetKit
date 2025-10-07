@@ -9,10 +9,7 @@ import SwiftUI
 
 public protocol SKComponent: View where Body: View {
     var type: SKComponentType { get }
-    
     @ViewBuilder @MainActor @preconcurrency var body: Self.Body { get }
-    
-    
 }
 @_documentation(visibility: internal)
 public extension SKComponent {

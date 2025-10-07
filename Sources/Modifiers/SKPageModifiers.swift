@@ -8,19 +8,19 @@
 import SwiftUI
 
 public extension SKPageable{
-    func skAlert(isPresented: Binding<Bool>, title: String, description: String, type: SKPage.Alert.AlertType? = nil, @ViewBuilder content: @escaping () -> some View) -> SKPageable{
+    func skAlert(isPresented: Binding<Bool>, title: String, description: String, type: SKAlert.AlertType? = nil, @ViewBuilder content: @escaping () -> some View) -> SKPageable{
         var copy = self
         copy.data.alert = .init(isPresented: isPresented, title: title, description: description, type: type, content: content)
         return copy
     }
     
-    func skAlert(title: String, description: String, type: SKPage.Alert.AlertType, condition: Bool = true, @ViewBuilder content: @escaping () -> some View) -> SKPageable{
+    func skAlert(title: String, description: String, type: SKAlert.AlertType, condition: Bool = true, @ViewBuilder content: @escaping () -> some View) -> SKPageable{
         var copy = self
         copy.data.alert = .init(isPresented: Binding(get: { condition }, set: { _ in }), title: title, description: description, type: type, content: content)
         return copy
     }
     
-    func skPageBackground(_ style: SKPage.BackgroundStyle? = nil) -> SKPageable{
+    func skPageBackground(_ style: SKPageBackgroundStyle? = nil) -> SKPageable{
         var copy = self
         copy.data.backgroundStyle = style
         return copy
@@ -35,7 +35,7 @@ public extension SKPageable{
         copy.data.backgroundStyle = .init(lightView: light, darkView: dark)
         return copy
     }
-    func skPageStyle(_ style: SKPage.Style = .default) -> SKPageable{
+    func skPageStyle(_ style: SKPageStyle = .default) -> SKPageable{
         var copy = self
         copy.data.pageStyle = style
         return copy
@@ -81,9 +81,24 @@ public extension SKPageable{
             self.environment(\.skIsCloseButtonHidden, configuration)
         }
     }
+    func skHideBackButton(_ configuration: Bool = true) -> SKPageable{
+        return SKPage(data: data) {
+            self.environment(\.skIsBackButtonHidden, configuration)
+        }
+    }
     func skHideContinueButton(_ configuration: Bool = true) -> SKPageable{
         return SKPage(data: data) {
             self.environment(\.skIsContinueButtonHidden, configuration)
         }
     }
 }
+
+#if !os(watchOS)
+public extension SKVideoPage{
+    func skHideSkipButton(_ configuration: Bool = true) -> SKPageable{
+        return SKPage(data: data) {
+            self.environment(\.skIsSkipButtonHidden, configuration)
+        }
+    }
+}
+#endif

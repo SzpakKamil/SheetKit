@@ -42,16 +42,22 @@ struct SKSheetProtocolView<Sheet: SKSheet>: View{
     }
     var body: some View{
         let binding = skSheetManager.getPathBinding(forID: sheet.id)
-        SKSheetView(pages: sheet.pages)
+        
+        let baseView = SKSheetView(pages: sheet.pages)
             .skSheetPathBinding(binding)
+        
+        let midView = baseView
             .onChange(of: binding.wrappedValue) { _, newValue in
                 skSheetManager.changesCount += 1
             }
             .environment(\.skIsCloseButtonHidden,sheet.options.first{ $0.id == 1}?.value1 as? Bool ?? false)
+            .environment(\.skIsBackButtonHidden, sheet.options.first{ $0.id == 15}?.value1 as? Bool ?? false)
             .environment(\.skSheetInteractiveDismissDisabled, sheet.options.first{ $0.id == 2}?.value1 as? Bool ?? false)
             .environment(\.skSheetStyle, sheet.options.first{ $0.id == 3}?.value1 as? SKSheetStyle ?? .default)
             .environment(\.skSheetStyleDents, sheet.options.first{ $0.id == 4}?.value1 as? Set<PresentationDetent>)
             .environment(\.skAccentColor, sheet.options.first{ $0.id == 5}?.value1 as? Color ?? color)
+        
+        return midView
             .environment(\.skAlignment, sheet.options.first{ $0.id == 6}?.value1 as? HorizontalAlignment)
             .environment(\.skRowBackgroundColor, sheet.options.first{ $0.id == 7}?.value1 as? Color)
             .environment(\.skRowShape, sheet.options.first{ $0.id == 8}?.value1 as? CGFloat)
@@ -61,10 +67,10 @@ struct SKSheetProtocolView<Sheet: SKSheet>: View{
             .environment(\.skIsContinueButtonHidden, sheet.options.first{ $0.id == 12}?.value1 as? Bool ?? false)
             .environment(\.skIsUsingFullScreenCover, sheet.options.first{ $0.id == 13}?.value1 as? Bool ?? false)
             .presentationDragIndicator(sheet.options.first{ $0.id == 14}?.value1 as? Visibility ?? .hidden)
-
     }
     
     init(sheet: Sheet) {
         self.sheet = sheet
     }
 }
+

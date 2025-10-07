@@ -12,6 +12,8 @@ struct SKToolbarTVOS: View {
     @Environment(\.skSheetStyle) var sheetStyle
     @Environment(\.skIsCloseButtonHidden) var isCloseButtonHidden
     @Environment(\.skIsShowingBackButton) var isShowingBackButton
+    @Environment(\.skIsBackDefaultButtonHidden) var skIsBackDefaultButtonHidden
+    @Environment(\.skIsBackButtonHidden) var skIsBackButtonHidden
     @Environment(\.skIsContinueButtonHidden) var skIsContinueButtonHidden
     let items: [SKToolbarItem]
     var body: some View {
@@ -44,7 +46,7 @@ struct SKToolbarTVOS: View {
                     Spacer()
                 }
                 
-                if navigationItems.isEmpty && (!isCloseButtonHidden || isShowingBackButton){
+                if navigationItems.isEmpty && (!isCloseButtonHidden || isShowingBackButton || (skIsBackButtonHidden && skIsBackDefaultButtonHidden)){
                     SKToolbarItem(placement: .navigation, actionType: .dismiss) {SKButton(verbatim: SKTranslation.SKButton.back.value){}}
                 }else{
                     ForEach(navigationItems.indices, id: \.self){ index in

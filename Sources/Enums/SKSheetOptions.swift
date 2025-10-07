@@ -10,6 +10,7 @@ import SwiftUI
 public enum SKSheetOptions: Identifiable, Hashable{
     case isHandoffEnabled(Bool = false)
     case hideCloseButton(Bool = true)
+    case hideBackButton(Bool = true)
     case interactiveDismissDisabled(Bool = true)
     case style(SKSheetStyle = .default)
     case presentationDents(_ dents: Set<PresentationDetent>)
@@ -57,6 +58,8 @@ public enum SKSheetOptions: Identifiable, Hashable{
             13
         case .presentationDragIndicator:
             14
+        case .hideBackButton:
+            15
         }
     }
     
@@ -92,6 +95,8 @@ public enum SKSheetOptions: Identifiable, Hashable{
             bool
         case .presentationDragIndicator(let visibility):
             visibility
+        case .hideBackButton(let bool):
+            bool
         }
     }
     

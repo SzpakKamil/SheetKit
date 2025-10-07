@@ -25,7 +25,7 @@ struct SKPrimaryButtonStyleIOS: ButtonStyle {
                     .fontWeight(.medium)
                     .padding(.vertical, 17)
                     #if compiler(>=6.2)
-                    .glassEffect(.regular.tint(accentColor).interactive(true))
+                    .glassEffect(.regular.tint(accentColor).interactive(true), in: .capsule)
                     #endif
             }else{
                 content
@@ -63,7 +63,7 @@ struct SKSecondaryButtonStyleIOS: ButtonStyle {
                     .fontWeight(.medium)
                     .padding(.vertical, 17)
                     #if compiler(>=6.2)
-                    .glassEffect(.regular.interactive(true))
+                    .glassEffect(.regular.interactive(true), in: .capsule)
                     #endif
             }else{
                 content

@@ -11,6 +11,9 @@ import SwiftUI
 struct SKToolbarIOS: View {
     @Environment(\.skIsContinueButtonHidden) var skIsContinueButtonHidden
     @Environment(\.skIsCloseButtonHidden) var skIsCloseButtonHidden
+    @Environment(\.skIsBackButtonHidden) var skIsBackButtonHidden
+    @Environment(\.skIsShowingBackButton) var skIsShowingBackButton
+    @Environment(\.skIsBackDefaultButtonHidden) var skIsBackDefaultButtonHidden
     let items: [SKToolbarItem]
     var body: some View {
         let noteItems: [SKToolbarItem] = items.filter{ $0.placement == .note }
@@ -40,6 +43,11 @@ struct SKToolbarIOS: View {
         }
         .toolbar {
             ToolbarItemGroup(placement: .topBarLeading){
+                if skIsShowingBackButton && (!skIsBackButtonHidden && !skIsBackDefaultButtonHidden){
+                    SKToolbarItem(placement: .dismiss, actionType: .dismiss) {
+                        SKButton(verbatim: SKTranslation.SKButton.back.value, systemImage: "chevron.backward"){}
+                    }
+                }
                 ForEach(dismissItems.indices) { index in
                     dismissItems[index]
                 }

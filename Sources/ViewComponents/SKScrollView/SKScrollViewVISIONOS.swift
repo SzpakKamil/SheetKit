@@ -11,8 +11,8 @@ import SwiftUI
 struct SKScrollViewVISIONOS<Content: View>: View {
     @Environment(\.colorScheme) var colorScheme
     let content: () -> Content
-    let pageStyle: SKPage.Style
-    let backgroundStyle: SKPage.BackgroundStyle
+    let pageStyle: SKPageStyle
+    let backgroundStyle: SKPageBackgroundStyle
     let toolbar: SKToolbar
     let toolbarAnimations: Animation?
     let showBlur: Bool?
@@ -88,7 +88,7 @@ struct SKScrollViewVISIONOS<Content: View>: View {
         }
     }
 
-    init(pageStyle: SKPage.Style, backgroundStyle: SKPage.BackgroundStyle, showBlur: Bool? = nil,  showAsInset: Bool? = nil, toolbar: SKToolbar, opacity: CGFloat? = nil, toolbarAnimations: Animation?, animationValue: Bool?, @ViewBuilder content: @escaping () -> Content) {
+    init(pageStyle: SKPageStyle, backgroundStyle: SKPageBackgroundStyle, showBlur: Bool? = nil,  showAsInset: Bool? = nil, toolbar: SKToolbar, opacity: CGFloat? = nil, toolbarAnimations: Animation?, animationValue: Bool?, @ViewBuilder content: @escaping () -> Content) {
         self.pageStyle = pageStyle
         self.content = content
         self.backgroundStyle = backgroundStyle

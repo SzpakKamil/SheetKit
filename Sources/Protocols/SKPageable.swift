@@ -8,7 +8,7 @@
 import SwiftUI
 
 public protocol SKPageable: View where Body: View {
-    var data: SKPage.Data { get set }
+    var data: SKPageableData { get set }
     var adjustedContent: AnyView? { get set}
     @ViewBuilder @MainActor @preconcurrency var body: Self.Body { get }
     

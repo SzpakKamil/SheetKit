@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public extension View {
+extension View {
     var asComponent: any SKComponent {
         SKCustomView(type: .customView) {
             self

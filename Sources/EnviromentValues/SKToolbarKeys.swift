@@ -13,7 +13,16 @@ private struct SKIsCloseButtonHiddenKey: EnvironmentKey {
 private struct SKIsContinueButtonHiddenKey: EnvironmentKey {
     static let defaultValue: Bool = false
 }
+private struct SKIsBackButtonHiddenKey: EnvironmentKey {
+    static let defaultValue: Bool = false
+}
 private struct SKIsShowingBackButtonKey: EnvironmentKey {
+    static let defaultValue: Bool = false
+}
+private struct SKHideSkipButtonKey: EnvironmentKey {
+    static let defaultValue: Bool = false
+}
+private struct SKIsSkipButtonHiddenKey: EnvironmentKey {
     static let defaultValue: Bool = false
 }
 private struct SKToolbarPlacementKey: EnvironmentKey {
@@ -22,10 +31,16 @@ private struct SKToolbarPlacementKey: EnvironmentKey {
 private struct SKIsFinalPageKey: EnvironmentKey {
     static let defaultValue: Bool = false
 }
+
+
 public extension EnvironmentValues {
     var skIsCloseButtonHidden: Bool {
         get { self[SKIsCloseButtonHiddenKey.self] }
         set { self[SKIsCloseButtonHiddenKey.self] = newValue }
+    }
+    var skIsBackButtonHidden: Bool {
+        get { self[SKIsBackButtonHiddenKey.self] }
+        set { self[SKIsBackButtonHiddenKey.self] = newValue }
     }
     var skIsContinueButtonHidden: Bool {
         get { self[SKIsContinueButtonHiddenKey.self] }
@@ -45,3 +60,13 @@ public extension EnvironmentValues {
     }
 }
 
+extension EnvironmentValues{
+    var skIsBackDefaultButtonHidden: Bool {
+        get { self[SKIsBackButtonHiddenKey.self] }
+        set { self[SKIsBackButtonHiddenKey.self] = newValue }
+    }
+    var skIsSkipButtonHidden: Bool {
+        get { self[SKIsSkipButtonHiddenKey.self] }
+        set { self[SKIsSkipButtonHiddenKey.self] = newValue }
+    }
+}

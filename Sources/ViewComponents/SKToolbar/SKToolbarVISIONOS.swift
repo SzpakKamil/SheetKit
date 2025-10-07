@@ -12,6 +12,9 @@ struct SKToolbarVISIONOS: View {
     @Environment(\.skSheetStyle) var sheetStyle
     @Environment(\.skIsContinueButtonHidden) var skIsContinueButtonHidden
     @Environment(\.skIsCloseButtonHidden) var skIsCloseButtonHidden
+    @Environment(\.skIsShowingBackButton) var skIsShowingBackButton
+    @Environment(\.skIsBackButtonHidden) var skIsBackButtonHidden
+    @Environment(\.skIsBackDefaultButtonHidden) var skIsBackDefaultButtonHidden
     let items: [SKToolbarItem]
     var body: some View {
         let noteItems: [SKToolbarItem] = items.filter{ $0.placement == .note }
@@ -41,6 +44,11 @@ struct SKToolbarVISIONOS: View {
         }
         .toolbar {
             ToolbarItemGroup(placement: .topBarLeading){
+                if skIsShowingBackButton && (!skIsBackButtonHidden && !skIsBackDefaultButtonHidden){
+                    SKToolbarItem(placement: .dismiss, actionType: .dismiss) {
+                        SKButton(verbatim: SKTranslation.SKButton.back.value, systemImage: "xmark"){}
+                    }
+                }
                 ForEach(dismissItems.indices) { index in
                     dismissItems[index]
                 }

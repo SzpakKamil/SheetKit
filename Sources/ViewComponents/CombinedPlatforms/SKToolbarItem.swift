@@ -32,6 +32,8 @@ public struct SKToolbarItem: View {
                 switch placement{
                 case .primary:
                     primaryAction()
+                case .dismiss:
+                    dismissAction()
                 default:
                     break
                 }
