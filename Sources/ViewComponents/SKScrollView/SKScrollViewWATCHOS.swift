@@ -14,22 +14,20 @@ struct SKScrollViewWATCHOS<Content: View>: View {
     let pageStyle: SKPage.Style
     let backgroundStyle: SKPage.BackgroundStyle
     let toolbar: SKToolbar
-
-    var backgroundColor: Color {
-        switch backgroundStyle {
-        case .custom(let light, let dark):
-            return colorScheme == .dark ? dark : light
-        case .plain:
-            return .clear
-        default:
-            return .clear
-        }
-    }
+    let toolbarAnimations: Animation?
+    let animationValue: Bool?
+    var opacity: CGFloat?
 
     var body: some View {
         ZStack(alignment: .bottom) {
-            backgroundColor
-                .ignoresSafeArea()
+            if colorScheme == .light{
+                backgroundStyle.lightView
+                    .ignoresSafeArea()
+            }else{
+                backgroundStyle.darkView
+                    .ignoresSafeArea()
+            }
+
 
             if pageStyle == .default{
                 ScrollView {
@@ -41,15 +39,19 @@ struct SKScrollViewWATCHOS<Content: View>: View {
                 content()
                     .frame(maxHeight: .infinity)
             }
-            
-            toolbar
+            if (animationValue ?? true) == true{
+                toolbar
+            }
         }
     }
 
-    init(pageStyle: SKPage.Style, backgroundStyle: SKPage.BackgroundStyle, toolbar: SKToolbar, @ViewBuilder content: @escaping () -> Content) {
+    init(pageStyle: SKPage.Style, backgroundStyle: SKPage.BackgroundStyle, toolbar: SKToolbar, opacity: CGFloat? = nil, toolbarAnimations: Animation?, animationValue: Bool?, @ViewBuilder content: @escaping () -> Content) {
         self.pageStyle = pageStyle
         self.content = content
         self.backgroundStyle = backgroundStyle
+        self.opacity = opacity
+        self.toolbarAnimations = toolbarAnimations
+        self.animationValue = animationValue
         self.toolbar = toolbar
     }
 }

@@ -16,6 +16,7 @@ struct SKToolbarVISIONOS: View {
     var body: some View {
         let noteItems: [SKToolbarItem] = items.filter{ $0.placement == .note }
         let secondaryItems: [SKToolbarItem] = items.filter{ $0.placement == .secondary }
+        let dismissItems: [SKToolbarItem] = items.filter{ $0.placement == .dismiss }
         let navigationItems: [SKToolbarItem] = items.filter{ $0.placement == .navigation }
         let primaryItems: [SKToolbarItem] = items.filter{ $0.placement == .primary }
         VStack{
@@ -39,6 +40,11 @@ struct SKToolbarVISIONOS: View {
             }
         }
         .toolbar {
+            ToolbarItemGroup(placement: .topBarLeading){
+                ForEach(dismissItems.indices) { index in
+                    dismissItems[index]
+                }
+            }
             ToolbarItemGroup(placement: .topBarTrailing) {
                 if !skIsCloseButtonHidden{
                     SKToolbarItem(placement: .navigation, actionType: .close) {

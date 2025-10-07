@@ -4,12 +4,17 @@
 //
 //  Created by Kamil Szpak on 02/10/2025.
 //
-#if os(iOS) || os(tvOS) || os(visionOS)
+#if os(iOS) || os(tvOS) || os(visionOS) || os(macOS)
 import SwiftUI
 import AVKit
 import TabKit
 
+
 public struct SKVideoPage: SKPageable, View {
+    @Environment(\.colorScheme) var colorScheme
+    @Environment(\.scenePhase) var scenePhase
+    @Environment(\.skSheetStyle) var sheetStyle
+    @Environment(\.skIsUsingFullScreenCover) var skIsUsingFullScreenCover
     @Environment(\.skDismissButtonAction) var skDismissButtonAction
     @Environment(\.skPrimaryButtonAction) var skPrimaryButtonAction
     public var data: SKPage.Data
@@ -19,67 +24,136 @@ public struct SKVideoPage: SKPageable, View {
     @State private var player: AVPlayer
     @State private var isLoaded: Bool = false
     @State private var isDuringTransiton: Bool = false
+    
+    let pageBackground: AnyView
     let highlights: [SKVideoHighlight]
     
-    public var body: some View {
-        ZStack{
-            Color.black
-                .ignoresSafeArea()
-
-            Group{
-                videoContent()
-                    .frame(maxHeight: .infinity)
+    var pageStyle: SKPage.BackgroundStyle {
+        data.backgroundStyle ?? .init{
+            #if os(tvOS)
+            ZStack{
+                if colorScheme == .dark{
+                    Color(red: 0.0, green: 0.0, blue: 0.01)
+                        .opacity(0.8)
+                        .ignoresSafeArea()
+                }else{
+                    Color(white: 0.9)
+                        .opacity(0.7)
+                        .ignoresSafeArea()
+                }
+                Rectangle()
+                    .fill(.ultraThinMaterial)
+                    .ignoresSafeArea()
             }
-            .if{ content in
-                Group{
-                    if #available(iOS 26.0, visionOS 26.0, tvOS 26.0, *){
-                        content
-#if compiler(>=6.2)
-                            .safeAreaBar(edge: .bottom) {
-                                data.toolbar
-                                    .padding(.horizontal, 30)
-                                    .padding(.bottom, 30)
-                                    .opacity(isLoaded ? 1 : 0)
-                                    .animation(.smooth(duration: 1.5).delay(0.4), value: isLoaded)
-                            }
-#endif
-                    }else{
-                        content
-                            .safeAreaInset(edge: .bottom) {
-                                data.toolbar
-                                    .padding(.horizontal, 30)
-                                    .padding(.bottom, 30)
-                                    .frame(maxWidth: .infinity)
-                                    .opacity(isLoaded ? 1 : 0)
-                                    .animation(.smooth(duration: 1.5).delay(0.4), value: isLoaded)
-                            }
-                    }
+            #elseif os(iOS)
+            if colorScheme == .light{
+                Color.clear
+            }else{
+                skIsUsingFullScreenCover ? Color.black : Color(red: 0.109375, green: 0.109375, blue: 0.1176470588)
+            }
+            #else
+            Color.clear
+            #endif
+        }
+    }
+    
+    var pageColor: Color {
+        #if os(tvOS)
+        let defaultValue: Color = colorScheme == .dark ? Color(red: 0.02, green: 0.02, blue: 0.03) : Color(white: 0.9)
+        #elseif os(visionOS)
+        let defaultValue: Color = Color(red: 0.4, green: 0.4, blue: 0.4)
+        #elseif os(macOS)
+        let defaultValue: Color = colorScheme == .dark ? Color(red: 0.12, green: 0.12, blue: 0.18) : .white
+        #else
+        let defaultValue: Color = colorScheme == .dark ? skIsUsingFullScreenCover ? Color.black : Color(red: 0.109375, green: 0.109375, blue: 0.1176470588) : .white
+        #endif
+        guard defaultSelectedHighlightIndex < highlights.count else {
+            return defaultValue
+        }
+        return highlights[defaultSelectedHighlightIndex].backgroundColor ?? defaultValue
+    }
+    
+    var toolbarNew: SKToolbar{
+        #if os(iOS) || os(visionOS)
+        let navigationItem: SKToolbarItem = SKToolbarItem(placement: .dismiss, actionType: .dismiss) {
+            if isLoaded{
+                if #available(iOS 26.0, *){
+                    SKButton(verbatim: SKTranslation.SKButton.back.value, systemImage: "chevron.backward"){}
+                        .skAccentColor(nil)
+                }else{
+                    SKButton(verbatim: SKTranslation.SKButton.back.value, systemImage: "chevron.backward"){}
+                        .skAccentColor(.accentColor)
                 }
             }
-            .ignoresSafeArea(edges: .bottom)
+        }
+        let secondaryItem: SKToolbarItem = SKToolbarItem(placement: .navigation, actionType: .none) {
+            if isLoaded{
+                if #available(iOS 26.0, *){
+                    SKButton(verbatim: SKTranslation.SKButton.skip.value){
+                        skPrimaryButtonAction()
+                    }
+                    .skAccentColor(nil)
+                }else{
+                    SKButton(verbatim: SKTranslation.SKButton.skip.value){
+                        skPrimaryButtonAction()
+                    }
+                    .skAccentColor(.accentColor)
+                }
+            }
+        }
+        #elseif os(macOS)
+        let navigationItem: SKToolbarItem = SKToolbarItem(placement: .navigation, actionType: .dismiss) {
+            if #available(iOS 26.0, *){
+                SKButton(verbatim: SKTranslation.SKButton.back.value, systemImage: "chevron.backward"){}
+                    .skAccentColor(nil)
+            }else{
+                SKButton(verbatim: SKTranslation.SKButton.back.value, systemImage: "chevron.backward"){}
+                    .skAccentColor(.accentColor)
+            }
+        }
+        let secondaryItem: SKToolbarItem = SKToolbarItem(placement: .secondary, actionType: .none) {
+            if #available(iOS 26.0, *){
+                SKButton(verbatim: SKTranslation.SKButton.skip.value){
+                    skPrimaryButtonAction()
+                }
+                .skAccentColor(nil)
+            }else{
+                SKButton(verbatim: SKTranslation.SKButton.skip.value){
+                    skPrimaryButtonAction()
+                }
+                .skAccentColor(.accentColor)
+            }
+        }
+        #else
+        let navigationItem: SKToolbarItem = SKToolbarItem(placement: .secondary, actionType: .dismiss) {
+            SKButton(verbatim: SKTranslation.SKButton.back.value, systemImage: "chevron.backward"){}
+                .skAccentColor(nil)
+        }
+        let secondaryItem: SKToolbarItem = SKToolbarItem(placement: .navigation, actionType: .none) {
+            SKButton(verbatim: SKTranslation.SKButton.skip.value){
+                skPrimaryButtonAction()
+            }
+            .skAccentColor(nil)
+        }
+        #endif
+        var newItems = data.toolbar.items
+        newItems.append(navigationItem)
+        newItems.append(secondaryItem)
+        return .init(items: newItems)
+    }
+    
+    public var body: some View {
+        SKScrollView(pageStyle: .plain, backgroundStyle: pageStyle, toolbar: toolbarNew, showBlur: false, showAsInset: true, opacity: isLoaded ? 1 : 0,  toolbarAnimations: .smooth(duration: 1.5).delay(0.4), animationValue: isLoaded) {
+            videoContent()
         }
         .onAppear {
+            
             let firstStartTime = highlights.first?.startTime?.seconds ?? 0
             if firstStartTime <= 0 {
                 isLoaded = true
             } else {
                 DispatchQueue.main.asyncAfter(deadline: .now() + firstStartTime) {
                     isLoaded = true
-                }
-            }
-        }
-        .toolbar{
-            if isLoaded{
-                ToolbarItem(placement: .cancellationAction) {
-                    SKToolbarItem(placement: .navigation, actionType: .dismiss) {
-                        SKButton(verbatim: SKTranslation.SKButton.back.value, systemImage: "chevron.backward"){}
-                            .skAccentColor(nil)
-                    }
-                }
-                ToolbarItem(placement: .confirmationAction) {
-                    Button(SKTranslation.SKButton.skip.value) {
-                        skPrimaryButtonAction()
-                    }
                 }
             }
         }
@@ -98,16 +172,18 @@ public struct SKVideoPage: SKPageable, View {
                 defaultSelectedHighlightIndex -= 1
             }
         }
+        #if os(macOS)
+        .frame(width: sheetStyle.windowWidth, height: sheetStyle.height)
+        #endif
     }
     
     @ViewBuilder
     private func videoContent() -> some View{
         GeometryReader{ proxy in
             ZStack(alignment: .bottom){
-                VideoPlayer(player: player)
-                    .allowsHitTesting(false)
-                    .accessibilityHidden(true)
+                SKPlayerView(player: $player)
                     .ignoresSafeArea()
+                    .focusable(false)
                     .onChange(of: player.currentItem){
                         NotificationCenter.default.addObserver(
                             forName: .AVPlayerItemDidPlayToEndTime,
@@ -132,12 +208,14 @@ public struct SKVideoPage: SKPageable, View {
                         player.audiovisualBackgroundPlaybackPolicy = .continuesIfPossible
                         player.play()
                     }
+                    .allowsHitTesting(false)
+                    .accessibilityHidden(true)
                 
                 LinearGradient(
                     stops: [
-                        .init(color: .black.opacity(0), location: 0),
-                        .init(color: .black.opacity(0), location: 0.6),
-                        .init(color: .black.opacity(1), location: 0.7)
+                        .init(color: pageColor.opacity(0), location: 0),
+                        .init(color: pageColor.opacity(0), location: 0.6),
+                        .init(color: pageColor.opacity(1), location: 0.7)
                     ],
                     startPoint: .top,
                     endPoint: .bottom
@@ -145,13 +223,13 @@ public struct SKVideoPage: SKPageable, View {
                 .ignoresSafeArea()
                 .opacity(isLoaded ? 1 : 0)
                 .animation(.smooth(duration: 1.5).delay(0.2), value: isLoaded)
-                Color.black
+                pageColor
                     .opacity(showingTransitionBG ? 1 : 0)
                     .ignoresSafeArea()
                 
                 Group{
                     TKPagesView {
-                        TKForEach(highlights.indices, id: \.self) { index in
+                        ForEach(highlights.indices, id: \.self) { index in
                             let highlight = highlights[index]
                             TKPage {
                                 highlight
@@ -159,13 +237,20 @@ public struct SKVideoPage: SKPageable, View {
                                     .setAutoStyle(index: index)
                                     .ignoresSafeArea()
                             }
-                            .tkPageDuration(calculateDuration(for: index))
+                            .tkPageDuration(
+                                calculateDuration(
+                                    previousItem: highlights.indices.contains(index > 0 ? index-1 : 0) ? highlights[index == 0 ? 0 : index-1] : highlights[index],
+                                    currentItem: highlights[index],
+                                    nextItem: (index+1)<highlights.count ? highlights[index+1] : nil
+                                )
+                            )
                         }
                     }
-                    
                     .tkCurrentPageIndex(index: $defaultSelectedHighlightIndex)
                     .tkPageControlAlignment(spacing: 0, alignment: .bottom)
                     .tkPageControlAllowsContinuousInteraction(false)
+                    .tkPageControlCurrentIndicatorTintColor(.primary.opacity(0.5))
+                    .tkPageControlIndicatorTintColor(.secondary.opacity(0.5))
                     .tkOnManualPageChange { performPageChangeSetup(isManual: true, previousIndex: $0, currentIndex: $1) }
                     .tkOnAutoPageChange { performPageChangeSetup(isManual: false, previousIndex: $0, currentIndex: $1) }
                 }
@@ -178,7 +263,6 @@ public struct SKVideoPage: SKPageable, View {
     private func performPageChangeSetup(isManual: Bool, previousIndex: Int, currentIndex: Int){
         let currentItem = highlights[currentIndex]
         let previousItem = highlights[previousIndex]
-        let beforeItem = currentIndex == 0 ? nil : highlights[currentIndex - 1]
         
         let isMovingForward = currentIndex > previousIndex
         let isMovingBackward = currentIndex < previousIndex
@@ -206,7 +290,7 @@ public struct SKVideoPage: SKPageable, View {
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + (shouldShowTransition ? 0.4 : 0)){
-            configuratePlayerLayer(previousItem: previousItem, currentItem: currentItem, beforeItem: beforeItem, isManual: isManual)
+            configuratePlayerLayer(previousItem: previousItem, currentItem: currentItem, isManual: isManual)
         }
         
         
@@ -226,107 +310,93 @@ public struct SKVideoPage: SKPageable, View {
         }
     }
     
-    private func configuratePlayerLayer(previousItem: SKVideoHighlight, currentItem: SKVideoHighlight, beforeItem: SKVideoHighlight?, isManual: Bool){
-        let usesPreviousResource = beforeItem?.resource != nil && currentItem.resource == nil && !isManual
-        if let previousResource = beforeItem?.resource, currentItem.resource == nil && isManual{
-            player = AVPlayer(url: previousResource)
-            player.pause()
-        }else if let currentResource = currentItem.resource{
-            player.pause()
-            player = AVPlayer(url: currentResource)
-        }
-        
-        if let index = highlights.firstIndex(of: currentItem), index == 0{
-            player.seek(to: isLoaded ? currentItem.startTime ?? .zero : .zero)
-            player.play()
-        }else{
-            if !usesPreviousResource{
-                player.seek(to: currentItem.startTime ?? .zero)
-                player.play()
+    private func configuratePlayerLayer(previousItem: SKVideoHighlight, currentItem: SKVideoHighlight, isManual: Bool) {
+        if previousItem.resource == currentItem.resource {
+            if isManual{
+                player.seek(to: isLoaded ? currentItem.startTime ?? .zero : .zero)
             }
+            player.play()
+        } else if let resource = currentItem.resource {
+            player.pause()
+            player = AVPlayer(url: resource)
+            player.seek(to: currentItem.startTime ?? .zero)
+            player.play()
         }
     }
     
-    private func calculateDuration(for index: Int) -> Double? {
-        let highlight = highlights[index]
+    private func calculateDuration(previousItem: SKVideoHighlight, currentItem: SKVideoHighlight, nextItem: SKVideoHighlight?) -> Double? {
+        let highlight = currentItem
         guard !highlight.runIndefinitly else { return nil }
         let transitionTime = highlight.transitionAutoDirection != .none ? -0.5 : 0
-        
-        // Find the effective video for this highlight
-        var effectiveResource: URL?
-        var effectiveVideoDuration: Double?
-        for i in (0...index).reversed() {
-            if let resource = highlights[i].resource {
-                effectiveResource = resource
-                let asset = AVAsset(url: resource)
-                let duration = asset.duration
-                if duration.isValid && !duration.isIndefinite {
-                    effectiveVideoDuration = duration.seconds
-                }
-                break
-            }
-        }
-        
-        if effectiveResource == nil {
-            // Use main player if no resource found
-            guard let videoDuration = player.currentItem?.asset.duration,
-                  videoDuration.isValid, !videoDuration.isIndefinite else { return nil }
-            effectiveVideoDuration = videoDuration.seconds
-        }
-        
-        guard let videoDuration = effectiveVideoDuration else { return nil }
-        
-        // Get the start time in seconds, default to zero if nil or if has resource (ignore startTime for new resource)
-        let startSeconds: Double
-        if highlight.resource != nil && !isLoaded {
-            startSeconds = 0 // Ignore startTime for highlights with resource
-        } else {
-            startSeconds = (highlight.startTime ?? .zero).seconds
-        }
+        let assetURL = highlight.resource ?? previousItem.resource
+        guard let url = assetURL else { return nil }
+        let asset = AVAsset(url: url)
+        let videoDuration = asset.duration
+        guard videoDuration.isValid, !videoDuration.isIndefinite else { return nil }
+        let totalDuration = videoDuration.seconds
+        let startSeconds = (highlight.startTime ?? .zero).seconds
         guard !startSeconds.isNaN else { return nil }
-        
-        // If endTime is provided and valid, use it
-        if let endTime = highlight.endTime, endTime.isValid, !endTime.isIndefinite {
+        if let next = nextItem, highlight.resource == next.resource {
+            let nextStart = (next.startTime ?? .zero).seconds
+            guard !nextStart.isNaN else { return nil }
+            return nextStart - startSeconds + transitionTime
+        } else if let endTime = highlight.endTime, endTime.isValid, !endTime.isIndefinite {
             return endTime.seconds - startSeconds + transitionTime
+        } else {
+            return totalDuration - startSeconds + transitionTime
         }
-        
-        // Check if there's a next highlight and if it's a continuation (no resource)
-        let nextIndex = index + 1
-        if nextIndex < highlights.count {
-            let nextHighlight = highlights[nextIndex]
-            if nextHighlight.resource == nil {
-                let nextStartSeconds = (nextHighlight.startTime ?? .zero).seconds
-                guard !nextStartSeconds.isNaN else { return nil }
-                return nextStartSeconds - startSeconds
-            }
-        }
-        
-        // End of group or last highlight, use remaining video duration
-        return videoDuration - startSeconds + transitionTime
     }
     
     public init( @SKVideoPageBuilder highlights: () -> [SKVideoHighlight], @SKToolbarBuilder toolbar: () -> [SKToolbarItem]) {
-        guard let url = highlights().compactMap({ $0.resource }).first else{ fatalError("No page have resource")}
+        var highlightsResult = highlights()
+        guard let url = highlightsResult.compactMap({ $0.resource }).first else{ fatalError("No page have resource")}
         self.player = AVPlayer(url: url)
-        self.highlights = highlights()
-        self.data = .init(content: highlights, toolbar: toolbar)
+        self.highlights = highlightsResult
+        self.pageBackground = AnyView(Group{})
+        self.data = .init(content: highlightsResult, toolbar: toolbar)
     }
     
     public init(player: AVPlayer, @SKVideoPageBuilder highlights: () -> [SKVideoHighlight], @SKToolbarBuilder toolbar: () -> [SKToolbarItem]) {
         self.player = player
-        self.highlights = highlights()
-        self.data = .init(content: highlights, toolbar: toolbar)
+        self.pageBackground = AnyView(Group{})
+        let result = SKVideoPage.transformHighlights(for: highlights(), defaultURL: (player.currentItem?.asset as? AVURLAsset)?.url)
+        self.highlights = result
+        self.data = .init(content: result, toolbar: toolbar)
     }
     
-    public init(videoURL: URL, @SKVideoPageBuilder highlights: () -> [SKVideoHighlight], @SKToolbarBuilder toolbar: () -> [SKToolbarItem]) {
-        self.player = AVPlayer(url: videoURL)
-        self.highlights = highlights()
-        self.data = .init(content: highlights, toolbar: toolbar)
+    public init(resource: URL, @SKVideoPageBuilder highlights: () -> [SKVideoHighlight], @SKToolbarBuilder toolbar: () -> [SKToolbarItem]) {
+        self.player = AVPlayer(url: resource)
+        self.pageBackground = AnyView(Group{})
+        let result = SKVideoPage.transformHighlights(for: highlights(), defaultURL: resource)
+        self.highlights = result
+        self.data = .init(content: result, toolbar: toolbar)
     }
     
-    public func skSelectedHighlightIndex(_ binding: Binding<Int>) -> Self {
-        let copy = self
-        return copy
+    
+    static func transformHighlights(for highlights: [SKVideoHighlight], defaultURL: URL?) -> [SKVideoHighlight]{
+        guard !highlights.isEmpty else { return [] }
+        var result = highlights
+        // Step 1: Overwrite first element if needed
+        if let url = defaultURL, result[0].resource == nil {
+            result[0].resource = url
+        }
+        // Step 2: For each next element, inherit from previous non-nil
+        for i in 1..<result.count {
+            if result[i].resource == nil {
+                // Scan backwards to find previous non-nil resource
+                var foundURL: URL? = nil
+                for j in (0..<i).reversed() {
+                    if let prevURL = result[j].resource {
+                        foundURL = prevURL
+                        break
+                    }
+                }
+                if let foundURL = foundURL {
+                    result[i].resource = foundURL
+                }
+            }
+        }
+        return result
     }
 }
 #endif

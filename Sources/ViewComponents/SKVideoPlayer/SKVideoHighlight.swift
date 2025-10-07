@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-#if os(iOS) || os(tvOS) || os(visionOS)
+#if os(iOS) || os(tvOS) || os(visionOS) || os(macOS)
 import AVKit
 import TabKit
 
@@ -48,14 +48,16 @@ public struct SKVideoHighlight: View, Hashable, Comparable, SKComponent {
     var id: String{
         "StartTime:\(startTime?.seconds ?? 0)-EndTime:\(endTime?.seconds ?? 0)-Resource:\(resource?.absoluteString ?? "nil")-Style:\(style.description)-TransitionAutoDirection:\(transitionAutoDirection.description)-TransitionManualDirection:\(transitionManualDirection.description)-runIndexfinitely:\(runIndefinitly)"
     }
+    @Environment(\.skSheetStyle) var sheetStyle
     var style: Style
     var autoOverride: Style
     var transitionAutoDirection: TransitionDirection
     var transitionManualDirection: TransitionDirection
     var runIndefinitly: Bool
+    var backgroundColor: Color?
     public var type: SKComponentType = .customView
     var geoProxy: GeometryProxy?
-    let resource: URL?
+    var resource: URL?
     let startTime: CMTime?
     let endTime: CMTime?
     let content: AnyView
@@ -65,15 +67,21 @@ public struct SKVideoHighlight: View, Hashable, Comparable, SKComponent {
             VStack{
                 content
             }
+            #if os(tvOS) || os(visionOS)
+            .frame(height: (geoProxy?.size.height ?? 200) * 0.30, alignment: .top)
+            #elseif os(macOS)
+            .frame(width: sheetStyle.frameWidth, height: (geoProxy?.size.height ?? 200) * 0.30, alignment: .top)
+            #else
             .frame(height: (geoProxy?.size.height ?? 200) * 0.35, alignment: .top)
+            #endif
         }
         .frame(height: geoProxy?.size.height ?? 200, alignment: .bottom)
         .padding(.horizontal)
         .if{ content in
             if style != .plain{
                 content
-                    .environment(\.skPrimaryColor, Color.white)
-                    .environment(\.skSecondaryColor, Color.white.opacity(0.6))
+                    .environment(\.skPrimaryColor, Color.primary)
+                    .environment(\.skSecondaryColor, Color.primary.opacity(0.6))
                     .if{ content in
                         if style == .auto{
                             content
@@ -108,6 +116,7 @@ public struct SKVideoHighlight: View, Hashable, Comparable, SKComponent {
         self.geoProxy = nil
         self.style = .auto
         self.runIndefinitly = false
+        self.backgroundColor = nil
         self.autoOverride = .auto
         self.transitionAutoDirection = .both
         self.transitionManualDirection = .both
@@ -121,6 +130,7 @@ public struct SKVideoHighlight: View, Hashable, Comparable, SKComponent {
         self.style = .auto
         self.runIndefinitly = false
         self.autoOverride = .auto
+        self.backgroundColor = nil
         self.transitionAutoDirection = .both
         self.transitionManualDirection = .both
     }
@@ -140,6 +150,7 @@ public struct SKVideoHighlight: View, Hashable, Comparable, SKComponent {
         self.autoOverride = .auto
         self.transitionAutoDirection = .both
         self.transitionManualDirection = .both
+        self.backgroundColor = nil
     }
     
     public init(startTime: CMTime, endTime: CMTime? = nil, @ViewBuilder content: () -> some View) {
@@ -153,6 +164,7 @@ public struct SKVideoHighlight: View, Hashable, Comparable, SKComponent {
         self.autoOverride = .auto
         self.transitionAutoDirection = .both
         self.transitionManualDirection = .both
+        self.backgroundColor = nil
     }
     
     public init(startSeccond: Double, endSeccond: Double? = nil, @ViewBuilder content: () -> some View) {
@@ -169,6 +181,7 @@ public struct SKVideoHighlight: View, Hashable, Comparable, SKComponent {
         self.autoOverride = .auto
         self.transitionAutoDirection = .both
         self.transitionManualDirection = .both
+        self.backgroundColor = nil
         self.runIndefinitly = false
     }
     
@@ -181,6 +194,11 @@ public struct SKVideoHighlight: View, Hashable, Comparable, SKComponent {
     public func skVideoHighlightStyle(_ style: SKVideoHighlight.Style) -> Self{
         var copy = self
         copy.style = style
+        return copy
+    }
+    public func skVideoHighlightBackground(_ color: Color) -> Self{
+        var copy = self
+        copy.backgroundColor = color
         return copy
     }
     

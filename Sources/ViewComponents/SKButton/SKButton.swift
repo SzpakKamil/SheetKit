@@ -100,7 +100,7 @@ public struct SKButton<TextContent: View, ImageContent: View>: View, SKComponent
                             HStack {
                                 switch (ImageContent.self != EmptyView.self, TextContent.self != EmptyView.self){
                                 case (true, true):
-                                    if toolbarPlacement == .navigation{
+                                    if toolbarPlacement == .navigation || toolbarPlacement == .dismiss{
                                         if #available(iOS 26.0, *) {
                                             ZStack{
                                                 text
@@ -185,7 +185,7 @@ public struct SKButton<TextContent: View, ImageContent: View>: View, SKComponent
                                 switch (ImageContent.self != EmptyView.self, TextContent.self != EmptyView.self){
                                 case (true, true):
                                     if #available(macOS 26.0, *){
-                                        if sheetStyle != .default && toolbarPlacement == .navigation {
+                                        if sheetStyle != .default && (toolbarPlacement == .navigation || toolbarPlacement == .dismiss) {
                                             image
                                                 .accessibilityHidden(true)
                                         } else {
@@ -213,10 +213,11 @@ public struct SKButton<TextContent: View, ImageContent: View>: View, SKComponent
                             HStack {
                                 switch (ImageContent.self != EmptyView.self, TextContent.self != EmptyView.self){
                                 case (true, true):
-                                    if toolbarPlacement == .navigation{
+                                    if toolbarPlacement == .navigation || toolbarPlacement == .dismiss{
                                         image
                                     }else{
                                         text
+                                            .padding(.horizontal, 5)
                                     }
                                 case (true, false):
                                     image
@@ -228,7 +229,7 @@ public struct SKButton<TextContent: View, ImageContent: View>: View, SKComponent
                             HStack {
                                 switch (ImageContent.self != EmptyView.self, TextContent.self != EmptyView.self){
                                 case (true, true):
-                                    if toolbarPlacement == .navigation{
+                                    if toolbarPlacement == .navigation || toolbarPlacement == .dismiss{
                                         if #available(iOS 26.0, *) {
                                             ZStack{
                                                 text
@@ -269,6 +270,7 @@ public struct SKButton<TextContent: View, ImageContent: View>: View, SKComponent
             case .primary: content.buttonStyle(SKPrimaryButtonStyle(isEnabled: isEnabled && !isLoading, accentColor: accentColor, sheetStyle: sheetStyle, colorScheme: colorScheme))
             case .secondary: content.buttonStyle(SKSecondaryButtonStyle(sheetStyle: sheetStyle, isEnabled: isEnabled && !isLoading, accentColor: accentColor))
             case .navigation: content.buttonStyle(SKNavigationButtonStyle(colorScheme: colorScheme, sheetStyle: sheetStyle, isEnabled: isEnabled, accentColor: accentColor))
+            case .dismiss: content.buttonStyle(SKNavigationButtonStyle(colorScheme: colorScheme, sheetStyle: sheetStyle, isEnabled: isEnabled, accentColor: accentColor))
             case .note: content.buttonStyle(SKNoteButtonStyle(isEnabled: isEnabled && !isLoading, accentColor: accentColor, colorScheme: colorScheme))
             default: content.buttonStyle(SKPrimaryButtonStyle(isEnabled: isEnabled && !isLoading, accentColor: accentColor, sheetStyle: sheetStyle, colorScheme: colorScheme))
             }

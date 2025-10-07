@@ -11,5 +11,6 @@ public enum SKToolbarItemPlacement {
     case primary
     case secondary
     case navigation
+    case dismiss
     case note
 }

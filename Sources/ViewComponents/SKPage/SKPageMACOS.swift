@@ -29,7 +29,7 @@ struct SKPageMACOS: View{
     
     var body: some View {
         ZStack(alignment: .top){
-            SKScrollView(pageStyle: data.pageStyle ?? .default, backgroundStyle: autoStyle, toolbar: data.toolbar) {
+            SKScrollView(pageStyle: data.pageStyle ?? .default, backgroundStyle: autoStyle, toolbar: data.toolbar, toolbarAnimations: nil, animationValue: nil) {
                 VStack(spacing: skRowSpacing){
                     ForEach(data.content.indices, id: \.self){index in
                         data.content[index].erasedContent()

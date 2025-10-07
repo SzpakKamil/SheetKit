@@ -56,18 +56,18 @@ struct SKPageWATCHOS: View{
                     let fields = data.content.filter{ $0.type == .field}
                     let customView = data.content.filter{ $0.type == .customView}
                     if highlights.isEmpty && fields.isEmpty{
-                        SKScrollView(pageStyle: data.pageStyle ?? .default, backgroundStyle: autoStyle, toolbar: data.toolbar) {
+                        SKScrollView(pageStyle: data.pageStyle ?? .default, backgroundStyle: autoStyle, toolbar: data.toolbar, toolbarAnimations: nil, animationValue: nil) {
                             SKHighlight(titleVerbatim: "", descriptionVerbatim: "", systemName: "")
                         }
                     }else{
                         ForEach(highlights.indices, id: \.self){ index in
-                            SKScrollView(pageStyle: data.pageStyle ?? .default, backgroundStyle: autoStyle, toolbar: data.toolbar) {
+                            SKScrollView(pageStyle: data.pageStyle ?? .default, backgroundStyle: autoStyle, toolbar: data.toolbar, toolbarAnimations: nil, animationValue: nil) {
                                 highlights[index].erasedContent()
                             }
                         }
                     }
                     if !customView.isEmpty{
-                        SKScrollView(pageStyle: data.pageStyle ?? .default, backgroundStyle: autoStyle, toolbar: data.toolbar) {
+                        SKScrollView(pageStyle: data.pageStyle ?? .default, backgroundStyle: autoStyle, toolbar: data.toolbar, toolbarAnimations: nil, animationValue: nil) {
                             VStack(spacing: skRowSpacing){
                                 ForEach(customView.indices){ index in
                                     customView[index].erasedContent()
@@ -78,7 +78,7 @@ struct SKPageWATCHOS: View{
                     
                     
                     if !fields.isEmpty{
-                        SKScrollView(pageStyle: data.pageStyle ?? .default, backgroundStyle: autoStyle, toolbar: data.toolbar) {
+                        SKScrollView(pageStyle: data.pageStyle ?? .default, backgroundStyle: autoStyle, toolbar: data.toolbar, toolbarAnimations: nil, animationValue: nil) {
                             VStack(spacing: skRowSpacing){
                                 ForEach(fields.indices){ index in
                                     fields[index].erasedContent()
@@ -89,7 +89,7 @@ struct SKPageWATCHOS: View{
                     }
                 }
             }else{
-                SKScrollView(pageStyle: data.pageStyle ?? .default, backgroundStyle: autoStyle, toolbar: data.toolbar) {
+                SKScrollView(pageStyle: data.pageStyle ?? .default, backgroundStyle: autoStyle, toolbar: data.toolbar, toolbarAnimations: nil, animationValue: nil) {
                     VStack(spacing: skRowSpacing){
                         ForEach(data.content.indices){ index in
                             data.content[index].erasedContent()

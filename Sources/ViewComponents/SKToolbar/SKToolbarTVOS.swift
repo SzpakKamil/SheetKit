@@ -17,7 +17,7 @@ struct SKToolbarTVOS: View {
     var body: some View {
         let noteItems: [SKToolbarItem] = items.filter{ $0.placement == .note }
         let secondaryItems: [SKToolbarItem] = items.filter{ $0.placement == .secondary }
-        let navigationItems: [SKToolbarItem] = items.filter{ $0.placement == .navigation }
+        let navigationItems: [SKToolbarItem] = items.filter{ $0.placement == .navigation || $0.placement == .dismiss }
         let primaryItems: [SKToolbarItem] = items.filter{ $0.placement == .primary }
         VStack{
             if #available(tvOS 26.0, *){

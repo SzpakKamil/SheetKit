@@ -7,70 +7,81 @@
 
 import SwiftUI
 
-public extension SKPage{
-    func skAlert(isPresented: Binding<Bool>, title: String, description: String, type: SKPage.Alert.AlertType? = nil, @ViewBuilder content: @escaping () -> some View) -> SKPage{
+public extension SKPageable{
+    func skAlert(isPresented: Binding<Bool>, title: String, description: String, type: SKPage.Alert.AlertType? = nil, @ViewBuilder content: @escaping () -> some View) -> SKPageable{
         var copy = self
         copy.data.alert = .init(isPresented: isPresented, title: title, description: description, type: type, content: content)
         return copy
     }
     
-    func skAlert(title: String, description: String, type: SKPage.Alert.AlertType, condition: Bool = true, @ViewBuilder content: @escaping () -> some View) -> SKPage{
+    func skAlert(title: String, description: String, type: SKPage.Alert.AlertType, condition: Bool = true, @ViewBuilder content: @escaping () -> some View) -> SKPageable{
         var copy = self
         copy.data.alert = .init(isPresented: Binding(get: { condition }, set: { _ in }), title: title, description: description, type: type, content: content)
         return copy
     }
-    func skBackgroundStyle(_ style: SKPage.BackgroundStyle? = nil) -> SKPage{
+    
+    func skPageBackground(_ style: SKPage.BackgroundStyle? = nil) -> SKPageable{
         var copy = self
         copy.data.backgroundStyle = style
         return copy
     }
-    func skPageStyle(_ style: SKPage.Style = .default) -> SKPage{
+    func skPageBackground(@ViewBuilder _ content: () -> some View) -> SKPageable{
+        var copy = self
+        copy.data.backgroundStyle = .init(content: content)
+        return copy
+    }
+    func skPageBackground(@ViewBuilder light: () -> some View, @ViewBuilder dark: () -> some View) -> SKPageable{
+        var copy = self
+        copy.data.backgroundStyle = .init(lightView: light, darkView: dark)
+        return copy
+    }
+    func skPageStyle(_ style: SKPage.Style = .default) -> SKPageable{
         var copy = self
         copy.data.pageStyle = style
         return copy
     }
 
-    func skAccentColor(_ color: Color = .accentColor) -> SKPage{
+    func skAccentColor(_ color: Color = .accentColor) -> SKPageable{
         return SKPage(data: data) {
             self.environment(\.skAccentColor, color)
         }
     }
-    func skAlignment(_ alignment: HorizontalAlignment?) -> SKPage{
+    func skAlignment(_ alignment: HorizontalAlignment?) -> SKPageable{
         return SKPage(data: data) {
             self.environment(\.skAlignment, alignment)
         }
     }
-    func skRowBackground(_ color: Color? = nil) -> SKPage{
+    func skRowBackground(_ color: Color? = nil) -> SKPageable{
         return SKPage(data: data) {
             self.environment(\.skRowBackgroundColor, color)
         }
     }
-    func skRowSpacing(_ spacing: CGFloat? = nil) -> SKPage{
+    func skRowSpacing(_ spacing: CGFloat? = nil) -> SKPageable{
         return SKPage(data: data) {
             self.environment(\.skRowSpacing, spacing)
         }
     }
-    func skRowShape(cornerRadius: CGFloat? = nil) -> SKPage{
+    func skRowShape(cornerRadius: CGFloat? = nil) -> SKPageable{
         return SKPage(data: data) {
             self.environment(\.skRowShape, cornerRadius)
         }
     }
-    func skPrimaryTextColor(_ color: Color? = nil) -> SKPage{
+    func skPrimaryTextColor(_ color: Color? = nil) -> SKPageable{
         return SKPage(data: data) {
             self.environment(\.skPrimaryColor, color)
         }
     }
-    func skSecondaryTextColor(_ color: Color? = nil) -> SKPage{
+    func skSecondaryTextColor(_ color: Color? = nil) -> SKPageable{
         return SKPage(data: data) {
             self.environment(\.skSecondaryColor, color)
         }
     }
-    func skHideCloseButton(_ configuration: Bool = true) -> SKPage{
+    func skHideCloseButton(_ configuration: Bool = true) -> SKPageable{
         return SKPage(data: data) {
             self.environment(\.skIsCloseButtonHidden, configuration)
         }
     }
-    func skHideContinueButton(_ configuration: Bool = true) -> SKPage{
+    func skHideContinueButton(_ configuration: Bool = true) -> SKPageable{
         return SKPage(data: data) {
             self.environment(\.skIsContinueButtonHidden, configuration)
         }

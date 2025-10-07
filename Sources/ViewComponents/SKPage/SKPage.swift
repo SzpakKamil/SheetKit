@@ -15,15 +15,30 @@ extension SKPage{
         var backgroundStyle: SKPage.BackgroundStyle?
         var pageStyle: SKPage.Style?
         
-        public init(backgroundStyle: SKPage.BackgroundStyle? = nil, style: SKPage.Style? = nil, alert: SKPage.Alert? = nil, @SKPageBuilder content: () -> [any SKComponent], @SKToolbarBuilder toolbar: () -> [SKToolbarItem]) {
+        init(backgroundStyle: SKPage.BackgroundStyle? = nil, style: SKPage.Style? = nil, alert: SKPage.Alert? = nil, @SKPageBuilder content: () -> [any SKComponent], @SKToolbarBuilder toolbar: () -> [SKToolbarItem]) {
             self.content = content()
             self.backgroundStyle = backgroundStyle
             self.toolbar = SKToolbar(items: toolbar)
             self.pageStyle = style
             self.alert = alert
         }
-        public init(backgroundStyle: SKPage.BackgroundStyle? = nil, style: SKPage.Style? = nil, alert: SKPage.Alert? = nil, @SKPageBuilder content: () -> [any SKComponent], toolbarItems: [SKToolbarItem]) {
+        init(backgroundStyle: SKPage.BackgroundStyle? = nil, style: SKPage.Style? = nil, alert: SKPage.Alert? = nil, @SKPageBuilder content: () -> [any SKComponent], toolbarItems: [SKToolbarItem]) {
             self.content = content()
+            self.backgroundStyle = backgroundStyle
+            self.toolbar = SKToolbar(items: toolbarItems)
+            self.pageStyle = style
+            self.alert = alert
+        }
+        
+        init(backgroundStyle: SKPage.BackgroundStyle? = nil, style: SKPage.Style? = nil, alert: SKPage.Alert? = nil, content: [any SKComponent], @SKToolbarBuilder toolbar: () -> [SKToolbarItem]) {
+            self.content = content
+            self.backgroundStyle = backgroundStyle
+            self.toolbar = SKToolbar(items: toolbar)
+            self.pageStyle = style
+            self.alert = alert
+        }
+        init(backgroundStyle: SKPage.BackgroundStyle? = nil, style: SKPage.Style? = nil, alert: SKPage.Alert? = nil, content: [any SKComponent], toolbarItems: [SKToolbarItem]) {
+            self.content = content
             self.backgroundStyle = backgroundStyle
             self.toolbar = SKToolbar(items: toolbarItems)
             self.pageStyle = style
@@ -31,13 +46,60 @@ extension SKPage{
         }
     }
     
-    public enum BackgroundStyle{
-        case custom(light: Color, dark: Color)
-        case list
-        case form
-        case plain
+    public struct BackgroundStyle{
+        var lightView: AnyView
+        let darkView: AnyView
+        
+        
+        public init(@ViewBuilder lightView: () -> some View, @ViewBuilder darkView: () -> some View) {
+            self.lightView = AnyView(lightView())
+            self.darkView = AnyView(darkView())
+        }
+        public init(@ViewBuilder content: () -> some View) {
+            self.lightView = AnyView(content())
+            self.darkView = AnyView(content())
+        }
+        public static let list = SKPage.BackgroundStyle{ListColorView()}
+        public static let form = SKPage.BackgroundStyle{ListColorView()}
+        
+        private struct ListColorView: View {
+            @Environment(\.colorScheme) var colorScheme
+            var body: some View {
+                #if os(iOS)
+                if colorScheme == .light{
+                    Color.white
+                }else{
+                    Color(red: 0.109375, green: 0.109375, blue: 0.1176470588)
+                }
+                #elseif os(tvOS)
+                Rectangle()
+                    .fill(.ultraThinMaterial)
+                    .ignoresSafeArea()
+                #else
+                    Color.clear
+                #endif
+            }
+        }
+        private struct FormColorView: View {
+            @Environment(\.colorScheme) var colorScheme
+            var body: some View {
+                #if os(iOS)
+                if colorScheme == .light{
+                    Color(red: 0.949, green: 0.949, blue: 0.969)
+                }else{
+                    Color(red: 0.109375, green: 0.109375, blue: 0.1176470588)
+                }
+                #elseif os(tvOS)
+                Rectangle()
+                    .fill(.ultraThinMaterial)
+                    .ignoresSafeArea()
+                #else
+                    Color.clear
+                #endif
+            }
+        }
     }
-    
+
     public enum Style{
         case plain
         case `default`

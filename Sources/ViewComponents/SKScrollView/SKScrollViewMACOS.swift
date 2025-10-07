@@ -16,23 +16,21 @@ struct SKScrollViewMACOS<Content: View>: View {
     let pageStyle: SKPage.Style
     let backgroundStyle: SKPage.BackgroundStyle
     let toolbar: SKToolbar
+    let toolbarAnimations: Animation?
+    let animationValue: Bool?
+    var opacity: CGFloat?
     @State private var toolbarHeight: CGFloat = 0
-
-    var backgroundColor: Color {
-        switch backgroundStyle {
-        case .custom(let light, let dark):
-            return colorScheme == .dark ? dark : light
-        case .plain:
-            return .clear
-        default:
-            return .clear
-        }
-    }
 
     var body: some View {
         ZStack {
-            backgroundColor
-                .ignoresSafeArea()
+            if colorScheme == .light{
+                backgroundStyle.lightView
+                    .ignoresSafeArea()
+            }else{
+                backgroundStyle.darkView
+                    .ignoresSafeArea()
+            }
+
 
             Group{
                 if pageStyle == .default{
@@ -53,6 +51,8 @@ struct SKScrollViewMACOS<Content: View>: View {
                             toolbar
                                 .padding(.horizontal, 20)
                                 .padding(.bottom, 20)
+                                .opacity(opacity ?? 1)
+                                .animation(toolbarAnimations, value: animationValue)
                         }
                         #endif
                 }else{
@@ -64,6 +64,8 @@ struct SKScrollViewMACOS<Content: View>: View {
                                     .padding(.horizontal, 15)
                                     .padding(.bottom, 15)
                                     .padding(.top, 10)
+                                    .opacity(opacity ?? 1)
+                                    .animation(toolbarAnimations, value: animationValue)
                             }
                             .ignoresSafeArea()
                             .frame(maxWidth: .infinity)
@@ -76,11 +78,14 @@ struct SKScrollViewMACOS<Content: View>: View {
         }
     }
 
-    init(pageStyle: SKPage.Style, backgroundStyle: SKPage.BackgroundStyle, toolbar: SKToolbar, @ViewBuilder content: @escaping () -> Content) {
+    init(pageStyle: SKPage.Style, backgroundStyle: SKPage.BackgroundStyle, toolbar: SKToolbar, opacity: CGFloat? = nil, toolbarAnimations: Animation?, animationValue: Bool?, @ViewBuilder content: @escaping () -> Content) {
         self.pageStyle = pageStyle
         self.content = content
         self.backgroundStyle = backgroundStyle
         self.toolbar = toolbar
+        self.opacity = opacity
+        self.toolbarAnimations = toolbarAnimations
+        self.animationValue = animationValue
     }
 }
 #endif
