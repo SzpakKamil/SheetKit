@@ -21,7 +21,11 @@ public struct SKVideoPage: SKPageable, View {
     @Environment(\.skPrimaryButtonAction) var skPrimaryButtonAction
     public var data: SKPageableData
     public var adjustedContent: AnyView?
+    var bindingIndex: Binding<Int>?
     @State private var defaultSelectedHighlightIndex: Int = 0
+    var selectedHighlightIndex: Binding<Int>{
+        bindingIndex ?? $defaultSelectedHighlightIndex
+    }
     @State private var showingTransitionBG = false
     @State private var player: AVPlayer
     @State private var isLoaded: Bool = false
@@ -69,10 +73,10 @@ public struct SKVideoPage: SKPageable, View {
         #else
         let defaultValue: Color = colorScheme == .dark ? skIsUsingFullScreenCover ? Color.black : Color(red: 0.109375, green: 0.109375, blue: 0.1176470588) : .white
         #endif
-        guard defaultSelectedHighlightIndex < highlights.count else {
+        guard selectedHighlightIndex.wrappedValue < highlights.count else {
             return defaultValue
         }
-        return highlights[defaultSelectedHighlightIndex].backgroundColor ?? defaultValue
+        return highlights[selectedHighlightIndex.wrappedValue].backgroundColor ?? defaultValue
     }
     
     var toolbarNew: SKToolbar{
@@ -163,17 +167,17 @@ public struct SKVideoPage: SKPageable, View {
         }
         .environment(\.skIsCloseButtonHidden, true)
         .environment(\.skPrimaryButtonAction){
-            if defaultSelectedHighlightIndex >= highlights.count - 1{
+            if selectedHighlightIndex.wrappedValue >= highlights.count - 1{
                 skPrimaryButtonAction()
             }else{
-                defaultSelectedHighlightIndex += 1
+                selectedHighlightIndex.wrappedValue += 1
             }
         }
         .environment(\.skDismissButtonAction){
-            if defaultSelectedHighlightIndex <= 0{
+            if selectedHighlightIndex.wrappedValue <= 0{
                 skDismissButtonAction()
             }else{
-                defaultSelectedHighlightIndex -= 1
+                selectedHighlightIndex.wrappedValue -= 1
             }
         }
         .environment(\.skIsBackDefaultButtonHidden, true)
@@ -251,7 +255,7 @@ public struct SKVideoPage: SKPageable, View {
                             )
                         }
                     }
-                    .tkCurrentPageIndex(index: $defaultSelectedHighlightIndex)
+                    .tkCurrentPageIndex(index: selectedHighlightIndex)
                     .tkPageControlAlignment(spacing: 0, alignment: .bottom)
                     .tkPageControlAllowsContinuousInteraction(false)
                     .tkPageControlCurrentIndicatorTintColor(.primary.opacity(0.5))
@@ -365,6 +369,7 @@ public struct SKVideoPage: SKPageable, View {
         var highlightsResult = highlights()
         guard let url = highlightsResult.compactMap({ $0.resource }).first else{ fatalError("No page have resource")}
         self.player = AVPlayer(url: url)
+        self.bindingIndex = nil
         self.highlights = highlightsResult
         self.pageBackground = AnyView(Group{})
         self.data = .init(content: highlightsResult, toolbar: toolbar)
@@ -372,6 +377,7 @@ public struct SKVideoPage: SKPageable, View {
     
     public init(player: AVPlayer, @SKVideoPageBuilder highlights: () -> [SKVideoHighlight], @SKToolbarBuilder toolbar: () -> [SKToolbarItem]) {
         self.player = player
+        self.bindingIndex = nil
         self.pageBackground = AnyView(Group{})
         let result = SKVideoPage.transformHighlights(for: highlights(), defaultURL: (player.currentItem?.asset as? AVURLAsset)?.url)
         self.highlights = result
@@ -381,6 +387,7 @@ public struct SKVideoPage: SKPageable, View {
     public init(resource: URL, @SKVideoPageBuilder highlights: () -> [SKVideoHighlight], @SKToolbarBuilder toolbar: () -> [SKToolbarItem]) {
         self.player = AVPlayer(url: resource)
         self.pageBackground = AnyView(Group{})
+        self.bindingIndex = nil
         let result = SKVideoPage.transformHighlights(for: highlights(), defaultURL: resource)
         self.highlights = result
         self.data = .init(content: result, toolbar: toolbar)

@@ -100,5 +100,10 @@ public extension SKVideoPage{
             self.environment(\.skIsSkipButtonHidden, configuration)
         }
     }
+    func skSelectedHighlightIndex(_ binding: Binding<Int>) -> Self{
+        var copy = self
+        copy.bindingIndex = binding
+        return copy
+    }
 }
 #endif
