@@ -23,6 +23,18 @@ public struct SKButton<TextContent: View, ImageContent: View>: View, SKComponent
     private let image: ImageContent
     private let destination: URL?
     
+    
+    var borderShape: ButtonBorderShape{
+        #if os(iOS)
+        if #available(iOS 26.0, *){
+            return .capsule
+        }else{
+            return .roundedRectangle
+        }
+        #else
+        return .buttonBorder
+        #endif
+    }
     public var body: some View {
         Group {
             if let destination {
@@ -131,6 +143,7 @@ public struct SKButton<TextContent: View, ImageContent: View>: View, SKComponent
                         .contentShape(Rectangle())
                     }
                 }
+                .buttonBorderShape(borderShape)
             } else {
                 Button {
                     if let action{
@@ -149,12 +162,12 @@ public struct SKButton<TextContent: View, ImageContent: View>: View, SKComponent
                 } label: {
                     if isLoading{
                         ProgressView()
-                        #if os(macOS)
+#if os(macOS)
                             .scaleEffect(0.5)
                             .frame(height: 15)
-                        #elseif os(visionOS)
+#elseif os(visionOS)
                             .frame(height: 20)
-                        #elseif os(tvOS)
+#elseif os(tvOS)
                             .scaleEffect(0.75)
                             .if{content in
                                 if #unavailable(tvOS 26.0){
@@ -164,9 +177,9 @@ public struct SKButton<TextContent: View, ImageContent: View>: View, SKComponent
                                     content
                                 }
                             }
-                        #elseif os(watchOS)
+#elseif os(watchOS)
                             .frame(width: 15)
-                        #endif
+#endif
                     }else{
                         Group{
 #if os(watchOS)
@@ -259,7 +272,9 @@ public struct SKButton<TextContent: View, ImageContent: View>: View, SKComponent
                         .lineLimit(1)
                         .contentShape(Rectangle())
                     }
+
                 }
+                .buttonBorderShape(borderShape)
             }
         }
         .if { content in

@@ -312,7 +312,7 @@ public struct SKVideoPage: SKPageable, View {
     
     private func configuratePlayerLayer(previousItem: SKVideoHighlight, currentItem: SKVideoHighlight, isManual: Bool) {
         if previousItem.resource == currentItem.resource {
-            if isManual{
+            if isLoaded{
                 player.seek(to: isLoaded ? currentItem.startTime ?? .zero : .zero)
             }
             player.play()
@@ -334,7 +334,7 @@ public struct SKVideoPage: SKPageable, View {
         let videoDuration = asset.duration
         guard videoDuration.isValid, !videoDuration.isIndefinite else { return nil }
         let totalDuration = videoDuration.seconds
-        let startSeconds = (highlight.startTime ?? .zero).seconds
+        let startSeconds = !isLoaded ? .zero : (highlight.startTime ?? .zero).seconds
         guard !startSeconds.isNaN else { return nil }
         if let next = nextItem, highlight.resource == next.resource {
             let nextStart = (next.startTime ?? .zero).seconds
