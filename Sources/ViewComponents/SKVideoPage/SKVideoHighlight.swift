@@ -56,43 +56,44 @@ public struct SKVideoHighlight: View, Hashable, Comparable, SKComponent {
     var runIndefinitly: Bool
     var backgroundColor: Color?
     public var type: SKComponentType = .customView
-    var geoProxy: GeometryProxy?
     var resource: URL?
     let startTime: CMTime?
     let endTime: CMTime?
     let content: AnyView
     
     public var body: some View {
-        ZStack(alignment: .bottom){
-            VStack{
-                content
+        GeometryReader{ geoProxy in
+            ZStack(alignment: .bottom){
+                VStack{
+                    content
+                }
+#if os(tvOS) || os(visionOS)
+                .frame(height: (geoProxy.size.height ?? 200) * 0.30, alignment: .top)
+#elseif os(macOS)
+                .frame(width: sheetStyle.frameWidth, height: (geoProxy?.size.height ?? 200) * 0.30, alignment: .top)
+#else
+                .frame(height: (geoProxy.size.height ?? 200) * 0.35, alignment: .top)
+#endif
             }
-            #if os(tvOS) || os(visionOS)
-            .frame(height: (geoProxy?.size.height ?? 200) * 0.30, alignment: .top)
-            #elseif os(macOS)
-            .frame(width: sheetStyle.frameWidth, height: (geoProxy?.size.height ?? 200) * 0.30, alignment: .top)
-            #else
-            .frame(height: (geoProxy?.size.height ?? 200) * 0.35, alignment: .top)
-            #endif
-        }
-        .frame(height: geoProxy?.size.height ?? 200, alignment: .bottom)
-        .padding(.horizontal)
-        .if{ content in
-            if style != .plain{
-                content
-                    .environment(\.skPrimaryColor, Color.primary)
-                    .environment(\.skSecondaryColor, Color.primary.opacity(0.6))
-                    .if{ content in
-                        if style == .auto{
-                            content
-                                .environment(\.skAlignment, autoOverride == .primary ? .leading : .center)
-                        }else{
-                            content
-                                .environment(\.skAlignment, style == .primary ? .leading : .center)
+            .frame(height: geoProxy.size.height ?? 200, alignment: .bottom)
+            .padding(.horizontal)
+            .if{ content in
+                if style != .plain{
+                    content
+                        .environment(\.skPrimaryColor, Color.primary)
+                        .environment(\.skSecondaryColor, Color.primary.opacity(0.6))
+                        .if{ content in
+                            if style == .auto{
+                                content
+                                    .environment(\.skAlignment, autoOverride == .primary ? .leading : .center)
+                            }else{
+                                content
+                                    .environment(\.skAlignment, style == .primary ? .leading : .center)
+                            }
                         }
-                    }
-            }else{
-                content
+                }else{
+                    content
+                }
             }
         }
     }
@@ -113,7 +114,6 @@ public struct SKVideoHighlight: View, Hashable, Comparable, SKComponent {
         self.resource = resource
         self.startTime = CMTime(seconds: 0, preferredTimescale: 60000)
         self.endTime = nil
-        self.geoProxy = nil
         self.style = .auto
         self.runIndefinitly = false
         self.backgroundColor = nil
@@ -126,7 +126,6 @@ public struct SKVideoHighlight: View, Hashable, Comparable, SKComponent {
         self.resource = resource
         self.startTime = startTime
         self.endTime = endTime
-        self.geoProxy = nil
         self.style = .auto
         self.runIndefinitly = false
         self.autoOverride = .auto
@@ -144,7 +143,6 @@ public struct SKVideoHighlight: View, Hashable, Comparable, SKComponent {
         }else{
             self.endTime = nil
         }
-        self.geoProxy = nil
         self.style = .auto
         self.runIndefinitly = false
         self.autoOverride = .auto
@@ -158,7 +156,6 @@ public struct SKVideoHighlight: View, Hashable, Comparable, SKComponent {
         self.resource = nil
         self.startTime = startTime
         self.endTime = endTime
-        self.geoProxy = nil
         self.style = .auto
         self.runIndefinitly = false
         self.autoOverride = .auto
@@ -176,19 +173,12 @@ public struct SKVideoHighlight: View, Hashable, Comparable, SKComponent {
         }else{
             self.endTime = nil
         }
-        self.geoProxy = nil
         self.style = .auto
         self.autoOverride = .auto
         self.transitionAutoDirection = .both
         self.transitionManualDirection = .both
         self.backgroundColor = nil
         self.runIndefinitly = false
-    }
-    
-    func updateGeoProxy(proxy: GeometryProxy) -> Self{
-        var copy = self
-        copy.geoProxy = proxy
-        return copy
     }
     
     public func skVideoHighlightStyle(_ style: SKVideoHighlight.Style) -> Self{

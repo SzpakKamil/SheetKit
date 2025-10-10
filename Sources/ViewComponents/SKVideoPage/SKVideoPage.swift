@@ -242,7 +242,6 @@ public struct SKVideoPage: SKPageable, View {
                             let highlight = highlights[index]
                             TKPage {
                                 highlight
-                                    .updateGeoProxy(proxy: proxy)
                                     .setAutoStyle(index: index)
                                     .ignoresSafeArea()
                             }
