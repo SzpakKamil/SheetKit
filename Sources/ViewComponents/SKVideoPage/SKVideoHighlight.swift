@@ -67,12 +67,10 @@ public struct SKVideoHighlight: View, Hashable, Comparable, SKComponent {
                 VStack{
                     content
                 }
-#if os(tvOS) || os(visionOS)
+#if os(tvOS) || os(visionOS) || os(iOS)
                 .frame(height: (geoProxy.size.height ?? 200) * 0.30, alignment: .top)
 #elseif os(macOS)
                 .frame(width: sheetStyle.frameWidth, height: (geoProxy?.size.height ?? 200) * 0.30, alignment: .top)
-#else
-                .frame(height: (geoProxy.size.height ?? 200) * 0.35, alignment: .top)
 #endif
             }
             .frame(height: geoProxy.size.height ?? 200, alignment: .bottom)
