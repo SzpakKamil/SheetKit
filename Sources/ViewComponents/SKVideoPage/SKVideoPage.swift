@@ -237,15 +237,15 @@ public struct SKVideoPage: SKPageable, View {
                     .ignoresSafeArea()
                 
                 Group{
-                    TKPagesView {
+                    PKPagesView {
                         ForEach(highlights.indices, id: \.self) { index in
                             let highlight = highlights[index]
-                            TKPage {
+                            PKPage {
                                 highlight
                                     .setAutoStyle(index: index)
                                     .ignoresSafeArea()
                             }
-                            .tkPageDuration(
+                            .pkPageDuration(
                                 calculateDuration(
                                     previousItem: highlights.indices.contains(index > 0 ? index-1 : 0) ? highlights[index == 0 ? 0 : index-1] : highlights[index],
                                     currentItem: highlights[index],
@@ -254,13 +254,13 @@ public struct SKVideoPage: SKPageable, View {
                             )
                         }
                     }
-                    .tkCurrentPageIndex(index: selectedHighlightIndex)
-                    .tkPageControlAlignment(spacing: 0, alignment: .bottom)
-                    .tkPageControlAllowsContinuousInteraction(false)
-                    .tkPageControlCurrentIndicatorTintColor(.primary.opacity(0.5))
-                    .tkPageControlIndicatorTintColor(.secondary.opacity(0.5))
-                    .tkOnManualPageChange { performPageChangeSetup(isManual: true, previousIndex: $0, currentIndex: $1) }
-                    .tkOnAutoPageChange { performPageChangeSetup(isManual: false, previousIndex: $0, currentIndex: $1) }
+                    .pkCurrentPageIndex(index: selectedHighlightIndex)
+                    .pkPageControlAlignment(spacing: 0, alignment: .bottom)
+                    .pkPageControlAllowsContinuousInteraction(false)
+                    .pkPageControlCurrentIndicatorTintColor(.primary.opacity(0.5))
+                    .pkPageControlIndicatorTintColor(.secondary.opacity(0.5))
+                    .pkOnManualPageChange { performPageChangeSetup(isManual: true, previousIndex: $0, currentIndex: $1) }
+                    .pkOnAutoPageChange { performPageChangeSetup(isManual: false, previousIndex: $0, currentIndex: $1) }
                 }
                 .offset(x: isLoaded ? 0 : -150)
                 .opacity(isLoaded ? 1 : 0)
