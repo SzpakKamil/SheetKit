@@ -21,8 +21,7 @@ let package = Package(
             dependencies: [
               .product(
                 name: "PagerKit",
-                package: "PagerKit",
-                condition: .when(platforms: [.iOS, .tvOS, .visionOS, .macOS])
+                package: "PagerKit"
               ),
             ],
             resources: [
