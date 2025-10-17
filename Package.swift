@@ -13,15 +13,15 @@ let package = Package(
         .library(name: "SheetKit", targets: ["SheetKit"])
     ],
     dependencies: [
-        .package(url: "https://github.com/SzpakKamil/TabKit", branch: "main")
+        .package(url: "https://github.com/SzpakKamil/PagerKit", branch: "main")
     ],
     targets: [
         .target(
             name: "SheetKit",
             dependencies: [
               .product(
-                name: "TabKit",
-                package: "TabKit",
+                name: "PagerKit",
+                package: "PagerKit",
                 condition: .when(platforms: [.iOS, .tvOS, .visionOS, .macOS])
               ),
             ],
