@@ -8,7 +8,7 @@
 import SwiftUI
 #if os(iOS) || os(tvOS) || os(visionOS) || os(macOS)
 import AVKit
-import TabKit
+import PagerKit
 
 public struct SKVideoHighlight: View, Hashable, Comparable, SKComponent {
     public enum Style{

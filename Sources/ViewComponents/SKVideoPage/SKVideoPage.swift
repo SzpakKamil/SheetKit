@@ -7,7 +7,7 @@
 #if os(iOS) || os(tvOS) || os(visionOS) || os(macOS)
 import SwiftUI
 import AVKit
-import TabKit
+import PagerKit
 
 
 public struct SKVideoPage: SKPageable, View {
