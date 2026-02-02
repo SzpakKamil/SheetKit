@@ -255,9 +255,9 @@ public struct SKVideoPage: SKPageable, View {
                         }
                     }
                     .pkCurrentPageIndex(index: selectedHighlightIndex)
-                    .pkPageControlAlignment(spacing: 0, alignment: .bottom)
-                    .pkPageControlAllowsContinuousInteraction(false)
-                    .pkPageControlCurrentIndicatorTintColor(.primary.opacity(0.5))
+                    .pkPageControlIndicatorAlignment(spacing: 0, alignment: .bottom)
+                    .pkPageControlIndicatorAllowsContinuousInteraction(false)
+                    .pkPageControlIndicatorCurrentIndicatorTintColor(.primary.opacity(0.5))
                     .pkPageControlIndicatorTintColor(.secondary.opacity(0.5))
                     .pkOnManualPageChange { performPageChangeSetup(isManual: true, previousIndex: $0, currentIndex: $1) }
                     .pkOnAutoPageChange { performPageChangeSetup(isManual: false, previousIndex: $0, currentIndex: $1) }

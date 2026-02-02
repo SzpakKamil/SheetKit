@@ -68,12 +68,12 @@ public struct SKVideoHighlight: View, Hashable, Comparable, SKComponent {
                     content
                 }
 #if os(tvOS) || os(visionOS) || os(iOS)
-                .frame(height: (geoProxy.size.height ?? 200) * 0.30, alignment: .top)
+                .frame(height: (geoProxy.size.height) * 0.30, alignment: .top)
 #elseif os(macOS)
-                .frame(width: sheetStyle.frameWidth, height: (geoProxy?.size.height ?? 200) * 0.30, alignment: .top)
+                .frame(width: sheetStyle.frameWidth, height: (geoProxy.size.height) * 0.30, alignment: .top)
 #endif
             }
-            .frame(height: geoProxy.size.height ?? 200, alignment: .bottom)
+            .frame(height: geoProxy.size.height, alignment: .bottom)
             .padding(.horizontal)
             .if{ content in
                 if style != .plain{

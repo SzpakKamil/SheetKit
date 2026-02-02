@@ -13,7 +13,7 @@ let package = Package(
         .library(name: "SheetKit", targets: ["SheetKit"])
     ],
     dependencies: [
-        .package(url: "https://github.com/SzpakKamil/PagerKit", branch: "main")
+        .package(url: "https://github.com/SzpakKamil/PagerKit", exact: "1.1.1")
     ],
     targets: [
         .target(

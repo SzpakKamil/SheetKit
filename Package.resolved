@@ -1,12 +1,12 @@
 {
   "pins" : [
     {
-      "identity" : "tabkit",
+      "identity" : "pagerkit",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/SzpakKamil/TabKit",
+      "location" : "https://github.com/SzpakKamil/PagerKit",
       "state" : {
-        "branch" : "main",
-        "revision" : "89537a34d8a2a465ec0c3a394bf2068b31198f2c"
+        "revision" : "7f47df016778cfbdcbea583c45c44b62e38263b4",
+        "version" : "1.1.1"
       }
     }
   ],
